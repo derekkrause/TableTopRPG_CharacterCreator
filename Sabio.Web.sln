@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Web", "Sabio.Web\Sabio.Web.csproj", "{7D880F43-55FA-40A2-A07E-05FADA9CD375}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Data", "Sabio.Data\Sabio.Data.csproj", "{F696CB27-02F4-4326-A80D-99B070A888CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Web.Core", "Sabio.Web.Core\Sabio.Web.Core.csproj", "{1AC3BA8C-33B1-4A07-9A57-FAC609DFB2E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Services", "Sabio.Services\Sabio.Services.csproj", "{24B31DA5-BD83-4DCF-996B-0ACDCCE68D5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Models", "Sabio.Models\Sabio.Models.csproj", "{F7151F50-29BB-4EAC-88F1-CDBE038A069B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D880F43-55FA-40A2-A07E-05FADA9CD375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D880F43-55FA-40A2-A07E-05FADA9CD375}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D880F43-55FA-40A2-A07E-05FADA9CD375}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D880F43-55FA-40A2-A07E-05FADA9CD375}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F696CB27-02F4-4326-A80D-99B070A888CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F696CB27-02F4-4326-A80D-99B070A888CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F696CB27-02F4-4326-A80D-99B070A888CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F696CB27-02F4-4326-A80D-99B070A888CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC3BA8C-33B1-4A07-9A57-FAC609DFB2E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC3BA8C-33B1-4A07-9A57-FAC609DFB2E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC3BA8C-33B1-4A07-9A57-FAC609DFB2E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC3BA8C-33B1-4A07-9A57-FAC609DFB2E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24B31DA5-BD83-4DCF-996B-0ACDCCE68D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24B31DA5-BD83-4DCF-996B-0ACDCCE68D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24B31DA5-BD83-4DCF-996B-0ACDCCE68D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24B31DA5-BD83-4DCF-996B-0ACDCCE68D5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7151F50-29BB-4EAC-88F1-CDBE038A069B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7151F50-29BB-4EAC-88F1-CDBE038A069B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7151F50-29BB-4EAC-88F1-CDBE038A069B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7151F50-29BB-4EAC-88F1-CDBE038A069B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 6
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://sabiocode.cloudapp.net:8080/tfs/sabiocollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Sabio.Data\\Sabio.Data.csproj
+		SccProjectName1 = Sabio.Data
+		SccLocalPath1 = Sabio.Data
+		SccProjectUniqueName2 = Sabio.Models\\Sabio.Models.csproj
+		SccProjectName2 = Sabio.Models
+		SccLocalPath2 = Sabio.Models
+		SccProjectUniqueName3 = Sabio.Services\\Sabio.Services.csproj
+		SccProjectName3 = Sabio.Services
+		SccLocalPath3 = Sabio.Services
+		SccProjectUniqueName4 = Sabio.Web.Core\\Sabio.Web.Core.csproj
+		SccProjectName4 = Sabio.Web.Core
+		SccLocalPath4 = Sabio.Web.Core
+		SccProjectUniqueName5 = Sabio.Web\\Sabio.Web.csproj
+		SccProjectName5 = Sabio.Web
+		SccLocalPath5 = Sabio.Web
+	EndGlobalSection
+EndGlobal
