@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlTypes;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sabio.Data
 {
     public static class IDataReaderExt
     {
-
         public  static void AddOutputParameter(this SqlParameterCollection coll, string parameterName, SqlDbType sqlDbType)
         {
             SqlParameter p = new SqlParameter(parameterName, sqlDbType);

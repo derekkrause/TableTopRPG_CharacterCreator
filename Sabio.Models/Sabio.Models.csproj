@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Domain\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="Requests\" />
   </ItemGroup>
   <ItemGroup>

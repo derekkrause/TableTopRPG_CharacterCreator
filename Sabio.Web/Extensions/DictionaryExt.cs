@@ -7,8 +7,6 @@ namespace Sabio.Web
 {
     public static class DictionaryExt
     {
-
-
         public static Dictionary<string, string> ToDictionary(this Enum @enum)
         {
             var type = @enum.GetType();

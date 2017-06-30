@@ -136,9 +136,6 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="Enums\EntityActions.cs" />
     <Compile Include="Filters\BaseAuthActionFilterAttribute.cs" />
-    <Compile Include="Interfaces\ICacheService.cs" />
-    <Compile Include="Interfaces\ICacheServiceExt.cs" />
-    <Compile Include="Interfaces\IModelIdentifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,6 @@ namespace Sabio.Data
 {
     public class IntIdTable : IEnumerable<SqlDataRecord>
     {
-
         private IEnumerable<Int32> _items;
 
         public IntIdTable(IEnumerable<Int32> items)

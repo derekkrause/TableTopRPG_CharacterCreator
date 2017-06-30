@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 
 namespace Sabio.Web
 {
     public static class EnumExt
     {
-
         public static bool ParseEnum<TEnum>(this TEnum iEnum, string enumValue, out TEnum parsedValue) where TEnum : struct
         {
             bool result = false;
@@ -61,7 +59,6 @@ namespace Sabio.Web
             Dictionary<int, Dictionary<string, string>> dict = new Dictionary<int, Dictionary<string, string>>();
 
             foreach (var item in Enum.GetValues(type))
-
             {
                 int val = (int)item;
                 if (val >= minValue)
@@ -80,8 +77,6 @@ namespace Sabio.Web
 
                 }
             }
-
-
 
             return dict;
         }

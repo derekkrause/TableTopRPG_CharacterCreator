@@ -10,12 +10,10 @@ namespace Sabio.Data
 {
     public class UniqueIdTable : IEnumerable<SqlDataRecord>
     {
-
         private IEnumerable<Guid> _items;
 
         public UniqueIdTable(IEnumerable<Guid> items)
         {
-
             _items = items;
         }
 
