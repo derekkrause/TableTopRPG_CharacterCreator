@@ -4,42 +4,23 @@ using System.Data.SqlClient;
 
 namespace Sabio.Data
 {
-    internal sealed class SqlDao : Sabio.Data.Providers.IDao
+    public sealed class SqlDataProvider : Sabio.Data.Providers.IDataProvider
     {
-        #region - Private Members -
-        private static SqlDao _instance = null;
         private const string LOG_CAT = "DAO";
-        #endregion
+        readonly string connectionString;
 
-        #region - Ctro's -
-        private SqlDao() { }
-
-        static SqlDao()
+        public SqlDataProvider(string connectionString)
         {
-            _instance = new SqlDao();
+            this.connectionString = connectionString;
         }
 
-        #endregion
-
-        #region - Instance -
-
-        public static SqlDao Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
-
-        #endregion
-
-        #region - IDataProvider Memebers -
-
-        public void ExecuteCmd(Func<SqlConnection> dataSouce, string storedProc,
+        public void ExecuteCmd(
+            string storedProc,
             Action<SqlParameterCollection> inputParamMapper,
             Action<IDataReader, short> map,
             Action<SqlParameterCollection> returnParameters = null,
-            Action<SqlCommand> cmdModifier = null)
+            Action<SqlCommand> cmdModifier = null
+        )
         {
             if (map == null)
                 throw new NullReferenceException("ObjectMapper is required.");
@@ -51,7 +32,7 @@ namespace Sabio.Data
             try
             {
 
-                using (conn = dataSouce())
+                using (conn = GetConnection())
                 {
                     if (conn != null)
                     {
@@ -115,15 +96,18 @@ namespace Sabio.Data
         }
 
 
-        public int ExecuteNonQuery(Func<SqlConnection> dataSouce, string storedProc,
-            Action<SqlParameterCollection> paramMapper, Action<SqlParameterCollection> returnParameters = null)
+        public int ExecuteNonQuery(
+            string storedProc,
+            Action<SqlParameterCollection> paramMapper,
+            Action<SqlParameterCollection> returnParameters = null
+        )
         {
             SqlCommand cmd = null;
             SqlConnection conn = null;
+
             try
             {
-
-                using (conn = dataSouce())
+                using (conn = GetConnection())
                 {
                     if (conn != null)
                     {
@@ -160,13 +144,13 @@ namespace Sabio.Data
             return -1;
 
         }
-
-
-        #endregion
-
-
-
+        
         #region - Private Methods (Execute, GetCommand) -
+
+        SqlConnection GetConnection()
+        {
+            return new SqlConnection(connectionString);
+        }
 
         private SqlCommand GetCommand(SqlConnection conn, string cmdText = null, Action<SqlParameterCollection> paramMapper = null)
         {

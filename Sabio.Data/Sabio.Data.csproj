@@ -44,11 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataProvider.cs" />
     <Compile Include="Extensions\IDataReaderExt.cs" />
-    <Compile Include="Interfaces\IDao.cs" />
+    <Compile Include="Interfaces\IDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\SqlDao.cs" />
+    <Compile Include="Providers\SqlDataProvider.cs" />
     <Compile Include="Structured\IntIdTable.cs" />
     <Compile Include="Structured\NVarcharTable.cs" />
     <Compile Include="Structured\UniqueIdTable.cs" />

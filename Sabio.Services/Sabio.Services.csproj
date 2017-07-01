@@ -61,7 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
