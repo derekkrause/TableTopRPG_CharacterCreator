@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Sabio.Services.Security;
 
 
 namespace Sabio.Web.Core.Services
@@ -72,61 +73,9 @@ namespace Sabio.Web.Core.Services
 
         public IUserAuthData GetCurrentUser()
         {
-            if (_baseUser != null || HttpContext.Current.User.Identity.IsAuthenticated)
-            {
-                ClaimsIdentity identity = HttpContext.Current.User.Identity as ClaimsIdentity;
-
-                if(identity != null)
-                {
-                    _baseUser = ExtractUser(identity);
-                }
-
-            }
-            
-            return _baseUser;
+            return HttpContext.Current.User.Identity.GetCurrentUser();
         }
-
-        private static UserBase ExtractUser(ClaimsIdentity identity)
-        {
-            Sabio.Models.Domain.UserBase baseUser = new Models.Domain.UserBase();
-            List<string> roles = null;
-
-            foreach (var claim in identity.Claims)
-            {
-                switch (claim.Type)
-                {
-                    case ClaimTypes.NameIdentifier:
-                        int id = 0;
-
-                        if (Int32.TryParse(claim.Value, out id))
-                        {
-                            baseUser.Id = id;
-                        }
-
-                        break;
-                    case ClaimTypes.Name:
-                        baseUser.Name = claim.Value;
-                        break;
-                    case ClaimTypes.Role:
-                        if (roles == null)
-                        {
-                            roles = new List<string>();
-                        }
-
-                        roles.Add(claim.Value);
-
-                        break;
-                    default:
-                        break;
-                }
-
-            }
-
-            baseUser.Roles = roles;
-
-            return baseUser;
-        }
-
+        
         private static string GetApplicationName()
         {
             var entryAssembly = Assembly.GetExecutingAssembly();

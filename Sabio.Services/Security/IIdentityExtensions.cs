@@ -58,12 +58,15 @@ namespace Sabio.Services.Security
             Sabio.Models.Domain.UserBase baseUser = null;
 
             if (identity == null) { throw new ArgumentNullException("identity"); }
-            
-            ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
 
-            if (claimsIdentity != null)
+            if (identity.IsAuthenticated)
             {
-                baseUser = ExtractUser(claimsIdentity);
+                ClaimsIdentity claimsIdentity = identity as ClaimsIdentity;
+
+                if (claimsIdentity != null)
+                {
+                    baseUser = ExtractUser(claimsIdentity);
+                }
             }
             
 
