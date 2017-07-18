@@ -79,10 +79,6 @@ namespace Sabio.Data
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                HandleException(ex);
-            }
             finally
             {
                 if (reader != null && !reader.IsClosed)
@@ -130,10 +126,6 @@ namespace Sabio.Data
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                HandleException(ex);
             }
             finally
             {
@@ -196,11 +188,6 @@ namespace Sabio.Data
 
             return cmd;
 
-        }
-
-        private void HandleException(Exception ex)
-        {
-            throw ex;
         }
 
         #endregion
