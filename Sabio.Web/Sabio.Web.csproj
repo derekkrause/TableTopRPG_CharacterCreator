@@ -376,11 +376,41 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+
+  <!-- 
+  
+  Picks up dest Js files for publishing 
+  
+  -->
+  <Target Name="CollectDestJsFiles">
+    <Message Text="Adding Destination JavaScript Files To Deployment" Importance="high" />
+    <ItemGroup>
+      <_CustomJsFiles Include="Scripts\dest\**\*" />
+      <FilesForPackagingFromProject Include="%(_CustomJsFiles.Identity)">
+        <DestinationRelativePath>Scripts\dest\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CollectDestJsFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CollectDestJsFiles;
+      $(CopyAllFilesToSingleFolderForMsdeployDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+  <!-- 
+  
+  Picks up html files for publishing 
+  
+  -->
   <Target Name="CollectAppHtmlFiles">
     <Message Text="Adding HTML Template Files To Deployment" Importance="high" />
     <ItemGroup>
-      <_CustomFiles Include="app\**\*.html" />
-      <FilesForPackagingFromProject Include="%(_CustomFiles.Identity)">
+      <_CustomHtmlFiles Include="app\**\*.html" />
+      <FilesForPackagingFromProject Include="%(_CustomHtmlFiles.Identity)">
         <DestinationRelativePath>app\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
       </FilesForPackagingFromProject>
     </ItemGroup>
@@ -395,4 +425,29 @@
       $(CopyAllFilesToSingleFolderForMsdeployDependsOn);
     </CopyAllFilesToSingleFolderForMsdeployDependsOn>
   </PropertyGroup>
+  <!-- 
+  
+    Picks up ALL Theme files for publishing 
+    
+      -->
+  <Target Name="CollectAllThemeFiles">
+    <Message Text="Adding ALL Theme Template Files To Deployment" Importance="high" />
+    <ItemGroup>
+      <_CustomThemeFiles Include="Theme\**\*.*" />
+      <FilesForPackagingFromProject Include="%(_CustomThemeFiles.Identity)">
+        <DestinationRelativePath>Theme\%(RecursiveDir)%(Filename)%(Extension)</DestinationRelativePath>
+      </FilesForPackagingFromProject>
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <CopyAllFilesToSingleFolderForPackageDependsOn>
+      CollectAllThemeFiles;
+      $(CopyAllFilesToSingleFolderForPackageDependsOn);
+    </CopyAllFilesToSingleFolderForPackageDependsOn>
+    <CopyAllFilesToSingleFolderForMsdeployDependsOn>
+      CollectAllThemeFiles;
+      $(CopyAllFilesToSingleFolderForMsdeployDependsOn);
+    </CopyAllFilesToSingleFolderForMsdeployDependsOn>
+  </PropertyGroup>
+
 </Project>
