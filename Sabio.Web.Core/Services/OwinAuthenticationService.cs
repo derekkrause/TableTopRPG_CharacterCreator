@@ -18,7 +18,7 @@ namespace Sabio.Web.Core.Services
     public class OwinAuthenticationService : Sabio.Services.IAuthenticationService
     {
         private static string _title = null;
-        Sabio.Models.Domain.UserBase _baseUser = null;
+       
         static OwinAuthenticationService()
         {
             _title = GetApplicationName();
