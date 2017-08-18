@@ -1,7 +1,10 @@
 ﻿(function () {
     'use strict'
 
+    window.APP = window.APP || {}; 
+    APP.NAME = "publicApp";
+
     angular
-        .module('publicApp', ['ui.router']);
+        .module(APP.NAME, ['ui.router', APP.NAME + '.routes']);
 
 })();

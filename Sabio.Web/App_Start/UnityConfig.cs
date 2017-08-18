@@ -7,6 +7,7 @@ using Sabio.Web.Core.Services;
 using System.Configuration;
 using System.Security.Principal;
 using System.Threading;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using Unity.WebApi;
@@ -34,8 +35,8 @@ namespace Sabio.Web
             container.RegisterType<IDataProvider, SqlDataProvider>(
                 new InjectionConstructor(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
 
-            container.RegisterType<IPrincipal>(new PerThreadLifetimeManager(),
-                     new InjectionFactory(con => Thread.CurrentPrincipal));
+            container.RegisterType<IPrincipal>(new TransientLifetimeManager(),
+                     new InjectionFactory(con => HttpContext.Current.User));
 
 
             container.RegisterType<IUserService, UserService>(new ContainerControlledLifetimeManager());
