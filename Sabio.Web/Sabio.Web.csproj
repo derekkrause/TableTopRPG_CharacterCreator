@@ -376,7 +376,6 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
-
   <!-- 
   
   Picks up dest Js files for publishing 
@@ -449,5 +448,4 @@
       $(CopyAllFilesToSingleFolderForMsdeployDependsOn);
     </CopyAllFilesToSingleFolderForMsdeployDependsOn>
   </PropertyGroup>
-
 </Project>
