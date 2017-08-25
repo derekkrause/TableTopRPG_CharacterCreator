@@ -25,12 +25,14 @@ namespace Sabio.Web.Controllers.Api
             _principal = principal;
         }
 
-        [Route("login"), HttpGet]
-        public HttpResponseMessage LogIn()
-        {
-            _userService.LogInTest("gregorio@sabio.la", "Sabiopass1!");
+       
 
-            return Request.CreateResponse(HttpStatusCode.OK, "Ok");
+        [Route("login/{id:int?}/{userName}/{role}"), HttpGet, AllowAnonymous]
+        public HttpResponseMessage LogIn(int id, string userName, string role)
+        {
+            _userService.LogInTest(userName + "@sabio.la", "Sabiopass1!", id, new string[] { role });
+
+            return Request.CreateResponse(HttpStatusCode.OK, new Sabio.Models.Responses.SuccessResponse());
         }
 
         [Route("logout"), HttpGet]
@@ -38,7 +40,7 @@ namespace Sabio.Web.Controllers.Api
         {
             _auth.LogOut();
 
-            return Request.CreateResponse(HttpStatusCode.OK, new Object());
+            return Request.CreateResponse(HttpStatusCode.OK, new Sabio.Models.Responses.SuccessResponse());
         }
 
 

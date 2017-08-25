@@ -51,12 +51,15 @@ namespace Sabio.Services
         }
 
 
-        public bool LogInTest(string email, string password)
+        public bool LogInTest(string email, string password, int id, string[] roles = null)
         {
             bool isSuccessful = false;
 
 
-            IUserAuthData response = new UserBase { Id = 88, Name = "Greg", Roles = new[] { "User", "Super" , "Content Manager"} };
+            IUserAuthData response = new UserBase {
+                Id = id
+                , Name = "FakeUser" + id.ToString()
+                , Roles = roles ?? new[] { "User", "Super" , "Content Manager"} };
 
             Claim tenant = new Claim("Tenant", "AAAA");
             Claim fullName = new Claim("FullName", "Sabio Bootcamp");
