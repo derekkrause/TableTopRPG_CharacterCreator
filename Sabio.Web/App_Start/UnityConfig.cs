@@ -1,4 +1,3 @@
-using Microsoft.Practices.Unity;
 using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Services;
@@ -6,11 +5,13 @@ using Sabio.Services.Cryptography;
 using Sabio.Web.Core.Services;
 using System.Configuration;
 using System.Security.Principal;
-using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using Unity.WebApi;
+using Unity;
+using Unity.Injection;
+using Unity.Lifetime;
+using Unity.Mvc5;
 
 namespace Sabio.Web
 {
@@ -40,8 +41,8 @@ namespace Sabio.Web
 
 
             container.RegisterType<IUserService, UserService>(new ContainerControlledLifetimeManager());
-     
-            GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
+
+            System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
 
             DependencyResolver.SetResolver(new Unity.Mvc5.UnityDependencyResolver(container));
 
