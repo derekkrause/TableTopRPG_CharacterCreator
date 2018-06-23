@@ -18,8 +18,20 @@ namespace Sabio.Web
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
-           
+#if (AUTH_COOKIE)
+            ConfigureCookieAuth(app);
+#elif  AUTH_JWT
+            ConfigureJwtAuth(app)
+#endif
+        }
 
+        private static void ConfigureJwtAuth(IAppBuilder app)
+        {
+        }
+
+
+        private static void ConfigureCookieAuth(IAppBuilder app)
+        {
             CookieAuthenticationOptions cookieAuthenticationOptions = new CookieAuthenticationOptions();
             {
                 cookieAuthenticationOptions.SlidingExpiration = true;
