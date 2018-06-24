@@ -54,15 +54,21 @@ namespace Sabio.Services
         public bool LogInTest(string email, string password, int id, string[] roles = null)
         {
             bool isSuccessful = false;
+            var testRoles = new[] { "User", "Super", "Content Manager" };
 
+            var allRoles = roles == null ? testRoles : testRoles.Concat(roles);
 
-            IUserAuthData response = new UserBase {
+            IUserAuthData response = new UserBase
+            {
                 Id = id
-                , Name = "FakeUser" + id.ToString()
-                , Roles = roles ?? new[] { "User", "Super" , "Content Manager"} };
+                ,
+                Name = "FakeUser" + id.ToString()
+                ,
+                Roles = allRoles
+            };
 
-            Claim tenant = new Claim("Tenant", "AAAA");
-            Claim fullName = new Claim("FullName", "Sabio Bootcamp");
+            Claim tenant = new Claim("Tenant", "Acme Corp");
+            Claim fullName = new Claim("CustomClaim", "Sabio Bootcamp");
 
             //Login Supports multiple claims
             //and multiple roles a good an quick example to set up for 1 to many relationship

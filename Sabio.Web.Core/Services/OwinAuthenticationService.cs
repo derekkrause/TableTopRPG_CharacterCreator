@@ -57,7 +57,7 @@ namespace Sabio.Web.Core.Services
             AuthenticationProperties props = new AuthenticationProperties
             {
                 IsPersistent = true,
-                IssuedUtc = DateTime.UtcNow,
+                IssuedUtc = DateTime.UtcNow,    
                 ExpiresUtc = DateTime.UtcNow.AddDays(60),
                 AllowRefresh = true
             };
