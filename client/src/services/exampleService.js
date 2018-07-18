@@ -7,5 +7,5 @@ export function getDotNet() {
 }
 
 export function getNode() {
-  return axios.get("/node-api/server.js/api/pogs");
+  return axios.get("/node-api/server.js/api/pogs?pageSize=1");
 }
