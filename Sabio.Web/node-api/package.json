@@ -1,19 +1,25 @@
 {
-  "name": "node-api",
+  "name": "warmup-express",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ExpressJS Warmup Exercise",
+  "main": "server.js",
   "scripts": {
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "http://code.sabio.la:8080/tfs/SabioCollection/C57/_git/warmup-express"
+  },
+  "author": "John Darragh",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^6.0.0",
     "express": "^4.16.3",
-    "nconf": "^0.10.0",
-    "tedious": "^2.6.1",
-    "tedious-connection-pool": "^1.0.5",
-    "ws": "^5.2.1"
+    "joi": "^13.4.0",
+    "tedious": "^2.6.3",
+    "tedious-connection-pool": "^1.0.5"
   }
 }

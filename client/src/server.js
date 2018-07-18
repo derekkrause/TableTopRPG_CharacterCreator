@@ -5,5 +5,5 @@ export function getDotNet() {
 }
 
 export function getNode() {
-  return axios.get("/node-api/app.js/api/test/node");
+  return axios.get("/node-api/server.js/api/pogs");
 }
