@@ -246,6 +246,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Api\AthleteControllers.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Global.asax.cs">
