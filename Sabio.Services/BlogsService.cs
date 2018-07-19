@@ -1,17 +1,120 @@
-﻿using System;
+﻿using Sabio.Data.Providers;
+using Sabio.Models.Domain;
+using Sabio.Models.Requests;
+using Sabio.Models.Responses;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data;
 
-namespace Sabio.Data.Services
+namespace Sabio.Services
 {
-    class BlogService
+    public class BlogsService
     {
-        string connectionString = configurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        readonly IDataProvider dataProvider;
 
-        public Sabio.Models.BlogViewModel GetAll()
+        public BlogsService(IDataProvider dataProvider)
         {
+            this.dataProvider = dataProvider;
+        }
+
+        public void Delete(int id)
+        {
+            dataProvider.ExecuteNonQuery(
+                "Blog_Delete",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Id", id);
+                });
+        }
+
+        public void Update(BlogUpdateRequest request)
+        {
+            dataProvider.ExecuteNonQuery(
+                "Blog_Update",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Id", request.Id);
+                    parameters.AddWithValue("@Title", request.Title);
+                    parameters.AddWithValue("@Subject", request.Subject);
+                    parameters.AddWithValue("@Content", request.Content);
+                    parameters.AddWithValue("@ImageUrl", request.ImageUrl);
+                });
+        }
+
+        public int Create(BlogCreateRequest request)
+        {
+            int newId = 0;
+
+            dataProvider.ExecuteNonQuery(
+                "Blog_Insert",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Title", request.Title);
+                    parameters.AddWithValue("@Subject", request.Subject);
+                    parameters.AddWithValue("@Content", request.Content);
+                    parameters.AddWithValue("@Slug", request.Slug);
+                    parameters.AddWithValue("@AuthorId", request.AuthorId); //TODO: replace this with provided userID
+                    parameters.AddWithValue("@ImageUrl", request.ImageUrl);
+
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                },
+                (parameters) =>
+                {
+                    newId = (int)parameters["@Id"].Value;
+                }
+                );
+            return newId;
+        }
+
+        public PagedItemResponse<Blog> GetAll(int pageIndex, int pageSize)
+        {
+            PagedItemResponse<Blog> pagedItemResponse = new PagedItemResponse<Blog>();
+            List<Blog> blogList = new List<Blog>();
+
+            dataProvider.ExecuteCmd(
+                "Blog_SelectAll",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@PageIndex", pageIndex);
+                    parameters.AddWithValue("@PageSize", pageSize);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    Blog blog = new Blog
+                    {
+                        Id = (int)reader["id"],
+                        Title = (string)reader["Title"],
+                        Subject = (string)reader["Subject"],
+                        Content = (string)reader["Content"],
+                        Slug = (string)reader["Slug"],
+                        AuthorId = (int)reader["AuthorId"],
+                        PublishDate = (DateTime)reader["PublishDate"],
+                        IsPublished = (bool)reader["IsPublished"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"]
+
+                    };
+
+                    object imageUrlObj = reader["ImageUrl"];
+                    if (imageUrlObj != DBNull.Value)
+                    {
+                        blog.ImageUrl = (string)imageUrlObj;
+                    }
+
+                    object dateModifiedObj = reader["DateModified"];
+                    if (dateModifiedObj != DBNull.Value)
+                    {
+                        blog.DateModified = (DateTime)dateModifiedObj;
+                    }
+
+                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+
+                    blogList.Add(blog);
+
+                });
+            pagedItemResponse.PagedItems = blogList;
+
+            return pagedItemResponse;
 
         }
     }
