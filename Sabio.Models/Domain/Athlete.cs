@@ -5,7 +5,7 @@ namespace Sabio.Data.Models
     class Athlete
     {
         public int Id { get; set; }
-        public int User { get; set; }
+        public int UserId { get; set; }
         public int DOB { get; set; }
         public string BirthPlace { get; set; }
         public int SchoolId { get; set; }

@@ -6,10 +6,10 @@ namespace Sabio.Models
     {
 
         [Required]
-        public int User { get; set; }
+        public int UserId { get; set; }
 
         [Required]
-        public int DOB { get; set; }
+        public string DOB { get; set; }
 
         [Required]
         public string BirthPlace { get; set; }

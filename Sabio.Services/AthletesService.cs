@@ -1,4 +1,5 @@
-﻿using Sabio.Data.Providers;
+﻿
+using Sabio.Data.Providers;
 using Sabio.Models;
 using System.Data;
 
@@ -13,20 +14,19 @@ namespace Sabio.Data.Services
         {
             this.dataProvider = dataProvider;
         }
-            public int Insert(AthleteInsertRequest request)
-            {
+        public int Insert(AthleteInsertRequest request)
+        {
             int newId = 0;
 
             dataProvider.ExecuteNonQuery(
                 "Athlete_Insert",
                 (parameters) =>
                 {
-                    parameters.AddWithValue("@User", request.User);
-                    parameters.AddWithValue("@User", request.User);
+                    parameters.AddWithValue("@UserId", request.UserId);
                     parameters.AddWithValue("@DOB", request.DOB);
                     parameters.AddWithValue("@BirthPlace", request.BirthPlace);
                     parameters.AddWithValue("@SchoolId", request.SchoolId);
-                    parameters.AddWithValue("@SportLevelId", request.SportLevelId);
+                    parameters.AddWithValue("@SportsLevelId", request.SportLevelId);
                     parameters.AddWithValue("@ClassYearId", request.ClassYearId);
                     parameters.AddWithValue("@HighSchoolGraduationYear", request.HighSchoolGraduationYear);
                     parameters.AddWithValue("@ShortBio", request.ShortBio);
@@ -39,10 +39,11 @@ namespace Sabio.Data.Services
                     newId = (int)parameters["@id"].Value;
                 });
 
-                    return newId;
+            return newId;
 
 
-                }
-            }
         }
+    }
 }
+
+
