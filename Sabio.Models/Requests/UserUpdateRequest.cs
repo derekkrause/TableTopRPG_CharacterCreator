@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sabio.Models
+namespace Sabio.Models.Requests
 {
     public class UserUpdateRequest
     {

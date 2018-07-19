@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sabio.Models
+namespace Sabio.Models.Domain
 {
     public class User
     {

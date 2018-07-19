@@ -8,31 +8,31 @@ using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api
 {
-    [RoutePrefix("api/pogs")]
-    public class PogsController : ApiController
+    [RoutePrefix("api/users")]
+    public class UserController : ApiController
     {
-        readonly PogsService pogsService;
+        readonly UserTableServices userTableServices;
 
-        public PogsController(PogsService pogsService)
+        public UserController(UserTableServices userTableServices)
         {
-            this.pogsService = pogsService;
+            this.userTableServices = userTableServices; 
         }
 
         [Route("{pageSize:int}/{pageIndex:int}"), HttpGet]
         public HttpResponseMessage GetAll(int pageSize, int pageIndex)
         {
-            PagedItemResponse<Pog> pagedItemResponse = pogsService.GetAll(pageIndex, pageSize);
+            PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
 
-            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<Pog>>
+            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<User>>
             {
                 Item = pagedItemResponse
             });
         }
 
         [Route, HttpPost]
-        public HttpResponseMessage Create(PogCreateRequest pogCreateRequest)
+        public HttpResponseMessage Create(UserCreateRequest userCreateRequest)
         {
-            if (pogCreateRequest == null)
+            if (userCreateRequest == null)
             {
                 ModelState.AddModelError("", "missing body data");
             }
@@ -42,11 +42,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            // if we get here, the model is good
+            int newUserId = userTableServices.Create(userCreateRequest);
 
-            int newPogId = pogsService.Create(pogCreateRequest);
-
-            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newPogId });
+            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newUserId });
         }
     }
 }

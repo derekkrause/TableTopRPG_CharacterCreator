@@ -1,19 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Sabio.Models
+namespace Sabio.Models.Requests
 {
     public class UserCreateRequest
     {
+        public int Id { get; set; }
+
         [Required, MaxLength(50)]
         public string FirstName { get; set; }
 
-        [MaxLength(50)]
         public string MiddleName { get; set; }
 
         [Required, MaxLength(50)]
         public string LastName { get; set; }
 
-        [Required, MaxLength(1)]
+        [Required]
         public int Gender { get; set; }
 
         [Required, MaxLength(250)]

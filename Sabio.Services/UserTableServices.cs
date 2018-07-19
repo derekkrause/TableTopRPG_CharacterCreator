@@ -1,65 +1,90 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Sabio.Data.Providers;
-using Sabio.Models;
+using Sabio.Models.Requests;
+using Sabio.Models.Responses;
+using Sabio.Models.Domain;
 
 namespace Sabio.Services
 {
-    class UserTableServices
+    public class UserTableServices
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        readonly IDataProvider dataProvider;
 
-        //  POST/CREATE
-        public int Create(UserCreateRequest request)
+        public UserTableServices(IDataProvider dataProvider)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
-
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandText = "User_Insert";
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                cmd.Parameters.AddWithValue("@FirstName", request.FirstName);
-                cmd.Parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@LastName", request.LastName);
-                cmd.Parameters.AddWithValue("@Gender", request.Gender);
-                cmd.Parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                cmd.Parameters.AddWithValue("@Email", request.Email);
-                cmd.Parameters.AddWithValue("@PasswordHash", request.PasswordHash);
-
-                cmd.ExecuteNonQuery();
-
-                return (int)cmd.Parameters['@Id'].Value;
-            }
+            this.dataProvider = dataProvider;
         }
 
-        // PUT / UPDATE / EDIT
-        public void Update(UserUpdateRequest request)
+        public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
-            {
-                con.Open();
+            PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
+            List<User> userList = new List<User>();
 
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandText = "User_Update";
-                cmd.CommandType = CommandType.StoredProcedure;
+            dataProvider.ExecuteCmd(
+                "User_SelectAll",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@pageIndex", pageIndex);
+                    parameters.AddWithValue("@pageSize", pageSize);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    User user = new User
+                    {
+                        Id = (int)reader["Id"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        Gender = (int)reader["Gender"],
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        Email = (string)reader["Email"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"]
+                    };
 
-                cmd.Parameters.AddWithValue("@Id", request.Id);
-                cmd.Parameters.AddWithValue("@FirstName", request.FirstName);
-                cmd.Parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@LastName", request.LastName);
-                cmd.Parameters.AddWithValue("@Gender", request.Gender);
-                cmd.Parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                cmd.Parameters.AddWithValue("@Email", request.Email);
-                cmd.Parameters.AddWithValue("@PasswordHash", request.PasswordHash);
+                    object middleNameObj = reader["MiddleName"];
+                    if (middleNameObj != DBNull.Value)
+                    {
+                        user.MiddleName = (string)middleNameObj;
+                    }
 
-                cmd.ExecuteNonQuery();
-            }
+                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+
+                    userList.Add(user);
+                });
+
+            pagedItemResponse.PagedItems = userList;
+
+            return pagedItemResponse;
         }
         
+        public int Create(UserCreateRequest request)
+        {
+            int newId = 0;
+            string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+
+            dataProvider.ExecuteNonQuery(
+                "User_Insert",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@FirstName", request.FirstName);
+                    parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@LastName", request.LastName);
+                    parameters.AddWithValue("@Gender", request.Gender);
+                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                    parameters.AddWithValue("@Email", request.Email);
+                    parameters.AddWithValue("@PasswordHash", passHash);
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                },
+                (parameters) =>
+                {
+                    newId = (int)parameters["@Id"].Value;
+                });
+
+            return newId;
+        }
     }
 }

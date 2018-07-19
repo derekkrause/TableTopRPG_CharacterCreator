@@ -249,6 +249,7 @@
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
+    <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
