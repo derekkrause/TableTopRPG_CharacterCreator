@@ -11,7 +11,7 @@ namespace Sabio.Models.Domain
         public int Gender { get; set; }
         public string AvatarUrl { get; set; }
         public string Email { get; set; }
-        public string PasswordHash { get; set; }
+        public string PasswordHash { get;  set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
     }

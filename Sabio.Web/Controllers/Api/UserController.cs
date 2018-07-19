@@ -15,18 +15,7 @@ namespace Sabio.Web.Controllers.Api
 
         public UserController(UserTableServices userTableServices)
         {
-            this.userTableServices = userTableServices; 
-        }
-
-        [Route("{pageSize:int}/{pageIndex:int}"), HttpGet]
-        public HttpResponseMessage GetAll(int pageSize, int pageIndex)
-        {
-            PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
-
-            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<User>>
-            {
-                Item = pagedItemResponse
-            });
+            this.userTableServices = userTableServices;
         }
 
         [Route, HttpPost]
@@ -45,6 +34,54 @@ namespace Sabio.Web.Controllers.Api
             int newUserId = userTableServices.Create(userCreateRequest);
 
             return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newUserId });
+        }
+
+        [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
+        public HttpResponseMessage GetAll(int pageIndex, int pageSize)
+        {
+            PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<User>>
+            {
+                Item = pagedItemResponse
+            });
+        }
+
+        [Route("{id:int}"), HttpGet]
+        public HttpResponseMessage GetById(int id)
+        {
+            ItemResponse<User> itemResponse = userTableServices.GetById(id);
+
+            return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
+        }
+
+        [Route("{id:int}"), HttpPut]
+        public HttpResponseMessage Update(UserUpdateRequest userUpdateRequest, int id)
+        {
+            if (userUpdateRequest == null)
+            {
+                ModelState.AddModelError("", "Missing id");
+            }
+            else if (userUpdateRequest.Id != id)
+            {
+                ModelState.AddModelError("id", "Id in URL does not match Id in body");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            userTableServices.Update(userUpdateRequest);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("{id:int}"), HttpDelete]
+        public HttpResponseMessage Delete(int id)
+        {
+            userTableServices.Delete(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

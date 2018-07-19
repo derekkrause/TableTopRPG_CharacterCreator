@@ -19,6 +19,32 @@ namespace Sabio.Services
             this.dataProvider = dataProvider;
         }
 
+        public int Create(UserCreateRequest request)
+        {
+            int newId = 0;
+            string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+
+            dataProvider.ExecuteNonQuery(
+                "User_Insert",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@FirstName", request.FirstName);
+                    parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@LastName", request.LastName);
+                    parameters.AddWithValue("@Gender", request.Gender);
+                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                    parameters.AddWithValue("@Email", request.Email);
+                    parameters.AddWithValue("@PasswordHash", passHash);
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                },
+                (parameters) =>
+                {
+                    newId = (int)parameters["@Id"].Value;
+                });
+
+            return newId;
+        }
+
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {
             PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
@@ -60,16 +86,55 @@ namespace Sabio.Services
 
             return pagedItemResponse;
         }
-        
-        public int Create(UserCreateRequest request)
+
+        public ItemResponse<User> GetById(int id)
         {
-            int newId = 0;
+            ItemResponse<User> itemResponse = new ItemResponse<User>();
+            User newUser = new User();
+
+            dataProvider.ExecuteCmd(
+                "User_SelectById",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@id", id);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    User user = new User
+                    {
+                        Id = (int)reader["Id"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        Gender = (int)reader["Gender"],
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        Email = (string)reader["Email"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"]
+                    };
+
+                    object MiddleNameValue = reader["MiddleName"];
+                    if (MiddleNameValue != DBNull.Value)
+                    {
+                        user.MiddleName = (string)MiddleNameValue;
+                    };
+
+                    newUser = user;
+                    itemResponse.Item = newUser;
+                }
+                
+                );
+                    return itemResponse;
+        }
+        
+        public void Update(UserUpdateRequest request)
+        {
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
             dataProvider.ExecuteNonQuery(
-                "User_Insert",
+                "User_Update",
                 (parameters) =>
                 {
+                    parameters.AddWithValue("@Id", request.Id);
                     parameters.AddWithValue("@FirstName", request.FirstName);
                     parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
                     parameters.AddWithValue("@LastName", request.LastName);
@@ -77,14 +142,15 @@ namespace Sabio.Services
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                     parameters.AddWithValue("@Email", request.Email);
                     parameters.AddWithValue("@PasswordHash", passHash);
-                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                },
-                (parameters) =>
-                {
-                    newId = (int)parameters["@Id"].Value;
                 });
+        }
 
-            return newId;
+        public void Delete(int id)
+        {
+            dataProvider.ExecuteNonQuery(
+                "User_Delete",
+                (parameters) => parameters.AddWithValue("@id", id)
+            );
         }
     }
 }

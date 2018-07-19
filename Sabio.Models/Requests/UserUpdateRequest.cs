@@ -2,7 +2,7 @@
 
 namespace Sabio.Models.Requests
 {
-    public class UserUpdateRequest
+    public class UserUpdateRequest : UserCreateRequest
     {
         [Required]
         public int? Id { get; set; }
