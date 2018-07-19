@@ -2,6 +2,7 @@
 
 * To install and configure IIS and the SabioWeb site:
 	* Run "Windows PowerShell ISE" as Administrator.
+	* You may need to run Set-ExecutionPolicy -ExecutionPolicy Unrestricted
 	* Open `iis-install.ps1` and click the green "Run Script" button.
 	* If you see any red, it didn't work. Please investigate.
 	* If it says "`RestartNeeded : True`", please reboot before continuing to the next step.
@@ -15,5 +16,6 @@
 	* After the build succeeds, you can close Visual Studio if you are not going to be changing the .NET code.
 * Run `npm install` in the `client` directory.
 * Run `npm install` in the `Sabio.Web/node-api` directory.
+* Copy/create the .env file in the node-api directory.
 * Run the React app using the usual `npm start` task in  the `client` directory (through either VS Code or a command line)
 * Make sure you see results from both API servers (.NET and Node.js).
