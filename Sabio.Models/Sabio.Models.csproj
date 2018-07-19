@@ -54,6 +54,9 @@
     <Compile Include="Responses\ItemResponse.cs" />
     <Compile Include="Responses\ItemsResponse.cs" />
     <Compile Include="Responses\SuccessResponse.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserCreateRequest.cs" />
+    <Compile Include="UserUpdateRequest.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\JsViewModel.cs" />
