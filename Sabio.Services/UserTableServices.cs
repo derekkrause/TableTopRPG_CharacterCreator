@@ -29,7 +29,7 @@ namespace Sabio.Services
                 (parameters) =>
                 {
                     parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@MiddleName", request.MiddleName);
                     parameters.AddWithValue("@LastName", request.LastName);
                     parameters.AddWithValue("@Gender", request.Gender);
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
