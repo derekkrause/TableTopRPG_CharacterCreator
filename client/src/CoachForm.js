@@ -38,14 +38,14 @@ class CoachForm extends React.Component {
   render() {
     return (
       <div>
-        <div className="row justify-content-center">
-          <div className="col-md-9">
+        <div className="row justify-content-center mt-4">
+          <div className="col-md-8">
             <div className="jr-card">
-              <h2>Coach Info</h2>
+              <h1 className="card-header text-center">Coach Info</h1>
 
               <form>
-                <div className="row justify-content-center">
-                  <div className="col-md-4">
+                <div className="row justify-content-center mt-2">
+                  <div className="col-md-6">
                     <input
                       type="text"
                       name="title"
@@ -55,7 +55,7 @@ class CoachForm extends React.Component {
                       placeholder="Title"
                     />
                   </div>
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <input
                       type="text"
                       name="schoolName"
@@ -66,9 +66,8 @@ class CoachForm extends React.Component {
                     />
                   </div>
                 </div>
-                <div className="row justify-content-center">
-                  <div className="col-md-8">
-                    <br />
+                <div className="row justify-content-center mt-2">
+                  <div className="col-md-12">
                     <textarea
                       name="bio"
                       value={this.state.bio}
@@ -77,10 +76,9 @@ class CoachForm extends React.Component {
                       rows="8"
                       placeholder="Your bio here..."
                     />
-                    <br />
                     <button
                       type="submit"
-                      className="btn btn-primary float-right"
+                      className="btn-lg btn-primary float-right mt-2"
                       onClick={this.handleSubmit}
                     >
                       Submit
