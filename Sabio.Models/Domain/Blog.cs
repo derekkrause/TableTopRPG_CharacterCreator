@@ -6,7 +6,6 @@ namespace Sabio.Models.Domain
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Subject { get; set; }
         public string Content { get; set; }
         public string Slug { get; set; }
         public int AuthorId { get; set; }
@@ -15,5 +14,8 @@ namespace Sabio.Models.Domain
         public string ImageUrl { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string AvatarUrl { get; set; }
     }
 }

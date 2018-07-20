@@ -46,8 +46,8 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
-        public HttpResponseMessage GetAll(int pageIndex, int pageSize)
+        [Route("{pageIndex:int?}/{pageSize:int?}"), HttpGet]
+        public HttpResponseMessage GetAll(int pageIndex=0, int pageSize=20)
         {
             PagedItemResponse<Blog> pagedItemResponse = blogsService.GetAll(pageIndex, pageSize);
 

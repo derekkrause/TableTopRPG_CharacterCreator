@@ -82,16 +82,18 @@ namespace Sabio.Services
                 {
                     Blog blog = new Blog
                     {
-                        Id = (int)reader["id"],
+                        Id = (int)reader["Id"],
                         Title = (string)reader["Title"],
-                        Subject = (string)reader["Subject"],
                         Content = (string)reader["Content"],
                         Slug = (string)reader["Slug"],
                         AuthorId = (int)reader["AuthorId"],
                         PublishDate = (DateTime)reader["PublishDate"],
                         IsPublished = (bool)reader["IsPublished"],
                         DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"]
+                        DateModified = (DateTime)reader["DateModified"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        AvatarUrl = (string)reader["AvatarUrl"]
 
                     };
 
