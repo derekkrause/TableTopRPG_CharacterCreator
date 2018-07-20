@@ -78,54 +78,52 @@ class UserRegistrationForm extends React.Component {
                   />
                 </div>
                 <div className="col-md-8 col-12 mt-2">
-                  <label htmlFor="genderGroup">
-                    Gender
-                    <div className="d-flex form-group" name="genderGroup" id="genderGroup">
-                      <div className="custom-control custom-radio mr-4">
-                        <input type="radio" name="genderRadio" id="maleRadio" className="custom-control-input" />
-                        <label className="custom-control-label" htmlFor="maleRadio">
-                          Male
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio mr-4">
-                        <input type="radio" name="genderRadio" id="femaleRadio" className="custom-control-input" />
-                        <label className="custom-control-label" htmlFor="femaleRadio">
-                          Female
-                        </label>
-                      </div>
-                      <div className="custom-control custom-radio mr-4">
-                        <input type="radio" name="genderRadio" id="otherRadio" className="custom-control-input" />
-                        <label className="custom-control-label" htmlFor="otherRadio">
-                          Other/Decline
-                        </label>
-                      </div>
+                  <label htmlFor="genderGroup">Gender</label>
+                  <div className="d-flex form-group m-0" name="genderGroup" id="genderGroup">
+                    <div className="custom-control custom-radio mr-4">
+                      <input type="radio" name="genderRadio" id="maleRadio" className="custom-control-input" />
+                      <label className="custom-control-label" htmlFor="maleRadio">
+                        Male
+                      </label>
                     </div>
-                  </label>
+                    <div className="custom-control custom-radio mr-4">
+                      <input type="radio" name="genderRadio" id="femaleRadio" className="custom-control-input" />
+                      <label className="custom-control-label" htmlFor="femaleRadio">
+                        Female
+                      </label>
+                    </div>
+                    <div className="custom-control custom-radio mr-4">
+                      <input type="radio" name="genderRadio" id="otherRadio" className="custom-control-input" />
+                      <label className="custom-control-label" htmlFor="otherRadio">
+                        Other/Decline
+                      </label>
+                    </div>
+                  </div>
                 </div>
                 <div className="col-md-8 col-12 mt-2">
                   <label htmlFor="userTypeGroup">Select User Type</label>
-                  <div className="d-flex form-group" name="userTypeGroup" id="userTypeGroup">
-                    <div className="custom-control custom-checkbox my-1 mr-sm-2 mb-3">
-                      <input type="checkbox" className="custom-control-input" id="athleteCheckBox" />
-                      <label className="custom-control-label" htmlFor="athleteCheckBox">
+                  <div className="d-flex form-group m-0" name="userTypeGroup" id="userTypeGroup">
+                    <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="athleteRadio" />
+                      <label className="custom-control-label" htmlFor="athleteRadio">
                         Athlete
                       </label>
                     </div>
-                    <div className="custom-control custom-checkbox my-1 mr-sm-2 mb-3">
-                      <input type="checkbox" className="custom-control-input" id="reqcruiterCheckBox" />
-                      <label className="custom-control-label" htmlFor="reqcruiterCheckBox">
+                    <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="recruiterRadio" />
+                      <label className="custom-control-label" htmlFor="recruiterRadio">
                         Recruiter
                       </label>
                     </div>
-                    <div className="custom-control custom-checkbox my-1 mr-sm-2 mb-3">
-                      <input type="checkbox" className="custom-control-input" id="advocateCheckBox" />
-                      <label className="custom-control-label" htmlFor="advocateCheckBox">
+                    <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="advocateRadio" />
+                      <label className="custom-control-label" htmlFor="advocateRadio">
                         Advocate
                       </label>
                     </div>
-                    <div className="custom-control custom-checkbox my-1 mr-sm-2 mb-3">
-                      <input type="checkbox" className="custom-control-input" id="coach4hireCheckBox" />
-                      <label className="custom-control-label" htmlFor="coach4hireCheckBox">
+                    <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="coach4hireRadio" />
+                      <label className="custom-control-label" htmlFor="coach4hireRadio">
                         Coach 4 Hire
                       </label>
                     </div>
@@ -133,7 +131,7 @@ class UserRegistrationForm extends React.Component {
                 </div>
                 <div className="col-md-4 col-12 mt-2">
                   <button type="submit" className="btn btn-primary form-control py-2 my-2">
-                    Register
+                    Sign-up
                   </button>
                 </div>
               </form>
