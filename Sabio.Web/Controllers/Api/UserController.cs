@@ -5,11 +5,9 @@ using Sabio.Services;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Web.Cors;
 
 namespace Sabio.Web.Controllers.Api
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
