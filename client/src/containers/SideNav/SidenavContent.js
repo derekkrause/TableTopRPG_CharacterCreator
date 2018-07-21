@@ -89,6 +89,12 @@ class SidenavContent extends Component {
             <IntlMessages id="sidebar.main" />
           </li>
           <li className="menu no-arrow">
+            <NavLink to="/app/registration">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">Register</span>
+            </NavLink>
+          </li>
+          <li className="menu no-arrow">
             <NavLink to="/app/sample-page">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">

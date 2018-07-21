@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Header from "components/Header/index";
 import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
-import Pogs from "../_C57/Pogs";
 
 import {
   ABOVE_THE_HEADER,
@@ -57,13 +56,17 @@ class App extends React.Component {
               <Switch>
                 <Route
                   path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
+                />
+                <Route
+                  path={`${match.url}/registration`}
                   component={asyncComponent(() =>
-                    import("./routes/SamplePage")
+                    import("../_C57/UserRegistrationForm")
                   )}
-                />{" "}
+                />
                 <Route
                   path={`${match.url}/pogs`}
-                  component={asyncComponent(() => Pogs)}
+                  component={asyncComponent(() => import("../_C57/PogAdmin"))}
                 />
                 <Route
                   component={asyncComponent(() =>
