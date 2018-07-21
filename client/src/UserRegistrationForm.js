@@ -2,6 +2,21 @@ import React from "react";
 import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 
 class UserRegistrationForm extends React.Component {
+  state = {
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    emailInput: "",
+    password: "",
+    passwordConfirm: "",
+    genderSelect: "",
+    userType: ""
+  };
+
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   render() {
     return (
       <div className="container justify-contents-center">
@@ -20,6 +35,7 @@ class UserRegistrationForm extends React.Component {
                     className="form-control"
                     type="text"
                     placeholder="First Name"
+                    onChange={this.onChange}
                     required
                   />
                 </div>
@@ -31,6 +47,7 @@ class UserRegistrationForm extends React.Component {
                     className="form-control"
                     type="text"
                     placeholder="Middle Name"
+                    onChange={this.onChange}
                   />
                 </div>
                 <div className="col-md-4 col-12 mt-2">
@@ -41,6 +58,7 @@ class UserRegistrationForm extends React.Component {
                     className="form-control"
                     type="text"
                     placeholder="Last Name"
+                    onChange={this.onChange}
                     required
                   />
                 </div>
@@ -52,6 +70,7 @@ class UserRegistrationForm extends React.Component {
                     className="form-control"
                     type="email"
                     placeholder="name@example.com"
+                    onChange={this.onChange}
                     required
                   />
                 </div>
@@ -63,6 +82,7 @@ class UserRegistrationForm extends React.Component {
                     className="form-control"
                     type="password"
                     placeholder="********"
+                    onChange={this.onChange}
                     required
                   />
                 </div>
@@ -74,26 +94,45 @@ class UserRegistrationForm extends React.Component {
                     className="form-control"
                     type="password"
                     placeholder="********"
+                    onChange={this.onChange}
                     required
                   />
                 </div>
                 <div className="col-md-8 col-12 mt-2">
-                  <label htmlFor="genderGroup">Gender</label>
-                  <div className="d-flex form-group m-0" name="genderGroup" id="genderGroup">
+                  <label htmlFor="genderSelect">Gender</label>
+                  <div className="d-flex form-group m-0" name="genderSelect" onChange={this.onChange} id="genderSelect">
                     <div className="custom-control custom-radio mr-4">
-                      <input type="radio" name="genderRadio" id="maleRadio" className="custom-control-input" />
+                      <input
+                        type="radio"
+                        name="genderRadio"
+                        value={"Male"}
+                        id="maleRadio"
+                        className="custom-control-input"
+                      />
                       <label className="custom-control-label" htmlFor="maleRadio">
                         Male
                       </label>
                     </div>
                     <div className="custom-control custom-radio mr-4">
-                      <input type="radio" name="genderRadio" id="femaleRadio" className="custom-control-input" />
+                      <input
+                        type="radio"
+                        name="genderRadio"
+                        value={"Female"}
+                        id="femaleRadio"
+                        className="custom-control-input"
+                      />
                       <label className="custom-control-label" htmlFor="femaleRadio">
                         Female
                       </label>
                     </div>
                     <div className="custom-control custom-radio mr-4">
-                      <input type="radio" name="genderRadio" id="otherRadio" className="custom-control-input" />
+                      <input
+                        type="radio"
+                        name="genderRadio"
+                        value={"Other"}
+                        id="otherRadio"
+                        className="custom-control-input"
+                      />
                       <label className="custom-control-label" htmlFor="otherRadio">
                         Other/Decline
                       </label>
@@ -102,27 +141,55 @@ class UserRegistrationForm extends React.Component {
                 </div>
                 <div className="col-md-8 col-12 mt-2">
                   <label htmlFor="userTypeGroup">Select User Type</label>
-                  <div className="d-flex form-group m-0" name="userTypeGroup" id="userTypeGroup">
+                  <div
+                    className="d-flex form-group m-0"
+                    name="userTypeGroup"
+                    onChange={this.onChange}
+                    id="userTypeGroup">
                     <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
-                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="athleteRadio" />
+                      <input
+                        type="radio"
+                        name="userType"
+                        className="custom-control-input"
+                        value="Athlete"
+                        id="athleteRadio"
+                      />
                       <label className="custom-control-label" htmlFor="athleteRadio">
                         Athlete
                       </label>
                     </div>
                     <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
-                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="recruiterRadio" />
+                      <input
+                        type="radio"
+                        name="userType"
+                        className="custom-control-input"
+                        value="Recruiter"
+                        id="recruiterRadio"
+                      />
                       <label className="custom-control-label" htmlFor="recruiterRadio">
                         Recruiter
                       </label>
                     </div>
                     <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
-                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="advocateRadio" />
+                      <input
+                        type="radio"
+                        name="userType"
+                        className="custom-control-input"
+                        value="Advocate"
+                        id="advocateRadio"
+                      />
                       <label className="custom-control-label" htmlFor="advocateRadio">
                         Advocate
                       </label>
                     </div>
                     <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
-                      <input type="radio" name="userTypeRadio" className="custom-control-input" id="coach4hireRadio" />
+                      <input
+                        type="radio"
+                        name="userType"
+                        className="custom-control-input"
+                        value="Coach4Hire"
+                        id="coach4hireRadio"
+                      />
                       <label className="custom-control-label" htmlFor="coach4hireRadio">
                         Coach 4 Hire
                       </label>
