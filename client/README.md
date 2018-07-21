@@ -1,15 +1,13 @@
+#Prospect Scout
+
 #### For change theme color
-######update app color 
-open src/style/global/_variable.scss
-update app color```$app-primary and $secondary``` variable value
 
-######update sidebar color 
+######update app color
+open src/style/global/\_variable.scss
+update app color`$app-primary and $secondary` variable value
 
- open src/style/global/_variable.scss
- update following variables
-``
-$sidebar-bg, 
-$sidebar-text-color,   
-$sidebar-bg-darken, 
-$sidebar-hover-color
-``
+######update sidebar color
+
+open src/style/global/\_variable.scss
+update following variables
+`$sidebar-bg, $sidebar-text-color, $sidebar-bg-darken, $sidebar-hover-color`

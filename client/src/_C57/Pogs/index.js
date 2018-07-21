@@ -1,5 +1,5 @@
 import React from "react";
-import { search } from "../../../services/pog.service";
+import { search } from "../../services/pog.service";
 import {
   Button,
   Card,

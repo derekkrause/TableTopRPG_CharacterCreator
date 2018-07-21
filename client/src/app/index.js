@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Header from "components/Header/index";
 import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
+import Pogs from "../_C57/Pogs";
 
 import {
   ABOVE_THE_HEADER,
@@ -62,7 +63,7 @@ class App extends React.Component {
                 />{" "}
                 <Route
                   path={`${match.url}/pogs`}
-                  component={asyncComponent(() => import("./routes/Pogs"))}
+                  component={asyncComponent(() => Pogs)}
                 />
                 <Route
                   component={asyncComponent(() =>
