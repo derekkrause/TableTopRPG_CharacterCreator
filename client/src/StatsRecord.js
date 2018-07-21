@@ -1,8 +1,9 @@
 import React from "react";
+import "./profileCard.css";
 
 class StatsRecord extends React.Component {
   state = {
-    stats: "I'm an all-star",
+    stats: "",
     editMode: false
   };
 
@@ -23,16 +24,12 @@ class StatsRecord extends React.Component {
   render() {
     return (
       <div>
-        <p>
-          {this.state.editMode === false && (
-            <a className="" onClick={this.editField}>
-              {this.state.stats}
-            </a>
-          )}
-          {this.state.editMode === true && (
+        <p className="statsRecordTextArea">
+          {this.state.editMode === false ? (
+            <a onClick={this.editField}>{this.state.stats}</a>
+          ) : (
             <textarea
-              rows="6"
-              cols="52"
+              className="w-100 h-100 profileCardTextArea"
               type="text"
               name="stats"
               autoFocus
@@ -42,6 +39,23 @@ class StatsRecord extends React.Component {
             />
           )}
         </p>
+        {this.state.editMode === false ? (
+          <button
+            className="float-right profileCardButtonOpacity"
+            type="button"
+            onClick={this.editField}
+          >
+            Edit
+          </button>
+        ) : (
+          <button
+            className="float-right"
+            type="button"
+            onClick={this.editField}
+          >
+            Save
+          </button>
+        )}
       </div>
     );
   }

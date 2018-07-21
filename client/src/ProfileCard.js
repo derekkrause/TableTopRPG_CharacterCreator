@@ -20,7 +20,7 @@ class ProfileCard extends React.Component {
   render() {
     return (
       <div className="profile-intro card text-center">
-        <div className="pi-header">
+        {/* <div className="pi-header">
           <div className="card-image layer">
             <img
               className="avatar-circle"
@@ -35,9 +35,9 @@ class ProfileCard extends React.Component {
           <p className="card-text">
             Hello everyone, I am Tyrone and I play sports real real good like.
           </p>
-        </div>
+        </div> */}
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-12">
             <ProfileTabs />
 
             {/* <div className="jr-card">
@@ -101,9 +101,9 @@ class ProfileCard extends React.Component {
               </div>
             </div> */}
           </div>
-          <div className="col-md-6">
+          {/* <div className="col-md-6">
             <TimelineItem />
-          </div>
+          </div> */}
         </div>
 
         <div className="pi-footer">

@@ -10,11 +10,15 @@ import {
   CardBody
 } from "reactstrap";
 import StatsRecord from "./StatsRecord";
+import Basic from "./CalendarBasic";
+import AcademicTable from "./AcademicTable";
+import ImageGridList from "./ImageGridList";
 
 class ProfileTabs extends React.Component {
   state = {
     activeTab: "1"
   };
+
   render() {
     return (
       <div>
@@ -61,6 +65,16 @@ class ProfileTabs extends React.Component {
                   Academics
                 </NavLink>
               </NavItem>
+              <NavItem>
+                <NavLink
+                  className={this.state.activeTab === "5" ? "active" : ""}
+                  onClick={() => {
+                    this.setState({ activeTab: "5" });
+                  }}
+                >
+                  Photos/Videos
+                </NavLink>
+              </NavItem>
             </Nav>
           </CardHeader>
 
@@ -80,11 +94,20 @@ class ProfileTabs extends React.Component {
             <TabPane tabId="3">
               <CardBody>
                 <h3 className="card-title">This is where your schedule goes</h3>
+                <Basic />
               </CardBody>
             </TabPane>
             <TabPane tabId="4">
               <CardBody>
-                <h3 className="card-title">This is where your academic info goes</h3>
+                <AcademicTable />
+              </CardBody>
+            </TabPane>
+            <TabPane tabId="5">
+              <CardBody>
+                <h3 className="card-title">
+                  This is where your media stuff goes
+                </h3>
+                <ImageGridList />
               </CardBody>
             </TabPane>
           </TabContent>
