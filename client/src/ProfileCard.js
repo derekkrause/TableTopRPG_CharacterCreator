@@ -10,6 +10,7 @@ import {
   CardBody
 } from "reactstrap";
 import TimelineItem from "./components/timeline/TimelineItem";
+import ProfileTabs from "./ProfileTabs";
 
 class ProfileCard extends React.Component {
   state = {
@@ -37,66 +38,7 @@ class ProfileCard extends React.Component {
         </div>
         <div className="row">
           <div className="col-md-6">
-            <Card>
-              <CardHeader className="bg-primary">
-                <Nav className="nav-fill card-header-tabs" tabs>
-                  <NavItem>
-                    <NavLink
-                      className={this.state.activeTab === "1" ? "active" : ""}
-                      onClick={() => {
-                        this.setState({ activeTab: "1" });
-                      }}
-                    >
-                      Summary
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={this.state.activeTab === "2" ? "active" : ""}
-                      onClick={() => {
-                        this.setState({ activeTab: "2" });
-                      }}
-                    >
-                      Stats
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={this.state.activeTab === "3" ? "active" : ""}
-                      onClick={() => {
-                        this.setState({ activeTab: "3" });
-                      }}
-                    >
-                      Schedule
-                    </NavLink>
-                  </NavItem>
-                </Nav>
-              </CardHeader>
-
-              <TabContent activeTab={this.state.activeTab}>
-                <TabPane tabId="1">
-                  <CardBody>
-                    <h3 className="card-title">
-                      This is where your summary goes
-                    </h3>
-                  </CardBody>
-                </TabPane>
-
-                <TabPane tabId="2">
-                  <CardBody>
-                    <h3 className="card-title">This is where your stats go</h3>
-                  </CardBody>
-                </TabPane>
-
-                <TabPane tabId="3">
-                  <CardBody>
-                    <h3 className="card-title">
-                      This is where your schedule goes
-                    </h3>
-                  </CardBody>
-                </TabPane>
-              </TabContent>
-            </Card>
+            <ProfileTabs />
 
             {/* <div className="jr-card">
               <div className="jr-card-header">
