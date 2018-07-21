@@ -65,7 +65,7 @@ class PogAdmin extends React.Component {
               <ul className="list-unstyled">
                 {pogs.map(pog => (
                   <li key="{pog.Id}" className="media media-list post-list">
-                    <div className="size-60 post-image mr-3">
+                    <div className="size-80 post-image mr-3">
                       <div className="grid-thumb-equal rounded">
                         <div className="grid-thumb-cover">
                           <img
