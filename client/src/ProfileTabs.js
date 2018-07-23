@@ -12,7 +12,7 @@ import {
 import StatsRecord from "./StatsRecord";
 import Basic from "./CalendarBasic";
 import AcademicTable from "./AcademicTable";
-import ImageGridList from "./ImageGridList";
+import ProfileImages from "./ProfileImages";
 
 class ProfileTabs extends React.Component {
   state = {
@@ -93,7 +93,13 @@ class ProfileTabs extends React.Component {
 
             <TabPane tabId="3">
               <CardBody>
-                <h3 className="card-title">This is where your schedule goes</h3>
+                <button
+                  type="button"
+                  className="btn btn-primary float-left"
+                  id=""
+                >
+                  + Add New Event
+                </button>
                 <Basic />
               </CardBody>
             </TabPane>
@@ -107,7 +113,11 @@ class ProfileTabs extends React.Component {
                 <h3 className="card-title">
                   This is where your media stuff goes
                 </h3>
-                <ImageGridList />
+                <div className="row">
+                  <div className="col-md-6">
+                    <ProfileImages />
+                  </div>
+                </div>
               </CardBody>
             </TabPane>
           </TabContent>

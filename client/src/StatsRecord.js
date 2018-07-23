@@ -3,7 +3,7 @@ import "./profileCard.css";
 
 class StatsRecord extends React.Component {
   state = {
-    stats: "",
+    stats: "Enter your stats and record here. Click to edit!",
     editMode: false
   };
 
@@ -32,6 +32,7 @@ class StatsRecord extends React.Component {
               className="w-100 h-100 profileCardTextArea"
               type="text"
               name="stats"
+              placeholder="This area is for you to display information pertinent to your stats and records."
               autoFocus
               value={this.state.stats}
               onChange={this.handleChange}
