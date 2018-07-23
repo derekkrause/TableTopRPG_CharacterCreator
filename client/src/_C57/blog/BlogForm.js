@@ -22,6 +22,7 @@ class BlogForm extends React.Component {
       videoUrl: this.state.videoUrl
     });
   };
+
   render() {
     return (
       <div>

@@ -1,7 +1,7 @@
 import React from "react";
 import IntlMessages from "util/IntlMessages";
-import BlogCard from "../../../components/Cards/BlogCard";
-import { getBlog, postBlog, putUpdateBlog, deleteBlog } from "../../../services/BlogServer";
+import BlogCard from "components/Cards/BlogCard";
+import { getBlog, postBlog, putUpdateBlog, deleteBlog } from ".../../services/BlogServer";
 import BlogForm from "./BlogForm";
 
 class Blog extends React.Component {
@@ -20,7 +20,8 @@ class Blog extends React.Component {
     formVideoLinkInput: false,
     formFileBtn: true,
     videoUrl: "",
-    blogId: 0
+    blogId: 0,
+    updateBtn: false
   };
 
   componentDidMount() {
@@ -49,7 +50,12 @@ class Blog extends React.Component {
       .catch(error => console.log(error));
   };
 
-  handleUpdateBlog = (payload, blogId) => {};
+  handleUpdateBlog = blogId => {
+    console.log("UPDATE", blogId);
+    this.setState({
+      editMode: true
+    });
+  };
 
   handleDeleteBlog = blogId => {
     deleteBlog(blogId).then(response => {
@@ -82,8 +88,6 @@ class Blog extends React.Component {
   };
 
   hancleOnclickImageUpload = () => {};
-
-  handleOnClickEditBlog = () => {};
 
   render() {
     return (
@@ -131,6 +135,7 @@ class Blog extends React.Component {
                     blog={blog}
                     editBlog={this.handleOnClickEditBlog}
                     handleDeleteBlog={() => this.handleDeleteBlog(blog.id)}
+                    handleUpdateBlog={() => this.handleUpdateBlog(blog.id)}
                   />
                 ))}
             </div>

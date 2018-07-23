@@ -33,13 +33,17 @@ const BlogCard = props => {
             {blog.dateCreated.substring(0, 10)}
           </span>
         </div>
-        <p className="card-text text-muted">{blog.content}</p>
+        {props.editMode === false ? (
+          <textarea rows="8" type="text" value={blog.content} />
+        ) : (
+          <p className="card-text text-muted">{blog.content}</p>
+        )}
 
         {/* <a href="javascript:void(0)" className="card-link text-uppercase"><i
                     className="zmdi zmdi-image-o zmdi-hc-fw"/>latest pictures</a> */}
       </div>
       <div className="btn-container text-right">
-        <button type="button" className="jr-btn jr-btn-default btn btn-default">
+        <button type="button" className="jr-btn jr-btn-default btn btn-default" onClick={props.handleUpdateBlog}>
           <i className="zmdi zmdi-edit zmdi-hc-fw" />
           <span className="btn-name card-text">Edit</span>
         </button>
