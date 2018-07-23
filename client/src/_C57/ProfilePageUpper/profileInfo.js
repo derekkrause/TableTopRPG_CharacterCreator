@@ -1,8 +1,8 @@
 import React from "react";
-import AthleteInfo from "./AthleteInfo";
-import AthleteComponent2 from "./AthleteComponent2";
-import "./profileInfo.css";
-import CoachInfo from "./CoachInfo";
+import AthleteInfo from "../Athlete/AthleteInfo";
+import AthleteComponent2 from "../Athlete/AthleteComponent2";
+import "./ProfileInfo.css";
+/* import CoachInfo from "../Coach/CoachInfo"; */
 
 class ProfileInfo extends React.Component {
   render() {
@@ -19,7 +19,7 @@ class ProfileInfo extends React.Component {
                 <div className="row">
                   <div className="col-lg-8">
                     <AthleteInfo />
-                    {/* <CoachInfo /> */}
+                    {/*  <CoachInfo /> */}
                     <div className="row" />
                   </div>
                   <div className="col-lg-4">

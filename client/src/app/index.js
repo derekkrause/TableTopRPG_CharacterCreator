@@ -54,6 +54,10 @@ class App extends React.Component {
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/UserRegistrationForm"))}
                 />
+                <Route
+                  path={`${match.url}/athlete`}
+                  component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
+                />
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>

@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileInfo from "../ProfilePageUpper";
+import ProfileInfo from "../ProfilePageUpper/ProfileInfo.js";
 
 class Athlete extends React.Component {
   render() {
