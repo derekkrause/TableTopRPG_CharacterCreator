@@ -79,6 +79,12 @@ class SidenavContent extends Component {
             <IntlMessages id="sidebar.main" />
           </li>
           <li className="menu no-arrow">
+            <NavLink to="/app/registration">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">Register</span>
+            </NavLink>
+          </li>
+          <li className="menu no-arrow">
             <NavLink to="/app/sample-page">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
               <span className="nav-text">
@@ -87,11 +93,9 @@ class SidenavContent extends Component {
             </NavLink>
           </li>
           <li className="menu no-arrow">
-            <NavLink to="/app/athlete">
+            <NavLink to="/app/pogs">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-              <span className="nav-text">
-                <IntlMessages id="athlete" />{" "}
-              </span>
+              <span className="nav-text">Pogs</span>
             </NavLink>
           </li>
         </ul>

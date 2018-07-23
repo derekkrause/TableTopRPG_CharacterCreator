@@ -34,32 +34,33 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
-        {/*  <Sidebar />
+        <Sidebar />
         <div className="app-main-container">
           <div className="app-header">
             {navigationStyle === HORIZONTAL_NAVIGATION &&
               horizontalNavPosition === ABOVE_THE_HEADER && <TopNav styleName="app-top-header" />}
             <Header />
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
-          </div> */}
-
-        <main className="app-main-content-wrapper">
-          <div className="app-main-content">
-            <Switch>
-              <Route
-                path={`${match.url}/sample-page`}
-                component={asyncComponent(() => import("./routes/SamplePage"))}
-              />{" "}
-              {/*  <Route component={asyncComponent(() => import("components/Error404"))} /> */}
-              <Route
-                path={`${match.url}/Athlete`}
-                component={asyncComponent(() => import("./routes/Athlete/Athlete"))}
-              />
-            </Switch>
           </div>
-          <Footer />
-        </main>
-        {/*  </div> */}
+
+          <main className="app-main-content-wrapper">
+            <div className="app-main-content">
+              <Switch>
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
+                />
+                <Route
+                  path={`${match.url}/registration`}
+                  component={asyncComponent(() => import("../_C57/UserRegistrationForm"))}
+                />
+                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+                <Route component={asyncComponent(() => import("components/Error404"))} />
+              </Switch>
+            </div>
+            <Footer />
+          </main>
+        </div>
       </div>
     );
   }
