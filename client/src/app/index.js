@@ -10,6 +10,8 @@ import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "../util/asyncComponent";
 import TopNav from "components/TopNav";
 // import UserLogin from "./Routes/RegistrationLoginPage/Login.js";
+import CoachForm from "../CoachForm";
+import ProfileCard from "../ProfileCard";
 
 import {
   ABOVE_THE_HEADER,
@@ -43,6 +45,8 @@ class App extends React.Component {
               horizontalNavPosition === ABOVE_THE_HEADER && <TopNav styleName="app-top-header" />}
             <Header />
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
+            {/* <ProfileCard /> */}
+            {/* <CoachForm /> */}
           </div>
 
           <main className="app-main-content-wrapper">

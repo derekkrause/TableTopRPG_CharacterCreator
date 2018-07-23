@@ -4,6 +4,16 @@ const cookieParser = require("cookie-parser");
 const routes = require("./app/routes");
 const dotenv = require("dotenv");
 
+const cors = require("cors");
+const corsConfig = {
+  origin: process.env.TENANT_DOMAIN,
+  methods: "GET,PUT,POST,DELETE",
+  credentials: true,
+  allowedHeaders: "Origin,X-Requested-With,Content-Type,Accept,Cookie",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
 const fs = require("fs");
 
 dotenv.config();
@@ -14,6 +24,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(cors(corsConfig));
 
 // Demo middleware to play with error handling
 app.use((req, res, next) => {
