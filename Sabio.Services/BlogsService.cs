@@ -35,7 +35,6 @@ namespace Sabio.Services
                 {
                     parameters.AddWithValue("@Id", request.Id);
                     parameters.AddWithValue("@Title", request.Title);
-                    parameters.AddWithValue("@Subject", request.Subject);
                     parameters.AddWithValue("@Content", request.Content);
                     parameters.AddWithValue("@ImageUrl", request.ImageUrl);
                 });
@@ -50,10 +49,8 @@ namespace Sabio.Services
                 (parameters) =>
                 {
                     parameters.AddWithValue("@Title", request.Title);
-                    parameters.AddWithValue("@Subject", request.Subject);
                     parameters.AddWithValue("@Content", request.Content);
                     parameters.AddWithValue("@Slug", request.Slug);
-                    parameters.AddWithValue("@AuthorId", request.AuthorId); //TODO: replace this with provided userID
                     parameters.AddWithValue("@ImageUrl", request.ImageUrl);
 
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
@@ -63,11 +60,14 @@ namespace Sabio.Services
                     newId = (int)parameters["@Id"].Value;
                 }
                 );
+
             return newId;
         }
 
         public PagedItemResponse<Blog> GetAll(int pageIndex, int pageSize)
         {
+            
+
             PagedItemResponse<Blog> pagedItemResponse = new PagedItemResponse<Blog>();
             List<Blog> blogList = new List<Blog>();
 
@@ -108,6 +108,8 @@ namespace Sabio.Services
                     {
                         blog.DateModified = (DateTime)dateModifiedObj;
                     }
+
+
 
                     pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 
