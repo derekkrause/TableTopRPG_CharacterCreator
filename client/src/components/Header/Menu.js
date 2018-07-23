@@ -85,6 +85,11 @@ class Menu extends Component {
               </span>
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink to="/app/registration">
+              <span className="nav-text">Register</span>
+            </NavLink>
+          </li>
         </ul>
       </div>
     );
