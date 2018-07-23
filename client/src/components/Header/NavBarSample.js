@@ -12,7 +12,7 @@ import IntlMessages from "util/IntlMessages";
 import LanguageSwitcher from "components/LanguageSwitcher/index";
 import UserInfo from "components/UserInfo";
 import Menu from "components/Header/Menu";
-import UserLogin from "app/routes/RegistrationLoginPage/Login";
+import UserLogin from "_C57/RegistrationLoginPage/Login.js";
 
 class Header extends React.Component {
   onAppNotificationSelect = () => {

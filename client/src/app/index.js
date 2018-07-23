@@ -9,7 +9,7 @@ import Footer from "components/Footer";
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "../util/asyncComponent";
 import TopNav from "components/TopNav";
-// import UserLogin from "./Routes/RegistrationLoginPage/Login.js";
+import UserRegistrationForm from "../_C57/RegistrationLoginPage/UserRegistrationForm.js";
 import CoachForm from "../CoachForm";
 import ProfileCard from "../ProfileCard";
 
@@ -38,7 +38,7 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
-        <Sidebar />
+        {/* <Sidebar /> */}
         <div className="app-main-container">
           <div className="app-header">
             {navigationStyle === HORIZONTAL_NAVIGATION &&
@@ -53,13 +53,9 @@ class App extends React.Component {
             <div className="app-main-content">
               <Switch>
                 <Route
-                  path={`${match.url}/Home`}
-                  component={asyncComponent(() => import("./routes/RegistrationLoginPage/UserRegistrationForm.js"))}
+                  path={`${match.url}/registration`}
+                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
                 />
-                <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("./routes/SamplePage"))}
-                />{" "}
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>

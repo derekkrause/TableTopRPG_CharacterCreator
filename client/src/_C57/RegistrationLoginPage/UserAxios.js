@@ -1,5 +1,4 @@
 import axios from "axios";
-// const userAPI = "/api/users";
 
 //REGISTER USER
 export function registerUser(userData) {
