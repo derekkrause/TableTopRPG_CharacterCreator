@@ -114,7 +114,7 @@ class ProfileTabs extends React.Component {
                   This is where your media stuff goes
                 </h3>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <ProfileImages />
                   </div>
                 </div>
