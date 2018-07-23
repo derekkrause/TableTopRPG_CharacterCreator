@@ -22,10 +22,7 @@ class SidenavContent extends Component {
       menuLi[i].onclick = function(event) {
         for (let j = 0; j < menuLi.length; j++) {
           const parentLi = that.closest(this, "li");
-          if (
-            menuLi[j] !== this &&
-            (parentLi === null || !parentLi.classList.contains("open"))
-          ) {
+          if (menuLi[j] !== this && (parentLi === null || !parentLi.classList.contains("open"))) {
             menuLi[j].classList.remove("open");
           }
         }
@@ -49,13 +46,9 @@ class SidenavContent extends Component {
     try {
       let matchesFn;
       // find vendor prefix
-      [
-        "matches",
-        "webkitMatchesSelector",
-        "mozMatchesSelector",
-        "msMatchesSelector",
-        "oMatchesSelector"
-      ].some(function(fn) {
+      ["matches", "webkitMatchesSelector", "mozMatchesSelector", "msMatchesSelector", "oMatchesSelector"].some(function(
+        fn
+      ) {
         if (typeof document.body[fn] == "function") {
           matchesFn = fn;
           return true;
@@ -80,13 +73,22 @@ class SidenavContent extends Component {
 
   render() {
     return (
-      <CustomScrollbars
-        className="scrollbar"
-        style={{ height: "calc(100vh - 70px)" }}
-      >
+      <CustomScrollbars className="scrollbar" style={{ height: "calc(100vh - 70px)" }}>
         <ul className="nav-menu">
           <li className="nav-header">
             <IntlMessages id="sidebar.main" />
+          </li>
+          <li className="menu no-arrow">
+            <NavLink to="/app/blog-page">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">blog</span>
+            </NavLink>
+          </li>
+          <li className="menu no-arrow">
+            <NavLink to="/app/registration">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">Register</span>
+            </NavLink>
           </li>
           <li className="menu no-arrow">
             <NavLink to="/app/sample-page">
@@ -95,12 +97,11 @@ class SidenavContent extends Component {
                 <IntlMessages id="pages.samplePage" />
               </span>
             </NavLink>
-            <NavLink to="/app/blog-page">
+          </li>
+          <li className="menu no-arrow">
+            <NavLink to="/app/pogs">
               <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
-              <span className="nav-text">
-                blog
-                {/* <IntlMessages id="Blog" /> */}
-              </span>
+              <span className="nav-text">Pogs</span>
             </NavLink>
           </li>
         </ul>

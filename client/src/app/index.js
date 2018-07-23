@@ -19,12 +19,7 @@ import TopNav from "components/TopNav";
 
 class App extends React.Component {
   render() {
-    const {
-      match,
-      drawerType,
-      navigationStyle,
-      horizontalNavPosition
-    } = this.props;
+    const { match, drawerType, navigationStyle, horizontalNavPosition } = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -43,12 +38,9 @@ class App extends React.Component {
         <div className="app-main-container">
           <div className="app-header">
             {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === ABOVE_THE_HEADER && (
-                <TopNav styleName="app-top-header" />
-              )}
+              horizontalNavPosition === ABOVE_THE_HEADER && <TopNav styleName="app-top-header" />}
             <Header />
-            {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
+            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
           </div>
 
           <main className="app-main-content-wrapper">
@@ -56,19 +48,15 @@ class App extends React.Component {
               <Switch>
                 <Route
                   path={`${match.url}/sample-page`}
-                  component={asyncComponent(() =>
-                    import("./routes/SamplePage")
-                  )}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
                 />
+                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("./routes/blog/Blog"))} />
                 <Route
-                  path={`${match.url}/blog-page`}
-                  component={asyncComponent(() => import("./routes/blog/Blog"))}
+                  path={`${match.url}/registration`}
+                  component={asyncComponent(() => import("../_C57/UserRegistrationForm"))}
                 />
-                {/* <Route
-                  component={asyncComponent(() =>
-                    import("components/Error404")
-                  )}
-                /> */}
+                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+                <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>
             <Footer />
