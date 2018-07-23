@@ -17,12 +17,9 @@ namespace Sabio.Models
         [Required]
         public int SchoolId { get; set; }
 
-        [Required]
-        public int SportLevelId { get; set; }
+        public int? ClassYearId { get; set; }
 
-        public int ClassYearId { get; set; }
-
-        public int HighSchoolGraduationYear { get; set; }
+        public int? HighSchoolGraduationYear { get; set; }
 
         public string ShortBio { get; set; }
 

@@ -52,6 +52,7 @@
     <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\AthleteUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
