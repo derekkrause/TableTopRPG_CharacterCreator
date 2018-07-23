@@ -10,9 +10,9 @@ export function registerUser(userData) {
 export function registerCoach(userId) {
   const data = {
     userId: userId,
-    title: null,
-    schoolId: null,
-    shortBio: null
+    title: "",
+    schoolId: "",
+    shortBio: ""
   };
-  return axios.post("http://localhost:8080/node-api/server.js/api/coaches", data);
+  return axios.post("/node-api/server.js/api/coaches", data);
 }

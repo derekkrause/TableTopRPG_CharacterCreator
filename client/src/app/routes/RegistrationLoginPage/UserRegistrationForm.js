@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input, Label } from "reactstrap";
+import { Button, Form, Input, InputGroup, Label } from "reactstrap";
 import { registerUser, registerCoach } from "./UserAxios.js";
 
 class UserRegistrationForm extends React.Component {
@@ -9,24 +9,16 @@ class UserRegistrationForm extends React.Component {
     lastName: "",
     emailInput: "",
     password: "",
-    passwordConfirm: "",
     genderSelect: null,
     userType: "",
-    avatarUrl: "",
-    hide: false
+    avatarUrl: ""
   };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  toggleHide = e => {
-    e.preventDefault();
-    this.setState({ hide: !this.state.hide });
-  };
-
   registerUserType = (userType, userId) => {
-    debugger;
     switch (userType) {
       case "Athlete":
         //axios call registerAthlete(userId)
@@ -68,50 +60,49 @@ class UserRegistrationForm extends React.Component {
 
   render() {
     return (
-      <div className="container justify-contents-center p-0">
-        <div className="card col-lg-6 col-md-8 col-xs-10 p-0 m-0">
-          <div className="card-header bg-success">
-            <div className="card-heading text-white">Register New User</div>
+      <div className="login-container d-flex animated slideInUpTiny animation-duration-3">
+        <div className="login-content">
+          <div className="login-header text-center">
+            <a className="app-logo" title="RecruitHub" href="#">
+              <img
+                src="http://warriordesign.net/asr/wp-content/uploads/2016/07/as.png"
+                alt="RecruitHub"
+                title="RecruitHub"
+              />
+            </a>
           </div>
-          <div className="stack-order py-2 px-3">
+          <h2 className="my-2 text-center">Create an Account</h2>
+          <div className="login-form">
             <Form className="row pb-0" autoComplete="on">
-              <div className="col-12 mt-2">
-                <Label htmlFor="firstName">First</Label>
+              <InputGroup className="col-12 my-1">
                 <Input
                   name="firstName"
                   id="firstName"
                   className="form-control"
                   type="text"
-                  placeholder="First Name"
+                  placeholder="First"
                   onChange={this.onChange}
                   required
                 />
-              </div>
-              <div className="col-12 mt-2">
-                <Label htmlFor="middleName">Middle</Label>
                 <Input
                   name="middleName"
                   id="middleName"
                   className="form-control"
                   type="text"
-                  placeholder="Middle Name"
+                  placeholder="Middle"
                   onChange={this.onChange}
                 />
-              </div>
-              <div className="col-12 mt-2">
-                <Label htmlFor="lastName">Last</Label>
                 <Input
                   name="lastName"
                   id="lastName"
                   className="form-control"
                   type="text"
-                  placeholder="Last Name"
+                  placeholder="Last"
                   onChange={this.onChange}
                   required
                 />
-              </div>
-              <div className="col-12 mt-2">
-                <Label htmlFor="emailInput">Email address</Label>
+              </InputGroup>
+              <InputGroup className="col-12 my-1">
                 <Input
                   name="emailInput"
                   id="emailInput"
@@ -121,9 +112,6 @@ class UserRegistrationForm extends React.Component {
                   onChange={this.onChange}
                   required
                 />
-              </div>
-              <div className="col-12 mt-2">
-                <Label htmlFor="password">Password</Label>
                 <Input
                   name="password"
                   id="password"
@@ -133,33 +121,21 @@ class UserRegistrationForm extends React.Component {
                   onChange={this.onChange}
                   required
                 />
-              </div>
-              <div className="col-12 mt-2">
-                <Label htmlFor="passwordConfirm">Confirm Password</Label>
-                <Input
-                  id="passwordConfirm"
-                  name="passwordConfirm"
-                  className="form-control"
-                  type="password"
-                  placeholder="********"
-                  onChange={this.onChange}
-                  required
-                />
-              </div>
-              <div className="col-12 mt-2">
+              </InputGroup>
+              <div className="col-12 my-2 mx-auto">
                 <Label htmlFor="genderSelect">Gender</Label>
                 <div
                   className="d-flex flex-wrap form-group m-0"
                   name="genderSelect"
                   onChange={this.onChange}
                   id="genderSelect">
-                  <div className="custom-control custom-radio mr-4">
+                  <div className="custom-control custom-radio mr-4 mx-auto">
                     <Input type="radio" name="genderSelect" value={1} id="maleRadio" className="custom-control-input" />
                     <Label className="custom-control-label" htmlFor="maleRadio">
                       Male
                     </Label>
                   </div>
-                  <div className="custom-control custom-radio mr-4">
+                  <div className="custom-control custom-radio mr-4 mx-auto">
                     <Input
                       type="radio"
                       name="genderSelect"
@@ -171,7 +147,7 @@ class UserRegistrationForm extends React.Component {
                       Female
                     </Label>
                   </div>
-                  <div className="custom-control custom-radio mr-4">
+                  <div className="custom-control custom-radio mr-4 mx-auto">
                     <Input
                       type="radio"
                       name="genderSelect"
@@ -188,11 +164,11 @@ class UserRegistrationForm extends React.Component {
               <div className="col-12 mt-2">
                 <Label htmlFor="userTypeGroup">Select User Type</Label>
                 <div
-                  className="d-flex flex-wrap form-group m-0"
+                  className="d-flex flex-wrap form-group justify-content-center mx-auto"
                   name="userTypeGroup"
                   onChange={this.onChange}
                   id="userTypeGroup">
-                  <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                  <div className="custom-control custom-Radio my-1 mx-auto col-5">
                     <input
                       type="radio"
                       name="userType"
@@ -200,15 +176,11 @@ class UserRegistrationForm extends React.Component {
                       value="Athlete"
                       id="athleteRadio"
                     />
-                    <Label
-                      className="custom-control-label"
-                      onMouseEnter={this.toggleHide}
-                      visible={this.state.hide}
-                      htmlFor="athleteRadio">
+                    <Label className="custom-control-label" htmlFor="athleteRadio">
                       Athlete
                     </Label>
                   </div>
-                  <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                  <div className="custom-control custom-Radio my-1 mx-auto col-5">
                     <input
                       type="radio"
                       name="userType"
@@ -220,7 +192,7 @@ class UserRegistrationForm extends React.Component {
                       Recruiter
                     </Label>
                   </div>
-                  <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                  <div className="custom-control custom-Radio my-1 mx-auto col-5">
                     <input
                       type="radio"
                       name="userType"
@@ -232,7 +204,7 @@ class UserRegistrationForm extends React.Component {
                       Advocate
                     </Label>
                   </div>
-                  <div className="custom-control custom-Radio my-1 mr-sm-2 mb-3">
+                  <div className="custom-control custom-Radio my-1 mx-auto col-5">
                     <input
                       type="radio"
                       name="userType"
@@ -246,12 +218,12 @@ class UserRegistrationForm extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-12 mt-2">
-                <Button color="success" onClick={this.signUp} className="btn form-control py-2 my-2">
-                  Sign-up
-                </Button>
-              </div>
             </Form>
+          </div>
+          <div className="d-flex justify-content-center">
+            <Button onClick={this.signUp} className="btn btn-primary py-2 my-2">
+              Sign-up
+            </Button>
           </div>
         </div>
       </div>
