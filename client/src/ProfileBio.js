@@ -1,9 +1,8 @@
 import React from "react";
-import "./profileCard.css";
 
-class StatsRecord extends React.Component {
+class ProfileBio extends React.Component {
   state = {
-    stats: "Enter your stats and record here. Click to edit!",
+    bio: "Enter your bio here. Click to edit!",
     editMode: false
   };
 
@@ -24,17 +23,18 @@ class StatsRecord extends React.Component {
   render() {
     return (
       <div>
+        <h2 className="mt-2">Bio</h2>
         <p className="statsRecordTextArea">
           {this.state.editMode === false ? (
-            <a onClick={this.editField}>{this.state.stats}</a>
+            <a onClick={this.editField}>{this.state.bio}</a>
           ) : (
             <textarea
               className="w-100 h-100 profileCardTextArea"
               type="text"
               name="stats"
-              placeholder="This area is for you to display information pertinent to your stats and records."
+              placeholder="Your bio goes here."
               autoFocus
-              value={this.state.stats}
+              value={this.state.bio}
               onChange={this.handleChange}
               onBlur={this.editField}
             />
@@ -62,4 +62,4 @@ class StatsRecord extends React.Component {
   }
 }
 
-export default StatsRecord;
+export default ProfileBio;

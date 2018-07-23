@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import TimelineItem from "./components/timeline/TimelineItem";
 import ProfileTabs from "./ProfileTabs";
+import ProfileBio from "./ProfileBio";
 
 class ProfileCard extends React.Component {
   state = {
@@ -37,7 +38,10 @@ class ProfileCard extends React.Component {
           </p>
         </div> */}
         <div className="row">
-          <div className="col-md-12">
+          <div className="col-md-3">
+            <ProfileBio />
+          </div>
+          <div className="col-md-9">
             <ProfileTabs />
 
             {/* <div className="jr-card">
