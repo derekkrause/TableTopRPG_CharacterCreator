@@ -12,11 +12,17 @@ class UserRegistrationForm extends React.Component {
     passwordConfirm: "",
     genderSelect: null,
     userType: "",
-    avatarUrl: ""
+    avatarUrl: "",
+    hide: false
   };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  toggleHide = e => {
+    e.preventDefault();
+    this.setState({ hide: !this.state.hide });
   };
 
   registerUserType = (userType, userId) => {
@@ -194,7 +200,11 @@ class UserRegistrationForm extends React.Component {
                       value="Athlete"
                       id="athleteRadio"
                     />
-                    <Label className="custom-control-label" htmlFor="athleteRadio">
+                    <Label
+                      className="custom-control-label"
+                      onMouseEnter={this.toggleHide}
+                      visible={this.state.hide}
+                      htmlFor="athleteRadio">
                       Athlete
                     </Label>
                   </div>
