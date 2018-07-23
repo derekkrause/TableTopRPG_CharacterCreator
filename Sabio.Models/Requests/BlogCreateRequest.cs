@@ -16,5 +16,8 @@ namespace Sabio.Models.Requests
         [MaxLength(250)]
         public string ImageUrl { get; set; }
 
+        [MaxLength(250)]
+        public string VideoUrl { get; set; }
+
     }
 }

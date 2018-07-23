@@ -13,5 +13,5 @@ export function putUpdateBlog(payload, blogId) {
 }
 
 export function deleteBlog(blogId) {
-  return axios.delete("/blogId", blogId);
+  return axios.delete("/api/blogs/" + blogId);
 }

@@ -37,12 +37,14 @@ namespace Sabio.Services
                     parameters.AddWithValue("@Title", request.Title);
                     parameters.AddWithValue("@Content", request.Content);
                     parameters.AddWithValue("@ImageUrl", request.ImageUrl);
+                    parameters.AddWithValue("@VideoUrl", request.VideoUrl);
                 });
         }
 
-        public int Create(BlogCreateRequest request)
+        public int Create(BlogCreateRequest request, int authorId)
         {
             int newId = 0;
+        
 
             dataProvider.ExecuteNonQuery(
                 "Blog_Insert",
@@ -52,6 +54,8 @@ namespace Sabio.Services
                     parameters.AddWithValue("@Content", request.Content);
                     parameters.AddWithValue("@Slug", request.Slug);
                     parameters.AddWithValue("@ImageUrl", request.ImageUrl);
+                    parameters.AddWithValue("@VideoUrl", request.VideoUrl);
+                    parameters.AddWithValue("@AuthorId", authorId);
 
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                 },
@@ -109,7 +113,11 @@ namespace Sabio.Services
                         blog.DateModified = (DateTime)dateModifiedObj;
                     }
 
-
+                    object vidoeUrlObj = reader["VideoUrl"];
+                    if (vidoeUrlObj != DBNull.Value)
+                    {
+                        blog.VideoUrl = (string)vidoeUrlObj;
+                    }
 
                     pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 

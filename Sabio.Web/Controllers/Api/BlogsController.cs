@@ -69,7 +69,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            int newBlogId = blogsService.Create(blogCreateRequest);
+            int authorId = 12; //TODO: update to userId from cookies yum
+
+            int newBlogId = blogsService.Create(blogCreateRequest, authorId);
 
             return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newBlogId });
         }

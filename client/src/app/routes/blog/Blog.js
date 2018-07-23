@@ -18,7 +18,9 @@ class Blog extends React.Component {
     lastName: "",
     blogForm: false,
     formVideoLinkInput: false,
-    formFileBtn: true
+    formFileBtn: true,
+    videoUrl: "",
+    blogId: 0
   };
 
   componentDidMount() {
@@ -40,7 +42,7 @@ class Blog extends React.Component {
           title: "",
           content: "",
           imageUrl: "",
-          formVideoLinkInput: "",
+          vdeioUrl: "",
           blogForm: false
         });
       })
@@ -49,7 +51,12 @@ class Blog extends React.Component {
 
   handleUpdateBlog = (payload, blogId) => {};
 
-  handleDeleteBlog = blogId => {};
+  handleDeleteBlog = blogId => {
+    deleteBlog(blogId).then(response => {
+      console.log("DELETE", response);
+      window.location.reload();
+    });
+  };
 
   handleOnClickBlogForm = () => {
     if (this.state.blogForm === false) {
@@ -105,11 +112,12 @@ class Blog extends React.Component {
               {this.state.blogForm ? (
                 <BlogForm
                   closeBlogForm={this.handleOnClickBlogForm}
-                  formVideoLinkInput={this.state.formVideoLinkInput}
+                  videoUrl={this.state.videoUrl}
                   handleOnclickVideoLink={this.handleOnclickVideoLink}
                   formFileBtn={this.state.formFileBtn}
                   handleSubmitBlog={this.handleSubmitBlog}
                   capitalize={this.capitalize}
+                  formVideoLinkInput={this.state.formVideoLinkInput}
                 />
               ) : (
                 <div />
@@ -117,7 +125,14 @@ class Blog extends React.Component {
               {this.state.blogs
                 .sort((a, b) => a.id - b.id)
                 .reverse()
-                .map(blog => <BlogCard key={blog.id} blog={blog} editBlog={this.handleOnClickEditBlog} />)}
+                .map(blog => (
+                  <BlogCard
+                    key={blog.id}
+                    blog={blog}
+                    editBlog={this.handleOnClickEditBlog}
+                    handleDeleteBlog={() => this.handleDeleteBlog(blog.id)}
+                  />
+                ))}
             </div>
           </div>
         </div>

@@ -7,7 +7,8 @@ class BlogForm extends React.Component {
     content: "",
     imageUrl: "",
     authorId: 13,
-    isPublished: 1
+    isPublished: 1,
+    videoUrl: ""
   };
 
   handleOnClickPayload = () => {
@@ -17,7 +18,8 @@ class BlogForm extends React.Component {
       imageUrl: this.state.imageUrl,
       slug: this.state.title,
       authorId: this.state.authorId,
-      isPublished: this.state.isPublished
+      isPublished: this.state.isPublished,
+      videoUrl: this.state.videoUrl
     });
   };
   render() {
@@ -54,7 +56,12 @@ class BlogForm extends React.Component {
                 <div className="mt-4">
                   <h4> Video Link</h4>
                   <div className="input-group mb-3">
-                    <input className="form-control" type="text" />
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={this.state.videoUrl}
+                      onChange={e => this.setState({ videoUrl: e.target.value })}
+                    />
                     <div className="input-group-append">
                       <button className="btn btn-secondary" type="button" onClick={this.props.handleOnclickVideoLink}>
                         Remove
