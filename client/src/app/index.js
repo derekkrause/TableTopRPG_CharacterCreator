@@ -2,16 +2,14 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-// import Header from "components/Header/index";
 import Header from "components/Header/NavBarSample";
 import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
 import { isIOS, isMobile } from "react-device-detect";
-import asyncComponent from "../util/asyncComponent";
-import TopNav from "components/TopNav";
-import UserRegistrationForm from "../_C57/RegistrationLoginPage/UserRegistrationForm.js";
-import CoachForm from "../CoachForm";
-import ProfileCard from "../ProfileCard";
+import asyncComponent from "util/asyncComponent";
+import TopNav from "_C57/NavBar/TopNav.js";
+import CoachForm from "CoachForm";
+import ProfileCard from "ProfileCard";
 
 import {
   ABOVE_THE_HEADER,
@@ -38,15 +36,9 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
-        {/* <Sidebar /> */}
         <div className="app-main-container">
           <div className="app-header">
-            {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === ABOVE_THE_HEADER && <TopNav styleName="app-top-header" />}
-            <Header />
-            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
-            {/* <ProfileCard /> */}
-            {/* <CoachForm /> */}
+            <TopNav />
           </div>
 
           <main className="app-main-content-wrapper">

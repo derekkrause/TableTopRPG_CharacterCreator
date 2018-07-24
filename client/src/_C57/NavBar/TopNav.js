@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import { Dropdown, DropdownMenu, DropdownToggle } from "reactstrap";
 import { COLLAPSED_DRAWER, FIXED_DRAWER, HORIZONTAL_NAVIGATION, INSIDE_THE_HEADER } from "constants/ActionTypes";
 import SearchBox from "components/SearchBox";
-import MailNotification from "../MailNotification/index";
-import AppNotification from "../AppNotification/index";
+import MailNotification from "components/MailNotification/index";
+import AppNotification from "components/AppNotification/index";
 import CardHeader from "components/dashboard/Common/CardHeader/index";
 import { switchLanguage, toggleCollapsedNav } from "actions/Setting";
 import IntlMessages from "util/IntlMessages";
@@ -13,6 +13,7 @@ import LanguageSwitcher from "components/LanguageSwitcher/index";
 import UserInfo from "components/UserInfo";
 import Menu from "components/Header/Menu";
 import UserLogin from "_C57/RegistrationLoginPage/Login.js";
+import NavBar from "_C57/NavBar/NavBar";
 
 class Header extends React.Component {
   onAppNotificationSelect = () => {
@@ -78,7 +79,7 @@ class Header extends React.Component {
 
     return (
       <div className="app-main-header">
-        <div className="d-flex app-toolbar align-items-center justify-content-center">
+        <div className="d-flex app-toolbar align-items-center justify-content-center bg-primary">
           {navigationStyle === HORIZONTAL_NAVIGATION ? (
             <div className="app-logo-bl">
               <div className="d-block d-md-none">
@@ -97,7 +98,7 @@ class Header extends React.Component {
             </span>
           )}
 
-          <UserLogin />
+          {!this.state.loggedIn ? <NavBar /> : <UserLogin />}
 
           {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER && <Menu />}
         </div>
