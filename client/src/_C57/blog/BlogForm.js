@@ -43,17 +43,24 @@ class BlogForm extends React.Component {
   render() {
     return (
       <div>
-        <div className="jr-card">
-          <div className="jr-card-body">
-            <div className="text-right">
-              <button type="button" onClick={this.props.closeBlogForm}>
-                X
-              </button>
+        <div className="undifined card">
+          <div className="bg-primary text-white card-header">
+            <div className="row">
+              <div className="col-md-10 col-10">Add Your Story</div>
+              <div className="col-md-2 col-2 text-right">
+                <button
+                  type="button"
+                  onClick={this.props.closeBlogForm}
+                  className="btn btn-sm  btn-primary text-white btn btn-default"
+                >
+                  <i className="zmdi zmdi-close-circle-o zmdi-hc-lg" />
+                  &nbsp;Close
+                </button>
+              </div>
             </div>
-            <div className="mt-4">
-              <img src={this.state.imagePreview} className="upload-img-preview" />
-            </div>
-            <form className="form-container mt-4" noValidate autoComplete="off">
+          </div>
+          <div className="card-body">
+            <form className="form-container" noValidate autoComplete="off">
               <h4> Title </h4>
               <input
                 className="form-control"
@@ -61,7 +68,6 @@ class BlogForm extends React.Component {
                 value={this.state.title}
                 onChange={e => this.setState({ title: e.target.value })}
               />
-
               <div className="mt-4">
                 <h4> Content</h4>
                 <textarea
@@ -72,6 +78,13 @@ class BlogForm extends React.Component {
                   onChange={e => this.setState({ content: e.target.value })}
                 />
               </div>
+              {this.state.imagePreview == "" ? (
+                <div />
+              ) : (
+                <div className="mt-4">
+                  <img src={this.state.imagePreview} className="upload-img-preview" />
+                </div>
+              )}
               {this.props.formVideoLinkInput ? (
                 <div className="mt-4">
                   <h4> Video Link</h4>

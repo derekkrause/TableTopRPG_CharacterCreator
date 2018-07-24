@@ -17,6 +17,11 @@ class BlogCard extends React.Component {
     });
   };
 
+  handleOnclickUpdateCancel = () => {
+    this.setState({
+      editMode: false
+    });
+  };
   handleOnClickUpdate = () => {
     this.props.handleSubmitBlog({
       id: this.props.blog.id,
@@ -43,11 +48,6 @@ class BlogCard extends React.Component {
                 <div className="user-detail">
                   <h5 className="user-name">{this.props.blog.firstName}</h5>
                   <p className="user-description">{this.props.blog.description}</p>
-                </div>
-                <div className="text-right">
-                  <button type="button" onClick={this.props.handleDeleteBlog}>
-                    X
-                  </button>
                 </div>
               </div>
             </div>
@@ -86,8 +86,11 @@ class BlogCard extends React.Component {
               <button
                 type="button"
                 className="jr-btn jr-btn-default btn btn-default"
-                onClick={this.handleOnClickUpdate}
+                onClick={this.handleOnclickUpdateCancel}
               >
+                Cancel
+              </button>
+              <button type="button" className="jr-btn bg-success btn btn-success" onClick={this.handleOnClickUpdate}>
                 <i className="zmdi zmdi-edit zmdi-hc-fw" />
                 <span className="btn-name card-text">Update</span>
               </button>
@@ -103,8 +106,12 @@ class BlogCard extends React.Component {
                   <p className="user-description">{this.props.blog.description}</p>
                 </div>
                 <div className="text-right">
-                  <button type="button" onClick={this.props.handleDeleteBlog}>
-                    X
+                  <button
+                    type="button"
+                    onClick={this.props.handleDeleteBlog}
+                    className="jr-btn jr-flat-btn btn btn-default"
+                  >
+                    <i className="zmdi zmdi-delete zmdi-hc-lg" /> &nbsp;Delete
                   </button>
                 </div>
               </div>
