@@ -39,7 +39,13 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
-        <Sidebar />
+        <Route
+          path={`${match.url}/admin`}
+          component={asyncComponent(() =>
+            import("../containers/SideNav/index")
+          )}
+        />
+
         <div className="app-main-container">
           <div className="app-header">
             {navigationStyle === HORIZONTAL_NAVIGATION &&
@@ -54,6 +60,12 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() =>
+                    import("../_C57/Admin/AdminPage")
+                  )}
+                />
                 <Route
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
@@ -87,6 +99,7 @@ class App extends React.Component {
                 />
               </Switch>
             </div>
+
             <Footer />
           </main>
         </div>

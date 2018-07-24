@@ -2,11 +2,18 @@ const router = require("express").Router();
 const FaqsController = require("../controllers/faqs.controller");
 const FaqsCategoriesController = require("../controllers/faqsCategories.controller");
 const pogsRoutes = require("./pogs.routes");
+<<<<<<< HEAD
+const schoolsRoutes = require("./schools.routes");
+=======
 //const { validateBody, schemas } = require("../../helpers/routeHelpers");
+>>>>>>> origin/master
 
 module.exports = router;
 
 router.use("/api/pogs", pogsRoutes);
+<<<<<<< HEAD
+router.use("/school", schoolsRoutes);
+=======
 
 router.route("/faqs").get(FaqsController.getAll);
 
@@ -33,3 +40,4 @@ router
 router
   .route("/faqsCategories/:id")
   .delete(FaqsCategoriesController.deleteFaqCategory);
+>>>>>>> origin/master
