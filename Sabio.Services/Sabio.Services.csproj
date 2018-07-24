@@ -113,7 +113,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="AthletesService.cs" />
+=======
+    <Compile Include="BlogsService.cs" />
+>>>>>>> origin/ji-kim/blog
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />

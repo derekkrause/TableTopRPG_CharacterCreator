@@ -46,13 +46,23 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Compile Include="Domain\Athlete.cs" />
+=======
+    <Compile Include="Domain\Blog.cs" />
+    <Compile Include="Domain\Pog.cs" />
+>>>>>>> origin/ji-kim/blog
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Interfaces\IUserAuthData.cs" />
     <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< HEAD
     <Compile Include="Requests\AthleteUpdateRequest.cs" />
+=======
+    <Compile Include="Requests\BlogCreateRequest.cs" />
+    <Compile Include="Requests\BlogUpdateRequest.cs" />
+>>>>>>> origin/ji-kim/blog
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
