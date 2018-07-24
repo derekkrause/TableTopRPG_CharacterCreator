@@ -3,6 +3,8 @@ import IntlMessages from "util/IntlMessages";
 import BlogCard from "components/Cards/BlogCard";
 import { getBlog, postBlog, putUpdateBlog, deleteBlog } from ".../../services/BlogServer";
 import BlogForm from "./BlogForm";
+import EditBlogModal from "./EditBlogModal";
+import "../customStyle.css";
 
 class Blog extends React.Component {
   state = {
@@ -21,7 +23,8 @@ class Blog extends React.Component {
     formFileBtn: true,
     videoUrl: "",
     blogId: 0,
-    updateBtn: false
+    updateBtn: false,
+    isOpen: false
   };
 
   componentDidMount() {
@@ -52,9 +55,6 @@ class Blog extends React.Component {
 
   handleUpdateBlog = blogId => {
     console.log("UPDATE", blogId);
-    this.setState({
-      editMode: true
-    });
   };
 
   handleDeleteBlog = blogId => {
@@ -126,6 +126,7 @@ class Blog extends React.Component {
               ) : (
                 <div />
               )}
+
               {this.state.blogs
                 .sort((a, b) => a.id - b.id)
                 .reverse()

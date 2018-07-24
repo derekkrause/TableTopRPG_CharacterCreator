@@ -1,11 +1,14 @@
 import React from "react";
 import IntlMessages from "util/IntlMessages";
+import "../customStyle.css";
+import axios from "axios";
 
 class BlogForm extends React.Component {
   state = {
     title: "",
     content: "",
     imageUrl: "",
+    imagePreview: "",
     authorId: 13,
     isPublished: 1,
     videoUrl: ""
@@ -23,6 +26,20 @@ class BlogForm extends React.Component {
     });
   };
 
+  handleChange = e => {
+    this.setState({
+      imagePreview: URL.createObjectURL(e.target.files[0])
+    });
+    // const formData = new FormData();
+    // formData.append("myFile", e.target.files[0]);
+    // axios.post("", formData).then(response => {
+    //   this.setState({
+    //     imageUrl: response.url,
+    //     imagePreview: URL.createObjectURL(e.target.files[0])
+    //   });
+    // });
+  };
+
   render() {
     return (
       <div>
@@ -33,8 +50,10 @@ class BlogForm extends React.Component {
                 X
               </button>
             </div>
-
-            <form className="form-container" noValidate autoComplete="off">
+            <div className="mt-4">
+              <img src={this.state.imagePreview} className="upload-img-preview" />
+            </div>
+            <form className="form-container mt-4" noValidate autoComplete="off">
               <h4> Title </h4>
               <input
                 className="form-control"
@@ -82,12 +101,6 @@ class BlogForm extends React.Component {
                     <i className="zmdi zmdi-collection-text zmdi-hc-fw" />
                     Write an article
                   </button>
-
-                  <button type="button" className="jr-btn jr-btn-default btn btn-default">
-                    <i className="zmdi zmdi-image zmdi-hc-fw" />
-                    Upload Images
-                  </button>
-
                   <button
                     type="button"
                     className="jr-btn jr-btn-default btn btn-default"
@@ -96,6 +109,26 @@ class BlogForm extends React.Component {
                     <i className="zmdi zmdi-videocam zmdi-hc-fw" />
                     Link Video
                   </button>
+                  <input
+                    id="myInput"
+                    type="file"
+                    ref={ref => (this.upload = ref)}
+                    style={{ display: "none" }}
+                    onChange={this.handleChange}
+                    // multiple
+                  />
+                  <button
+                    type="button"
+                    className="jr-btn jr-btn-default btn btn-default"
+                    onClick={() => {
+                      this.upload.click();
+                    }}
+                  >
+                    <i className="zmdi zmdi-image zmdi-hc-fw" />
+                    Upload Images
+                  </button>
+
+                  {/* <input type="file" onChange={this.handleChange} /> */}
                 </div>
                 <div />
               </div>

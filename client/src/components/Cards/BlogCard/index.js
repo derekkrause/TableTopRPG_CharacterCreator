@@ -33,11 +33,7 @@ const BlogCard = props => {
             {blog.dateCreated.substring(0, 10)}
           </span>
         </div>
-        {props.editMode === false ? (
-          <textarea rows="8" type="text" value={blog.content} />
-        ) : (
-          <p className="card-text text-muted">{blog.content}</p>
-        )}
+        <p className="card-text text-muted">{blog.content}</p>
 
         {/* <a href="javascript:void(0)" className="card-link text-uppercase"><i
                     className="zmdi zmdi-image-o zmdi-hc-fw"/>latest pictures</a> */}
