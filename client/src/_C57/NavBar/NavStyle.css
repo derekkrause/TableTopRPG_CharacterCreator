@@ -1,0 +1,12 @@
+.appNav .search-bar {
+  max-width: 80%;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+}
+
+.appNav .searchInput {
+  width: 100%;
+}
