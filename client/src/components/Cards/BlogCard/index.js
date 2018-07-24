@@ -1,6 +1,5 @@
 import React from "react";
 import CardLayout from "components/CardLayout";
-import { defaultProps } from "recompose";
 import VideoPlayer from "components/VideoPlayer/videoPlayer";
 
 const BlogCard = props => {

@@ -1,6 +1,6 @@
 import React from "react";
 import IntlMessages from "util/IntlMessages";
-import BlogCard from "components/Cards/BlogCard";
+import BlogCard from "./BlogCard";
 import { getBlog, postBlog, putUpdateBlog, deleteBlog } from ".../../services/BlogServer";
 import BlogForm from "./BlogForm";
 import EditBlogModal from "./EditBlogModal";
@@ -23,8 +23,7 @@ class Blog extends React.Component {
     formFileBtn: true,
     videoUrl: "",
     blogId: 0,
-    updateBtn: false,
-    isOpen: false
+    updateBtn: false
   };
 
   componentDidMount() {
@@ -39,18 +38,35 @@ class Blog extends React.Component {
   }
 
   handleSubmitBlog = payload => {
-    postBlog(payload)
-      .then(response => {
-        console.log("CREATE/POST", response);
-        this.setState({
-          title: "",
-          content: "",
-          imageUrl: "",
-          vdeioUrl: "",
-          blogForm: false
-        });
-      })
-      .catch(error => console.log(error));
+    let blogId = payload.id;
+    if (blogId) {
+      putUpdateBlog(payload, blogId)
+        .then(response => {
+          console.log("UPDATE/PUT", response);
+          this.setState({
+            title: "",
+            content: "",
+            imageUrl: "",
+            vdeioUrl: ""
+          });
+          window.location.reload();
+        })
+        .catch(error => console.log(error));
+    } else {
+      postBlog(payload)
+        .then(response => {
+          console.log("CREATE/POST", response);
+          this.setState({
+            title: "",
+            content: "",
+            imageUrl: "",
+            vdeioUrl: "",
+            blogForm: false
+          });
+          window.location.reload();
+        })
+        .catch(error => console.log(error));
+    }
   };
 
   handleUpdateBlog = blogId => {
@@ -137,6 +153,7 @@ class Blog extends React.Component {
                     editBlog={this.handleOnClickEditBlog}
                     handleDeleteBlog={() => this.handleDeleteBlog(blog.id)}
                     handleUpdateBlog={() => this.handleUpdateBlog(blog.id)}
+                    handleSubmitBlog={this.handleSubmitBlog}
                   />
                 ))}
             </div>
