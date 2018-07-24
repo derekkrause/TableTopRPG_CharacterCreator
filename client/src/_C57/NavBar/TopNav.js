@@ -79,30 +79,17 @@ class Header extends React.Component {
 
     return (
       <div className="app-main-header">
-        <div className="d-flex app-toolbar align-items-center justify-content-center bg-primary">
-          {navigationStyle === HORIZONTAL_NAVIGATION ? (
-            <div className="app-logo-bl">
-              <div className="d-block d-md-none">
-                <span className="jr-menu-icon" onClick={this.onToggleCollapsedNav}>
-                  <span className="menu-icon" />
-                </span>
-              </div>
-              <div className="app-logo pointer d-none d-md-block">
-                <img className="d-none d-lg-block" alt="..." src="http://via.placeholder.com/105x36" />
-                <img className="d-block d-lg-none mr-3" alt="..." src="http://via.placeholder.com/32x32" />
-              </div>
-            </div>
-          ) : (
-            <span className={`jr-menu-icon pointer ${drawerStyle}`} onClick={this.onToggleCollapsedNav}>
-              <span className="menu-icon" />
-            </span>
-          )}
-
-          {!this.state.loggedIn ? <NavBar /> : <UserLogin />}
-
-          {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === INSIDE_THE_HEADER && <Menu />}
-        </div>
+        {!this.state.loggedIn ? (
+          <div className="d-flex app-toolbar">
+            <NavBar />
+          </div>
+        ) : (
+          <div className="d-flex app-toolbar align-items-center justify-content-center">
+            <UserLogin />
+          </div>
+        )}
       </div>
+    
     );
   }
 }
