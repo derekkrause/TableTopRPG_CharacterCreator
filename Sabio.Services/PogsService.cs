@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 namespace Sabio.Services
 {
     // "public" means this class is visible from other projects (e.g. Sabio.Web)
-    public class PogsService
+    // ": IPogsService" means "this class implements that IPogsService interface"
+    public class PogsService : IPogsService
     {
         // This is the pattern you use for "dependency injection":
 
