@@ -1,14 +1,10 @@
-import React from "react";
-import IntlMessages from "util/IntlMessages";
+import React, { Component } from "react";
+import ReactPlayer from "react-player";
 
-const VideoPlayer = props => {
-  return (
-    <div className="img-fluid">
-      Video placeholder<br />
-      only link URL will display here.<br />
-      {props.videoUrl}
-    </div>
-  );
-};
+class VideoPlayer extends Component {
+  render() {
+    return <ReactPlayer url={this.props.videoUrl} controls="true" volume="0.3" width="640" height="390" />;
+  }
+}
 
 export default VideoPlayer;

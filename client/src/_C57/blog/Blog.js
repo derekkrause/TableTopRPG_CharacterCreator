@@ -43,7 +43,7 @@ class Blog extends React.Component {
           title: "",
           content: "",
           imageUrl: "",
-          vdeioUrl: "",
+          videoUrl: "",
           blogForm: false
         });
       })
