@@ -51,6 +51,7 @@
     <Compile Include="Interfaces\IUserAuthData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
+    <Compile Include="Requests\UserLoginRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
     <Compile Include="Responses\ItemResponse.cs" />

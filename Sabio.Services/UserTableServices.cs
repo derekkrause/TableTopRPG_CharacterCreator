@@ -125,6 +125,26 @@ namespace Sabio.Services
                 );
                     return itemResponse;
         }
+
+        public bool Login(UserLoginRequest request)
+        {
+            string storedPassword = "";
+            string passwordInput = request.PasswordHash;
+
+            dataProvider.ExecuteCmd(
+                "User_Login",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Email", request.Email);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    storedPassword = (string)reader["PasswordHash"];
+                });
+
+            bool pwMatch = BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword);
+            return pwMatch;
+        }
         
         public void Update(UserUpdateRequest request)
         {

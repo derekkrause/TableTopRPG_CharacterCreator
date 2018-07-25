@@ -55,6 +55,29 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
         }
 
+        [Route("login"), HttpPost]
+        public HttpResponseMessage Login(UserLoginRequest userLoginRequest)
+        {
+            if(userLoginRequest == null)
+            {
+                ModelState.AddModelError("", "Missing Email or Password");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            bool loginSuccess = userTableServices.Login(userLoginRequest);
+
+            if (loginSuccess == false)
+            {
+                return Request.CreateResponse("Invalid Email and/or Password");
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, loginSuccess);
+        }
+
         [Route("{id:int}"), HttpPut]
         public HttpResponseMessage Update(UserUpdateRequest userUpdateRequest, int id)
         {

@@ -10,7 +10,7 @@ class TopNav extends React.Component {
   render() {
     return (
       <div>
-        {this.state.loggedIn ? (
+        {!this.state.loggedIn ? (
           <NavBar />
         ) : (
           <div className="d-flex app-toolbar align-items-center justify-content-center">
