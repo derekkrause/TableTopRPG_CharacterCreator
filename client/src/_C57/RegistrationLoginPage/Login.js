@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, Form, Input, InputGroupAddon, InputGroup } from "reactstrap";
+import { userLogin } from "../../services/registerLogin.service";
 
 class UserLogin extends React.Component {
   state = {
@@ -11,15 +12,29 @@ class UserLogin extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  login = e => {
+    e.preventDefault();
+    userLogin(this.state.email, this.state.password)
+      .then(result => {
+        console.log("LogIn Success", result);
+        this.props.loginChange();
+      })
+      .catch(error => {
+        console.log("LogIn Fail", error);
+      });
+  };
+
   render() {
     return (
       <div>
         <Form inline>
           <InputGroup size="sm">
-            <Input type="email" name="email" placeholder="Email" autoComplete="on" />
-            <Input type="password" name="password" placeholder="Password" autoComplete="on" />
+            <Input type="email" onChange={this.onChange} name="email" placeholder="Email" autoComplete="on" />
+            <Input type="password" onChange={this.onChange} name="password" placeholder="Password" autoComplete="on" />
             <InputGroupAddon addonType="append">
-              <Button color="primary">Sign-In</Button>
+              <Button color="primary" onClick={this.login}>
+                Sign-In
+              </Button>
             </InputGroupAddon>
           </InputGroup>
         </Form>

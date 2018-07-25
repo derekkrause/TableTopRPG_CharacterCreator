@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Form, Input, InputGroup, Label } from "reactstrap";
-import { registerUser, registerCoach } from "./UserAxios.js";
+import { registerUser, registerCoach } from "../../services/registerLogin.service";
 
 class UserRegistrationForm extends React.Component {
   state = {

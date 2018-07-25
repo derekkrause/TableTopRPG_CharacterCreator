@@ -129,7 +129,7 @@ namespace Sabio.Services
         public bool Login(UserLoginRequest request)
         {
             string storedPassword = "";
-            string passwordInput = request.PasswordHash;
+            string passwordInput = request.Password;
 
             dataProvider.ExecuteCmd(
                 "User_Login",
