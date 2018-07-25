@@ -247,11 +247,14 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\AthletesController.cs" />
+    <Compile Include="Controllers\Api\AwsController.cs" />
     <Compile Include="Controllers\Api\BlogsController.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
+    <Compile Include="Controllers\Aws2Controller.cs" />
+    <Compile Include="Controllers\Aws2Service.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

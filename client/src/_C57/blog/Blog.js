@@ -1,8 +1,10 @@
 import React from "react";
 import IntlMessages from "util/IntlMessages";
-import BlogCard from "components/Cards/BlogCard";
+import BlogCard from "./BlogCard";
 import { getBlog, postBlog, putUpdateBlog, deleteBlog } from ".../../services/BlogServer";
 import BlogForm from "./BlogForm";
+import EditBlogModal from "./EditBlogModal";
+import "../customStyle.css";
 
 class Blog extends React.Component {
   state = {
@@ -36,25 +38,39 @@ class Blog extends React.Component {
   }
 
   handleSubmitBlog = payload => {
-    postBlog(payload)
-      .then(response => {
-        console.log("CREATE/POST", response);
-        this.setState({
-          title: "",
-          content: "",
-          imageUrl: "",
-          videoUrl: "",
-          blogForm: false
-        });
-      })
-      .catch(error => console.log(error));
+    let blogId = payload.id;
+    if (blogId) {
+      putUpdateBlog(payload, blogId)
+        .then(response => {
+          console.log("UPDATE/PUT", response);
+          this.setState({
+            title: "",
+            content: "",
+            imageUrl: "",
+            videoUrl: ""
+          });
+          window.location.reload();
+        })
+        .catch(error => console.log(error));
+    } else {
+      postBlog(payload)
+        .then(response => {
+          console.log("CREATE/POST", response);
+          this.setState({
+            title: "",
+            content: "",
+            imageUrl: "",
+            videoUrl: "",
+            blogForm: false
+          });
+          window.location.reload();
+        })
+        .catch(error => console.log(error));
+    }
   };
 
   handleUpdateBlog = blogId => {
     console.log("UPDATE", blogId);
-    this.setState({
-      editMode: true
-    });
   };
 
   handleDeleteBlog = blogId => {
@@ -126,6 +142,7 @@ class Blog extends React.Component {
               ) : (
                 <div />
               )}
+
               {this.state.blogs
                 .sort((a, b) => a.id - b.id)
                 .reverse()
@@ -136,6 +153,7 @@ class Blog extends React.Component {
                     editBlog={this.handleOnClickEditBlog}
                     handleDeleteBlog={() => this.handleDeleteBlog(blog.id)}
                     handleUpdateBlog={() => this.handleUpdateBlog(blog.id)}
+                    handleSubmitBlog={this.handleSubmitBlog}
                   />
                 ))}
             </div>

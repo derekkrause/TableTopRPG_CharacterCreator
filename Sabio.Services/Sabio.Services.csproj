@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AthletesService.cs" />
+    <Compile Include="AwsService.cs" />
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
