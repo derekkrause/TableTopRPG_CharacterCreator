@@ -7,7 +7,7 @@ class BlogCard extends React.Component {
     title: this.props.blog.title,
     content: this.props.blog.content,
     imageUrl: "",
-    videoUrl: "",
+    videoUrl: this.props.blog.videoUrl,
     editMode: false
   };
 
@@ -77,9 +77,6 @@ class BlogCard extends React.Component {
                     onChange={e => this.setState({ content: e.target.value })}
                   />
                 </div>
-
-                {/* <a href="javascript:void(0)" className="card-link text-uppercase"><i
-                    className="zmdi zmdi-image-o zmdi-hc-fw"/>latest pictures</a> */}
               </div>
             </form>
             <div className="btn-container text-right">
@@ -132,9 +129,6 @@ class BlogCard extends React.Component {
                 </span>
               </div>
               <p className="card-text text-muted">{this.props.blog.content}</p>
-
-              {/* <a href="javascript:void(0)" className="card-link text-uppercase"><i
-                    className="zmdi zmdi-image-o zmdi-hc-fw"/>latest pictures</a> */}
             </div>
             <div className="btn-container text-right">
               <button type="button" className="jr-btn jr-btn-default btn btn-default" onClick={this.handleOnClickEdit}>

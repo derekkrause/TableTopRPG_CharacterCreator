@@ -26,7 +26,7 @@ namespace Sabio.Web.Controllers.Api
         }
 
         [Route("{blogId:int}"), HttpPut]
-        public HttpResponseMessage Udate(BlogUpdateRequest blogUpdateRequest, int blogId)
+        public HttpResponseMessage Update(BlogUpdateRequest blogUpdateRequest, int blogId)
         {
             if(blogUpdateRequest == null)
             {

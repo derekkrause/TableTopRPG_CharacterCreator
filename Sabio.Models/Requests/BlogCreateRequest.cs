@@ -13,7 +13,6 @@ namespace Sabio.Models.Requests
         [Required, MaxLength(450)]
         public string Slug { get; set; }
 
-        [MaxLength(250)]
         public string ImageUrl { get; set; }
 
         [MaxLength(250)]

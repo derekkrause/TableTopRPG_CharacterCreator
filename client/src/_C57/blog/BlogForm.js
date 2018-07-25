@@ -30,14 +30,17 @@ class BlogForm extends React.Component {
     this.setState({
       imagePreview: URL.createObjectURL(e.target.files[0])
     });
-    // const formData = new FormData();
-    // formData.append("myFile", e.target.files[0]);
-    // axios.post("", formData).then(response => {
-    //   this.setState({
-    //     imageUrl: response.url,
-    //     imagePreview: URL.createObjectURL(e.target.files[0])
-    //   });
-    // });
+    const formData = new FormData();
+    formData.append("fileName", e.target.files[0]);
+    axios.put("api/files", formData).then(response => {
+      console.log("tempURL", response);
+      this.setState(
+        {
+          imageUrl: response.data.item
+        },
+        () => console.log("checking URL", this.state.imageUrl)
+      );
+    });
   };
 
   render() {
@@ -123,7 +126,7 @@ class BlogForm extends React.Component {
                     Link Video
                   </button>
                   <input
-                    id="myInput"
+                    id="ImageUpload"
                     type="file"
                     ref={ref => (this.upload = ref)}
                     style={{ display: "none" }}
@@ -132,10 +135,12 @@ class BlogForm extends React.Component {
                   />
                   <button
                     type="button"
+                    id="UploadButton"
                     className="jr-btn jr-btn-default btn btn-default"
                     onClick={() => {
                       this.upload.click();
                     }}
+                    // runat="server"
                   >
                     <i className="zmdi zmdi-image zmdi-hc-fw" />
                     Upload Images
