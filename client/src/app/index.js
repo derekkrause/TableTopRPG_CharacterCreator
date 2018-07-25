@@ -35,12 +35,35 @@ class App extends React.Component {
             <div className="app-main-content">
               <Switch>
                 <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() =>
+                    import("../_C57/Admin/AdminPage")
+                  )}
+                />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
+                />
+                <Route
+                  path={`${match.url}/faqs-page`}
+                  component={asyncComponent(() =>
+                    import("../_C57/FaqPage/Faqs")
+                  )}
+                />
+                <Route
+                  path={`${match.url}/fav-page`}
+                  component={asyncComponent(() =>
+                    import("../_C57/FavSchoolsAndCoachesPage/MainPage")
+                  )}
+                />
+                <Route
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
                 />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>
+
             <Footer />
           </main>
         </div>

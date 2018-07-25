@@ -13,14 +13,13 @@ const corsConfig = {
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
-
+const app = express();
 const fs = require("fs");
-
-dotenv.config();
 const port = process.env.PORT || 8080;
 
-const app = express();
+dotenv.config();
 
+app.use(cors(corsConfig));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -40,9 +39,7 @@ app.use((req, res, next) => {
   // and terminates server process with error ERR_HTTP_HEADERS_SENT.
   //next(new Error("Bazonga!"));
   const endTime = Date.now();
-  console.log(
-    "Response Time: " + endTime + " Elapsed: " + (endTime - startTime)
-  );
+  console.log("Response Time: " + endTime + " Elapsed: " + (endTime - startTime));
   // Request goes through, error is written to log.
   //throw new Error("Bazunga!");
 });
