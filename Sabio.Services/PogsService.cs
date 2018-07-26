@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sabio.Services
+namespace Sabio.Service
 {
     // "public" means this class is visible from other projects (e.g. Sabio.Web)
     // ": IPogsService" means "this class implements that IPogsService interface"

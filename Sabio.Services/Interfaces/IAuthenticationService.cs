@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sabio.Services
+namespace Sabio.Service
 {
     public interface IAuthenticationService
     {

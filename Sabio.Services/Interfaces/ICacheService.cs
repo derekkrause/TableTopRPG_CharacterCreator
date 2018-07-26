@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sabio.Services
+namespace Sabio.Service
 {
     public interface ICacheService
     {
