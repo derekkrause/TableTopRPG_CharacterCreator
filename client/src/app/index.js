@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Header from "components/Header/index";
 import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
-
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
@@ -19,12 +18,7 @@ import TopNav from "components/TopNav";
 
 class App extends React.Component {
   render() {
-    const {
-      match,
-      drawerType,
-      navigationStyle,
-      horizontalNavPosition
-    } = this.props;
+    const { match, drawerType, navigationStyle, horizontalNavPosition } = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -39,22 +33,14 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
-        <Route
-          path={`${match.url}/admin`}
-          component={asyncComponent(() =>
-            import("../containers/SideNav/index")
-          )}
-        />
+        <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
 
         <div className="app-main-container">
           <div className="app-header">
             {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === ABOVE_THE_HEADER && (
-                <TopNav styleName="app-top-header" />
-              )}
+              horizontalNavPosition === ABOVE_THE_HEADER && <TopNav styleName="app-top-header" />}
             <Header />
-            {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
+            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
           </div>
 
           <main className="app-main-content-wrapper">
@@ -62,9 +48,7 @@ class App extends React.Component {
               <Switch>
                 <Route
                   path={`${match.url}/admin`}
-                  component={asyncComponent(() =>
-                    import("../_C57/Admin/AdminPage")
-                  )}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
                 />
                 <Route
                   path={`${match.url}/sample-page`}
@@ -72,31 +56,18 @@ class App extends React.Component {
                 />
                 <Route
                   path={`${match.url}/faqs-page`}
-                  component={asyncComponent(() =>
-                    import("../_C57/FaqPage/Faqs")
-                  )}
+                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
                 <Route
                   path={`${match.url}/fav-page`}
-                  component={asyncComponent(() =>
-                    import("../_C57/FavSchoolsAndCoachesPage/MainPage")
-                  )}
+                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
                 <Route
                   path={`${match.url}/registration`}
-                  component={asyncComponent(() =>
-                    import("../_C57/UserRegistrationForm")
-                  )}
+                  component={asyncComponent(() => import("../_C57/UserRegistrationForm"))}
                 />
-                <Route
-                  path={`${match.url}/pogs`}
-                  component={asyncComponent(() => import("../_C57/PogAdmin"))}
-                />
-                <Route
-                  component={asyncComponent(() =>
-                    import("components/Error404")
-                  )}
-                />
+                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+                <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>
 

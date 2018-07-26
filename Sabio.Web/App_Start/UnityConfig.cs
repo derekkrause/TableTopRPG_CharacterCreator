@@ -2,6 +2,7 @@ using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Services;
 using Sabio.Services.Cryptography;
+using Sabio.Services;
 using Sabio.Web.Core.Services;
 using System.Configuration;
 using System.Security.Principal;
@@ -25,7 +26,7 @@ namespace Sabio.Web
             // it is NOT necessary to register your controllers
 
             // e.g. container.RegisterType<ITestService, TestService>();
-
+            
             // when another class's constructor asks for "IPogsService",
             // give them an instance of "PogsService"
             container.RegisterType<IPogsService, FakePogService>();
