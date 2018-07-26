@@ -14,8 +14,6 @@ import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
 
-import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
-
 class App extends React.Component {
   render() {
     const { match, drawerType, navigationStyle, horizontalNavPosition } = this.props;
@@ -57,12 +55,10 @@ class App extends React.Component {
                   path={`${match.url}/faqs-page`}
                   component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
-                {/* <Route
+                <Route
                   path={`${match.url}/fav-page`}
-                  component={asyncComponent(() =>
-                    import("../_C57/FavSchoolsAndCoachesPage/MainPage")
-                  )}
-                /> */}
+                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
+                />
                 <Route
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm"))}

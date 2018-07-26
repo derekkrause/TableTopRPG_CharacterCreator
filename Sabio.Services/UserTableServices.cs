@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using Sabio.Data.Providers;
+﻿using Sabio.Data.Providers;
+using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
-using Sabio.Models.Domain;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Sabio.Services
 {
-    public class UserTableServices
+    public class UserTableServices : IUserTableService
     {
         readonly IDataProvider dataProvider;
 

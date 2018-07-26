@@ -11,9 +11,9 @@ namespace Sabio.Web.Controllers.Api
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
-        readonly UserTableServices userTableServices;
+        readonly IUserTableService userTableServices;
 
-        public UserController(UserTableServices userTableServices)
+        public UserController(IUserTableService userTableServices)
         {
             this.userTableServices = userTableServices;
         }

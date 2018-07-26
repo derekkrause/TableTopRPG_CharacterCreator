@@ -175,6 +175,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Athlete"
                       id="athleteRadio"
+                      disabled
                     />
                     <Label className="custom-control-label" htmlFor="athleteRadio">
                       Athlete
@@ -199,6 +200,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Advocate"
                       id="advocateRadio"
+                      disabled
                     />
                     <Label className="custom-control-label" htmlFor="advocateRadio">
                       Advocate
@@ -211,6 +213,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Coach4Hire"
                       id="coach4hireRadio"
+                      disabled
                     />
                     <Label className="custom-control-label" htmlFor="coach4hireRadio">
                       Coach4Hire

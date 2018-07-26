@@ -30,10 +30,19 @@ class TopNav extends React.Component {
               <Button className="btn btn-link mb-0 ml-auto border-0" id="loginHelpPopover" onClick={this.popdown}>
                 Login Help
               </Button>
-              <Popover placement="bottom" isOpen={this.state.isOpen} target={"loginHelpPopover"} toggle={this.toggle}>
-                <PopoverBody innerClassName="d-flex flex-wrap justify-content-center">
-                  <Button className="btn btn-link no-border">Forgot Username</Button>
-                  <Button className="btn btn-link no-border">Forgot Password</Button>
+              <Popover
+                style={{ width: "120px" }}
+                placement="bottom"
+                isOpen={this.state.isOpen}
+                target={"loginHelpPopover"}
+                toggle={this.toggle}>
+                <PopoverBody className="d-flex flex-wrap justify-content-center p-1">
+                  <Button className="btn m-auto px-1 pb-1" color="link">
+                    Forgot Username
+                  </Button>
+                  <Button className="btn  m-auto px-1" color="link">
+                    Forgot Password
+                  </Button>
                 </PopoverBody>
               </Popover>
             </div>
