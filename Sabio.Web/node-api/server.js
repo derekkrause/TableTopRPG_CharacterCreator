@@ -3,22 +3,12 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const routes = require("./app/routes");
 const dotenv = require("dotenv");
-const cors = require("cors");
 const app = express();
 const fs = require("fs");
-const port = process.env.PORT || 8080;
-const corsConfig = {
-  origin: process.env.TENANT_DOMAIN,
-  methods: "GET,PUT,POST,DELETE",
-  credentials: true,
-  allowedHeaders: "Origin,X-Requested-With,Content-Type,Accept,Cookie",
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
 
 dotenv.config();
+const port = process.env.PORT || 8080;
 
-app.use(cors(corsConfig));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
