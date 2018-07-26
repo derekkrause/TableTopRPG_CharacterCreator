@@ -35,10 +35,12 @@ class App extends React.Component {
             <div className="app-main-content">
               <Switch>
                 <Route
+                  path={`${match.url}/home`}
+                  component={asyncComponent(() => import("../_C57/HomePage/Homepage"))}
+                />
+                <Route
                   path={`${match.url}/admin`}
-                  component={asyncComponent(() =>
-                    import("../_C57/Admin/AdminPage")
-                  )}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
                 />
                 <Route
                   path={`${match.url}/sample-page`}
@@ -46,19 +48,17 @@ class App extends React.Component {
                 />
                 <Route
                   path={`${match.url}/faqs-page`}
-                  component={asyncComponent(() =>
-                    import("../_C57/FaqPage/Faqs")
-                  )}
+                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
-                <Route
+                {/* <Route
                   path={`${match.url}/fav-page`}
                   component={asyncComponent(() =>
                     import("../_C57/FavSchoolsAndCoachesPage/MainPage")
                   )}
-                />
+                /> */}
                 <Route
                   path={`${match.url}/registration`}
-                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
+                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm"))}
                 />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
