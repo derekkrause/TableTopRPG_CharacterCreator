@@ -1,4 +1,5 @@
-﻿using Sabio.Services;
+﻿using Sabio.Models.Domain;
+using Sabio.Services;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -17,8 +18,8 @@ namespace Sabio.Web.Controllers.Api
         [Route("athletes"), HttpGet]
         public HttpResponseMessage Search(string q)
         {
-            searchesService.Search(q);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            AthleteInfo athleteInfo = searchesService.Search(q);
+            return Request.CreateResponse(HttpStatusCode.OK, athleteInfo);
         }
     }
 }

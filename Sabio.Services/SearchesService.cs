@@ -26,15 +26,10 @@ namespace Sabio.Services
                     AthleteInfo athleteInfo = new AthleteInfo
                     {
                         FirstName = (string)reader["FirstName"],
-                        MiddleName = (string)reader["MiddleName"],
                         LastName = (string)reader["LastName"],
-                        AvatarUrl = (string)reader["AvatarUrl"],
-                        DOB = (DateTime)reader["DOB"],
-                        ClassYearId = (int)reader["ClassYearId"],
-                        HighSchoolGraduationYear = (int)reader["HighSchoolGraduationYear"]
-
+                        DOB = (DateTime)reader["DOB"]
                     };
-                    /*object classYearId = reader["ClassYearId"];
+                    object classYearId = reader["ClassYearId"];
                     if (classYearId != DBNull.Value)
                     {
                         athleteInfo.ClassYearId = (int)classYearId;
@@ -48,7 +43,12 @@ namespace Sabio.Services
                     if (middleName != DBNull.Value)
                     {
                         athleteInfo.MiddleName = (string)middleName;
-                    }*/
+                    }
+                    object avatarUrl = reader["AvatarUrl"];
+                    if (avatarUrl != DBNull.Value)
+                    {
+                        athleteInfo.AvatarUrl = (string)avatarUrl;
+                    }
                     newAthleteInfo = athleteInfo;
                 });
             return newAthleteInfo;

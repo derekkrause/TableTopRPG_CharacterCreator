@@ -13,7 +13,7 @@ namespace Sabio.Models.Domain
         public string LastName { get; set; }
         public string AvatarUrl { get; set; }
         public DateTime DOB { get; set; }
-        public int ClassYearId { get; set; }
-        public int HighSchoolGraduationYear { get; set; }
+        public int? ClassYearId { get; set; }
+        public int? HighSchoolGraduationYear { get; set; }
     }
 }
