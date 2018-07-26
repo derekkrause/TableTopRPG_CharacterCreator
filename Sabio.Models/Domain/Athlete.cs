@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sabio.Data.Models
+namespace Sabio.Models.Domain
 {
     public class Athlete
     {

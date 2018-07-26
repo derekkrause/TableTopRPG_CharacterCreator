@@ -60,6 +60,10 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
                 />
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+                <Route
+                  path={`${match.url}/video-player`}
+                  component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}
+                />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>

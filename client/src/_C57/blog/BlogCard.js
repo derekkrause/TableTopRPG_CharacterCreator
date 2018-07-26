@@ -1,6 +1,6 @@
 import React from "react";
 import CardLayout from "components/CardLayout";
-import VideoPlayer from "components/VideoPlayer/videoPlayer";
+import VideoPlayerContainer from "components/VideoPlayer/VideoPlayerContainer";
 
 class BlogCard extends React.Component {
   state = {
@@ -56,7 +56,7 @@ class BlogCard extends React.Component {
             ) : (
               <img className="img-fluid" src={this.props.blog.imageUrl} alt="Card image cap" />
             )}
-            {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayer videoUrl={this.props.blog.videoUrl} />}
+            {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayerContainer videoUrl={this.props.blog.videoUrl} />}
             <form>
               <div className="card-body">
                 <h4> Title </h4>
@@ -118,7 +118,7 @@ class BlogCard extends React.Component {
             ) : (
               <img className="img-fluid" src={this.props.blog.imageUrl} alt="Card image cap" />
             )}
-            {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayer videoUrl={this.props.blog.videoUrl} />}
+            {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayerContainer videoUrl={this.props.blog.videoUrl} />}
             <div className="card-body">
               <h3>{this.props.blog.title.charAt(0).toUpperCase() + this.props.blog.title.slice(1)}</h3>
 

@@ -1,14 +1,13 @@
-﻿
-using Sabio.Data.Models;
-using Sabio.Data.Providers;
+﻿using Sabio.Data.Providers;
 using Sabio.Models;
+using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Sabio.Data.Services
+namespace Sabio.Services
 {
     public class AthletesService
     {

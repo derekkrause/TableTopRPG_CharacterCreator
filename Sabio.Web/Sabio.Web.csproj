@@ -251,10 +251,9 @@
     <Compile Include="Controllers\Api\BlogsController.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
+    <Compile Include="Controllers\Api\SearchesController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
-    <Compile Include="Controllers\Aws2Controller.cs" />
-    <Compile Include="Controllers\Aws2Service.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

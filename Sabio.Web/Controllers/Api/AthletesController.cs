@@ -1,10 +1,9 @@
 ﻿
-
-using Sabio.Data.Models;
-using Sabio.Data.Services;
 using Sabio.Models;
+using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
+using Sabio.Services;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -21,7 +20,7 @@ namespace Sabio.Web.Controllers.Api
             this.athletesService = athletesService;
         }
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
-        public HttpResponseMessage GetAll(int pageSize, int pageIndex)
+        public HttpResponseMessage GetAll(int pageIndex, int pageSize)
         {
             PagedItemResponse<Athlete> pagedItemResponse = athletesService.GetAll(pageIndex, pageSize);
 

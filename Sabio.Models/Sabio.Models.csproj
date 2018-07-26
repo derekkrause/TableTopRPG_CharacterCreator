@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\Blog.cs" />
+    <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Interfaces\IUserAuthData.cs" />
     <Compile Include="Requests\AthleteInsertRequest.cs" />
