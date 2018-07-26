@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import SchoolTable from "./SchoolAdmin/SchoolTable";
 import SchoolForm from "./SchoolAdmin/SchoolForm";
 import AdminSideBar from "./AdminSideBar";
+import SportAdminPage from "./SportAdmin/SportAdminPage";
 
 class AdminPage extends React.Component {
   state = {
@@ -19,15 +20,12 @@ class AdminPage extends React.Component {
     return (
       <div className="container ">
         <div className="row " style={{ margin: "24px" }}>
-          {!this.state.editContent && (
-            <Route
-              path={`${this.props.match.url}/school`}
-              render={() => <SchoolTable editForm={this.editForm} />}
-            />
-          )}
-          {this.state.editContent && <SchoolForm editForm={this.editForm} />}
+          <div className="col-12">
+            <Route path={`${this.props.match.url}/school`} render={() => <SchoolTable />} />
+            <Route path={`${this.props.match.url}/sports`} render={props => <SportAdminPage {...props} />} />
 
-          {/* your admin table populated with your data will be placed here */}
+            {/* your admin table populated with your data will be placed here */}
+          </div>
         </div>
       </div>
     );

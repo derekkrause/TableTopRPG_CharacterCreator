@@ -248,6 +248,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
+    <Compile Include="Controllers\Api\SportController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
     <Compile Include="Global.asax.cs">

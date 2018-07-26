@@ -48,10 +48,7 @@ class AdminSideBarContent extends React.Component {
 
             <ul>
               <li className="menu ">
-                <button
-                  className="btn btn-link dropdown-toggle"
-                  onClick={this.toggleClass}
-                >
+                <button className="btn btn-link dropdown-toggle" onClick={this.toggleClass}>
                   Schools
                 </button>
 
@@ -59,23 +56,21 @@ class AdminSideBarContent extends React.Component {
                   <React.Fragment>
                     <ul>
                       <li>
-                        <NavLink to={`${this.props.match.url}/school`}>
-                          College
-                        </NavLink>
+                        <NavLink to={`${this.props.match.url}/school`}>College</NavLink>
                       </li>
                       <li>
-                        <NavLink to={`${this.props.match.url}/school`}>
-                          High School
-                        </NavLink>
+                        <NavLink to={`${this.props.match.url}/school`}>High School</NavLink>
                       </li>
                     </ul>
                   </React.Fragment>
                 )}
               </li>
               <li>
-                <button className="btn btn-link" style={{ marginTop: "10px" }}>
-                  Sports
-                </button>
+                <NavLink to={`${this.props.match.url}/sports`}>
+                  <button className="btn btn-link" style={{ marginTop: "10px" }}>
+                    Sports
+                  </button>
+                </NavLink>
               </li>
             </ul>
           </div>

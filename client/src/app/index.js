@@ -3,6 +3,13 @@ import { withRouter } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
+import {
+  ABOVE_THE_HEADER,
+  BELOW_THE_HEADER,
+  COLLAPSED_DRAWER,
+  FIXED_DRAWER,
+  HORIZONTAL_NAVIGATION
+} from "constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
@@ -11,7 +18,7 @@ import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
 class App extends React.Component {
   render() {
-    const { match, drawerType } = this.props;
+    const { match, drawerType, navigationStyle, horizontalNavPosition } = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -60,6 +67,7 @@ class App extends React.Component {
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm"))}
                 />
+                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>
