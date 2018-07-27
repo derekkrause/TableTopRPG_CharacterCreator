@@ -4,7 +4,7 @@ import VideoPlayer from "./VideoPlayer";
 class VideoPlayerContainer extends React.Component {
   state = {
     controls: true,
-    height: "auto",
+    height: "100%",
     width: "100%",
     volume: 0.8,
     playing: false,

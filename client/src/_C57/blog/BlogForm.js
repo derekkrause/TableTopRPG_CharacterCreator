@@ -1,7 +1,8 @@
 import React from "react";
 import IntlMessages from "util/IntlMessages";
-import "../customStyle.css";
+import "./Blog.css";
 import axios from "axios";
+import FileUploader from "../FileUploader/FileUploader";
 
 class BlogForm extends React.Component {
   state = {
@@ -11,7 +12,9 @@ class BlogForm extends React.Component {
     imagePreview: "",
     authorId: 13,
     isPublished: 1,
-    videoUrl: ""
+    videoUrl: "",
+    presignedUrl: "",
+    fileUrl: ""
   };
 
   handleOnClickPayload = () => {
@@ -27,30 +30,40 @@ class BlogForm extends React.Component {
   };
 
   handleChange = e => {
+    var file = e.target.files[0];
+
     this.setState({
-      imagePreview: URL.createObjectURL(e.target.files[0])
+      imagePreview: URL.createObjectURL(file)
     });
-    const formData = new FormData();
-    formData.append("fileName", e.target.files[0]);
-    axios.put("api/files", formData).then(response => {
+
+    axios.put("api/s3files").then(response => {
       console.log("tempURL", response);
+      var presignedUrl = response.data.item;
+      var options = {
+        headers: {
+          "Content-Type": file.type
+        }
+      };
       this.setState(
         {
-          imageUrl: response.data.item
+          imageUrl: presignedUrl.split("?", 2)[0]
         },
-        () => console.log("checking URL", this.state.imageUrl)
+        () => console.log("finalURL", this.state.imageUrl)
       );
+      axios.put(presignedUrl, file, options).then(s3res => {
+        console.log("Uploaded", s3res);
+      });
     });
   };
 
   render() {
     return (
       <div>
-        <div className="undifined card">
+        <div className="undefined card">
           <div className="bg-primary text-white card-header">
             <div className="row">
-              <div className="col-md-10 col-10">Add Your Story</div>
-              <div className="col-md-2 col-2 text-right">
+              <div className="col-md-8 col-8">Add Your Story</div>
+              <div className="col-md-4 col-4 text-right">
                 <button
                   type="button"
                   onClick={this.props.closeBlogForm}
@@ -100,7 +113,7 @@ class BlogForm extends React.Component {
                     />
                     <div className="input-group-append">
                       <button className="btn btn-secondary" type="button" onClick={this.props.handleOnclickVideoLink}>
-                        Remove
+                        Clear
                       </button>
                     </div>
                   </div>
@@ -110,13 +123,14 @@ class BlogForm extends React.Component {
               )}
             </form>
 
-            <div className="row mt-5">
-              <div className="col-md-10 col-10">
+            <div className="mt-4 row">
+              <div className="col-md-8 col-8">
+                {/* <FileUploader fileUrl={this.state.fileUrl} /> */}
                 <div>
-                  <button type="button" className="jr-btn jr-btn-default btn btn-default">
+                  {/* <button type="button" className="jr-btn jr-btn-default btn btn-default">
                     <i className="zmdi zmdi-collection-text zmdi-hc-fw" />
                     Write an article
-                  </button>
+                  </button> */}
                   <button
                     type="button"
                     className="jr-btn jr-btn-default btn btn-default"
@@ -128,6 +142,7 @@ class BlogForm extends React.Component {
                   <input
                     id="ImageUpload"
                     type="file"
+                    name="key"
                     ref={ref => (this.upload = ref)}
                     style={{ display: "none" }}
                     onChange={this.handleChange}
@@ -145,13 +160,12 @@ class BlogForm extends React.Component {
                     <i className="zmdi zmdi-image zmdi-hc-fw" />
                     Upload Images
                   </button>
-
                   {/* <input type="file" onChange={this.handleChange} /> */}
                 </div>
                 <div />
               </div>
 
-              <div className="col-md-2 col-2 text-right">
+              <div className="col-md-4 col-4 text-right">
                 <button type="button" className="jr-btn btn btn-primary" onClick={this.handleOnClickPayload}>
                   Post
                 </button>

@@ -4,12 +4,11 @@ const cookieParser = require("cookie-parser");
 const routes = require("./app/routes");
 const dotenv = require("dotenv");
 
+const app = express();
 const fs = require("fs");
 
 dotenv.config();
 const port = process.env.PORT || 8080;
-
-const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

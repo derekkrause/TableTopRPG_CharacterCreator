@@ -9,7 +9,7 @@ export function postBlog(payload) {
 }
 
 export function putUpdateBlog(payload, blogId) {
-  return axios.put("/api/blogs/" + blogId, payload);
+  return axios.put("/blogId", payload, blogId);
 }
 
 export function deleteBlog(blogId) {

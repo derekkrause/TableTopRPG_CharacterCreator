@@ -49,13 +49,9 @@ class Menu extends Component {
     try {
       let matchesFn;
       // find vendor prefix
-      [
-        "matches",
-        "webkitMatchesSelector",
-        "mozMatchesSelector",
-        "msMatchesSelector",
-        "oMatchesSelector"
-      ].some(function(fn) {
+      ["matches", "webkitMatchesSelector", "mozMatchesSelector", "msMatchesSelector", "oMatchesSelector"].some(function(
+        fn
+      ) {
         if (typeof document.body[fn] == "function") {
           matchesFn = fn;
           return true;

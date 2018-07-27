@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sabio.Services.Security;
+using Sabio.Service.Security;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 

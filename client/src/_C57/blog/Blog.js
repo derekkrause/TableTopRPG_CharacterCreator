@@ -1,10 +1,11 @@
 import React from "react";
-import IntlMessages from "util/IntlMessages";
 import BlogCard from "./BlogCard";
-import { getBlog, postBlog, putUpdateBlog, deleteBlog } from ".../../services/BlogServer";
+import { getBlog, postBlog, putUpdateBlog, deleteBlog } from "../../services/blog.sevice";
 import BlogForm from "./BlogForm";
-import EditBlogModal from "./EditBlogModal";
-import "../customStyle.css";
+import "./Blog.css";
+import VideoPlayerContainer from "components/VideoPlayer/VideoPlayerContainer";
+import AlertModals from "./ConfirmModal";
+import axios from "axios";
 
 class Blog extends React.Component {
   state = {
@@ -23,7 +24,8 @@ class Blog extends React.Component {
     formFileBtn: true,
     videoUrl: "",
     blogId: 0,
-    updateBtn: false
+    updateBtn: false,
+    modal: false
   };
 
   componentDidMount() {
@@ -73,9 +75,14 @@ class Blog extends React.Component {
     console.log("UPDATE", blogId);
   };
 
-  handleDeleteBlog = blogId => {
+  handleDeleteBlog = () => {
+    const blogId = this.state.blogId;
     deleteBlog(blogId).then(response => {
       console.log("DELETE", response);
+      this.setState({
+        modal: !this.state.modal,
+        blogId: ""
+      });
       window.location.reload();
     });
   };
@@ -103,7 +110,12 @@ class Blog extends React.Component {
     }
   };
 
-  hancleOnclickImageUpload = () => {};
+  handleModalToggle = blogId => {
+    this.setState({
+      modal: !this.state.modal,
+      blogId
+    });
+  };
 
   render() {
     return (
@@ -111,11 +123,11 @@ class Blog extends React.Component {
         <div className="animated slideInUpTiny animation-duration">
           <div className="row">
             <div className="animation slideInLeft">
-              <div className="jr-btn-group row">
-                <div className="col-md-10 col-9 mt-4">
-                  <h1> Blog </h1>
+              <div className="row cus-page-header-container">
+                <div className="col-md-6 col-6 mt-4">
+                  <h1> Feed </h1>
                 </div>
-                <div className="col-md-2 col-3 mt-4 text-right">
+                <div className="col-md-6 col-6 mt-4 text-right">
                   {this.state.blogForm ? (
                     <div />
                   ) : (
@@ -142,20 +154,30 @@ class Blog extends React.Component {
               ) : (
                 <div />
               )}
-
-              {this.state.blogs
-                .sort((a, b) => a.id - b.id)
-                .reverse()
-                .map(blog => (
-                  <BlogCard
-                    key={blog.id}
-                    blog={blog}
-                    editBlog={this.handleOnClickEditBlog}
-                    handleDeleteBlog={() => this.handleDeleteBlog(blog.id)}
-                    handleUpdateBlog={() => this.handleUpdateBlog(blog.id)}
-                    handleSubmitBlog={this.handleSubmitBlog}
-                  />
-                ))}
+              <div className="cus-card-container">
+                {this.state.blogs
+                  .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
+                  .reverse()
+                  .map(blog => (
+                    <BlogCard
+                      key={blog.id}
+                      blog={blog}
+                      editBlog={this.handleOnClickEditBlog}
+                      handleUpdateBlog={() => this.handleUpdateBlog(blog.id)}
+                      handleModalToggle={() => this.handleModalToggle(blog.id)}
+                      handleSubmitBlog={this.handleSubmitBlog}
+                      imageUrl={this.state.imageUrl}
+                      handleOnClickUploader={this.handleOnClickUploader}
+                    />
+                  ))}
+              </div>
+              <div>
+                <AlertModals
+                  handleModalToggle={this.handleModalToggle}
+                  modal={this.state.modal}
+                  handleDeleteBlog={this.handleDeleteBlog}
+                />
+              </div>
             </div>
           </div>
         </div>

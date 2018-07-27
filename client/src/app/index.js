@@ -44,6 +44,9 @@ class App extends React.Component {
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
+              <div style={{ overflow: "auto" }}>
+                <ProfileContainer />
+              </div>
               <Switch>
                 {/* <Route
                 <Route
@@ -56,22 +59,24 @@ class App extends React.Component {
                     import("./routes/SamplePage")
                   )}
                 /> */}
-                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("./routes/blog/Blog"))} />
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer.js"))}
-                />
+                {/* <Route
+                  path={`${match.url}/blog-page`}
+                  component={asyncComponent(() => import("./routes/blog/Blog"))}
+                /> */}
                 <Route
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
                 />
                 <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
                 <Route
-                  path={`${match.url}/athlete`}
-                  component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
                 />
                 <Route
-                  component={asyncComponent(() => import("components/Error404"))}
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer.js"))}
+                />
+                <Route
                   path={`${match.url}/faqs-page`}
                   component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />

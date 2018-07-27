@@ -11,9 +11,9 @@ namespace Sabio.Web.Controllers.Api
     [RoutePrefix("api/pogs")]
     public class PogsController : ApiController
     {
-        readonly PogsService pogsService;
+        readonly IPogsService pogsService;
 
-        public PogsController(PogsService pogsService)
+        public PogsController(IPogsService pogsService)
         {
             this.pogsService = pogsService;
         }

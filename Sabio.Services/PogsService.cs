@@ -2,14 +2,16 @@
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
+using Sabio.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Sabio.Services
+namespace Sabio.Service
 {
     // "public" means this class is visible from other projects (e.g. Sabio.Web)
-    public class PogsService
+    // ": IPogsService" means "this class implements that IPogsService interface"
+    public class PogsService : IPogsService
     {
         // This is the pattern you use for "dependency injection":
 

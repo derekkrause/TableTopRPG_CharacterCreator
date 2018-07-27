@@ -1,6 +1,7 @@
 import React from "react";
 import CardLayout from "components/CardLayout";
 import VideoPlayerContainer from "components/VideoPlayer/VideoPlayerContainer";
+import { putPresigedUrl, putUploadFile } from "services/s3.service";
 
 class BlogCard extends React.Component {
   state = {
@@ -8,7 +9,8 @@ class BlogCard extends React.Component {
     content: this.props.blog.content,
     imageUrl: "",
     videoUrl: this.props.blog.videoUrl,
-    editMode: false
+    editMode: false,
+    filePreview: ""
   };
 
   handleOnClickEdit = () => {
@@ -37,28 +39,71 @@ class BlogCard extends React.Component {
       editMode: false
     });
   };
+
+  handleOnClickUploader = e => {
+    var file = e.target.files[0];
+
+    putPresigedUrl().then(res => {
+      console.log("PresignedURL", res);
+      var presignedUrl = res.data.item;
+      var options = {
+        headers: {
+          "Content-Type": file.type
+        }
+      };
+
+      putUploadFile(presignedUrl, file, options).then(s3res => {
+        console.log("Uploaded", this.state.imageUrl);
+      });
+
+      this.setState({
+        imageUrl: presignedUrl.split("?", 2)[0]
+      });
+    });
+  };
+
   render() {
     return (
       <CardLayout styleName="col-lg-6">
         {this.state.editMode ? (
           <React.Fragment>
-            <div className="card-header">
+            <div className="cus-card-header">
               <div className="user-profile d-flex flex-row align-items-center">
                 <img alt="..." src={this.props.blog.avatarUrl} className="user-avatar rounded-circle" />
                 <div className="user-detail">
                   <h5 className="user-name">{this.props.blog.firstName}</h5>
-                  <p className="user-description">{this.props.blog.description}</p>
+                  <p className="user-description">school and sport type</p>
                 </div>
               </div>
             </div>
-            {this.props.blog.imageUrl == "" ? (
-              <div />
-            ) : (
-              <img className="img-fluid" src={this.props.blog.imageUrl} alt="Card image cap" />
-            )}
-            {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayerContainer videoUrl={this.props.blog.videoUrl} />}
+
             <form>
+              {this.props.blog.imageUrl == "" ? (
+                <div />
+              ) : (
+                <img className="img-fluid" src={this.props.blog.imageUrl} alt="Card image cap" />
+              )}
+
+              {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayerContainer videoUrl={this.props.blog.videoUrl} />}
+
               <div className="card-body">
+                {this.props.blog.videoUrl == "" ? (
+                  <div />
+                ) : (
+                  <React.Fragment>
+                    <div className="mt-4">
+                      <h4> Video Link</h4>
+                      <div className="input-group mb-3">
+                        <input
+                          className="form-control"
+                          type="text"
+                          value={this.state.videoUrl}
+                          onChange={e => this.setState({ videoUrl: e.target.value })}
+                        />
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )}
                 <h4> Title </h4>
                 <input
                   className="form-control"
@@ -95,17 +140,17 @@ class BlogCard extends React.Component {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <div className="card-header">
+            <div className="cus-card-header">
               <div className="user-profile d-flex flex-row align-items-center">
                 <img alt="..." src={this.props.blog.avatarUrl} className="user-avatar rounded-circle" />
-                <div className="user-detail">
-                  <h5 className="user-name">{this.props.blog.firstName}</h5>
-                  <p className="user-description">{this.props.blog.description}</p>
+                <div className="user-detail cus-user-detail">
+                  <h4 className="user-name">{this.props.blog.firstName}</h4>
+                  <p className="user-description">school and sport type</p>
                 </div>
                 <div className="text-right">
                   <button
                     type="button"
-                    onClick={this.props.handleDeleteBlog}
+                    onClick={this.props.handleModalToggle}
                     className="jr-btn jr-flat-btn btn btn-default"
                   >
                     <i className="zmdi zmdi-delete zmdi-hc-lg" /> &nbsp;Delete
@@ -118,15 +163,32 @@ class BlogCard extends React.Component {
             ) : (
               <img className="img-fluid" src={this.props.blog.imageUrl} alt="Card image cap" />
             )}
-            {this.props.blog.videoUrl == "" ? <div /> : <VideoPlayerContainer videoUrl={this.props.blog.videoUrl} />}
+            {this.props.blog.videoUrl == "" ? (
+              <div />
+            ) : (
+              <div className="videoWrapper">
+                <VideoPlayerContainer videoUrl={this.props.blog.videoUrl} />
+              </div>
+            )}
             <div className="card-body">
               <h3>{this.props.blog.title.charAt(0).toUpperCase() + this.props.blog.title.slice(1)}</h3>
 
               <div className="meta-wrapper">
-                <span className="meta-date">
-                  <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
-                  {this.props.blog.dateCreated.substring(0, 10)}
-                </span>
+                {this.props.blog.dateModified == this.props.blog.dateCreated ? (
+                  <React.Fragment>
+                    <span className="meta-date">
+                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />&nbsp;
+                      {this.props.blog.dateModified.substring(0, 10)}
+                    </span>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <span className="meta-date">
+                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />&nbsp;
+                      {this.props.blog.dateCreated.substring(0, 10)} &nbsp; Updated
+                    </span>
+                  </React.Fragment>
+                )}
               </div>
               <p className="card-text text-muted">{this.props.blog.content}</p>
             </div>

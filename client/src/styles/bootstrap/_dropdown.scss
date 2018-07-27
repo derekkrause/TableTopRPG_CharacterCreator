@@ -129,3 +129,7 @@
   color: $dropdown-header-color;
   white-space: nowrap; // as with > li > a
 }
+
+option:first-child{
+  display: none
+}

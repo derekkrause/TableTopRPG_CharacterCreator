@@ -1,4 +1,4 @@
-﻿using Sabio.Models;
+using Sabio.Models;
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;

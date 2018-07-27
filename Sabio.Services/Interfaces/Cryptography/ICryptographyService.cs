@@ -1,4 +1,4 @@
-﻿namespace Sabio.Services.Cryptography
+﻿namespace Sabio.Service.Cryptography
 {
     public interface ICryptographyService
     {

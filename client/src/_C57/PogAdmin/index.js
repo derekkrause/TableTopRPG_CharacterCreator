@@ -1,5 +1,5 @@
 import React from "react";
-import { search } from "../../services/pog.service";
+import { search as pogSearch } from "../../services/pog.service";
 import { Badge, Button } from "reactstrap";
 import moment from "moment";
 
@@ -14,17 +14,19 @@ class PogAdmin extends React.Component {
   };
 
   onClick = () => {
-    search(this.state.searchString, 0, this.state.pageSize).then(response => {
-      const result = response.data.item;
-      debugger;
-      this.setState({
-        pageIndex: result.pageIndex,
-        pageSize: result.pageSize,
-        pogs: result.pagedItems,
-        totalCount: result.totalCount,
-        totalPages: result.totalPages
-      });
-    });
+    pogSearch(this.state.searchString, 0, this.state.pageSize).then(
+      response => {
+        const result = response.data.item;
+        debugger;
+        this.setState({
+          pageIndex: result.pageIndex,
+          pageSize: result.pageSize,
+          pogs: result.pagedItems,
+          totalCount: result.totalCount,
+          totalPages: result.totalPages
+        });
+      }
+    );
   };
 
   onChange = e => {
