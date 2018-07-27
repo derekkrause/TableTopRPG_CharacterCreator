@@ -4,7 +4,7 @@ using System.Text;
 using System.Web.Security;
 
 
-namespace Sabio.Services.Cryptography
+namespace Sabio.Service.Cryptography
 {
     public class Base64StringCryptographyService : ICryptographyService
     {

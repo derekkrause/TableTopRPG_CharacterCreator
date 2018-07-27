@@ -9,7 +9,7 @@ using Sabio.Web.Core.Services.Security;
 using System;
 using System.Configuration;
 using System.Web;
-using Sabio.Services.Security;
+using Sabio.Service.Security;
 using Sabio.Web.Core.Security.Jwt;
 
 namespace Sabio.Web

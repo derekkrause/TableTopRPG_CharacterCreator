@@ -11,11 +11,13 @@ using System.Threading.Tasks;
 
 namespace Sabio.Services
 {
-    public class SportService : ISportServices
+
+    public class SportServices : ISportServices
     {
         readonly IDataProvider dataProvider;
 
-        public SportService(IDataProvider dataProvider)
+        public SportServices(IDataProvider dataProvider)
+
         {
             this.dataProvider = dataProvider;
         }

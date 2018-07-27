@@ -47,30 +47,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Pog.cs" />
+    <Compile Include="Domain\Sport.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Interfaces\ISportServices.cs" />
     <Compile Include="Interfaces\IUserAuthData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Requests\SportUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Requests\UserLoginRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />
+    <Compile Include="Requests\SportUpdateRequest.cs" />
+    <Compile Include="Requests\UserCreateRequest.cs" />
+    <Compile Include="Requests\UserUpdateRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
     <Compile Include="Responses\ItemResponse.cs" />
     <Compile Include="Responses\ItemsResponse.cs" />
     <Compile Include="Responses\PagedItemResponse.cs" />
     <Compile Include="Responses\SuccessResponse.cs" />
-    <Compile Include="Domain\User.cs" />
-    <Compile Include="Requests\UserCreateRequest.cs" />
-    <Compile Include="Requests\UserUpdateRequest.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\JsViewModel.cs" />
     <Compile Include="ViewModels\SabioViewModel.cs" />
-    <Compile Include="Domain\Sport.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>

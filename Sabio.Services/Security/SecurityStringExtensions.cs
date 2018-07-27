@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sabio.Services.Security
+namespace Sabio.Service.Security
 {
     public static class SecurityStringExtensions
     {

@@ -10,12 +10,12 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Sabio.Services.Security;
+using Sabio.Service.Security;
 
 
 namespace Sabio.Web.Core.Services
 {
-    public class OwinAuthenticationService : Sabio.Services.IAuthenticationService
+    public class OwinAuthenticationService : Sabio.Service.IAuthenticationService
     {
         private static string _title = null;
        

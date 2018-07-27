@@ -2,13 +2,8 @@
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using Sabio.Services;
-using Sabio.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api

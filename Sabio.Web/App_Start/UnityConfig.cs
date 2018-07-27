@@ -2,6 +2,7 @@ using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Services;
 using Sabio.Services.Cryptography;
+using Sabio.Models.Interfaces;
 using Sabio.Web.Core.Services;
 using System.Configuration;
 using System.Security.Principal;
@@ -44,6 +45,8 @@ namespace Sabio.Web
 
 
             container.RegisterType<IUserService, UserService>(new ContainerControlledLifetimeManager());
+
+            container.RegisterType<ISportServices, SportServices>(new ContainerControlledLifetimeManager());
 
             System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
 
