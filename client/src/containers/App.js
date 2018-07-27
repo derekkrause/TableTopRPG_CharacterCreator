@@ -11,6 +11,11 @@ import "styles/app-rtl.scss";
 import AppLocale from "../lngProvider";
 import MainApp from "app/index";
 import asyncComponent from "util/asyncComponent";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHandRock } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faHandRock);
 
 class App extends Component {
   render() {
@@ -35,7 +40,6 @@ class App extends Component {
         <div className="app-main">
           <Switch>
             <Route path={`${match.url}app`} component={MainApp} />
-
             <Route
               component={asyncComponent(() => import("components/Error404"))}
             />

@@ -265,3 +265,4 @@ __pycache__/
 *.pyc
 
 package-lock.json
+._README.md

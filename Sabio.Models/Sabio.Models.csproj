@@ -46,8 +46,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\Blog.cs" />
+    <Compile Include="Domain\Pog.cs" />
+    <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\Sport.cs" />
     <Compile Include="Domain\User.cs" />

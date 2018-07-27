@@ -98,7 +98,10 @@ class BlogForm extends React.Component {
                 <div />
               ) : (
                 <div className="mt-4">
-                  <img src={this.state.imagePreview} className="upload-img-preview" />
+                  <img
+                    src={this.state.imagePreview}
+                    className="upload-img-preview"
+                  />
                 </div>
               )}
               {this.props.formVideoLinkInput ? (
@@ -109,10 +112,16 @@ class BlogForm extends React.Component {
                       className="form-control"
                       type="text"
                       value={this.state.videoUrl}
-                      onChange={e => this.setState({ videoUrl: e.target.value })}
+                      onChange={e =>
+                        this.setState({ videoUrl: e.target.value })
+                      }
                     />
                     <div className="input-group-append">
-                      <button className="btn btn-secondary" type="button" onClick={this.props.handleOnclickVideoLink}>
+                      <button
+                        className="btn btn-secondary"
+                        type="button"
+                        onClick={this.props.handleOnclickVideoLink}
+                      >
                         Clear
                       </button>
                     </div>
@@ -166,7 +175,11 @@ class BlogForm extends React.Component {
               </div>
 
               <div className="col-md-4 col-4 text-right">
-                <button type="button" className="jr-btn btn btn-primary" onClick={this.handleOnClickPayload}>
+                <button
+                  type="button"
+                  className="jr-btn btn btn-primary"
+                  onClick={this.handleOnClickPayload}
+                >
                   Post
                 </button>
               </div>
