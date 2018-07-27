@@ -2,10 +2,9 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import Header from "components/Header/index";
-import Sidebar from "containers/SideNav/index";
 import Footer from "components/Footer";
-
+import ProfileContainer from "../_C57/Profile/ProfileContainer";
+import CustomScrollbars from "../util/CustomScrollbars";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
@@ -14,8 +13,11 @@ import {
   HORIZONTAL_NAVIGATION
 } from "constants/ActionTypes";
 import { isIOS, isMobile } from "react-device-detect";
-import asyncComponent from "../util/asyncComponent";
-import TopNav from "components/TopNav";
+import asyncComponent from "util/asyncComponent";
+import TopNav from "_C57/NavBar/TopNav.js";
+import { Header } from "reactstrap";
+
+//import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
 class App extends React.Component {
   render() {
@@ -34,30 +36,48 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
-        <Sidebar />
         <div className="app-main-container">
           <div className="app-header">
-            {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === ABOVE_THE_HEADER && <TopNav styleName="app-top-header" />}
-            <Header />
-            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER && <TopNav />}
+            <TopNav />
+            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                {/* <Route
+                <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
                 <Route
                   path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/SamplePage"))}
+                  component={asyncComponent(() =>
+                    import("./routes/SamplePage")
+                  )}
+                /> */}
+                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("./routes/blog/Blog"))} />
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer.js"))}
+                />
+                <Route
+                  path={`${match.url}/registration`}
+                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
                 />
                 <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
                 <Route
-                  path={`${match.url}/registration`}
-                  component={asyncComponent(() => import("../_C57/UserRegistrationForm"))}
-                />
-                <Route
                   path={`${match.url}/athlete`}
                   component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
+                />
+                <Route
+                  component={asyncComponent(() => import("components/Error404"))}
+                  path={`${match.url}/faqs-page`}
+                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
+                />
+                <Route
+                  path={`${match.url}/fav-page`}
+                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
@@ -67,6 +87,7 @@ class App extends React.Component {
                 <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>
+
             <Footer />
           </main>
         </div>
