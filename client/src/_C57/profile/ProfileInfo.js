@@ -1,6 +1,5 @@
 import React from "react";
 import { Form, FormGroup, Input } from "reactstrap";
-import Select from "react-virtualized-select";
 //import createFilterOptions from "react-select-fast-filter-options";
 //import "react-select/dist/react-select.css";
 //import "react-virtualized/styles.css";
@@ -98,18 +97,13 @@ class ProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h2 className="text-center">
-                  Height: {this.props.height} | Weight: {this.props.weight} |
-                  GPA: {this.props.gpa}
+                  Height: {this.props.height} | Weight: {this.props.weight} | GPA: {this.props.gpa}
                 </h2>
               </div>
             </div>
             <div className="row">
               <div className="col-md-12">
-                <button
-                  className="profileBannerButtonOpacity float-right"
-                  type="button"
-                  onClick={this.editField}
-                >
+                <button className="profileBannerButtonOpacity float-right" type="button" onClick={this.editField}>
                   Edit
                 </button>
               </div>
@@ -305,33 +299,16 @@ class ProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 Height:
-                <Input
-                  type="text"
-                  name="height"
-                  value={this.props.height}
-                  onChange={this.props.handleChange}
-                />&nbsp;| Weight:
-                <Input
-                  type="text"
-                  name="weight"
-                  value={this.props.weight}
-                  onChange={this.props.handleChange}
-                />&nbsp;| GPA:<Input
-                  type="text"
-                  name="gpa"
-                  value={this.props.gpa}
-                  onChange={this.props.handleChange}
-                />
+                <Input type="text" name="height" value={this.props.height} onChange={this.props.handleChange} />&nbsp;|
+                Weight:
+                <Input type="text" name="weight" value={this.props.weight} onChange={this.props.handleChange} />&nbsp;|
+                GPA:<Input type="text" name="gpa" value={this.props.gpa} onChange={this.props.handleChange} />
               </div>
             </div>
             <hr />
             <div className="row">
               <div className="col-md-12">
-                <button
-                  type="button"
-                  className="float-right"
-                  onClick={this.editField}
-                >
+                <button type="button" className="float-right" onClick={this.editField}>
                   Save
                 </button>
               </div>
