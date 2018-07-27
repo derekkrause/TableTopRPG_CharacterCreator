@@ -1,6 +1,11 @@
 import React from "react";
 import BlogCard from "./BlogCard";
-import { getBlog, postBlog, putUpdateBlog, deleteBlog } from "../../services/blog.sevice";
+import {
+  getBlog,
+  postBlog,
+  putUpdateBlog,
+  deleteBlog
+} from "../../services/blog.sevice";
 import BlogForm from "./BlogForm";
 import "./Blog.css";
 import VideoPlayerContainer from "components/VideoPlayer/VideoPlayerContainer";
@@ -156,7 +161,11 @@ class Blog extends React.Component {
               )}
               <div className="cus-card-container">
                 {this.state.blogs
-                  .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
+                  .sort(
+                    (a, b) =>
+                      Date.parse(new Date(a.dateModified)) -
+                      Date.parse(new Date(b.dateModified))
+                  )
                   .reverse()
                   .map(blog => (
                     <BlogCard

@@ -1,28 +1,12 @@
 import React, { Component } from "react";
 import ReactPlayer from "react-player";
-<<<<<<< HEAD
+import "./VideoPlayer.css";
 
 class VideoPlayer extends Component {
   render() {
     const { videoUrl, controls, volume, width, height, loop } = this.props.videoParams;
     return (
-      <div>
-=======
-import "./VideoPlayer.css";
-
-class VideoPlayer extends Component {
-  render() {
-    const {
-      videoUrl,
-      controls,
-      volume,
-      width,
-      height,
-      loop
-    } = this.props.videoParams;
-    return (
       <div className="player-wrapper">
->>>>>>> origin/master
         <ReactPlayer
           controls={controls}
           height={height}
@@ -36,10 +20,7 @@ class VideoPlayer extends Component {
           onPlay={this.props.onPlay}
           onProgress={this.props.onProgress}
           onStart={this.props.onStart}
-<<<<<<< HEAD
-=======
           className="react-player"
->>>>>>> origin/master
         />
       </div>
     );
