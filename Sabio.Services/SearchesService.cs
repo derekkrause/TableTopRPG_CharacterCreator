@@ -16,7 +16,7 @@ namespace Sabio.Services
         {
             AthleteInfo newAthleteInfo = new AthleteInfo();
             dataProvider.ExecuteCmd(
-                "Athlete_Join",
+                "Athlete_Search",
                 (parameters) =>
                 {
                     parameters.AddWithValue("@SearchString", q);
