@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
-import ProfileContainer from "../_C57/Profile/ProfileContainer";
 import CustomScrollbars from "../util/CustomScrollbars";
 import {
   ABOVE_THE_HEADER,
@@ -44,9 +43,6 @@ class App extends React.Component {
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
-              <div style={{ overflow: "auto" }}>
-                <ProfileContainer />
-              </div>
               <Switch>
                 {/* <Route
                 <Route
@@ -63,6 +59,10 @@ class App extends React.Component {
                   path={`${match.url}/blog-page`}
                   component={asyncComponent(() => import("./routes/blog/Blog"))}
                 /> */}
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                />
                 <Route
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
