@@ -1,0 +1,15 @@
+.myContainer {
+  background-image: url("https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d");
+  background-size: auto;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  height: 100%;
+  max-width: 1500px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.articleFormArea {
+  background-size: auto;
+  min-height: 50%;
+}
