@@ -28,7 +28,7 @@ export function registerAthlete(userId) {
     shortBio: "",
     residencyState: ""
   };
-  return axios.post("/node-api/server.js/api/coaches", data);
+  return axios.post("/api/athletes", data);
 }
 
 //USER LOGIN
