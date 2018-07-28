@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Sabio.Service.Security
+namespace Sabio.Services.Security
 {
     public static class IIdentityExtensions
     {

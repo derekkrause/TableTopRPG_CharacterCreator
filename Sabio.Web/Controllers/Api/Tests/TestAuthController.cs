@@ -1,4 +1,4 @@
-﻿using Sabio.Service;
+﻿using Sabio.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Http;
-using Sabio.Service.Security;
+using Sabio.Services.Security;
 
 namespace Sabio.Web.Controllers.Api
 {

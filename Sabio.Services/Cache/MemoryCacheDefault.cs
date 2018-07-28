@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Caching;
 
-namespace Sabio.Service
+namespace Sabio.Services
 {
     public class MemoryCacheDefault : ICacheService
     {

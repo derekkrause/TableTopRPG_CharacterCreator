@@ -1,4 +1,4 @@
-﻿namespace Sabio.Service
+﻿namespace Sabio.Services
 {
     public interface IUserService
     {

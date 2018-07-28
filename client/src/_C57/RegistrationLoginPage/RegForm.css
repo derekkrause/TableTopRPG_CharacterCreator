@@ -1,0 +1,6 @@
+.btn-secondary.disabled,
+btn-secondary:disabled {
+  color: #fff;
+  background-color: lightblue;
+  border-color: lightblue;
+}

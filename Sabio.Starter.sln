@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sabio.Web", "Sabio.Web\Sabio.Web.csproj", "{7D880F43-55FA-40A2-A07E-05FADA9CD375}"
 EndProject
@@ -43,25 +43,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 6
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://sabiocode.cloudapp.net:8080/tfs/sabiocollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Sabio.Data\\Sabio.Data.csproj
-		SccProjectName1 = Sabio.Data
-		SccLocalPath1 = Sabio.Data
-		SccProjectUniqueName2 = Sabio.Models\\Sabio.Models.csproj
-		SccProjectName2 = Sabio.Models
-		SccLocalPath2 = Sabio.Models
-		SccProjectUniqueName3 = Sabio.Services\\Sabio.Services.csproj
-		SccProjectName3 = Sabio.Services
-		SccLocalPath3 = Sabio.Services
-		SccProjectUniqueName4 = Sabio.Web.Core\\Sabio.Web.Core.csproj
-		SccProjectName4 = Sabio.Web.Core
-		SccLocalPath4 = Sabio.Web.Core
-		SccProjectUniqueName5 = Sabio.Web\\Sabio.Web.csproj
-		SccProjectName5 = Sabio.Web
-		SccLocalPath5 = Sabio.Web
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAF3A1B7-D2A1-445A-8245-EA6D1BB838A9}
 	EndGlobalSection
 EndGlobal
