@@ -3,7 +3,6 @@ import { withRouter } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
-import ProfileContainer from "../_C57/Profile/ProfileContainer";
 import CustomScrollbars from "../util/CustomScrollbars";
 import {
   ABOVE_THE_HEADER,
@@ -21,12 +20,7 @@ import { Header } from "reactstrap";
 
 class App extends React.Component {
   render() {
-    const {
-      match,
-      drawerType,
-      navigationStyle,
-      horizontalNavPosition
-    } = this.props;
+    const { match, drawerType, navigationStyle, horizontalNavPosition } = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -44,15 +38,11 @@ class App extends React.Component {
         <div className="app-main-container">
           <div className="app-header">
             <TopNav />
-            {navigationStyle === HORIZONTAL_NAVIGATION &&
-              horizontalNavPosition === BELOW_THE_HEADER}
+            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
-              <div style={{ overflow: "auto" }}>
-                <ProfileContainer />
-              </div>
               <Switch>
                 {/* <Route
                 <Route
@@ -70,57 +60,36 @@ class App extends React.Component {
                   component={asyncComponent(() => import("./routes/blog/Blog"))}
                 /> */}
                 <Route
-                  path={`${match.url}/registration`}
-                  component={asyncComponent(() =>
-                    import("../_C57/RegistrationLoginPage/UserRegistrationForm.js")
-                  )}
-                />
-                <Route
-                  path={`${match.url}/blog-page`}
-                  component={asyncComponent(() => import("../_C57/blog/Blog"))}
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                 />
                 <Route
                   path={`${match.url}/registration`}
-                  component={asyncComponent(() =>
-                    import("../_C57/UserRegistrationForm")
-                  )}
+                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
+                />
+                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
                 />
                 <Route
-                  path={`${match.url}/athlete`}
-                  component={asyncComponent(() =>
-                    import("../_C57/Athlete/Athlete")
-                  )}
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer.js"))}
                 />
                 <Route
-                  component={asyncComponent(() =>
-                    import("components/Error404")
-                  )}
                   path={`${match.url}/faqs-page`}
-                  component={asyncComponent(() =>
-                    import("../_C57/FaqPage/Faqs")
-                  )}
+                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
                 <Route
                   path={`${match.url}/fav-page`}
-                  component={asyncComponent(() =>
-                    import("../_C57/FavSchoolsAndCoachesPage/MainPage")
-                  )}
+                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
-                <Route
-                  path={`${match.url}/pogs`}
-                  component={asyncComponent(() => import("../_C57/PogAdmin"))}
-                />
+                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
                   path={`${match.url}/video-player`}
-                  component={asyncComponent(() =>
-                    import("../components/VideoPlayer/VideoPlayerContainer")
-                  )}
+                  component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}
                 />
-                <Route
-                  component={asyncComponent(() =>
-                    import("components/Error404")
-                  )}
-                />
+                <Route component={asyncComponent(() => import("components/Error404"))} />
               </Switch>
             </div>
 

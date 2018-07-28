@@ -4,14 +4,7 @@ import "./VideoPlayer.css";
 
 class VideoPlayer extends Component {
   render() {
-    const {
-      videoUrl,
-      controls,
-      volume,
-      width,
-      height,
-      loop
-    } = this.props.videoParams;
+    const { videoUrl, controls, volume, width, height, loop } = this.props.videoParams;
     return (
       <div className="player-wrapper">
         <ReactPlayer
