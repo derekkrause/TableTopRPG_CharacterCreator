@@ -1,0 +1,50 @@
+.upload-img-preview
+{
+    height: 100px;
+    width: auto;
+    border-radius: 15%;
+}
+
+.blog-text-vert-center{
+    vertical-align: middle
+}
+
+.fileUploader-btn{
+    height: 100px;
+    width:100px;
+    border-radius: 15%;
+    border: 1px solid #dddddd;
+    background-color: white;
+}
+
+.fileUploader-btn:hover {
+    background-color: #faf9f9;
+}
+
+.color-gray{
+    color: #585858;
+}
+
+.cus-card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.cus-card-header:first-child {
+    border-radius: calc(0.5rem - 1px) calc(0.5rem - 1px) 0 0;
+}
+
+.cus-user-detail{
+    padding-left: 12px;
+}
+
+.cus-card-container{
+    max-width: 650px;
+}
+
+.cus-page-header-container{
+    padding-bottom: 20px;
+    padding-left: 5px;
+}
