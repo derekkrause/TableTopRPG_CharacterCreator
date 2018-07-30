@@ -31,6 +31,7 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
+        <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
         <div className="app-main-container">
           <div className="app-header">
             <TopNav />
