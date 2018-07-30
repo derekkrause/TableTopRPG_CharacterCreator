@@ -73,11 +73,7 @@ class FaqForm extends React.Component {
 
   render() {
     return (
-      <Modal
-        isOpen={this.props.modal}
-        toggle={this.props.toggle}
-        className={this.props.className}
-      >
+      <Modal isOpen={this.props.modal} toggle={this.props.toggle} className={this.props.className}>
         <Container>
           <ModalHeader toggle={this.props.toggle}>FAQ Form</ModalHeader>{" "}
           <ModalBody>
@@ -166,18 +162,10 @@ class FaqForm extends React.Component {
                       </Button>
                     )}
                   </div>
-                  {this.state.submitSuccess && (
-                    <h3>Your FAQ has been submitted!</h3>
-                  )}
-                  {this.state.submitError && (
-                    <h3>There was a submission error!</h3>
-                  )}
-                  {this.state.updateSuccess && (
-                    <h3>Your FAQ has been updated!</h3>
-                  )}
-                  {this.state.updateError && (
-                    <h3>There was an update error!</h3>
-                  )}
+                  {this.state.submitSuccess && <h3>Your FAQ has been submitted!</h3>}
+                  {this.state.submitError && <h3>There was a submission error!</h3>}
+                  {this.state.updateSuccess && <h3>Your FAQ has been updated!</h3>}
+                  {this.state.updateError && <h3>There was an update error!</h3>}
                 </div>
               </form>
             </div>

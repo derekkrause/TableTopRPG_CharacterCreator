@@ -37,7 +37,6 @@ class App extends Component {
         <div className="app-main">
           <Switch>
             <Route path={`${match.url}app`} component={MainApp} />
-
             <Route component={asyncComponent(() => import("components/Error404"))} />
           </Switch>
         </div>

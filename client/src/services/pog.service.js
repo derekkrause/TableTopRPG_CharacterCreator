@@ -8,9 +8,7 @@ export function getAll(pageIndex, pageSize) {
   return axios.get(`${baseUrl}?pageIndex=${pageIndex}&${pageSize}`);
 }
 export function search(searchString, pageIndex, pageSize) {
-  return axios.get(
-    `${baseUrl}/search/${pageIndex}/${pageSize}?searchString=${searchString}`
-  );
+  return axios.get(`${baseUrl}/search/${pageIndex}/${pageSize}?searchString=${searchString}`);
 }
 
 export function getById(id) {

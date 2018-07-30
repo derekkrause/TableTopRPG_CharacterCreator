@@ -24,15 +24,11 @@ class IisNodeTest extends React.Component {
       <div className="App">
         <div>
           <h1>Response from .NET</h1>
-          <pre>
-            {loading ? "Loading..." : JSON.stringify(dotNetResponse, null, 3)}
-          </pre>
+          <pre>{loading ? "Loading..." : JSON.stringify(dotNetResponse, null, 3)}</pre>
         </div>
         <div>
           <h1>Response from Node.js</h1>
-          <pre>
-            {loading ? "Loading..." : JSON.stringify(nodeResponse, null, 3)}
-          </pre>
+          <pre>{loading ? "Loading..." : JSON.stringify(nodeResponse, null, 3)}</pre>
         </div>
       </div>
     );

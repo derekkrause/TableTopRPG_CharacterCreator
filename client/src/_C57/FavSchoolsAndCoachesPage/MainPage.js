@@ -16,8 +16,7 @@ class MainPage extends React.Component {
         notes: "Be on the lookout for incoming mail",
         tags: "first choice",
         activityLog: "enter button here",
-        logo:
-          "http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,w_50/v1532386028/UCLA.png"
+        logo: "http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,w_50/v1532386028/UCLA.png"
       },
       {
         id: 2,
@@ -27,8 +26,7 @@ class MainPage extends React.Component {
         notes: "Recruiting event is right around the corner",
         tags: "second choice",
         activityLog: "enter button here",
-        logo:
-          "http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,w_50/v1532387441/USCjpg.jpg"
+        logo: "http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,w_50/v1532387441/USCjpg.jpg"
       }
     ]
   };

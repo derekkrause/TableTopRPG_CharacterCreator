@@ -11,8 +11,7 @@ class ProfileContainer extends React.Component {
     city: "Cville",
     state: "CA",
     bio: "nada",
-    profilePic:
-      "https://bringmethenews.com/.image/t_share/MTU0MDQ3MjMzOTE1ODg4NzIy/image-placeholder-title.jpg",
+    profilePic: "https://bringmethenews.com/.image/t_share/MTU0MDQ3MjMzOTE1ODg4NzIy/image-placeholder-title.jpg",
     //-----Athlete--------
     classYear: "Junior",
     gradYear: "2019",

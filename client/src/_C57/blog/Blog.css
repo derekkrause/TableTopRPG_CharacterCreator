@@ -1,10 +1,30 @@
-.upload-img-preview
+.preview-container{
+   position: relative;
+   width: 150px ;
+}
+.preview-container img
 {
-    height: 100px;
-    width: auto;
-    border-radius: 15%;
+    height: 150px;
+    width: 150px;
+    border-radius: 25px;
+    object-fit: cover;
 }
 
+.preview-container .btn {
+position: absolute;
+  top: 5%;
+  right:5%;
+  color: red;
+  width:36px;
+  height:36px;
+  border-radius: 18px;
+  background-color: white;
+}
+
+.preview-container .btn:hover{
+color:white;
+background-color: red;
+}
 .blog-text-vert-center{
     vertical-align: middle
 }
@@ -47,4 +67,8 @@
 .cus-page-header-container{
     padding-bottom: 20px;
     padding-left: 5px;
+}
+
+.cus-btn-right-padding{
+    padding-right:  5px;
 }

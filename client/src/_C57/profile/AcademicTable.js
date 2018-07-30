@@ -30,37 +30,21 @@ class AcademicTable extends React.Component {
                 <td>{this.props.gpa}</td>
               ) : (
                 <td>
-                  <Input
-                    type="text"
-                    name="gpa"
-                    value={this.props.gpa}
-                    onChange={this.props.handleChange}
-                    autoFocus
-                  />
+                  <Input type="text" name="gpa" value={this.props.gpa} onChange={this.props.handleChange} autoFocus />
                 </td>
               )}
               {this.state.editMode === false ? (
                 <td>{this.props.sat}</td>
               ) : (
                 <td>
-                  <Input
-                    type="text"
-                    name="sat"
-                    value={this.props.sat}
-                    onChange={this.props.handleChange}
-                  />
+                  <Input type="text" name="sat" value={this.props.sat} onChange={this.props.handleChange} />
                 </td>
               )}
               {this.state.editMode === false ? (
                 <td>{this.props.act}</td>
               ) : (
                 <td>
-                  <Input
-                    type="text"
-                    name="act"
-                    value={this.props.act}
-                    onChange={this.props.handleChange}
-                  />
+                  <Input type="text" name="act" value={this.props.act} onChange={this.props.handleChange} />
                 </td>
               )}
               {this.state.editMode === false ? (
@@ -79,19 +63,11 @@ class AcademicTable extends React.Component {
           </tbody>
         </Table>
         {this.state.editMode === false ? (
-          <button
-            className="float-right profileCardButtonOpacity"
-            type="button"
-            onClick={this.editField}
-          >
+          <button className="float-right profileCardButtonOpacity" type="button" onClick={this.editField}>
             Edit
           </button>
         ) : (
-          <button
-            className="float-right"
-            type="button"
-            onClick={this.editField}
-          >
+          <button className="float-right" type="button" onClick={this.editField}>
             Save
           </button>
         )}

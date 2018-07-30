@@ -28,11 +28,9 @@ class CoachForm extends React.Component {
 
     axios.defaults.withCredentials = true;
 
-    axios
-      .post(`http://localhost:8080/node-api/server.js/api/coaches/`, coachInfo)
-      .then(res => {
-        console.log(res);
-      });
+    axios.post(`http://localhost:8080/node-api/server.js/api/coaches/`, coachInfo).then(res => {
+      console.log(res);
+    });
   };
 
   render() {
@@ -76,11 +74,7 @@ class CoachForm extends React.Component {
                       rows="8"
                       placeholder="Your bio here..."
                     />
-                    <button
-                      type="submit"
-                      className="btn-lg btn-primary float-right mt-2"
-                      onClick={this.handleSubmit}
-                    >
+                    <button type="submit" className="btn-lg btn-primary float-right mt-2" onClick={this.handleSubmit}>
                       Submit
                     </button>
                   </div>

@@ -39,7 +39,8 @@ class CoachSearchFilter extends React.Component {
               placeholder="Specify state..."
               value={this.props.locationFilter}
               onChange={this.props.handleTypeAheadChange("locationFilter")}
-            />&nbsp;
+            />
+            &nbsp;
             <h4>School&nbsp;</h4>
             <Typeahead
               className="pr-3"
@@ -51,7 +52,8 @@ class CoachSearchFilter extends React.Component {
               placeholder="Specify school..."
               value={this.props.schoolNameFilter}
               onChange={this.props.handleTypeAheadChange("schoolNameFilter")}
-            />&nbsp;
+            />
+            &nbsp;
             <h4>Competition Level&nbsp;</h4>
             <Typeahead
               className="pr-3"
@@ -63,7 +65,8 @@ class CoachSearchFilter extends React.Component {
               placeholder="Specify competition level..."
               value={this.props.sportLevelFilter}
               onChange={this.props.handleTypeAheadChange("sportLevelFilter")}
-            />&nbsp;
+            />
+            &nbsp;
             <h4>Coach Title&nbsp;</h4>
             <Typeahead
               className="pr-3"

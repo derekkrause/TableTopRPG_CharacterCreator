@@ -34,6 +34,7 @@ class App extends React.Component {
         <div className="app-main-container">
           <div className="app-header">
             <TopNav />
+            {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
           <main className="app-main-content-wrapper">
@@ -47,11 +48,13 @@ class App extends React.Component {
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
-                {/* <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} /> */}
+                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
                 <Route
                   path={`${match.url}/faqs-page`}
                   component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
+                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
+
                 <Route
                   path={`${match.url}/fav-page`}
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
@@ -69,10 +72,10 @@ class App extends React.Component {
                   path={`${match.url}/registration`}
                   component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
                 />
-                {/* <Route
+                <Route
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
-                /> */}
+                />
                 <Route
                   path={`${match.url}/video-player`}
                   component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}

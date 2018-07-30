@@ -22,5 +22,8 @@
     "joi": "^13.4.0",
     "tedious": "^2.6.3",
     "tedious-connection-pool": "^1.0.5"
+  },
+  "prettier": {
+    "printWidth": 120
   }
 }

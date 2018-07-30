@@ -8,11 +8,7 @@ class TimelineItem extends React.Component {
       //   <div className={`timeline-item ${styleName}`}>
       <div className="">
         <div className="timeline-badge timeline-img">
-          <img
-            src="assets/images/pentagon.png"
-            alt="Pentagon"
-            title="Pentagon"
-          />
+          <img src="assets/images/pentagon.png" alt="Pentagon" title="Pentagon" />
         </div>
 
         <div className="timeline-panel ">

@@ -3,11 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Drawer from "rc-drawer";
 
-import {
-  COLLAPSED_DRAWER,
-  FIXED_DRAWER,
-  HORIZONTAL_NAVIGATION
-} from "constants/ActionTypes";
+import { COLLAPSED_DRAWER, FIXED_DRAWER, HORIZONTAL_NAVIGATION } from "constants/ActionTypes";
 import { toggleCollapsedNav, updateWindowWidth } from "actions/Setting";
 import AdminSideBarContent from "./AdminSideBarContent";
 
@@ -28,23 +24,14 @@ class AdminSideBar extends React.PureComponent {
   }
 
   render() {
-    const {
-      navCollapsed,
-      drawerType,
-      width,
-      isDirectionRTL,
-      navigationStyle
-    } = this.props;
+    const { navCollapsed, drawerType, width, isDirectionRTL, navigationStyle } = this.props;
     let drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "d-xl-flex"
       : drawerType.includes(COLLAPSED_DRAWER)
         ? ""
         : "d-flex";
     let type = true;
-    if (
-      drawerType.includes(COLLAPSED_DRAWER) ||
-      (drawerType.includes(FIXED_DRAWER) && width > 1200)
-    ) {
+    if (drawerType.includes(COLLAPSED_DRAWER) || (drawerType.includes(FIXED_DRAWER) && width > 1200)) {
       type = false;
     }
     if (navigationStyle === HORIZONTAL_NAVIGATION) {
@@ -76,13 +63,7 @@ class AdminSideBar extends React.PureComponent {
 }
 
 const mapStateToProps = ({ settings }) => {
-  const {
-    navCollapsed,
-    drawerType,
-    width,
-    isDirectionRTL,
-    navigationStyle
-  } = settings;
+  const { navCollapsed, drawerType, width, isDirectionRTL, navigationStyle } = settings;
   return { navCollapsed, drawerType, width, isDirectionRTL, navigationStyle };
 };
 

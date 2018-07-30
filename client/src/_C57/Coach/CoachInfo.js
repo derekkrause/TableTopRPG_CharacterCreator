@@ -125,7 +125,8 @@ class CoachInfo extends React.Component {
                   City: <br />
                   <input type="text" value={this.state.city} />
                   <br />
-                  State: DROPDOWN<br />
+                  State: DROPDOWN
+                  <br />
                   <input type="text" value={this.state.state} />
                 </div>
                 {/* <div className="col-md-5">

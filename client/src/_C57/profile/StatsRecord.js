@@ -33,19 +33,11 @@ class StatsRecord extends React.Component {
           )}
         </p>
         {this.state.editMode === false ? (
-          <button
-            className="float-right profileCardButtonOpacity"
-            type="button"
-            onClick={this.editField}
-          >
+          <button className="float-right profileCardButtonOpacity" type="button" onClick={this.editField}>
             Edit
           </button>
         ) : (
-          <button
-            className="float-right"
-            type="button"
-            onClick={this.editField}
-          >
+          <button className="float-right" type="button" onClick={this.editField}>
             Save
           </button>
         )}

@@ -63,17 +63,7 @@ const cardTarget = {
 
 class Card extends React.Component {
   render() {
-    const {
-      rank,
-      name,
-      division,
-      tags,
-      notes,
-      logo,
-      isDragging,
-      connectDragSource,
-      connectDropTarget
-    } = this.props;
+    const { rank, name, division, tags, notes, logo, isDragging, connectDragSource, connectDropTarget } = this.props;
     const opacity = isDragging ? 0 : 1;
 
     return (
@@ -87,10 +77,7 @@ class Card extends React.Component {
                 <td>{rank}</td>
                 <td>
                   <div className="user-profile d-flex flex-row align-items-center">
-                    <img
-                      src={logo}
-                      className="user-avatar rounded-circle mr-3"
-                    />
+                    <img src={logo} className="user-avatar rounded-circle mr-3" />
                     <div className="user-detail">
                       <h5 className="user-name">{name}</h5>
                     </div>
@@ -99,9 +86,7 @@ class Card extends React.Component {
                 <td>{division}</td>
                 <td>{notes}</td>
                 <td>
-                  <div className=" badge text-uppercase text-white bg-success">
-                    {tags}
-                  </div>
+                  <div className=" badge text-uppercase text-white bg-success">{tags}</div>
                 </td>
                 <td>
                   <span className="icon-btn size-30">

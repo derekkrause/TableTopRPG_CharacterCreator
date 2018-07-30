@@ -41,15 +41,9 @@ class FaqCategoryForm extends React.Component {
 
   render() {
     return (
-      <Modal
-        isOpen={this.props.modalCategory}
-        toggle={this.props.toggleCategory}
-        className={this.props.className}
-      >
+      <Modal isOpen={this.props.modalCategory} toggle={this.props.toggleCategory} className={this.props.className}>
         <Container>
-          <ModalHeader toggle={this.props.toggleCategory}>
-            FAQ Category Form
-          </ModalHeader>{" "}
+          <ModalHeader toggle={this.props.toggleCategory}>FAQ Category Form</ModalHeader>{" "}
           <ModalBody>
             <div className="col-lg-10">
               <form noValidate autoComplete="off">
@@ -77,12 +71,8 @@ class FaqCategoryForm extends React.Component {
                       Submit FAQ Category
                     </Button>
                   </div>
-                  {this.state.submitSuccess && (
-                    <h3>Your FAQ Category has been submitted!</h3>
-                  )}
-                  {this.state.submitError && (
-                    <h3>There was a submission error!</h3>
-                  )}
+                  {this.state.submitSuccess && <h3>Your FAQ Category has been submitted!</h3>}
+                  {this.state.submitError && <h3>There was a submission error!</h3>}
                 </div>
               </form>
             </div>

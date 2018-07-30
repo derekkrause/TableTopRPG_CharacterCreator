@@ -20,28 +20,16 @@ class EventModal extends Component {
   render() {
     return (
       <div className="text-center">
-        <Button
-          className="jr-btn btn-primary text-white mb-0"
-          color="primary"
-          onClick={this.toggle}
-        >
+        <Button className="jr-btn btn-primary text-white mb-0" color="primary" onClick={this.toggle}>
           + Add New Event
         </Button>
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-          className={this.props.className}
-        >
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Create Event</ModalHeader>
           <ModalBody>
             Form Fields Here
             <div className="form-group mt-2">
               <label className="mb-2">Event Name</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Event Name..."
-              />
+              <input type="text" className="form-control" placeholder="Event Name..." />
             </div>
           </ModalBody>
           <ModalFooter>

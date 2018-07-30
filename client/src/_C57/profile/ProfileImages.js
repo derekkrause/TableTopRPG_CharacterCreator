@@ -7,11 +7,7 @@ function ProfileImages() {
     <div className="gl-image">
       <div className="gl row no-gutters g-ul">
         {tileData.map((tile, index) => (
-          <div
-            key={index}
-            className={`col-${tile.cols ? 8 : 4}`}
-            style={{ height: 160 }}
-          >
+          <div key={index} className={`col-${tile.cols ? 8 : 4}`} style={{ height: 160 }}>
             <div className="grid">
               <img src={tile.img} alt={tile.title} />
             </div>

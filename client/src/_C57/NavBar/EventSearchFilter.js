@@ -41,7 +41,8 @@ class EventSearchFilter extends React.Component {
               placeholder="Specify state..."
               value={this.props.locationFilter}
               onChange={this.props.handleTypeAheadChange("locationFilter")}
-            />&nbsp;
+            />
+            &nbsp;
             <h4>Event Type&nbsp;</h4>
             <Typeahead
               className="pr-3"
@@ -53,7 +54,8 @@ class EventSearchFilter extends React.Component {
               placeholder="Specify event type..."
               value={this.props.eventTypeFilter}
               onChange={this.props.handleTypeAheadChange("eventTypeFilter")}
-            />&nbsp;
+            />
+            &nbsp;
             <h4>Event Dates&nbsp;</h4>
             <p className="text-center">
               Start

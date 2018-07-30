@@ -30,10 +30,7 @@ const searchFaq = req => {
           pageIndex: response.outputParameters.ReturnPageIndex,
           pageSize: response.outputParameters.ReturnPageSize,
           totalCount: response.resultSets[0][0].TotalRows,
-          totalPages: Math.round(
-            response.resultSets[0][0].TotalRows /
-              response.outputParameters.ReturnPageSize
-          )
+          totalPages: Math.round(response.resultSets[0][0].TotalRows / response.outputParameters.ReturnPageSize)
         };
         return item;
       } else {

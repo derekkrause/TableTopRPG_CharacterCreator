@@ -11,12 +11,7 @@ export function getFaqsbyCategory(categoryId) {
 
 export function searchFaq(pageIndex, pageSize, searchVal) {
   return axios.get(
-    "/node-api/server.js/faqs/search/" +
-      pageIndex +
-      "/" +
-      pageSize +
-      "?q=" +
-      encodeURIComponent(searchVal)
+    "/node-api/server.js/faqs/search/" + pageIndex + "/" + pageSize + "?q=" + encodeURIComponent(searchVal)
   );
 }
 
@@ -41,10 +36,7 @@ export function postFaqCategory(payload) {
 }
 
 export function updateFaqCategory(payload, faqCategoryId) {
-  return axios.put(
-    "/node-api/server.js/faqsCategories/" + faqCategoryId,
-    payload
-  );
+  return axios.put("/node-api/server.js/faqsCategories/" + faqCategoryId, payload);
 }
 
 export function deleteFaqCategory(faqCategoryId) {
