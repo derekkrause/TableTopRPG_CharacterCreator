@@ -116,6 +116,12 @@ class SidenavContent extends Component {
               <span className="nav-text">Pogs</span>
             </NavLink>
           </li>
+          <li className="menu no-arrow">
+            <NavLink to="/app/event">
+              <i className="zmdi zmdi-view-dashboard zmdi-hc-fw" />
+              <span className="nav-text">Event</span>
+            </NavLink>
+          </li>
         </ul>
       </CustomScrollbars>
     );

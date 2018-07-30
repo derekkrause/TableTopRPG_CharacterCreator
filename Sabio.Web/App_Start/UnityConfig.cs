@@ -3,6 +3,7 @@ using Sabio.Data.Providers;
 using Sabio.Services;
 using Sabio.Services.Cryptography;
 using Sabio.Models.Interfaces;
+using Sabio.Services.Interfaces;
 using Sabio.Web.Core.Services;
 using System.Configuration;
 using System.Security.Principal;
@@ -30,6 +31,7 @@ namespace Sabio.Web
             container.RegisterType<IPogsService, FakePogService>();
 
             container.RegisterType<IUserTableService, UserTableServices>();
+            container.RegisterType<IEventService, EventService>();
 
             //this should be per request
             container.RegisterType<IAuthenticationService, OwinAuthenticationService>();

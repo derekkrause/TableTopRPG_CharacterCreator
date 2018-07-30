@@ -42,7 +42,9 @@ class App extends React.Component {
               <Switch>
                 <Route
                   path={`${match.url}/admin`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                  component={asyncComponent(() =>
+                    import("../_C57/Admin/AdminPage")
+                  )}
                 />
                 <Route
                   path={`${match.url}/articles/create`}
@@ -75,6 +77,10 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
+                />
+                <Route
+                  path={`${match.url}/events`}
+                  component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
                 <Route
                   path={`${match.url}/video-player`}

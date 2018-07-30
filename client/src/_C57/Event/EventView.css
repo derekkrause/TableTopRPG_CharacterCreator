@@ -1,0 +1,23 @@
+.box {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.flex-title {
+    flex: 1 0 100%;
+}
+
+.box-two {
+    flex-direction: row-reverse;
+    /* flex-flow: column; */
+}
+
+.flex-one {
+    flex: 1;
+    align-self: flex-start;
+    
+}
+
+.flex-two {
+    flex: 2 1;
+}
