@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "reactstrap";
 import UserRegistrationForm from "../RegistrationLoginPage/UserRegistrationForm";
-import "./Homepage.css";
+import "./WelcomePage.css";
 import HomeInfoCarousel from "./InfoCarousel";
 
-class HomePage extends React.Component {
+class WelcomePage extends React.Component {
   render() {
     return (
       <div
@@ -83,4 +83,4 @@ class HomePage extends React.Component {
   }
 }
 
-export default HomePage;
+export default WelcomePage;

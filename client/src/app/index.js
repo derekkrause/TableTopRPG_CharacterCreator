@@ -62,10 +62,6 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
                 <Route
-                  path={`${match.url}/home`}
-                  component={asyncComponent(() => import("../_C57/HomePage/Homepage"))}
-                />
-                <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                 />
@@ -85,6 +81,10 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/video-player`}
                   component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}
+                />
+                <Route
+                  path={`${match.url}/welcome`}
+                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
                 {/* Please keep Routes alphebetized by URL */}

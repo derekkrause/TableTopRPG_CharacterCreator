@@ -12,14 +12,14 @@ const items = [
   {
     id: 2,
     altText: "Coaches",
-    src: "",
+    src: "https://c1.staticflickr.com/6/5292/5477733359_102d9c5533_b.jpg",
     captionHeader: "Coaches",
     captionText: "Find your next All-Star"
   },
   {
     id: 3,
     altText: "Advocates",
-    src: "",
+    src="https://cdn.pixabay.com/photo/2017/02/10/19/11/thumbs-up-2056022_960_720.jpg",
     captionHeader: "Advocates",
     captionText: "Boost your athlete's career with your support!"
   }
@@ -73,7 +73,7 @@ class HomeInfoCarousel extends Component {
           onExiting={this.onExiting}
           onExited={this.onExited}>
           <img src={item.src} alt={item.altText} />
-          <CarouselCaption className="text-success" captionText={item.captionText} captionHeader={item.captionHeader} />
+          <CarouselCaption className="text-white" captionText={item.captionText} captionHeader={item.captionHeader} />
         </CarouselItem>
       );
     });
