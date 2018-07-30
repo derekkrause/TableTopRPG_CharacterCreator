@@ -54,6 +54,7 @@
     <Compile Include="Domain\EventUser.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Sport.cs" />
+    <Compile Include="Domain\SportPosition.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Interfaces\ISportServices.cs" />
@@ -69,6 +70,8 @@
     <Compile Include="Requests\EventUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />
+    <Compile Include="Requests\SportPositionCreateRequest.cs" />
+    <Compile Include="Requests\SportPositionUpdateRequest.cs" />
     <Compile Include="Requests\SportUpdateRequest.cs" />
     <Compile Include="Requests\UserCreateRequest.cs" />
     <Compile Include="Requests\UserUpdateRequest.cs" />

@@ -35,6 +35,7 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
+        <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
         <div className="app-main-container">
           <div className="app-header">
             <TopNav />
@@ -44,23 +45,12 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                {/* <Route
                 <Route
                   path={`${match.url}/admin`}
                   component={asyncComponent(() =>
                     import("../_C57/Admin/AdminPage")
                   )}
                 />
-                <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() =>
-                    import("./routes/SamplePage")
-                  )}
-                /> */}
-                {/* <Route
-                  path={`${match.url}/blog-page`}
-                  component={asyncComponent(() => import("./routes/blog/Blog"))}
-                /> */}
                 <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}

@@ -3,10 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import Drawer from "rc-drawer";
 import { Config } from "constants/ThemeColors";
-
 import { COLLAPSED_DRAWER, FIXED_DRAWER, HORIZONTAL_NAVIGATION } from "constants/ActionTypes";
 import { toggleCollapsedNav, updateWindowWidth } from "actions/Setting";
-
 import AdminSideBar from "../../../src/_C57/Admin/AdminSideBar";
 import AdminSideBarContent from "../../_C57/Admin/AdminSideBarContent";
 
