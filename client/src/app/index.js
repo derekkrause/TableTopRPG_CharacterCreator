@@ -72,6 +72,12 @@ class App extends React.Component {
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
                 />
+                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
+
+                <Route
+                  path={`${match.url}/athlete`}
+                  component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
+                />
                 <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer.js"))}

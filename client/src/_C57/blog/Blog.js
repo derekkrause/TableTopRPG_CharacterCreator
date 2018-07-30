@@ -1,16 +1,9 @@
 import React from "react";
 import BlogCard from "./BlogCard";
-import {
-  getBlog,
-  postBlog,
-  putUpdateBlog,
-  deleteBlog
-} from "../../services/blog.sevice";
+import { getBlog, postBlog, putUpdateBlog, deleteBlog } from "../../services/blog.sevice";
 import BlogForm from "./BlogForm";
 import "./Blog.css";
-import VideoPlayerContainer from "components/VideoPlayer/VideoPlayerContainer";
-import AlertModals from "./ConfirmModal";
-import axios from "axios";
+import ConfirmModal from "./ConfirmModal";
 
 class Blog extends React.Component {
   state = {
@@ -161,11 +154,7 @@ class Blog extends React.Component {
               )}
               <div className="cus-card-container">
                 {this.state.blogs
-                  .sort(
-                    (a, b) =>
-                      Date.parse(new Date(a.dateModified)) -
-                      Date.parse(new Date(b.dateModified))
-                  )
+                  .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
                   .reverse()
                   .map(blog => (
                     <BlogCard
@@ -181,7 +170,7 @@ class Blog extends React.Component {
                   ))}
               </div>
               <div>
-                <AlertModals
+                <ConfirmModal
                   handleModalToggle={this.handleModalToggle}
                   modal={this.state.modal}
                   handleDeleteBlog={this.handleDeleteBlog}

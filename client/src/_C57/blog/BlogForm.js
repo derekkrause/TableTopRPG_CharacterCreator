@@ -29,30 +29,9 @@ class BlogForm extends React.Component {
     });
   };
 
-  handleChange = e => {
-    var file = e.target.files[0];
-
+  handleImageUrlChange = imageUrl => {
     this.setState({
-      imagePreview: URL.createObjectURL(file)
-    });
-
-    axios.put("api/s3files").then(response => {
-      console.log("tempURL", response);
-      var presignedUrl = response.data.item;
-      var options = {
-        headers: {
-          "Content-Type": file.type
-        }
-      };
-      this.setState(
-        {
-          imageUrl: presignedUrl.split("?", 2)[0]
-        },
-        () => console.log("finalURL", this.state.imageUrl)
-      );
-      axios.put(presignedUrl, file, options).then(s3res => {
-        console.log("Uploaded", s3res);
-      });
+      imageUrl
     });
   };
 
@@ -69,7 +48,7 @@ class BlogForm extends React.Component {
                   onClick={this.props.closeBlogForm}
                   className="btn btn-sm  btn-primary text-white btn btn-default"
                 >
-                  <i className="zmdi zmdi-close-circle-o zmdi-hc-lg" />
+                  <i className="zmdi zmdi-close zmdi-hc-lg" />
                   &nbsp;Close
                 </button>
               </div>
@@ -82,6 +61,7 @@ class BlogForm extends React.Component {
                 className="form-control"
                 type="text"
                 value={this.state.title}
+                placeholder="What are you sharing today?"
                 onChange={e => this.setState({ title: e.target.value })}
               />
               <div className="mt-4">
@@ -89,21 +69,11 @@ class BlogForm extends React.Component {
                 <textarea
                   className="form-control"
                   rows="8"
-                  placeholder="Share your thoughts, moments and tips "
+                  placeholder="Write your thoughts, moments and tips "
                   value={this.state.content}
                   onChange={e => this.setState({ content: e.target.value })}
                 />
               </div>
-              {this.state.imagePreview == "" ? (
-                <div />
-              ) : (
-                <div className="mt-4">
-                  <img
-                    src={this.state.imagePreview}
-                    className="upload-img-preview"
-                  />
-                </div>
-              )}
               {this.props.formVideoLinkInput ? (
                 <div className="mt-4">
                   <h4> Video Link</h4>
@@ -112,17 +82,12 @@ class BlogForm extends React.Component {
                       className="form-control"
                       type="text"
                       value={this.state.videoUrl}
-                      onChange={e =>
-                        this.setState({ videoUrl: e.target.value })
-                      }
+                      placeholder="Paste video link here"
+                      onChange={e => this.setState({ videoUrl: e.target.value })}
                     />
                     <div className="input-group-append">
-                      <button
-                        className="btn btn-secondary"
-                        type="button"
-                        onClick={this.props.handleOnclickVideoLink}
-                      >
-                        Clear
+                      <button className="btn btn-secondary" type="button" onClick={this.props.handleOnclickVideoLink}>
+                        <i className="zmdi zmdi-close zmdi-hc-lg" />
                       </button>
                     </div>
                   </div>
@@ -134,52 +99,32 @@ class BlogForm extends React.Component {
 
             <div className="mt-4 row">
               <div className="col-md-8 col-8">
-                {/* <FileUploader fileUrl={this.state.fileUrl} /> */}
-                <div>
-                  {/* <button type="button" className="jr-btn jr-btn-default btn btn-default">
-                    <i className="zmdi zmdi-collection-text zmdi-hc-fw" />
-                    Write an article
-                  </button> */}
-                  <button
-                    type="button"
-                    className="jr-btn jr-btn-default btn btn-default"
-                    onClick={this.props.handleOnclickVideoLink}
-                  >
-                    <i className="zmdi zmdi-videocam zmdi-hc-fw" />
-                    Link Video
-                  </button>
-                  <input
-                    id="ImageUpload"
-                    type="file"
-                    name="key"
-                    ref={ref => (this.upload = ref)}
-                    style={{ display: "none" }}
-                    onChange={this.handleChange}
-                    // multiple
-                  />
-                  <button
-                    type="button"
-                    id="UploadButton"
-                    className="jr-btn jr-btn-default btn btn-default"
-                    onClick={() => {
-                      this.upload.click();
-                    }}
-                    // runat="server"
-                  >
-                    <i className="zmdi zmdi-image zmdi-hc-fw" />
-                    Upload Images
-                  </button>
-                  {/* <input type="file" onChange={this.handleChange} /> */}
-                </div>
-                <div />
+                {!this.props.formVideoLinkInput && (
+                  <React.Fragment>
+                    <div className="row">
+                      <div className="col-md-6 col-6">
+                        <FileUploader onImageUrlChange={this.handleImageUrlChange} />
+                      </div>
+                      <div className="col-me-6 col-6">
+                        {this.state.imageUrl == "" && (
+                          <React.Fragment>
+                            <button
+                              type="button"
+                              className="jr-btn jr-btn-default btn btn-default"
+                              onClick={this.props.handleOnclickVideoLink}
+                            >
+                              <i className="zmdi zmdi-videocam zmdi-hc-fw" />
+                              &nbsp;Link Video
+                            </button>
+                          </React.Fragment>
+                        )}
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )}
               </div>
-
               <div className="col-md-4 col-4 text-right">
-                <button
-                  type="button"
-                  className="jr-btn btn btn-primary"
-                  onClick={this.handleOnClickPayload}
-                >
+                <button type="button" className="jr-btn btn btn-primary" onClick={this.handleOnClickPayload}>
                   Post
                 </button>
               </div>

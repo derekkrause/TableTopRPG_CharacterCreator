@@ -5,5 +5,5 @@ export function putPresigedUrl() {
 }
 
 export function putUploadFile(presignedUrl, file, options) {
-  return axios.put("api/s3files", presignedUrl, file, options);
+  return axios.put(presignedUrl, file, options);
 }
