@@ -13,6 +13,9 @@ class HomePage extends React.Component {
           backgroundImage:
             "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
         }}>
+        <div className="col-10 py-5 mx-auto justify-content-center">
+          <HomeInfoCarousel />
+        </div>
         <div
           className="container welcomeContainer rounded justify-content-center py-3"
           style={{ backgroundColor: "gray", color: "white" }}>
@@ -71,9 +74,6 @@ class HomePage extends React.Component {
               </div>
             </div>
           </div>
-        </div>
-        <div className="py-5 mw-md-50 mx-auto justify-content-center">
-          <HomeInfoCarousel />
         </div>
         <div className="py-5">
           <UserRegistrationForm />

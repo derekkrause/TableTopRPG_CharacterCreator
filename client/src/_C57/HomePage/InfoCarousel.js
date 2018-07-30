@@ -4,18 +4,24 @@ import { Carousel, CarouselItem, CarouselControl, CarouselIndicators, CarouselCa
 const items = [
   {
     id: 1,
-    altText: "Slide 1",
-    caption: "Slide 1"
+    src: "https://www.publicdomainpictures.net/pictures/90000/velka/baseball-batter.jpg",
+    altText: "Athletes",
+    captionHeader: "Athletes",
+    captionText: "Looking to get recruited? You've come to the right place!"
   },
   {
     id: 2,
-    altText: "Slide 2",
-    caption: "Slide 2"
+    altText: "Coaches",
+    src: "",
+    captionHeader: "Coaches",
+    captionText: "Find your next All-Star"
   },
   {
     id: 3,
-    altText: "Slide 3",
-    caption: "Slide 3"
+    altText: "Advocates",
+    src: "",
+    captionHeader: "Advocates",
+    captionText: "Boost your athlete's career with your support!"
   }
 ];
 
@@ -66,7 +72,8 @@ class HomeInfoCarousel extends Component {
           key={item.id}
           onExiting={this.onExiting}
           onExited={this.onExited}>
-          <CarouselCaption className="text-danger" captionText={item.caption} captionHeader={item.caption} />
+          <img src={item.src} alt={item.altText} />
+          <CarouselCaption className="text-success" captionText={item.captionText} captionHeader={item.captionHeader} />
         </CarouselItem>
       );
     });
