@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sabio.Models.Interfaces
+namespace Sabio.Services.Interfaces
 {
     public interface ISportServices
     {

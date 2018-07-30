@@ -1,6 +1,6 @@
 ﻿using Sabio.Data.Providers;
 using Sabio.Models.Domain;
-using Sabio.Models.Interfaces;
+using Sabio.Services.Interfaces;
 using Sabio.Models.Requests;
 using System;
 using System.Collections.Generic;

@@ -125,6 +125,7 @@
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IEventService.cs" />
     <Compile Include="Interfaces\IEventTypeService.cs" />
+    <Compile Include="Interfaces\ISportServices.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="IPogsService.cs" />
     <Compile Include="IUserTableService.cs" />

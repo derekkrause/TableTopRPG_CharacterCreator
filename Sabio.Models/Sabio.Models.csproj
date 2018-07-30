@@ -56,9 +56,7 @@
     <Compile Include="Domain\Sport.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserBase.cs" />
-    <Compile Include="Interfaces\ISportServices.cs" />
     <Compile Include="Interfaces\IUserAuthData.cs" />
-    <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Requests\AthleteUpdateRequest.cs" />
@@ -69,10 +67,10 @@
     <Compile Include="Requests\EventTypeUpdateRequest.cs" />
     <Compile Include="Requests\EventUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
-    <Compile Include="Requests\UserLoginRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />
     <Compile Include="Requests\SportUpdateRequest.cs" />
     <Compile Include="Requests\UserCreateRequest.cs" />
+    <Compile Include="Requests\UserLoginRequest.cs" />
     <Compile Include="Requests\UserUpdateRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />

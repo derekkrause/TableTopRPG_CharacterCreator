@@ -40,11 +40,10 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
                 <Route
                   path={`${match.url}/admin`}
-                  component={asyncComponent(() =>
-                    import("../_C57/Admin/AdminPage")
-                  )}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
                 />
                 <Route
                   path={`${match.url}/articles/create`}
@@ -87,6 +86,7 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}
                 />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
+                {/* Please keep Routes alphebetized by URL */}
               </Switch>
             </div>
 
