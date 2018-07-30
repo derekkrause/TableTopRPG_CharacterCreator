@@ -120,7 +120,8 @@ class AthleteInfo extends React.Component {
                 </div>
                 <br />
                 <div className="col-md-5">
-                  Class Year: DROPDOWN<br />
+                  Class Year: DROPDOWN
+                  <br />
                   <input type="text" value={this.state.classYear} />
                 </div>
               </div>
@@ -130,7 +131,8 @@ class AthleteInfo extends React.Component {
                   City: <br />
                   <input type="text" value={this.state.city} />
                   <br />
-                  State: DROPDOWN<br />
+                  State: DROPDOWN
+                  <br />
                   <input type="text" value={this.state.state} />
                 </div>
                 <div className="col-md-5">
@@ -144,7 +146,8 @@ class AthleteInfo extends React.Component {
                   Height:
                   <input type="text" value={this.state.height} /> Weight:
                   <input type="text" value={this.state.weight} />
-                  GPA:<input type="text" value={this.state.gpa} />
+                  GPA:
+                  <input type="text" value={this.state.gpa} />
                 </div>{" "}
                 <hr />
                 <div className="row justify-content-center">

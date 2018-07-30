@@ -33,16 +33,11 @@ class App extends Component {
 
     const currentAppLocale = AppLocale[locale.locale];
     return (
-      <IntlProvider
-        locale={currentAppLocale.locale}
-        messages={currentAppLocale.messages}
-      >
+      <IntlProvider locale={currentAppLocale.locale} messages={currentAppLocale.messages}>
         <div className="app-main">
           <Switch>
             <Route path={`${match.url}app`} component={MainApp} />
-            <Route
-              component={asyncComponent(() => import("components/Error404"))}
-            />
+            <Route component={asyncComponent(() => import("components/Error404"))} />
           </Switch>
         </div>
       </IntlProvider>

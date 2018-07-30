@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Nav, NavItem, NavLink, TabContent, TabPane, Card, CardHeader, CardBody } from "reactstrap";
 import StatsRecord from "./StatsRecord";
 import ProfileCalendar from "./ProfileCalendar";
 import AcademicTable from "./AcademicTable";
@@ -91,10 +82,7 @@ class ProfileTabs extends React.Component {
 
             <TabPane tabId="2">
               <CardBody>
-                <StatsRecord
-                  handleChange={this.props.handleChange}
-                  stats={this.props.stats}
-                />
+                <StatsRecord handleChange={this.props.handleChange} stats={this.props.stats} />
               </CardBody>
             </TabPane>
 
@@ -132,9 +120,7 @@ class ProfileTabs extends React.Component {
             </TabPane>
             <TabPane tabId="5">
               <CardBody>
-                <h3 className="card-title">
-                  This is where your media stuff goes
-                </h3>
+                <h3 className="card-title">This is where your media stuff goes</h3>
                 <div className="row">
                   <div className="col-md-12">
                     <ProfileImages />

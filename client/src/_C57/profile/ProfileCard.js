@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Nav,
-  NavItem,
-  NavLink,
-  TabContent,
-  TabPane,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Nav, NavItem, NavLink, TabContent, TabPane, Card, CardHeader, CardBody } from "reactstrap";
 import ProfileTabs from "./ProfileTabs";
 import ProfileBio from "./ProfileBio";
 
@@ -24,10 +15,7 @@ class ProfileCard extends React.Component {
           <div className="col-md-3">
             <div className="row">
               <div className="col-md-12">
-                <ProfileBio
-                  handleChange={this.props.handleChange}
-                  bio={this.props.bio}
-                />
+                <ProfileBio handleChange={this.props.handleChange} bio={this.props.bio} />
               </div>
             </div>
             <div className="row mt-4">

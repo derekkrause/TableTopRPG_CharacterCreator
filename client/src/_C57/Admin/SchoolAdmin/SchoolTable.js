@@ -70,13 +70,7 @@ class SchoolTable extends Component {
           </thead>
           <tbody>
             {data.map(user => {
-              return (
-                <SchoolTableCells
-                  editForm={this.props.editForm}
-                  key={user.id}
-                  data={user}
-                />
-              );
+              return <SchoolTableCells editForm={this.props.editForm} key={user.id} data={user} />;
             })}
 
             <tr>

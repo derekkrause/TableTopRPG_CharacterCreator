@@ -25,18 +25,12 @@ router.route("/faqs/:id").put(FaqsController.updateFaq);
 
 router.route("/faqs/:id").delete(FaqsController.deleteFaq);
 
-router
-  .route("/faqs/search/:pageIndex/:pageSize")
-  .get(FaqsController.getFaqBySearch);
+router.route("/faqs/search/:pageIndex/:pageSize").get(FaqsController.getFaqBySearch);
 
 router.route("/faqsCategories").get(FaqsCategoriesController.getAll);
 
 router.route("/faqsCategories").post(FaqsCategoriesController.postFaqCategory);
 
-router
-  .route("/faqsCategories/:id")
-  .put(FaqsCategoriesController.updateFaqCategory);
+router.route("/faqsCategories/:id").put(FaqsCategoriesController.updateFaqCategory);
 
-router
-  .route("/faqsCategories/:id")
-  .delete(FaqsCategoriesController.deleteFaqCategory);
+router.route("/faqsCategories/:id").delete(FaqsCategoriesController.deleteFaqCategory);

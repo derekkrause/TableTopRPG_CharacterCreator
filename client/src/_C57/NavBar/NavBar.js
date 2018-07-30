@@ -76,10 +76,7 @@ class NavBar extends React.Component {
                 id="exampleSelect"
                 onChange={this.handleChange}
               >
-                <option
-                  value="all"
-                  selected={() => this.setState({ collapsed: true })}
-                >
+                <option value="all" selected={() => this.setState({ collapsed: true })}>
                   All
                 </option>
                 <option value="athletes">Athletes</option>

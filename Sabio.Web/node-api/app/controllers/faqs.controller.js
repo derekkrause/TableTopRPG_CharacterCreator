@@ -44,11 +44,9 @@ module.exports = {
   updateFaq: async (req, res) => {
     const { categoryId, question, answer, displayOrder } = req.body;
 
-    faqsService
-      .updateFaq(categoryId, question, answer, displayOrder, req)
-      .then(() => {
-        res.sendStatus(200);
-      });
+    faqsService.updateFaq(categoryId, question, answer, displayOrder, req).then(() => {
+      res.sendStatus(200);
+    });
   },
 
   deleteFaq: async (req, res) => {

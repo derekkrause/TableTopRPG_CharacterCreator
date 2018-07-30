@@ -8,11 +8,7 @@ class ProfilePicture extends React.Component {
         <div>
           <img src={this.props.profilePic} />
         </div>
-        <button
-          className="profileBannerButtonOpacity float-right"
-          type="button"
-          onClick={this.editField}
-        >
+        <button className="profileBannerButtonOpacity float-right" type="button" onClick={this.editField}>
           Edit
         </button>
       </div>

@@ -3,14 +3,7 @@ import FaqForm from "./FaqForm";
 import { handleChange } from "./utilities";
 import { Button } from "reactstrap";
 import Collapsible from "react-collapsible";
-import {
-  getAllFaqs,
-  searchFaq,
-  getAllFaqCategories,
-  deleteFaqCategory,
-  deleteFaq,
-  getFaqsbyCategory
-} from "./server";
+import { getAllFaqs, searchFaq, getAllFaqCategories, deleteFaqCategory, deleteFaq, getFaqsbyCategory } from "./server";
 import FaqCategoryForm from "./FaqCategoryForm";
 
 class Faqs extends React.Component {
@@ -125,9 +118,7 @@ class Faqs extends React.Component {
   };
 
   editFaq = faq => {
-    const categoryList = this.state.faqCategories.filter(
-      category => category.Id == faq.CategoryId
-    );
+    const categoryList = this.state.faqCategories.filter(category => category.Id == faq.CategoryId);
     console.log(categoryList);
 
     this.setState({
@@ -217,9 +208,7 @@ class Faqs extends React.Component {
             <div className="row">
               <div className="col-md-6 col-sm-7 col-12">
                 {this.state.loadingFaqsByCategory && (
-                  <h2 className="font-weight-semibold">
-                    {this.state.categoryName}
-                  </h2>
+                  <h2 className="font-weight-semibold">{this.state.categoryName}</h2>
                 )}
                 {this.state.faqs.map(faq => (
                   <Collapsible
@@ -260,25 +249,17 @@ class Faqs extends React.Component {
                             value={this.state.searchVal}
                             onChange={this.handleChange}
                           />
-                          <button
-                            onClick={this.handleSearch}
-                            className="search-icon"
-                          >
+                          <button onClick={this.handleSearch} className="search-icon">
                             <i className="zmdi zmdi-search zmdi-hc-lg" />
                           </button>
                         </div>
                       </div>
                     </form>
-                    {this.state.showSearchError && (
-                      <p> There are no search results </p>
-                    )}
+                    {this.state.showSearchError && <p> There are no search results </p>}
                   </div>
                   <div className="card p-4">
                     <div>
-                      <h1
-                        className="text-uppercase letter-spacing-base mb-3"
-                        style={{ display: "inline-block" }}
-                      >
+                      <h1 className="text-uppercase letter-spacing-base mb-3" style={{ display: "inline-block" }}>
                         Categories
                       </h1>
                       <Button
@@ -302,10 +283,7 @@ class Faqs extends React.Component {
 
                       {this.state.faqCategories.map(category => (
                         <li key={category.Id}>
-                          <a
-                            onClick={() => this.FaqSearchByCategory(category)}
-                            href="javascript:void(0)"
-                          >
+                          <a onClick={() => this.FaqSearchByCategory(category)} href="javascript:void(0)">
                             {category.Name}
                           </a>
                           {"  "}
@@ -331,18 +309,13 @@ class Faqs extends React.Component {
                       ))}
 
                       {this.state.showDeleteIcons && (
-                        <Button
-                          style={{ float: "left" }}
-                          onClick={this.hideDeleteIcons}
-                          color="amber"
-                        >
+                        <Button style={{ float: "left" }} onClick={this.hideDeleteIcons} color="amber">
                           Done
                         </Button>
                       )}
                       {this.state.deleteCategoryError && (
                         <h3>
-                          Please make sure to delete all questions under this
-                          category before deleting the category.
+                          Please make sure to delete all questions under this category before deleting the category.
                         </h3>
                       )}
                     </ul>

@@ -41,7 +41,8 @@ class ArticleSearchFilter extends React.Component {
                   placeholder="Specify state..."
                   value={this.props.locationFilter}
                   onChange={this.props.handleChange}
-                />&nbsp;
+                />
+                &nbsp;
               </h4>
             </div>
             <div className="col-md-3">
@@ -56,7 +57,8 @@ class ArticleSearchFilter extends React.Component {
                   placeholder="Specify article type..."
                   value={this.props.articleTypeFilter}
                   onChange={this.props.handleChange}
-                />&nbsp;
+                />
+                &nbsp;
               </h4>
             </div>
             <div className="col-md-4">

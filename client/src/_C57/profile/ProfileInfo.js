@@ -59,7 +59,10 @@ class ProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h1 className="text-center">
-                  {this.props.firstName}&nbsp;{this.props.middleName}&nbsp;
+                  {this.props.firstName}
+                  &nbsp;
+                  {this.props.middleName}
+                  &nbsp;
                   {this.props.lastName}
                 </h1>
               </div>
@@ -68,7 +71,10 @@ class ProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h1 className="text-center">
-                  {this.props.sport}&nbsp;|&nbsp;{this.props.sportPosition}&nbsp;|&nbsp;
+                  {this.props.sport}
+                  &nbsp;|&nbsp;
+                  {this.props.sportPosition}
+                  &nbsp;|&nbsp;
                   {this.props.sportLevel}
                 </h1>
               </div>
@@ -116,7 +122,10 @@ class ProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h1>
-                  {this.props.firstName}&nbsp;{this.props.middleName}&nbsp;
+                  {this.props.firstName}
+                  &nbsp;
+                  {this.props.middleName}
+                  &nbsp;
                   {this.props.lastName}
                 </h1>
               </div>
@@ -299,10 +308,11 @@ class ProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 Height:
-                <Input type="text" name="height" value={this.props.height} onChange={this.props.handleChange} />&nbsp;|
-                Weight:
-                <Input type="text" name="weight" value={this.props.weight} onChange={this.props.handleChange} />&nbsp;|
-                GPA:<Input type="text" name="gpa" value={this.props.gpa} onChange={this.props.handleChange} />
+                <Input type="text" name="height" value={this.props.height} onChange={this.props.handleChange} />
+                &nbsp;| Weight:
+                <Input type="text" name="weight" value={this.props.weight} onChange={this.props.handleChange} />
+                &nbsp;| GPA:
+                <Input type="text" name="gpa" value={this.props.gpa} onChange={this.props.handleChange} />
               </div>
             </div>
             <hr />

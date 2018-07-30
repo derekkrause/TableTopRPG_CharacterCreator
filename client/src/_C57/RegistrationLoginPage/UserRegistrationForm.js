@@ -128,7 +128,8 @@ class UserRegistrationForm extends React.Component {
                   className="d-flex flex-wrap form-group m-0"
                   name="genderSelect"
                   onChange={this.onChange}
-                  id="genderSelect">
+                  id="genderSelect"
+                >
                   <div className="custom-control custom-radio mr-4 mx-auto">
                     <Input type="radio" name="genderSelect" value={1} id="maleRadio" className="custom-control-input" />
                     <Label className="custom-control-label" htmlFor="maleRadio">
@@ -167,7 +168,8 @@ class UserRegistrationForm extends React.Component {
                   className="d-flex flex-wrap form-group justify-content-center mx-auto"
                   name="userTypeGroup"
                   onChange={this.onChange}
-                  id="userTypeGroup">
+                  id="userTypeGroup"
+                >
                   <div className="custom-control custom-Radio my-1 mx-auto col-5">
                     <input
                       type="radio"

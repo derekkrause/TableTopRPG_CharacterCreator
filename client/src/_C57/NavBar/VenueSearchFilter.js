@@ -39,7 +39,8 @@ class VenueSearchFilter extends React.Component {
               placeholder="Specify state..."
               value={this.props.locationFilter}
               onChange={this.props.handleTypeAheadChange("locationFilter")}
-            />&nbsp;
+            />
+            &nbsp;
             <h4>Venue Type&nbsp;</h4>
             <Typeahead
               className="pr-3"
@@ -51,7 +52,8 @@ class VenueSearchFilter extends React.Component {
               placeholder="Specify venue type..."
               value={this.props.venueTypeFilter}
               onChange={this.props.handleTypeAheadChange("venueTypeFilter")}
-            />&nbsp;
+            />
+            &nbsp;
           </div>
         </div>
       </div>

@@ -177,14 +177,16 @@ class BlogCard extends React.Component {
                 {this.props.blog.dateModified == this.props.blog.dateCreated ? (
                   <React.Fragment>
                     <span className="meta-date">
-                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />&nbsp;
+                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
+                      &nbsp;
                       {this.props.blog.dateModified.substring(0, 10)}
                     </span>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
                     <span className="meta-date">
-                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />&nbsp;
+                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
+                      &nbsp;
                       {this.props.blog.dateCreated.substring(0, 10)} &nbsp; Updated
                     </span>
                   </React.Fragment>
