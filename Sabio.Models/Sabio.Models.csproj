@@ -49,6 +49,9 @@
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\Blog.cs" />
+    <Compile Include="Domain\Event.cs" />
+    <Compile Include="Domain\EventType.cs" />
+    <Compile Include="Domain\EventUser.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Sport.cs" />
     <Compile Include="Domain\User.cs" />
@@ -60,6 +63,10 @@
     <Compile Include="Requests\AthleteUpdateRequest.cs" />
     <Compile Include="Requests\BlogCreateRequest.cs" />
     <Compile Include="Requests\BlogUpdateRequest.cs" />
+    <Compile Include="Requests\EventCreateRequest.cs" />
+    <Compile Include="Requests\EventTypeCreateRequest.cs" />
+    <Compile Include="Requests\EventTypeUpdateRequest.cs" />
+    <Compile Include="Requests\EventUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />
     <Compile Include="Requests\SportUpdateRequest.cs" />

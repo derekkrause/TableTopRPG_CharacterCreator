@@ -4,16 +4,15 @@ using Sabio.Models.Interfaces;
 using Sabio.Service;
 using Sabio.Service.Cryptography;
 using Sabio.Services;
+using Sabio.Services.Interfaces;
 using Sabio.Web.Core.Services;
 using System.Configuration;
 using System.Security.Principal;
 using System.Web;
-using System.Web.Http;
 using System.Web.Mvc;
 using Unity;
 using Unity.Injection;
 using Unity.Lifetime;
-using Unity.Mvc5;
 
 namespace Sabio.Web
 {
@@ -31,7 +30,8 @@ namespace Sabio.Web
             // when another class's constructor asks for "IPogsService",
             // give them an instance of "PogsService"
             container.RegisterType<IPogsService, FakePogService>();
-            
+
+            container.RegisterType<IEventService, EventService>();
 
             //this should be per request
             container.RegisterType<IAuthenticationService, OwinAuthenticationService>();
