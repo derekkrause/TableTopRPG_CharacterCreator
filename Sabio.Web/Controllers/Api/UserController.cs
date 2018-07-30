@@ -72,7 +72,7 @@ namespace Sabio.Web.Controllers.Api
 
             if (loginSuccess == false)
             {
-                return Request.CreateResponse("Invalid Email and/or Password");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, loginSuccess);

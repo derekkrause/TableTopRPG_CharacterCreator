@@ -1,5 +1,11 @@
-.myContainer {
-  max-width: 1500px;
+.mainContainer {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+
+.welcomeContainer {
   background-repeat: no-repeat;
   background-position: center;
 }
