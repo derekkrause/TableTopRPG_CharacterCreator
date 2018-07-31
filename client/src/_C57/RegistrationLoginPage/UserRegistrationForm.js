@@ -210,7 +210,7 @@ class UserRegistrationForm extends React.Component {
                     name="userTypeGroup"
                     onChange={this.onChange}
                     id="userTypeGroup">
-                    <div className="custom-control custom-Radio my-1 mx-auto col-5">
+                    <div className="custom-control custom-radio my-1 mx-auto col-5">
                       <input
                         type="radio"
                         name="userType"
@@ -222,7 +222,7 @@ class UserRegistrationForm extends React.Component {
                         Athlete
                       </Label>
                     </div>
-                    <div className="custom-control custom-Radio my-1 mx-auto col-5">
+                    <div className="custom-control custom-radio my-1 mx-auto col-5">
                       <input
                         type="radio"
                         name="userType"
@@ -234,7 +234,7 @@ class UserRegistrationForm extends React.Component {
                         Recruiter
                       </Label>
                     </div>
-                    <div className="custom-control custom-Radio my-1 mx-auto col-5">
+                    <div className="custom-control custom-radio my-1 mx-auto col-5">
                       <input
                         type="radio"
                         name="userType"
@@ -247,7 +247,7 @@ class UserRegistrationForm extends React.Component {
                         Advocate
                       </Label>
                     </div>
-                    <div className="custom-control custom-Radio my-1 mx-auto col-5">
+                    <div className="custom-control custom-radio my-1 mx-auto col-5">
                       <input
                         type="radio"
                         name="userType"

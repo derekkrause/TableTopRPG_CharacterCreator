@@ -19,7 +19,7 @@ const items = [
   {
     id: 3,
     altText: "Advocates",
-    src="https://cdn.pixabay.com/photo/2017/02/10/19/11/thumbs-up-2056022_960_720.jpg",
+    src: "https://cdn.pixabay.com/photo/2017/11/11/15/52/young-man-2939344_960_720.jpg",
     captionHeader: "Advocates",
     captionText: "Boost your athlete's career with your support!"
   }

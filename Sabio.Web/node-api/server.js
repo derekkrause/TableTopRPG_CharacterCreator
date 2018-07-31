@@ -15,7 +15,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(cors(corsConfig));
 
 // Demo middleware to play with error handling
 app.use((req, res, next) => {
