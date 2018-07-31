@@ -49,6 +49,15 @@ namespace Sabio.Web.Controllers
             });
         }
 
+        [Route, HttpGet]
+        public HttpResponseMessage GetAll()
+        {
+            List<Event> events = eventService.GetAll();
+            ItemsResponse<Event> itemsResponse = new ItemsResponse<Event> { Items = events };
+
+            return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
+        }
+
         [Route("{eventId:int}"), HttpGet]
         public HttpResponseMessage GetById(int eventId)
         {
