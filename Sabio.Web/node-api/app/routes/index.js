@@ -5,6 +5,9 @@ const pogsRoutes = require("./pogs.routes");
 const coachesRoutes = require("./coaches.routes");
 const conferencesRoutes = require("./conferences.routes");
 const schoolsRoutes = require("./schools.routes");
+const testRoutes = require("./test.routes");
+const validateUser = require("../filters/validate.user");
+const userFromJWT = require("../filters/jwt.user");
 
 module.exports = router;
 
@@ -34,3 +37,12 @@ router.route("/faqsCategories").post(FaqsCategoriesController.postFaqCategory);
 router.route("/faqsCategories/:id").put(FaqsCategoriesController.updateFaqCategory);
 
 router.route("/faqsCategories/:id").delete(FaqsCategoriesController.deleteFaqCategory);
+
+// -----------------------------------
+// Authenticated routes go below this:
+// -----------------------------------
+
+router.use(userFromJWT);
+router.use(validateUser);
+
+router.use("/api/test", testRoutes); // TODO: remove this before delivery to the client
