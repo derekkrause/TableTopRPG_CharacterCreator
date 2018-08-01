@@ -98,111 +98,77 @@ class UserRegistrationForm extends React.Component {
               />
             </a>
           </div>
-          <h2 className="my-2 text-center">Create an Account</h2>
+          <h1 className="my-2 text-center">Create an Account</h1>
           <div className="login-form">
             <Form className="row pb-0" autoComplete="on">
-              <FormGroup>
-                <InputGroup className="col-12 my-1">
-                  <Input
-                    name="firstName"
-                    id="firstName"
-                    className="form-control"
-                    type="text"
-                    placeholder="First"
-                    onChange={this.onChange}
-                    valid={this.state.firstName.length > 0 && this.state.firstValid}
-                    invalid={this.state.firstName.length > 0 && !this.state.firstValid ? true : undefined}
-                    required
-                  />
-                  <Input
-                    name="middleName"
-                    id="middleName"
-                    className="form-control"
-                    type="text"
-                    placeholder="Middle"
-                    onChange={this.onChange}
-                  />
-                  <Input
-                    name="lastName"
-                    id="lastName"
-                    className="form-control"
-                    type="text"
-                    placeholder="Last"
-                    onChange={this.onChange}
-                    valid={this.state.lastName.length > 0 && this.state.lastValid}
-                    invalid={this.state.lastName.length > 0 && !this.state.lastValid ? true : undefined}
-                    required
-                  />
-                </InputGroup>
-                <InputGroup className="col-12 my-1">
-                  <Input
-                    name="emailInput"
-                    id="emailInput"
-                    className="form-control"
-                    type="email"
-                    placeholder="name@example.com"
-                    onChange={this.onChange}
-                    valid={this.state.emailInput.length > 0 && this.state.emailValid}
-                    invalid={this.state.emailInput.length > 0 && !this.state.emailValid ? true : undefined}
-                    required
-                  />
-                  <Input
-                    name="password"
-                    id="password"
-                    className="form-control"
-                    type="password"
-                    placeholder="********"
-                    onChange={this.onChange}
-                    valid={this.state.password.length > 0 && this.state.passwordValid}
-                    invalid={this.state.password.length > 0 && !this.state.passwordValid ? true : undefined}
-                    required
-                  />
-                </InputGroup>
-                <div className="col-12 my-2 mx-auto">
-                  <Label htmlFor="genderSelect">Gender</Label>
-                  <div
-                    className="d-flex flex-wrap form-group m-0"
-                    name="genderSelect"
-                    onChange={this.onChange}
-                    id="genderSelect">
-                    <div className="custom-control custom-radio mr-4 mx-auto">
-                      <Input
-                        type="radio"
-                        name="genderSelect"
-                        value={1}
-                        id="maleRadio"
-                        className="custom-control-input"
-                      />
-                      <Label className="custom-control-label" htmlFor="maleRadio">
-                        Male
-                      </Label>
-                    </div>
-                    <div className="custom-control custom-radio mr-4 mx-auto">
-                      <Input
-                        type="radio"
-                        name="genderSelect"
-                        value={0}
-                        id="femaleRadio"
-                        className="custom-control-input"
-                      />
-                      <Label className="custom-control-label" htmlFor="femaleRadio">
-                        Female
-                      </Label>
-                    </div>
-                    <div className="custom-control custom-radio mr-4 mx-auto">
-                      <Input
-                        type="radio"
-                        name="genderSelect"
-                        value={undefined}
-                        id="otherRadio"
-                        className="custom-control-input"
-                      />
-                      <Label className="custom-control-label" htmlFor="otherRadio">
-                        Other/Decline
-                      </Label>
-                    </div>
-                  </div>
-                </div>
+              <FormGroup className="col-12">
+                {/* <InputGroup className="col-12 my-1"> */}
+                <Label for="firstName">First Name</Label>
+                <Input
+                  name="firstName"
+                  id="firstName"
+                  className="form-control"
+                  type="text"
+                  placeholder="First"
+                  onChange={this.onChange}
+                  valid={this.state.firstName.length > 0 && this.state.firstValid}
+                  invalid={this.state.firstName.length > 0 && !this.state.firstValid ? true : undefined}
+                  required
+                />
+                <FormFeedback>Please enter at least 2 letters.</FormFeedback>
+                <FormFeedback valid>Looks good!</FormFeedback>
+              </FormGroup>
+              <FormGroup className="col-12">
+                <Label for="lastName">Last Name</Label>
+                <Input
+                  name="lastName"
+                  id="lastName"
+                  className="form-control"
+                  type="text"
+                  placeholder="Last"
+                  onChange={this.onChange}
+                  valid={this.state.lastName.length > 0 && this.state.lastValid}
+                  invalid={this.state.lastName.length > 0 && !this.state.lastValid ? true : undefined}
+                  required
+                />
+                <FormFeedback>Please enter at least 2 letters.</FormFeedback>
+                <FormFeedback valid>Looks good!</FormFeedback>
+              </FormGroup>
+              <FormGroup className="col-12">
+                <Label for="emailInput">Email</Label>
+                <Input
+                  name="emailInput"
+                  id="emailInput"
+                  className="form-control"
+                  type="email"
+                  placeholder="name@example.com"
+                  onChange={this.onChange}
+                  valid={this.state.emailInput.length > 0 && this.state.emailValid}
+                  invalid={this.state.emailInput.length > 0 && !this.state.emailValid ? true : undefined}
+                  required
+                />
+                <FormFeedback>Invalid Email Address</FormFeedback>
+                <FormFeedback valid>Looks good!</FormFeedback>
+              </FormGroup>
+              <FormGroup className="col-12">
+                <Label for="password">Password</Label>
+                <Input
+                  name="password"
+                  id="password"
+                  className="form-control"
+                  type="password"
+                  placeholder="********"
+                  onChange={this.onChange}
+                  valid={this.state.password.length > 0 && this.state.passwordValid}
+                  invalid={this.state.password.length > 0 && !this.state.passwordValid ? true : undefined}
+                  required
+                />
+                <FormFeedback>
+                  Password must contain 1 uppercase, 1 lowercase, 1 number and 1 special character.
+                </FormFeedback>
+                <FormFeedback valid>Looks good!</FormFeedback>
+              </FormGroup>
+              <FormGroup className="col-12">
                 <div className="col-12 mt-2">
                   <Label htmlFor="userTypeGroup">Select User Type</Label>
                   <div

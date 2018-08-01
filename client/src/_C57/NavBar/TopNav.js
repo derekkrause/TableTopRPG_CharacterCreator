@@ -25,7 +25,7 @@ class TopNav extends React.Component {
         ) : (
           <div className="app-main-header appNav">
             <div className="app-toolbar d-flex justify-content-between align-items-center mx-md-3 m-0">
-              <h4 className="mb-0 mr-auto">Recruit Hub</h4>
+              <h4 className="mb-0 mr-auto">Hub Scout</h4>
               <UserLogin loginChange={this.loginChange} className="mx-auto" />
               <Button className="btn btn-link mb-0 ml-auto border-0" id="loginHelpPopover" onClick={this.popdown}>
                 Login Help

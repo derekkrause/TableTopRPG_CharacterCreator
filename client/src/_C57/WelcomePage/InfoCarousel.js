@@ -19,7 +19,8 @@ const items = [
   {
     id: 3,
     altText: "Advocates",
-    src: "https://cdn.pixabay.com/photo/2017/11/11/15/52/young-man-2939344_960_720.jpg",
+    src:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Caleb_Porter_Portland_Timbers_vs_Seattle_Sounders_2016-07-17_%2828378409765%29.jpg/1024px-Caleb_Porter_Portland_Timbers_vs_Seattle_Sounders_2016-07-17_%2828378409765%29.jpg",
     captionHeader: "Advocates",
     captionText: "Boost your athlete's career with your support!"
   }
@@ -72,7 +73,11 @@ class HomeInfoCarousel extends Component {
           key={item.id}
           onExiting={this.onExiting}
           onExited={this.onExited}>
-          <img src={item.src} alt={item.altText} />
+          <img
+            src={item.src}
+            alt={item.altText}
+            style={{ backgroundPosition: "center", backgroundSize: "cover", minHeight: "100%" }}
+          />
           <CarouselCaption className="text-white" captionText={item.captionText} captionHeader={item.captionHeader} />
         </CarouselItem>
       );

@@ -8,19 +8,10 @@ namespace Sabio.Models.Domain
 {
     public class UserBase : IUserAuthData
     {
-        public int Id
-        {
-            get;set;
-        }
+        public int Id { get; set; }
 
-        public string Name
-        {
-            get; set;
-        }
+        public string Name { get; set; }
 
-        public IEnumerable<string> Roles
-        {
-            get; set;
-        }
+        public IEnumerable<string> Roles { get; set; }
     }
 }

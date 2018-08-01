@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "reactstrap";
+import { Button, PaginationItem, Pagination, PaginationLink, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import UserRegistrationForm from "../RegistrationLoginPage/UserRegistrationForm";
 import "./WelcomePage.css";
 import HomeInfoCarousel from "./InfoCarousel";
@@ -13,14 +13,15 @@ class WelcomePage extends React.Component {
           backgroundImage:
             "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
         }}>
-        <div className="col-10 py-5 mx-auto justify-content-center">
+        <div className="col-xs-10 col-md-8 col-lg-6 py-5 mx-auto justify-content-center">
           <HomeInfoCarousel />
         </div>
         <div
-          className="container welcomeContainer rounded justify-content-center py-3"
-          style={{ backgroundColor: "gray", color: "white" }}>
+          className="container welcomeContainer rounded justify-content-center bg-white py-3"
+          // style={{ backgroundColor: "gray", color: "white" }}
+        >
           <h1 className="col-12">This is the welcome page.</h1>
-          <div className="container d-flex flex-wrap justify-content-around">
+          <div className="container d-flex flex-wrap justify-content-around" color="info">
             <div className="col-xs-12 col-sm-5 m-sm-1 mw-sm-50">
               <div>
                 <div className="row flex-nowrap">

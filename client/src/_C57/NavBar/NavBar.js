@@ -55,7 +55,7 @@ class NavBar extends React.Component {
         <div className="app-main-header appNav">
           <div className="d-flex app-toolbar align-items-center justify-content-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">
-              <b>Recruit Hub</b>
+              <b>Hub Scout</b>
             </h4>
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select

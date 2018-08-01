@@ -29,7 +29,7 @@ namespace Sabio.Web.Controllers.Api
             });
 
         }
-        [Route, HttpPost]
+        [Route, HttpPost, AllowAnonymous]
         public HttpResponseMessage Insert(AthleteInsertRequest athleteInsertRequest)
         {
             if (athleteInsertRequest == null)
