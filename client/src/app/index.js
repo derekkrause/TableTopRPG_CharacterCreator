@@ -50,10 +50,6 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
                 />
                 <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                 />
@@ -71,10 +67,6 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/athlete`}
                   component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
-                />
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer.js"))}
                 />
                 <Route
                   path={`${match.url}/faqs-page`}

@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const sportsPositionsController = require("../controllers/sportPositions.controller");
 const FaqsController = require("../controllers/faqs.controller");
 const FaqsCategoriesController = require("../controllers/faqsCategories.controller");
 const pogsRoutes = require("./pogs.routes");
@@ -11,6 +12,12 @@ const userFromJWT = require("../filters/jwt.user");
 
 module.exports = router;
 
+router.post("/sportposition", sportsPositionsController.postSportPosition);
+router.get("/sportposition", sportsPositionsController.getAllSportPosition);
+// router.get("/sportposition/:id", sportsPositionsController.getSportPositionById);
+router.get("/sportposition/:sportName", sportsPositionsController.getSportPositionBySportName);
+router.put("/sportposition", sportsPositionsController.putSportPosition);
+router.delete("/sportposition/:id", sportsPositionsController.deleteSportPosition);
 router.use("/api/pogs", pogsRoutes);
 
 router.use("/api/coaches", coachesRoutes);

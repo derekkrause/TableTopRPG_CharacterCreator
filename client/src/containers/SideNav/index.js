@@ -53,6 +53,8 @@ class SideNav extends React.PureComponent {
         onOpenChange={this.onToggleCollapsedNav}
         sidebar={
           <div className="side-nav">
+            {/* <SidenavLogo drawerType={drawerType} /> */}
+            {/* <SideBarAdmin /> */}
             {/* <SidenavContent /> */}
             <AdminSideBarContent />
           </div>

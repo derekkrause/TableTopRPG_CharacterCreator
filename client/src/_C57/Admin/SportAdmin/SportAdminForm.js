@@ -1,5 +1,6 @@
 import React from "react";
 import { getById, addSport, updateSport } from "./SportAdminService";
+import SportPosition from "./SportPositionPage/SportPosition";
 
 class SportAdminForm extends React.Component {
   state = {
@@ -20,6 +21,18 @@ class SportAdminForm extends React.Component {
         });
     }
   }
+
+  handleCollapseAll = keepOpen => {
+    if (keepOpen == position.id) {
+      this.setState({
+        collapse: false
+      });
+    } else {
+      this.setState({
+        collapse: true
+      });
+    }
+  };
 
   handleChange = e => {
     e.preventDefault();
@@ -70,8 +83,17 @@ class SportAdminForm extends React.Component {
       });
   };
 
+  updateSportsDataPositions = positions => {
+    this.setState(prevState => ({
+      sportsData: {
+        ...prevState.sportsData,
+        positions
+      }
+    }));
+  };
+
   render() {
-    const sportsData = this.props.sportsData;
+    const sportsData = this.state.sportsData;
     return (
       // Create the form you will need to conduct a put request on your table, use the layout provided that
       // we stay uniform if you have any questions please let me know - Logan
@@ -143,13 +165,24 @@ class SportAdminForm extends React.Component {
               <option value="5">5</option>
             </select>
           </div>
+          <div className="col-10 offset-1">
+            <SportPosition
+              // handleCollapseAll={this.handleCollapseAll}
+              sportsData={sportsData.positions}
+              updateSportsDataPositions={this.updateSportsDataPositions}
+            />
+          </div>
           <div className=" form-group float-right">
-            <button type="button" className="btn btn-success" onClick={() => this.handleSubmit(this.state.sportsData)}>
-              Submit
+            <button
+              type="button"
+              className="jr-btn btn btn-primary"
+              onClick={() => this.handleSubmit(this.state.sportsData)}
+            >
+              Save
             </button>
             <button
               type="button"
-              className="btn btn-danger"
+              className="jr-btn jr-btn-default btn btn-default"
               onClick={() => {
                 this.props.history.goBack();
               }}
