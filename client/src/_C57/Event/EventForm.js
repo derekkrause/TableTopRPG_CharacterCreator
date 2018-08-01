@@ -3,18 +3,12 @@ import { Button } from "reactstrap";
 import Geocode from "react-geocode";
 
 import CardBox from "../../components/CardBox";
-import ContainerHeader from "../../components/ContainerHeader";
-import CustomDateTimePicker from "./CustomDateTimePicker";
+// import CustomDateTimePicker from "./CustomDateTimePicker";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import "react-day-picker/lib/style.css";
 
-import {
-  getEventById,
-  createEvent,
-  editEvent,
-  createEventPost,
-  editEventPut
-} from "../../services/Event.service";
+import { getEventById, createEventPost, editEventPut } from "../../services/Event.service";
 import FileUploader from "../FileUploader/FileUploader";
-import { create } from "domain";
 
 class EventForm extends Component {
   state = {
@@ -40,7 +34,12 @@ class EventForm extends Component {
     eventDataItem: {},
     imageUrl: "Image URL",
 
-    inEditMode: false
+    inEditMode: false,
+
+    startSelectedDay: undefined,
+    startIsDisabled: false,
+    endSelectedDay: undefined,
+    endIsDisabled: false
   };
 
   emptyState = {
@@ -73,8 +72,31 @@ class EventForm extends Component {
     this.setState({ logo: imageUrl });
   };
 
+  handleStartDayChange(startSelectedDay, modifiers) {
+    this.setState({
+      startSelectedDay,
+      startIsDisabled: modifiers.disabled === true
+    });
+  }
+
+  handleEndDayChange(endSelectedDay, modifiers) {
+    this.setState({
+      endSelectedDay,
+      endIsDisabled: modifiers.disabled === true
+    });
+  }
+
   handlerCreateEvent = event => {
     event.preventDefault();
+
+    const newAddress = {
+      street: this.state.street,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip
+    };
+
+    this.convertAddressToLatLng(newAddress);
 
     const newEvent = this.readForm();
 
@@ -85,6 +107,46 @@ class EventForm extends Component {
     event.preventDefault();
 
     const modifyUser = 4;
+
+    const editAddress = {
+      street: this.state.street,
+      city: this.state.city,
+      state: this.state.state,
+      zip: this.state.zip
+    };
+
+    this.convertAddressToLatLng(editAddress);
+
+    const editedEvent = this.readForm();
+
+    editedEvent.ModifiedBy = modifyUser;
+    editedEvent.Id = this.state.eventId;
+
+    this.editEvent(editedEvent);
+  };
+
+  checkIsOngoing() {
+    const isOngoing = this.state.isOngoing;
+
+    // if (newEvent.IsOngoing === "true") {
+    //   newEvent.IsOngoing = true;
+    // }
+
+    // if (newEvent.IsOngoing === "false") {
+    //   newEvent.IsOngoing = false;
+    // }
+
+    if (isOngoing === "true") {
+      editedEvent.IsOngoing = true;
+    }
+
+    if (isOngoing === "false") {
+      editedEvent.IsOngoing = false;
+    }
+  }
+
+  handlerIsOngoing = e => {
+    this.setState({ isOngoing: e.target.value === "true" });
   };
 
   readForm = () => ({
@@ -132,7 +194,7 @@ class EventForm extends Component {
   editEvent = eventToEdit => {
     console.log("eventToEdit: ", eventToEdit);
 
-    editEventPut(eventToEdit)
+    editEventPut(eventToEdit.Id, eventToEdit)
       .then(response => {
         console.log("Edit Event Ajax PUT request success!");
         console.log(response);
@@ -175,6 +237,8 @@ class EventForm extends Component {
       logo: responseDataItem.logo,
       isOngoing: responseDataItem.isOngoing,
       organizer: responseDataItem.organizer,
+      createdBy: responseDataItem.createdBy,
+      modifiedBy: responseDataItem.modifiedBy,
       street: responseDataItem.street,
       suite: responseDataItem.suite,
       city: responseDataItem.city,
@@ -185,6 +249,41 @@ class EventForm extends Component {
       eventId: responseDataItem.id,
       eventItem: responseDataItem
     });
+  }
+
+  convertLatLngToAddress(lat, long) {
+    const sampleLatLong = ["48.8583701", "2.2922926"];
+
+    Geocode.fromLatLng(lat, long).then(
+      response => {
+        const address = response.results[0].formatted_address;
+        console.log(address);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
+
+  convertAddressToLatLng(addressObj) {
+    const sampleAddress = "Eiffel Tower";
+
+    const address = `${addressObj.street}, ${addressObj.city}, ${addressObj.state} ${addressObj.zip}`;
+
+    console.log("Converting from address: ", address);
+    console.log("to Lat/Long coordinates...");
+
+    Geocode.fromAddress(address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log(lat, lng);
+
+        this.setState({ lat: lat, long: lng });
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
 
   componentDidMount = () => {
@@ -222,10 +321,14 @@ class EventForm extends Component {
         createdBy: currentUser,
         modifiedBy: currentUser,
         isOngoing: ongoing,
-        inEditMode: true
+        inEditMode: false
       });
       this.setState(userData);
     }
+
+    const googleApiKey = "AIzaSyD7iu5CfoFeysqETwfFNxbBnnwupWKewWU";
+
+    Geocode.setApiKey(googleApiKey);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -241,25 +344,90 @@ class EventForm extends Component {
 
     if (this.state.inEditMode) {
       showButton = (
-        <Button
-          color="primary"
-          className="jr-btn"
-          onClick={this.handlerEditEvent}
-        >
+        <Button color="primary" className="jr-btn" onClick={this.handlerEditEvent}>
           Edit Event
         </Button>
       );
     } else {
       showButton = (
-        <Button
-          color="primary"
-          className="jr-btn"
-          onClick={this.handlerCreateEvent}
-        >
+        <Button color="primary" className="jr-btn" onClick={this.handlerCreateEvent}>
           Create Event
         </Button>
       );
     }
+
+    let customRadioButtons;
+
+    if (this.state.isOngoing) {
+      customRadioButtons = (
+        <div>
+          <div className="custom-control custom-radio mr-4">
+            <input
+              type="radio"
+              id="customRadioTrue"
+              name="customRadioOngoing"
+              className="custom-control-input"
+              value="true"
+              onChange={this.handlerIsOngoing}
+              checked
+            />
+            <label className="custom-control-label" htmlFor="customRadioTrue">
+              True
+            </label>
+          </div>
+          <div className="custom-control custom-radio mr-4">
+            <input
+              type="radio"
+              id="customRadioFalse"
+              name="customRadioOngoing"
+              className="custom-control-input"
+              value="false"
+              onChange={this.handlerIsOngoing}
+            />
+            <label className="custom-control-label" htmlFor="customRadioFalse">
+              False
+            </label>
+          </div>
+        </div>
+      );
+    } else {
+      customRadioButtons = (
+        <div>
+          <div className="custom-control custom-radio mr-4">
+            <input
+              type="radio"
+              id="customRadioTrue"
+              name="customRadioOngoing"
+              className="custom-control-input"
+              value="true"
+              onChange={this.handlerIsOngoing}
+            />
+            <label className="custom-control-label" htmlFor="customRadioTrue">
+              True
+            </label>
+          </div>
+          <div className="custom-control custom-radio mr-4">
+            <input
+              type="radio"
+              id="customRadioFalse"
+              name="customRadioOngoing"
+              className="custom-control-input"
+              value="false"
+              onChange={this.handlerIsOngoing}
+              checked
+            />
+            <label className="custom-control-label" htmlFor="customRadioFalse">
+              False
+            </label>
+          </div>
+        </div>
+      );
+    }
+
+    const { startSelectedDay, startIsDisabled } = this.state;
+    const { endSelectedDay, endIsDisabled } = this.state;
+
+    console.log("render", this.state.isOngoing);
 
     return (
       <div>
@@ -270,6 +438,7 @@ class EventForm extends Component {
               <CardBox styleName="col-lg-12">
                 <form className="row" noValidate autoComplete="off">
                   <div className="col-md-4 col-12 mt-4">
+                    <label>Event Name</label>
                     <input
                       className="form-control"
                       type="text"
@@ -279,17 +448,17 @@ class EventForm extends Component {
                     />
                   </div>
                   <div className="col-md-4 col-12 mt-4">
+                    <label>Short Name</label>
                     <input
                       className="form-control"
                       type="text"
                       placeholder="Short Name"
                       value={this.state.shortName}
-                      onChange={e =>
-                        this.setState({ shortName: e.target.value })
-                      }
+                      onChange={e => this.setState({ shortName: e.target.value })}
                     />
                   </div>
                   <div className="col-md-4 col-12 mt-4">
+                    <label>Event Type</label>
                     <select className="form-control">
                       <option>Event Type</option>
                       <option>$</option>
@@ -301,74 +470,63 @@ class EventForm extends Component {
 
                   <div className="col-md-4 col-12 mt-4">
                     <div className="form-group">
-                      <label htmlFor="exampleFormControlTextarea1">
-                        Description
-                      </label>
+                      <label htmlFor="exampleFormControlTextarea1">Description</label>
                       <textarea
                         className="form-control"
                         id="exampleFormControlTextarea1"
                         rows="2"
                         value={this.state.description}
-                        onChange={e =>
-                          this.setState({ description: e.target.value })
-                        }
+                        onChange={e => this.setState({ description: e.target.value })}
                       />
                     </div>
                   </div>
                   <div className="col-md-4 col-12 mt-4">
+                    <label>Website URL</label>
                     <input
                       className="form-control"
                       type="text"
                       placeholder="Website URL"
                       value={this.state.websiteUrl}
-                      onChange={e =>
-                        this.setState({ websiteUrl: e.target.value })
-                      }
+                      onChange={e => this.setState({ websiteUrl: e.target.value })}
                     />
                   </div>
                   <div className="col-md-4 col-12 mt-4">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Logo"
-                      value={this.state.logo}
-                    />
-                    <FileUploader
-                      onImageUrlChange={this.handleImageUrlChange}
-                    />
+                    <label>Logo</label>
+                    <input className="form-control" type="text" placeholder="Logo" value={this.state.logo} />
+                    <FileUploader onImageUrlChange={this.handleImageUrlChange} />
                   </div>
-
-                  <div className="col-sm-8">
+                  <div className="col-sm-8 col-md-4 col-12 mt-4">
                     <h4>Ongoing?</h4>
                     <div className="d-flex row">
                       <div className="custom-control custom-radio mr-4">
                         <input
                           type="radio"
-                          id="customRadio4"
-                          name="customRadio"
+                          id="customRadioTrue"
+                          name="customRadioOngoing"
                           className="custom-control-input"
+                          value="true"
+                          onChange={this.handlerIsOngoing}
+                          checked={this.state.isOngoing}
                         />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="customRadio4"
-                        >
+                        <label className="custom-control-label" htmlFor="customRadioTrue">
                           True
                         </label>
                       </div>
                       <div className="custom-control custom-radio mr-4">
                         <input
                           type="radio"
-                          id="customRadio5"
-                          name="customRadio"
+                          id="customRadioFalse"
+                          name="customRadioOngoing"
                           className="custom-control-input"
+                          value="false"
+                          onChange={this.handlerIsOngoing}
+                          checked={!this.state.isOngoing}
                         />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="customRadio5"
-                        >
+                        <label className="custom-control-label" htmlFor="customRadioFalse">
                           False
                         </label>
                       </div>
+                      {/* {customRadioButtons} */}
                       {/* <div className="custom-control custom-radio mr-4">
                         <input
                           type="radio"
@@ -386,30 +544,29 @@ class EventForm extends Component {
                     </div>
                   </div>
                   <div className="col-md-4 col-12 mt-4">
+                    <label>Organizer</label>
                     <input
                       className="form-control"
                       type="text"
                       placeholder="Organizer"
                       value={this.state.organizer}
-                      onChange={e =>
-                        this.setState({ organizer: e.target.value })
-                      }
+                      onChange={e => this.setState({ organizer: e.target.value })}
                     />
                   </div>
 
                   <div className="row mb-md-4">
                     <div className="col-md-4 col-12 mt-4">
+                      <label>Street</label>
                       <input
                         className="form-control"
                         type="text"
                         placeholder="Street"
                         value={this.state.street}
-                        onChange={e =>
-                          this.setState({ street: e.target.value })
-                        }
+                        onChange={e => this.setState({ street: e.target.value })}
                       />
                     </div>
                     <div className="col-md-4 col-12 mt-4">
+                      <label>Suite</label>
                       <input
                         className="form-control"
                         type="text"
@@ -418,8 +575,8 @@ class EventForm extends Component {
                         onChange={e => this.setState({ suite: e.target.value })}
                       />
                     </div>
-
                     <div className="col-md-6 mb-3 col-12 mt-4">
+                      <label>City</label>
                       <input
                         type="text"
                         className="form-control"
@@ -429,11 +586,10 @@ class EventForm extends Component {
                         onChange={e => this.setState({ city: e.target.value })}
                         required
                       />
-                      <div className="invalid-feedback">
-                        Please provide a valid city.
-                      </div>
+                      <div className="invalid-feedback">Please provide a valid city.</div>
                     </div>
                     <div className="col-md-3 mb-3 col-12 mt-4">
+                      <label>State</label>
                       <input
                         type="text"
                         className="form-control"
@@ -443,11 +599,10 @@ class EventForm extends Component {
                         onChange={e => this.setState({ state: e.target.value })}
                         required
                       />
-                      <div className="invalid-feedback">
-                        Please provide a valid state.
-                      </div>
+                      <div className="invalid-feedback">Please provide a valid state.</div>
                     </div>
                     <div className="col-md-3 mb-3 col-12 mt-4">
+                      <label>Zip</label>
                       <input
                         type="text"
                         className="form-control"
@@ -457,11 +612,10 @@ class EventForm extends Component {
                         onChange={e => this.setState({ zip: e.target.value })}
                         required
                       />
-                      <div className="invalid-feedback">
-                        Please provide a valid zip.
-                      </div>
+                      <div className="invalid-feedback">Please provide a valid zip.</div>
                     </div>
-                    <div className="col-md-4 col-12 mt-4">
+                    {/* <div className="col-md-4 col-12 mt-4">
+                      <label>Latitude</label>
                       <input
                         className="form-control"
                         type="text"
@@ -471,6 +625,7 @@ class EventForm extends Component {
                       />
                     </div>
                     <div className="col-md-4 col-12 mt-4">
+                      <label>Longitude</label>
                       <input
                         className="form-control"
                         type="text"
@@ -478,19 +633,50 @@ class EventForm extends Component {
                         value={this.state.long}
                         onChange={e => this.setState({ long: e.target.value })}
                       />
-                    </div>
-                    <div className="col-md-4 col-12 mt-4">
-                      <Button color="success" className="jr-btn bg-success">
-                        Convert from Address
-                      </Button>
-                    </div>
+                    </div> */}
                     <div className="col-md-4 col-12 mt-4">
                       <p>Start Date</p>
-                      <CustomDateTimePicker />
+                      {/* <CustomDateTimePicker /> */}
+                      <div>
+                        <p>
+                          {!startSelectedDay && "🤔 Type or pick a valid day"}
+                          {startSelectedDay && startIsDisabled && "😡 This day is disabled"}
+                          {startSelectedDay &&
+                            !startIsDisabled &&
+                            `😄 You chose ${startSelectedDay.toLocaleDateString()}`}
+                        </p>
+                        <DayPickerInput
+                          value={startSelectedDay}
+                          onDayChange={this.handleStartDayChange}
+                          dayPickerProps={{
+                            selectedDays: startSelectedDay,
+                            disabledDays: {
+                              daysOfWeek: [0, 6]
+                            }
+                          }}
+                        />
+                      </div>
                     </div>
                     <div className="col-md-4 col-12 mt-4">
                       <p>End Date</p>
-                      <CustomDateTimePicker />
+                      {/* <CustomDateTimePicker /> */}
+                      <div>
+                        <p>
+                          {!endSelectedDay && "🤔 Type or pick a valid day"}
+                          {endSelectedDay && endIsDisabled && "😡 This day is disabled"}
+                          {endSelectedDay && !endIsDisabled && `😄 You chose ${endSelectedDay.toLocaleDateString()}`}
+                        </p>
+                        <DayPickerInput
+                          value={endSelectedDay}
+                          onDayChange={this.handleEndDayChange}
+                          dayPickerProps={{
+                            selectedDays: endSelectedDay,
+                            disabledDays: {
+                              daysOfWeek: [0, 6]
+                            }
+                          }}
+                        />
+                      </div>
                     </div>
                     <div className="col-md-4 col-12 mt-4">{showButton}</div>
                   </div>

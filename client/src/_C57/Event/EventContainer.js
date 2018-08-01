@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import { Route, withRouter } from "react-router-dom";
 
-import Event from "./Event";
 import EventApp from "./EventApp";
 import EventView from "./EventView";
 import EventsListView from "./EventsListView";

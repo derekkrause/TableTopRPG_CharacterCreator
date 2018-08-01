@@ -219,6 +219,95 @@ namespace Sabio.Services
             return pagedItemResponse;
         }
 
+        public List<Event> GetAll()
+        {
+            List<Event> events = new List<Event>();
+
+            dataProvider.ExecuteCmd("Event_SelectAll",
+                (parameters) =>
+                {
+                    
+                },
+                (reader, resultSetIndex) =>
+                {
+                    Event eventItem = new Event
+                    {
+                        Id = (int)reader["Id"],
+                        Name = (string)reader["Name"],
+                        ShortName = (string)reader["ShortName"],
+                        EventTypeId = (int)reader["EventTypeId"],
+                        // AddressId = (int)reader["AddressId"],
+                        IsOngoing = (bool)reader["IsOngoing"],
+                        CreatedBy = (int)reader["CreatedBy"],
+                        ModifiedBy = (int)reader["ModifiedBy"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        Street = (string)reader["Street"],
+                        Suite = (string)reader["Suite"],
+                        City = (string)reader["City"],
+                        State = (string)reader["State"],
+                        Zip = (string)reader["Zip"]
+                    };
+
+                    object startDateObj = reader["StartDate"];
+                    if (startDateObj != DBNull.Value)
+                    {
+                        eventItem.StartDate = (DateTime)startDateObj;
+                    }
+
+                    object endDateObj = reader["EndDate"];
+                    if (endDateObj != DBNull.Value)
+                    {
+                        eventItem.EndDate = (DateTime)endDateObj;
+                    }
+
+                    object descObj = reader["Description"];
+                    if (descObj != DBNull.Value)
+                    {
+                        eventItem.Description = (string)descObj;
+                    }
+
+                    object webUrl = reader["WebsiteUrl"];
+                    if (webUrl != DBNull.Value)
+                    {
+                        eventItem.WebsiteUrl = (string)webUrl;
+                    }
+
+                    object logoObj = reader["Logo"];
+                    if (logoObj != DBNull.Value)
+                    {
+                        eventItem.Logo = (string)logoObj;
+                    }
+
+                    object orgObj = reader["Organizer"];
+                    if (orgObj != DBNull.Value)
+                    {
+                        eventItem.Organizer = (string)orgObj;
+                    }
+
+                    object dateModObj = reader["DateModified"];
+                    if (dateModObj != DBNull.Value)
+                    {
+                        eventItem.DateModified = (DateTime)dateModObj;
+                    }
+
+                    object latObj = reader["Lat"];
+                    if (latObj != DBNull.Value)
+                    {
+                        eventItem.Lat = (double)latObj;
+                    }
+
+                    object longObj = reader["Long"];
+                    if (longObj != DBNull.Value)
+                    {
+                        eventItem.Long = (double)longObj;
+                    }
+
+                    events.Add(eventItem);
+                });
+
+            return events;
+        }
+
         public Event GetById(int id)
         {
             Event eventEvt = new Event();

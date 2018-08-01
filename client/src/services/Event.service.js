@@ -11,6 +11,10 @@ export function getEventListPaged(pageIndex, pageSize) {
   return axios.get(`/api/events/${pageIndex}/${pageSize}`);
 }
 
+export function getEventsListGet() {
+  return axios.get(`/api/events`);
+}
+
 export function getEventByIdWithUser(id) {
   return axios.get(`/api/events/withuser/${id}`);
 }

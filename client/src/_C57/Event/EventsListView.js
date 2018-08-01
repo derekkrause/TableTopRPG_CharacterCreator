@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { getEventById, getEventList, getEventListPaged } from "../../services/Event.service";
+import { getEventById, getEventList, getEventListPaged, getEventsListGet } from "../../services/Event.service";
 import "./EventView.css";
 import EventCardItem from "./EventCardItem";
 
@@ -47,6 +47,23 @@ class EventsListView extends Component {
       });
   }
 
+  getEventsList() {
+    getEventsListGet()
+      .then(response => {
+        console.log("Get Events Ajax GET request success!");
+        console.log(response);
+
+        this.setState({
+          eventDataItem: response.data.items,
+          eventList: response.data.items
+        });
+      })
+      .catch(error => {
+        console.log("Get Events Ajax GET request failed!");
+        console.log(error);
+      });
+  }
+
   createCardList(listArray) {
     const cardList = listArray.map(item => {
       let card = {
@@ -68,14 +85,16 @@ class EventsListView extends Component {
     const pageIndex = 0,
       pageSize = 6;
 
-    this.getEventList(pageIndex, pageSize);
+    // this.getEventList(pageIndex, pageSize);
+    this.getEventsList();
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.eventDataItem !== prevState.eventDataItem) {
       const eventPagedList = this.state.eventDataItem;
 
-      const cardList = this.createCardList(eventPagedList.pagedItems);
+      // const cardList = this.createCardList(eventPagedList.pagedItems);
+      const cardList = this.createCardList(eventPagedList);
 
       this.setState({ eventCardsList: cardList });
     }
@@ -90,9 +109,7 @@ class EventsListView extends Component {
         <div className="app-wrapper">
           <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
             <h2 className="title mb-3 mb-sm-0">{title}</h2>
-            <h3>
-              Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages}
-            </h3>
+            <h3>{/* Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages} */}</h3>
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
             {eventCardsList.map(data => <EventCardItem key={data.id} eventId={data.id} {...this.props} />)}
