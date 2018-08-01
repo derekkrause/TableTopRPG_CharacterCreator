@@ -1,7 +1,7 @@
 ﻿using Sabio.Data.Providers;
 using Sabio.Models;
 using Sabio.Models.Domain;
-using Sabio.Service.Cryptography;
+using Sabio.Services.Cryptography;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sabio.Service
+namespace Sabio.Services
 {
     public class UserService : IUserService
     {

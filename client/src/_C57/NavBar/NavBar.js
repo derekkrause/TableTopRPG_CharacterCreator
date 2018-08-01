@@ -11,8 +11,8 @@ import VenueSearchFilter from "./VenueSearchFilter";
 class NavBar extends React.Component {
   state = {
     collapsed: true,
-    searchString: "",
     search: "",
+    searchString: "",
     searchType: "all",
     //-----------Filter States----------------
     locationFilter: "",
@@ -29,9 +29,10 @@ class NavBar extends React.Component {
     articleTagFilter: ""
   };
 
-  // handleChange = e => {
-  //   this.setState({ [e.target.name]: e.target.value });
-  // };
+  onChange = e => {
+    e.preventDefault();
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   handleTypeAheadChange = name => values => {
     this.setState({
@@ -41,15 +42,6 @@ class NavBar extends React.Component {
   handleDateChange = (selectedDate, name) => {
     this.setState({
       [name]: selectedDate
-    });
-  };
-
-  handleChange = e => {
-    let key = e.target.name;
-    let val = e.target.value;
-
-    this.setState({
-      [key]: val
     });
   };
 
@@ -63,7 +55,7 @@ class NavBar extends React.Component {
         <div className="app-main-header appNav">
           <div className="d-flex app-toolbar align-items-center justify-content-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">
-              <b>Recruit Hub</b>
+              <b>Hub Scout</b>
             </h4>
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select
@@ -74,8 +66,7 @@ class NavBar extends React.Component {
                 name="searchType"
                 value={this.state.searchType}
                 id="exampleSelect"
-                onChange={this.handleChange}
-              >
+                onChange={this.onChange}>
                 <option value="all" selected={() => this.setState({ collapsed: true })}>
                   All
                 </option>
@@ -93,7 +84,7 @@ class NavBar extends React.Component {
                   name="searchString"
                   placeholder="Search here..."
                   onFocus={this.toggle}
-                  onChange={this.handleChange}
+                  onChange={this.onChange}
                   value={this.state.searchString}
                 />
                 <Button className="search-icon">
@@ -103,8 +94,7 @@ class NavBar extends React.Component {
               <span
                 className="icon-btn jr-menu-icon hamburger-icon-animate"
                 id={"Popover-Search-Filter"}
-                onClick={this.toggle}
-              >
+                onClick={this.toggle}>
                 <span className="menu-icon" />
               </span>
             </div>
@@ -126,7 +116,7 @@ class NavBar extends React.Component {
           {this.state.searchType === "all" && <div />}
           {this.state.searchType === "athletes" && (
             <AthleteSearchFilter
-              handleChange={this.handleChange}
+              handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.state.locationFilter}
               gradYearFilter={this.state.gradYearFilter}
@@ -137,7 +127,7 @@ class NavBar extends React.Component {
           {this.state.searchType === "events" && (
             <EventSearchFilter
               handleDateChange={this.handleDateChange}
-              handleChange={this.handleChange}
+              handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.state.locationFilter}
               eventTypeFilter={this.state.eventTypeFilter}
@@ -147,7 +137,7 @@ class NavBar extends React.Component {
           )}
           {this.state.searchType === "coaches" && (
             <CoachSearchFilter
-              handleChange={this.handleChange}
+              handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.state.locationFilter}
               schoolNameFilter={this.state.schoolNameFilter}
@@ -157,7 +147,7 @@ class NavBar extends React.Component {
           )}
           {this.state.searchType === "articles" && (
             <ArticleSearchFilter
-              handleChange={this.handleChange}
+              handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.state.locationFilter}
               articleTypeFilter={this.state.articleTypeFilter}
@@ -166,7 +156,7 @@ class NavBar extends React.Component {
           )}
           {this.state.searchType === "schools" && (
             <SchoolSearchFilter
-              handleChange={this.handleChange}
+              handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.state.locationFilter}
               sportLevelFilter={this.state.sportLevelFilter}
@@ -174,7 +164,7 @@ class NavBar extends React.Component {
           )}
           {this.state.searchType === "venues" && (
             <VenueSearchFilter
-              handleChange={this.handleChange}
+              handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.state.locationFilter}
               eventTypeFilter={this.state.eventTypeFilter}

@@ -14,5 +14,6 @@ namespace Sabio.Models.Domain
         public string PasswordHash { get;  set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
+        public int TotalCount { get; set; }
     }
 }

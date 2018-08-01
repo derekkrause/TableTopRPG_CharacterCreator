@@ -7,21 +7,22 @@
   img.avatar-circle {
     display: inline-block;
     @extend %size-120;
-    @include border-radius(50%);
+    @include border-radius(10%);
     @include box-shadow($shadow);
     position: relative;
+    right: 40%;
     margin: 0 auto;
     -webkit-transform: translateY(50px);
     -ms-transform: translateY(50px);
     transform: translateY(50px);
     @include transition(all 0.4s ease-in-out);
-    z-index: 1;
+    z-index: 10;
   }
 
   &:hover {
     & .avatar-circle {
       @include transition(border-radius 0.4s ease 0.1s);
-      @include border-radius(25%);
+      @include border-radius(0%);
     }
   }
 }
@@ -31,7 +32,7 @@
     position: relative;
     width: 100%;
     min-height: 100%;
-    @include background('http://via.placeholder.com/1920x1072', center center);
+    @include background('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTzwAucViLXX0KFFcTnluYZltJqc5z3DAYQuR6RTul5VtobJnaIg', center center);
   }
   & .pi-content {
     padding: 70px 40px 24px;

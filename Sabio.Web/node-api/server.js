@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 
 const app = express();
 const fs = require("fs");
+const port = process.env.PORT || 8080;
 
 dotenv.config();
 const port = process.env.PORT || 8080;
@@ -13,6 +14,7 @@ const port = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 
 // Demo middleware to play with error handling
 app.use((req, res, next) => {
@@ -27,9 +29,7 @@ app.use((req, res, next) => {
   // and terminates server process with error ERR_HTTP_HEADERS_SENT.
   //next(new Error("Bazonga!"));
   const endTime = Date.now();
-  console.log(
-    "Response Time: " + endTime + " Elapsed: " + (endTime - startTime)
-  );
+  console.log("Response Time: " + endTime + " Elapsed: " + (endTime - startTime));
   // Request goes through, error is written to log.
   //throw new Error("Bazunga!");
 });

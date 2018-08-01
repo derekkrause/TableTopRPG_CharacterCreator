@@ -1,9 +1,7 @@
 using Sabio.Data;
 using Sabio.Data.Providers;
-using Sabio.Models.Interfaces;
-using Sabio.Service;
-using Sabio.Service.Cryptography;
 using Sabio.Services;
+using Sabio.Services.Cryptography;
 using Sabio.Services.Interfaces;
 using Sabio.Web.Core.Services;
 using System.Configuration;
@@ -31,6 +29,7 @@ namespace Sabio.Web
             // give them an instance of "PogsService"
             container.RegisterType<IPogsService, FakePogService>();
 
+            container.RegisterType<IUserTableService, UserTableServices>();
             container.RegisterType<IEventService, EventService>();
 
             //this should be per request

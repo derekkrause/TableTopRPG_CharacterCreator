@@ -2,6 +2,7 @@
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using Sabio.Services;
+using Sabio.Services.Security;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -11,14 +12,16 @@ namespace Sabio.Web.Controllers.Api
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
-        readonly UserTableServices userTableServices;
+        readonly IUserTableService userTableServices;
+        readonly IAuthenticationService authenticationService;
 
-        public UserController(UserTableServices userTableServices)
+        public UserController(IUserTableService userTableServices, IAuthenticationService authenticationService)
         {
             this.userTableServices = userTableServices;
+            this.authenticationService = authenticationService;
         }
 
-        [Route, HttpPost]
+        [Route, HttpPost, AllowAnonymous]
         public HttpResponseMessage Create(UserCreateRequest userCreateRequest)
         {
             if (userCreateRequest == null)
@@ -39,7 +42,7 @@ namespace Sabio.Web.Controllers.Api
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
         public HttpResponseMessage GetAll(int pageIndex, int pageSize)
         {
-            PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
+           PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
 
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<User>>
             {
@@ -50,9 +53,48 @@ namespace Sabio.Web.Controllers.Api
         [Route("{id:int}"), HttpGet]
         public HttpResponseMessage GetById(int id)
         {
-            ItemResponse<User> itemResponse = userTableServices.GetById(id);
+            ItemResponse<User> itemResponse = new ItemResponse<User> { Item = userTableServices.GetById(id) };
 
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
+        }
+
+        [Route("current"), HttpGet]
+        public HttpResponseMessage GetCurrent()
+        {
+            int? id = User.Identity.GetId();
+            ItemResponse<User> itemResponse = new ItemResponse<User> { Item = userTableServices.GetById(id.Value) };
+
+            return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
+        }
+
+        [Route("login"), HttpPost, AllowAnonymous]
+        public HttpResponseMessage Login(UserLoginRequest userLoginRequest)
+        {
+            if(userLoginRequest == null)
+            {
+                ModelState.AddModelError("", "Missing Email or Password");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            int userId = userTableServices.Login(userLoginRequest);
+
+            if (userId == 0)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email or Password Invalid");
+            }
+
+            authenticationService.LogIn(new UserBase
+            {
+                Id = userId,
+                Name = "",
+                Roles = new string[0]
+            });
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [Route("{id:int}"), HttpPut]

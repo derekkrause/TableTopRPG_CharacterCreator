@@ -1,6 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Route, Switch } from "react-router-dom";
+import { withRouter, Route, Switch, PrivateRoute } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
 import CustomScrollbars from "../util/CustomScrollbars";
@@ -14,9 +13,6 @@ import {
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
-import { Header } from "reactstrap";
-
-//import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
 class App extends React.Component {
   render() {
@@ -45,28 +41,19 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
                 <Route
                   path={`${match.url}/admin`}
                   component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
                 />
                 <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
-                />
-                <Route
-                  path={`${match.url}/registration`}
-                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
+                  path={`${match.url}/articles/create`}
+                  component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
                 <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
                 <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/SamplePage"))}
-                />
-                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
-
-                <Route
-                  path={`${match.url}/athlete`}
-                  component={asyncComponent(() => import("../_C57/Athlete/Athlete"))}
+                  path={`${match.url}/events`}
+                  component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
                 <Route
                   path={`${match.url}/faqs-page`}
@@ -78,14 +65,19 @@ class App extends React.Component {
                 />
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
-                  path={`${match.url}/events`}
-                  component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                 />
                 <Route
-                  path={`${match.url}/video-player`}
-                  component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
+                />
+                <Route
+                  path={`${match.url}/welcome`}
+                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
                 <Route component={asyncComponent(() => import("components/Error404"))} />
+                {/* Please keep Routes alphebetized by URL */}
               </Switch>
             </div>
 

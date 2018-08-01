@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace Sabio.Service
+namespace Sabio.Services
 {
     // "public" means this class is visible from other projects (e.g. Sabio.Web)
     // ": IPogsService" means "this class implements that IPogsService interface"

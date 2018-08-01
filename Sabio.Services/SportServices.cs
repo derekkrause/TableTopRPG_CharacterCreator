@@ -1,6 +1,6 @@
 ﻿using Sabio.Data.Providers;
 using Sabio.Models.Domain;
-using Sabio.Models.Interfaces;
+using Sabio.Services.Interfaces;
 using Sabio.Models.Requests;
 using System;
 using System.Collections.Generic;
@@ -36,18 +36,18 @@ namespace Sabio.Services
                     switch (resultSetIndex)
                     {
                         case 0:
-                            Sport sport = new Sport
-                            {
-                                Id = (int)reader["Id"],
-                                Code = (string)reader["Code"],
-                                Name = (string)reader["Name"],
-                                DisplayOrder = (int)reader["DisplayOrder"],
-                                Inactive = (bool)reader["Inactive"],
-                                Gender = (string)reader["Gender"],
-                                DateCreated = (DateTime)reader["DateCreated"],
-                                DateModified = (DateTime)reader["DateModified"],
-                            };
-                            listOfSports.Add(sport);
+                    Sport sport = new Sport
+                    {
+                        Id = (int)reader["Id"],
+                        Code = (string)reader["Code"],
+                        Name = (string)reader["Name"],
+                        DisplayOrder = (int)reader["DisplayOrder"],
+                        Inactive = (bool)reader["Inactive"],
+                        Gender = (string)reader["Gender"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"],
+                    };
+                    listOfSports.Add(sport);
                             dictionaryOfSports.Add(sport.Id, sport);
                             break;
                         case 1:
@@ -95,7 +95,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@DisplayOrder", request.DisplayOrder);
                     parameters.AddWithValue("@Inactive", request.Inactive);
                     parameters.AddWithValue("@Gender", request.Gender);
-
+                    
 
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                 },
@@ -187,17 +187,17 @@ namespace Sabio.Services
                     switch (resultSetIndex)
                     {
                         case 0:
-                            sport = new Sport
-                            {
-                                Id = (int)reader["Id"],
-                                Code = (string)reader["Code"],
-                                Name = (string)reader["Name"],
-                                DisplayOrder = (int)reader["DisplayOrder"],
-                                Inactive = (bool)reader["Inactive"],
-                                Gender = (string)reader["Gender"],
-                                DateCreated = (DateTime)reader["DateCreated"],
-                                DateModified = (DateTime)reader["DateModified"],
-                            };
+                    sport = new Sport
+                    {
+                        Id = (int)reader["Id"],
+                        Code = (string)reader["Code"],
+                        Name = (string)reader["Name"],
+                        DisplayOrder = (int)reader["DisplayOrder"],
+                        Inactive = (bool)reader["Inactive"],
+                        Gender = (string)reader["Gender"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"],
+                    };
                             break;
                         case 1:
                             SportPosition sportPosition = new SportPosition
@@ -209,7 +209,7 @@ namespace Sabio.Services
                                 DateCreated = (DateTime)reader["DateCreated"],
                                 DateModified = (DateTime)reader["DateModified"],
                             };
-
+                   
                             if (sport.Positions == null)
                             {
                                 sport.Positions = new List<SportPosition>();
@@ -218,7 +218,7 @@ namespace Sabio.Services
 
                             break;
                     }
-
+             
                 });
             return sport;
         }

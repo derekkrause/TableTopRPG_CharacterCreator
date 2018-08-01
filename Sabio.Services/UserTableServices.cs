@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using Sabio.Data.Providers;
+﻿using Sabio.Data.Providers;
+using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
-using Sabio.Models.Domain;
+using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Sabio.Services
 {
-    public class UserTableServices
+    public class UserTableServices : IUserTableService
     {
         readonly IDataProvider dataProvider;
 
@@ -31,7 +29,6 @@ namespace Sabio.Services
                     parameters.AddWithValue("@FirstName", request.FirstName);
                     parameters.AddWithValue("@MiddleName", request.MiddleName);
                     parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@Gender", request.Gender);
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                     parameters.AddWithValue("@Email", request.Email);
                     parameters.AddWithValue("@PasswordHash", passHash);
@@ -82,15 +79,13 @@ namespace Sabio.Services
                     userList.Add(user);
                 });
 
-            pagedItemResponse.PagedItems = userList;
-
             return pagedItemResponse;
+            
         }
 
-        public ItemResponse<User> GetById(int id)
+        public User GetById(int id)
         {
-            ItemResponse<User> itemResponse = new ItemResponse<User>();
-            User newUser = new User();
+            User user = null;
 
             dataProvider.ExecuteCmd(
                 "User_SelectById",
@@ -100,7 +95,7 @@ namespace Sabio.Services
                 },
                 (reader, resultSetIndex) =>
                 {
-                    User user = new User
+                    user = new User
                     {
                         Id = (int)reader["Id"],
                         FirstName = (string)reader["FirstName"],
@@ -118,12 +113,39 @@ namespace Sabio.Services
                         user.MiddleName = (string)MiddleNameValue;
                     };
 
-                    newUser = user;
-                    itemResponse.Item = newUser;
                 }
                 
                 );
-                    return itemResponse;
+                    return user;
+        }
+
+        public int Login(UserLoginRequest request)
+        {
+            string storedPassword = "";
+            string passwordInput = request.Password;
+            int userId = 0;
+
+            dataProvider.ExecuteCmd(
+                "User_Login",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Email", request.Email);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    storedPassword = (string)reader["PasswordHash"];
+                    userId = (int)reader["Id"];
+                });
+
+            //bool pwMatch = BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword);
+            if (BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword))
+            {
+                return userId;
+            }
+            else
+            {
+                return 0;
+            }
         }
         
         public void Update(UserUpdateRequest request)

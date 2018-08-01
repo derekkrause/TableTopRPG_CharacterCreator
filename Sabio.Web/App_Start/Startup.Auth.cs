@@ -9,7 +9,7 @@ using Sabio.Web.Core.Services.Security;
 using System;
 using System.Configuration;
 using System.Web;
-using Sabio.Service.Security;
+using Sabio.Services.Security;
 using Sabio.Web.Core.Security.Jwt;
 
 namespace Sabio.Web
@@ -30,7 +30,7 @@ namespace Sabio.Web
 
 
         /// <summary>
-        /// This method of Authentication currently does not support the generatio of the token with an "Login" flow.
+        /// This method of Authentication currently does not support the generation of the token with an "Login" flow.
         /// The token is expected to have been generated elsewhere and then passed in the headers of any request.
         /// The format of the JWT will be validted as long as the Algo and Secrect used to generate and validate package are the same.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Sabio.Web
         }
 
         /// <summary>
-        /// Will store Authentication information in a cookie in of two formats. The default format is 
+        /// Will store Authentication information in a cookie in one of two formats. The default format is 
         /// standard to ASP.Net applications. The second format stores and unpacks a JWT
         /// </summary>
         /// <param name="app"></param>

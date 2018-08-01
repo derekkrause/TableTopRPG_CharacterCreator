@@ -14,7 +14,6 @@
 .hamburger-icon-animate:hover {
   transform: rotate(90deg);
   transition: 1s;
-
 }
 
 /* .search-input-flash:focus {
@@ -39,5 +38,3 @@
 
   }
 } */
-
-
