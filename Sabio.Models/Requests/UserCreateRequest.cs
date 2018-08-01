@@ -12,9 +12,6 @@ namespace Sabio.Models.Requests
         [Required, MaxLength(50)]
         public string LastName { get; set; }
 
-        [Required]
-        public int Gender { get; set; }
-
         [MaxLength(250)]
         public string AvatarUrl { get; set; }
 

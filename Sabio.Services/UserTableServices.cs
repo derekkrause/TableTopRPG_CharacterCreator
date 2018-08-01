@@ -29,7 +29,6 @@ namespace Sabio.Services
                     parameters.AddWithValue("@FirstName", request.FirstName);
                     parameters.AddWithValue("@MiddleName", request.MiddleName);
                     parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@Gender", request.Gender);
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                     parameters.AddWithValue("@Email", request.Email);
                     parameters.AddWithValue("@PasswordHash", passHash);

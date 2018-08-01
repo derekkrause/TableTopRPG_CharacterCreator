@@ -12,7 +12,6 @@ class UserRegistrationForm extends React.Component {
     lastName: "",
     emailInput: "",
     password: "",
-    genderSelect: null,
     userType: "",
     avatarUrl: "",
     //VALIDATION
@@ -169,65 +168,65 @@ class UserRegistrationForm extends React.Component {
                 <FormFeedback valid>Looks good!</FormFeedback>
               </FormGroup>
               <FormGroup className="col-12">
-                <div className="col-12 mt-2">
-                  <Label htmlFor="userTypeGroup">Select User Type</Label>
-                  <div
-                    className="d-flex flex-wrap form-group justify-content-center mx-auto"
-                    name="userTypeGroup"
-                    onChange={this.onChange}
-                    id="userTypeGroup">
-                    <div className="custom-control custom-radio my-1 mx-auto col-5">
-                      <input
-                        type="radio"
-                        name="userType"
-                        className="custom-control-input"
-                        value="Athlete"
-                        id="athleteRadio"
-                      />
-                      <Label className="custom-control-label" htmlFor="athleteRadio">
-                        Athlete
-                      </Label>
-                    </div>
-                    <div className="custom-control custom-radio my-1 mx-auto col-5">
-                      <input
-                        type="radio"
-                        name="userType"
-                        className="custom-control-input"
-                        value="Recruiter"
-                        id="recruiterRadio"
-                      />
-                      <Label className="custom-control-label" htmlFor="recruiterRadio">
-                        Recruiter
-                      </Label>
-                    </div>
-                    <div className="custom-control custom-radio my-1 mx-auto col-5">
-                      <input
-                        type="radio"
-                        name="userType"
-                        className="custom-control-input"
-                        value="Advocate"
-                        id="advocateRadio"
-                        disabled
-                      />
-                      <Label className="custom-control-label" htmlFor="advocateRadio">
-                        Advocate
-                      </Label>
-                    </div>
-                    <div className="custom-control custom-radio my-1 mx-auto col-5">
-                      <input
-                        type="radio"
-                        name="userType"
-                        className="custom-control-input"
-                        value="Coach4Hire"
-                        id="coach4hireRadio"
-                        disabled
-                      />
-                      <Label className="custom-control-label" htmlFor="coach4hireRadio">
-                        Coach4Hire
-                      </Label>
-                    </div>
+                {/* <div className="col-12 mt-2"> */}
+                <Label htmlFor="userTypeGroup">Select User Type</Label>
+                <div
+                  className="d-flex flex-wrap form-group justify-content-center mx-auto"
+                  name="userTypeGroup"
+                  onChange={this.onChange}
+                  id="userTypeGroup">
+                  <div className="custom-control custom-radio my-1 mx-auto col-5">
+                    <input
+                      type="radio"
+                      name="userType"
+                      className="custom-control-input"
+                      value="Athlete"
+                      id="athleteRadio"
+                    />
+                    <Label className="custom-control-label" htmlFor="athleteRadio">
+                      Athlete
+                    </Label>
+                  </div>
+                  <div className="custom-control custom-radio my-1 mx-auto col-5">
+                    <input
+                      type="radio"
+                      name="userType"
+                      className="custom-control-input"
+                      value="Recruiter"
+                      id="recruiterRadio"
+                    />
+                    <Label className="custom-control-label" htmlFor="recruiterRadio">
+                      Recruiter
+                    </Label>
+                  </div>
+                  <div className="custom-control custom-radio my-1 mx-auto col-5">
+                    <input
+                      type="radio"
+                      name="userType"
+                      className="custom-control-input"
+                      value="Advocate"
+                      id="advocateRadio"
+                      disabled
+                    />
+                    <Label className="custom-control-label" htmlFor="advocateRadio">
+                      Advocate
+                    </Label>
+                  </div>
+                  <div className="custom-control custom-radio my-1 mx-auto col-5">
+                    <input
+                      type="radio"
+                      name="userType"
+                      className="custom-control-input"
+                      value="Coach4Hire"
+                      id="coach4hireRadio"
+                      disabled
+                    />
+                    <Label className="custom-control-label" htmlFor="coach4hireRadio">
+                      Coach4Hire
+                    </Label>
                   </div>
                 </div>
+                {/* </div> */}
               </FormGroup>
             </Form>
           </div>
