@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter, Route, Switch } from "react-router-dom";
+import { withRouter, Route, Switch, PrivateRoute } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
 import CustomScrollbars from "../util/CustomScrollbars";
@@ -52,35 +52,25 @@ class App extends React.Component {
                 />
                 <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
                 <Route
-                  path={`${match.url}/faqs-page`}
-                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
-                />
-                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
-
-                <Route
-                  path={`${match.url}/fav-page`}
-                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
-                />
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
-                />
-                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
-                <Route
-                  path={`${match.url}/registration`}
-                  component={asyncComponent(() => import("../_C57/RegistrationLoginPage/UserRegistrationForm.js"))}
-                />
-                <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/SamplePage"))}
-                />
-                <Route
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
                 <Route
-                  path={`${match.url}/video-player`}
-                  component={asyncComponent(() => import("../components/VideoPlayer/VideoPlayerContainer"))}
+                  path={`${match.url}/faqs-page`}
+                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
+                />
+                <Route
+                  path={`${match.url}/fav-page`}
+                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
+                />
+                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
                 />
                 <Route
                   path={`${match.url}/welcome`}
