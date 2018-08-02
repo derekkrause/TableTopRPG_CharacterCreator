@@ -50,7 +50,7 @@ class App extends React.Component {
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
-                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
+
                 <Route
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
@@ -63,6 +63,7 @@ class App extends React.Component {
                   path={`${match.url}/fav-page`}
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
+                <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
                   path={`${match.url}/profile`}
