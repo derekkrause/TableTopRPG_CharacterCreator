@@ -9,12 +9,10 @@ const fs = require("fs");
 const port = process.env.PORT || 8080;
 
 dotenv.config();
-const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
 
 // Demo middleware to play with error handling
 app.use((req, res, next) => {

@@ -35,7 +35,8 @@ class TopNav extends React.Component {
                 placement="bottom"
                 isOpen={this.state.isOpen}
                 target={"loginHelpPopover"}
-                toggle={this.toggle}>
+                toggle={this.toggle}
+              >
                 <PopoverBody className="d-flex flex-wrap justify-content-center p-1">
                   <Button className="btn m-auto px-1 pb-1" color="link">
                     Forgot Username
