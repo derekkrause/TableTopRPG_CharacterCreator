@@ -72,6 +72,11 @@ class AdminSideBarContent extends React.Component {
                   </button>
                 </NavLink>
               </li>
+              <li>
+                <button className="btn btn-link" style={{ marginTop: "10px" }}>
+                  <NavLink to={`${this.props.match.url}/classyear`}>Class Year</NavLink>
+                </button>
+              </li>
             </ul>
           </div>
         </div>

@@ -1,0 +1,28 @@
+div.ClassYearForm {
+    width: 400px;
+}
+
+h1.ClassYearForm {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: .9px solid #dee2de;
+}
+
+button.ClassYearForm {
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+.checkbox.ClassYearForm {
+    margin-left: 25px;
+}
+
+.btn-default.ClassYearForm {
+    background: #fff !important;
+    border-color: grey;
+    color: black;
+}
+
+.btn-primary.ClassYearForm{
+    border-style: none !important;
+}
