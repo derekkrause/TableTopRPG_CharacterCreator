@@ -1,7 +1,9 @@
 import React from "react";
-import { Button, Form, FormFeedback, FormGroup, Input, InputGroup, Label } from "reactstrap";
+import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import { registerUser, registerCoach, registerAthlete } from "../../services/registerLogin.service";
+import { NotificationContainer, NotificationManager } from "react-notifications";
 import { validateRegistration } from "./RegValidation";
+import { SweetAlert } from "react-bootstrap-sweetalert";
 import "./RegForm.css";
 
 class UserRegistrationForm extends React.Component {
@@ -19,7 +21,10 @@ class UserRegistrationForm extends React.Component {
     lastValid: null,
     emailValid: null,
     passwordValid: null,
-    formValid: false
+    formValid: false,
+    //Other
+    regSuccess: false,
+    regFail: false
   };
 
   onChange = e => {
@@ -37,6 +42,27 @@ class UserRegistrationForm extends React.Component {
     });
   };
 
+  createNotification = type => {
+    return () => {
+      switch (type) {
+        case "info":
+          NotificationManager.info("Info message");
+          break;
+        case "success":
+          NotificationManager.success("Success message", "Title here");
+          break;
+        case "warning":
+          NotificationManager.warning("Warning message", "Close after 3000ms", 3000);
+          break;
+        case "error":
+          NotificationManager.error("Error message", "Click me!", 5000, () => {
+            alert("callback");
+          });
+          break;
+      }
+    };
+  };
+
   registerUserType = (userType, userId) => {
     switch (userType) {
       case "Athlete":
@@ -44,10 +70,10 @@ class UserRegistrationForm extends React.Component {
           .then(result => console.log("ATHLETE REGISTERED", result))
           .catch(error => console.log("ATHLETE REG ERROR", error));
         break;
-      case "Recruiter":
+      case "Coach":
         registerCoach(userId)
-          .then(result => console.log("RECRUITER REGISTERED", result))
-          .catch(error => console.log("RECRUITER REG ERROR", error));
+          .then(result => console.log("COACH REGISTERED", result))
+          .catch(error => console.log("COACH REG ERROR", error));
         break;
       case "Advocate":
         //axios call registerAdvocate(userId)
@@ -75,10 +101,12 @@ class UserRegistrationForm extends React.Component {
       registerUser(userData)
         .then(result => {
           console.log("Registration Successful", result);
+          this.setState({ regSuccess: true });
           this.registerUserType(this.state.userType, result.data.item);
         })
         .catch(response => {
           console.log("Registration Error", response);
+          this.setState({ regFail: true });
           this.setState({ valid: false });
         });
     } else undefined;
@@ -99,6 +127,18 @@ class UserRegistrationForm extends React.Component {
           </div>
           <h1 className="my-2 text-center">Create an Account</h1>
           <div className="login-form">
+            <SweetAlert
+              show={this.state.regSuccess}
+              title="Registration Success"
+              text="Welcome!"
+              onConfirm={() => this.setState({ regSuccess: false })}
+            />
+            <SweetAlert
+              show={this.state.regFail}
+              title="Oops!"
+              text="Ensure all fields are filled out correctly and try again."
+              onConfirm={() => this.setState({ regFail: false })}
+            />
             <Form className="row pb-0" autoComplete="on">
               <FormGroup className="col-12">
                 {/* <InputGroup className="col-12 my-1"> */}
@@ -174,7 +214,8 @@ class UserRegistrationForm extends React.Component {
                   className="d-flex flex-wrap form-group justify-content-center mx-auto"
                   name="userTypeGroup"
                   onChange={this.onChange}
-                  id="userTypeGroup">
+                  id="userTypeGroup"
+                >
                   <div className="custom-control custom-radio my-1 mx-auto col-5">
                     <input
                       type="radio"
@@ -182,6 +223,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Athlete"
                       id="athleteRadio"
+                      checked={this.state.userType == "Athlete" || this.props.userType == "Athlete" ? true : false}
                     />
                     <Label className="custom-control-label" htmlFor="athleteRadio">
                       Athlete
@@ -192,11 +234,12 @@ class UserRegistrationForm extends React.Component {
                       type="radio"
                       name="userType"
                       className="custom-control-input"
-                      value="Recruiter"
-                      id="recruiterRadio"
+                      value="Coach"
+                      id="coachRadio"
+                      checked={this.state.userType == "Coach" || this.props.userType == "Coach" ? true : false}
                     />
-                    <Label className="custom-control-label" htmlFor="recruiterRadio">
-                      Recruiter
+                    <Label className="custom-control-label" htmlFor="coachRadio">
+                      Coach
                     </Label>
                   </div>
                   <div className="custom-control custom-radio my-1 mx-auto col-5">
@@ -206,6 +249,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Advocate"
                       id="advocateRadio"
+                      // checked={this.state.userType == "Advocate" || this.props.userType == "Advocate" ? true : false}
                       disabled
                     />
                     <Label className="custom-control-label" htmlFor="advocateRadio">
@@ -231,7 +275,12 @@ class UserRegistrationForm extends React.Component {
             </Form>
           </div>
           <div className="d-flex justify-content-center">
-            <Button onClick={this.signUp} className="btn btn-primary py-2 my-2" disabled={!this.state.formValid}>
+            <Button
+              type="submit"
+              onSubmit={this.signUp}
+              className="btn btn-primary py-2 my-2"
+              disabled={!this.state.formValid}
+            >
               Sign-up
             </Button>
           </div>

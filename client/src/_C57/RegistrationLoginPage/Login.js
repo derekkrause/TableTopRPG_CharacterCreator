@@ -29,30 +29,28 @@ class UserLogin extends React.Component {
   render() {
     return (
       <div>
-        <Form inline>
+        <Form inline onSubmit={e => this.login(e)} autoComplete="on">
           <InputGroup size="sm">
             <Input
               type="email"
               onChange={this.onChange}
               name="email"
               placeholder="Email"
-              autoComplete="on"
-              invalid={this.state.invalidLogin}
+              invalid={this.state.invalidLogin ? true : undefined}
             />
             <Input
               type="password"
               onChange={this.onChange}
               name="password"
               placeholder="Password"
-              autoComplete="on"
-              invalid={this.state.invalidLogin}
+              invalid={this.state.invalidLogin ? true : undefined}
             />
-            <FormFeedback tooltip>Email or Password Invalid</FormFeedback>
             <InputGroupAddon addonType="append">
-              <Button color="primary" onClick={this.login}>
+              <Button className="rounded-right" color="primary" type="submit">
                 Sign-In
               </Button>
             </InputGroupAddon>
+            <FormFeedback>Email or Password Invalid</FormFeedback>
           </InputGroup>
         </Form>
       </div>

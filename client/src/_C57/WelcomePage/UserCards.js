@@ -1,66 +1,97 @@
 import React from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardTitle, Button } from "reactstrap";
+import { Card, CardFooter, CardImg, CardImgOverlay, CardTitle, Button, ListGroup, ListGroupItem } from "reactstrap";
 
 class UserTypeCards extends React.Component {
-  state = {
-    athleteCard: true,
-    coachCard: true,
-    advocateCard: true
-  };
-
-  onClick = e => {
-    e.preventDefault();
-    console.log("this is: ", e);
-    this.setState({ [e.target.name]: !e.target.value });
-  };
-
   render() {
     return (
-      <div className="row d-flex justify-content-around p-0 mt-3 mx-2 card-deck">
-        <Card
-          inverse
-          className="p-0 d-flex bg-dark border-dark card-flip"
-          ref="coachCard"
-          onClick={this.onCl}
-          value={this.state.coachCard}>
-          <CardImg height="100%" src="https://c1.staticflickr.com/6/5292/5477733359_102d9c5533_b.jpg" alt="Coach" />
-          <CardImgOverlay className="justify-content-center">
-            <CardTitle>Coach</CardTitle>
-            <CardText>Find your next All-Star!</CardText>
-          </CardImgOverlay>
-        </Card>
-        <Card
-          inverse
-          className="p-0 d-flex bg-dark border-dark card-flip"
-          name="athleteCard"
-          onClick={this.onClick}
-          value={this.state.athleteCard}>
-          <CardImg
-            height="100%"
-            src="https://www.publicdomainpictures.net/pictures/90000/velka/baseball-batter.jpg"
-            alt="Athlete"
-          />
-          <CardImgOverlay>
-            <CardTitle>Athlete</CardTitle>
-            <CardText>Find your next Team!</CardText>
-          </CardImgOverlay>
-        </Card>
-        <Card
-          inverse
-          className="p-0 d-flex bg-dark border-dark card-flip"
-          name="advocateCard"
-          onClick={this.onClick}
-          value={this.state.advocateCard}>
-          <CardImg
-            height="100%"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Caleb_Porter_Portland_Timbers_vs_Seattle_Sounders_2016-07-17_%2828378409765%29.jpg/1024px-Caleb_Porter_Portland_Timbers_vs_Seattle_Sounders_2016-07-17_%2828378409765%29.jpg"
-            alt="Advocate"
-          />
-          <CardImgOverlay>
-            <CardTitle>Advocate</CardTitle>
-            <CardText>Promote your All-Star!</CardText>
-          </CardImgOverlay>
-        </Card>
+      <div className="d-flex flex-row flex-wrap p-0 mx-2 card-deck">
+        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-2">
+          <div className="card-flip">
+            <Card inverse className="d-flex border-0 front p-0" name="athleteCard">
+              <CardImg
+                height="100%"
+                src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/98facd6a-bb44-46b5-adac-63586855b0c9"
+                style={{ objectFit: "cover" }}
+                alt="Athlete"
+              />
+              <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
+                <CardTitle className="mb-0 w-100 bg-success rounded-left">
+                  <h1 className="text-white m-0 pl-3 p-2">ATHLETE</h1>
+                </CardTitle>
+              </CardImgOverlay>
+            </Card>
+            <Card className="d-flex border-0 justify-content-center back p-2" name="athleteCard">
+              <ListGroup flush className="pb-2">
+                <ListGroupItem>Find schools</ListGroupItem>
+                <ListGroupItem>Share your skills</ListGroupItem>
+                <ListGroupItem>Connect with Recruiters</ListGroupItem>
+                <ListGroupItem>Access on the go!</ListGroupItem>
+                <ListGroupItem>Get the latest news</ListGroupItem>
+              </ListGroup>
+              <Button color="success" className="btn mx-auto my-auto" onClick={this.props.regScrollAthlete}>
+                Get Started
+              </Button>
+            </Card>
+          </div>
+        </div>
+        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-1">
+          <div className="card-flip">
+            <Card inverse className="d-flex border-0 front p-0" name="coachCard">
+              <CardImg
+                height="100%"
+                src="https://c1.staticflickr.com/6/5292/5477733359_102d9c5533_b.jpg"
+                alt="Coach"
+                style={{ objectFit: "cover" }}
+              />
+              <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
+                <CardTitle className="mb-0 w-100 bg-primary rounded-left">
+                  <h1 className="text-white m-0 pl-3 p-2">COACH</h1>
+                </CardTitle>
+              </CardImgOverlay>
+            </Card>
+            <Card className="d-flex border-0 justify-content-center back p-2" name="coachCard">
+              <ListGroup flush className="pb-2">
+                <ListGroupItem>Find prospects</ListGroupItem>
+                <ListGroupItem>Watch game highlights</ListGroupItem>
+                <ListGroupItem>Talk to Player Advocates</ListGroupItem>
+                <ListGroupItem>Access on the go!</ListGroupItem>
+                <ListGroupItem>Get the latest news</ListGroupItem>
+              </ListGroup>
+              <Button color="primary" className="btn mx-auto my-auto" onClick={this.props.regScrollCoach}>
+                Get Started
+              </Button>
+            </Card>
+          </div>
+        </div>
+        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-3">
+          <div className="card-flip">
+            <Card inverse className="d-flex border-0 front p-0" name="advocateCard">
+              <CardImg
+                height="100%"
+                src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/c670f692-a624-4567-a42c-2fb835cb95ea"
+                style={{ objectFit: "cover" }}
+                alt="Advocate"
+              />
+              <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
+                <CardTitle className="mb-0 w-100 bg-danger rounded-left">
+                  <h1 className="text-white m-0 pl-3 p-2">ADVOCATE</h1>
+                </CardTitle>
+              </CardImgOverlay>
+            </Card>
+            <Card className="d-flex border-0 justify-content-center back p-2" name="advocateCard">
+              <ListGroup flush className="pb-2">
+                <ListGroupItem>Promote your athletes</ListGroupItem>
+                <ListGroupItem>Help athletes get noticed</ListGroupItem>
+                <ListGroupItem>Approve their stats</ListGroupItem>
+                <ListGroupItem>Access on the go!</ListGroupItem>
+                <ListGroupItem>Get the latest news</ListGroupItem>
+              </ListGroup>
+              <Button color="danger" className="btn mx-auto my-auto" onClick={this.props.regScrollAdvocate}>
+                Get Started
+              </Button>
+            </Card>
+          </div>
+        </div>
       </div>
     );
   }

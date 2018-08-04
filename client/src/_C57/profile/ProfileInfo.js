@@ -72,9 +72,9 @@ class ProfileInfo extends React.Component {
               <div className="col-md-12">
                 <h1 className="text-center">
                   {this.props.sport}
-                  &nbsp;|&nbsp;
+                  &nbsp;&nbsp;
                   {this.props.sportPosition}
-                  &nbsp;|&nbsp;
+                  &nbsp;&nbsp;
                   {this.props.sportLevel}
                 </h1>
               </div>
