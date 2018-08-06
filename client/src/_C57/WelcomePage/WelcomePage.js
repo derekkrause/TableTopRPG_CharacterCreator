@@ -1,12 +1,10 @@
 import React from "react";
-import { Button, PaginationItem, Pagination, PaginationLink, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import "./WelcomePage.css";
 import UserRegistrationForm from "../RegistrationLoginPage/UserRegistrationForm";
 import UserTypeCards from "./UserCards";
 import FeatureList from "./FeatureList";
 import { Redirect } from "react-router-dom";
 import IfLoginStatus from "../CustomComponents/IfLoginStatus";
-import HomeInfoCarousel from "./InfoCarousel";
 
 class WelcomePage extends React.Component {
   registerRef = React.createRef();
@@ -44,9 +42,6 @@ class WelcomePage extends React.Component {
             "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
         }}
       >
-        <IfLoginStatus loggedIn={true}>
-          <Redirect to={`/app/home`} />
-        </IfLoginStatus>
         <div className="container-fluid py-5">
           <UserTypeCards
             regScrollCoach={this.scrollToRegFormCoach}
@@ -57,13 +52,13 @@ class WelcomePage extends React.Component {
 
         <FeatureList className="py-5 justify-content-center" />
 
-        <div className="col-xs-10 col-md-8 col-lg-6 py-5 mx-auto justify-content-center">
-          <HomeInfoCarousel />
-        </div>
-
         <div className="py-5" ref={this.registerRef}>
           <UserRegistrationForm userType={this.state.userType} key={this.state.userType} redirect={this.redirect} />
         </div>
+
+        <IfLoginStatus loggedIn={true}>
+          <Redirect to={"/app/home"} />
+        </IfLoginStatus>
       </div>
     );
   }

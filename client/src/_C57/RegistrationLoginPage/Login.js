@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, Form, FormFeedback, Input, InputGroupAddon, InputGroup } from "reactstrap";
 import { userLogin } from "../../services/registerLogin.service";
+import { currentUser } from "../../services/currentUser.service";
 
 class UserLogin extends React.Component {
   state = {
     email: "",
-    password: "",
-    invalidLogin: false
+    password: ""
   };
 
   onChange = e => {
@@ -18,11 +18,10 @@ class UserLogin extends React.Component {
     userLogin(this.state.email, this.state.password)
       .then(result => {
         console.log("LogIn Success", result);
-        //include code that refreshes/updates page with login credentials
+        currentUser();
       })
       .catch(error => {
         console.log("LogIn Fail", error);
-        this.setState({ invalidLogin: true });
       });
   };
 
@@ -31,26 +30,13 @@ class UserLogin extends React.Component {
       <div>
         <Form inline onSubmit={e => this.login(e)} autoComplete="on">
           <InputGroup size="sm">
-            <Input
-              type="email"
-              onChange={this.onChange}
-              name="email"
-              placeholder="Email"
-              invalid={this.state.invalidLogin ? true : undefined}
-            />
-            <Input
-              type="password"
-              onChange={this.onChange}
-              name="password"
-              placeholder="Password"
-              invalid={this.state.invalidLogin ? true : undefined}
-            />
+            <Input type="email" onChange={this.onChange} name="email" placeholder="Email" />
+            <Input type="password" onChange={this.onChange} name="password" placeholder="Password" />
             <InputGroupAddon addonType="append">
               <Button className="rounded-right" color="primary" type="submit">
                 Sign-In
               </Button>
             </InputGroupAddon>
-            {/* add notification for login fail/success */}
           </InputGroup>
         </Form>
       </div>

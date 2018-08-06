@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
-import { registerUser, registerCoach, registerAthlete, userLogin } from "../../services/registerLogin.service";
+import { registerUser, registerCoach, registerAthlete } from "../../services/registerLogin.service";
+import { currentUser } from "../../services/currentUser.service";
 import { validateRegistration } from "./RegValidation";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "./RegForm.css";
@@ -45,19 +46,23 @@ class UserRegistrationForm extends React.Component {
     switch (userType) {
       case "Athlete":
         registerAthlete(userId)
-          .then(result => console.log("ATHLETE REGISTERED", result))
+          .then(result => {
+            console.log("ATHLETE REGISTERED", result);
+          })
           .catch(error => console.log("ATHLETE REG ERROR", error));
         break;
       case "Coach":
         registerCoach(userId)
-          .then(result => console.log("COACH REGISTERED", result))
+          .then(result => {
+            console.log("COACH REGISTERED", result);
+          })
           .catch(error => console.log("COACH REG ERROR", error));
         break;
       case "Advocate":
-        //axios call registerAdvocate(userId)
+        //axios call registerAdvocate(userId) <--uncomment after Advocate CRUD is created
         break;
       case "Coach4Hire":
-        //axios call registerCoach(userId)
+        //axios call registerCoach(userId) <--uncomment after Coach4Hire CRUD is created
         break;
       default:
         alert("Invalid Choice");
@@ -111,8 +116,11 @@ class UserRegistrationForm extends React.Component {
               title="Welcome!"
               closeOnEsc={false}
               closeOnClickOutside={true}
-              onConfirm={() => this.setState({ regSuccess: false }, this.props.redirect)}
-              onOutsideClick={() => this.setState({ regSuccess: false }, this.props.redirect)}
+              onConfirm={() => {
+                this.setState({ regSuccess: false });
+                currentUser();
+              }}
+              onClose={() => this.setState({ regSuccess: false })}
             >
               Registration Success
             </SweetAlert>
@@ -127,7 +135,6 @@ class UserRegistrationForm extends React.Component {
             </SweetAlert>
             <Form className="row pb-0" autoComplete="on" onSubmit={this.signUp}>
               <FormGroup className="col-12">
-                {/* <InputGroup className="col-12 my-1"> */}
                 <Label for="firstName">First Name</Label>
                 <Input
                   name="firstName"
@@ -194,7 +201,6 @@ class UserRegistrationForm extends React.Component {
                 <FormFeedback valid>Looks good!</FormFeedback>
               </FormGroup>
               <FormGroup className="col-12">
-                {/* <div className="col-12 mt-2"> */}
                 <Label htmlFor="userTypeGroup">Select User Type</Label>
                 <div
                   className="d-flex flex-wrap form-group justify-content-center mx-auto"
@@ -256,7 +262,6 @@ class UserRegistrationForm extends React.Component {
                     </Label>
                   </div>
                 </div>
-                {/* </div> */}
               </FormGroup>
             </Form>
           </div>

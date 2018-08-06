@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
-import CustomScrollbars from "../util/CustomScrollbars";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
@@ -48,8 +47,14 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                {/* This Route must remain above the rest and does not need to be alphebatized */}
+                <Route
+                  path={`${match.url}/welcome`}
+                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
+                />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
-                {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
+
+                {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
 
                 <Route
                   path={`${match.url}/admin`}
@@ -83,10 +88,6 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
-                />
-                <Route
-                  path={`${match.url}/welcome`}
-                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
 
                 <Route component={asyncComponent(() => import("components/Error404"))} />
