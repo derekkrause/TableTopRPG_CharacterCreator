@@ -1,6 +1,5 @@
 import React from "react";
 import UserLogin from "_C57/RegistrationLoginPage/Login.js";
-import NavBar from "_C57/NavBar/NavBar";
 import { Button, Popover, PopoverBody } from "reactstrap";
 
 class TopNav extends React.Component {

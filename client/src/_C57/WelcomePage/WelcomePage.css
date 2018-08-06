@@ -10,7 +10,6 @@
   background-position: center;
 }
 
-<<<<<<< HEAD
 .card-title {
   font-size: 2em;
 }
@@ -50,20 +49,4 @@
 
 .front {
   grid-area: frontAndBack;
-=======
-.card-flip:active {
-  perspective: 1000px;
-  /* transform: rotateY(180deg); */
-  animation: flip 1s infinite;
-  animation-timing-function: linear;
-}
-
-@keyframes flip {
-  from {
-    tranform: rotateY(0deg);
-  }
-  to {
-    transform: rotateY(180deg);
-  }
->>>>>>> origin/master
 }

@@ -50,7 +50,7 @@ class UserLogin extends React.Component {
                 Sign-In
               </Button>
             </InputGroupAddon>
-            <FormFeedback>Email or Password Invalid</FormFeedback>
+            {/* add notification for login fail/success */}
           </InputGroup>
         </Form>
       </div>

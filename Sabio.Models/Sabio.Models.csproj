@@ -36,6 +36,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -46,6 +49,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\AdvocateUpdate.cs" />
+    <Compile Include="Domain\ClassYear.cs" />
+    <Compile Include="Domain\ClassYearUpdate.cs" />
+    <Compile Include="Requests\AdvocateInsert.cs" />
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\Blog.cs" />
@@ -59,6 +66,7 @@
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Interfaces\IUserAuthData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\ClassYearInsert.cs" />
     <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Requests\AthleteUpdateRequest.cs" />
     <Compile Include="Requests\BlogCreateRequest.cs" />
@@ -81,6 +89,9 @@
     <Compile Include="Responses\ItemsResponse.cs" />
     <Compile Include="Responses\PagedItemResponse.cs" />
     <Compile Include="Responses\SuccessResponse.cs" />
+    <Compile Include="Domain\Advocate.cs" />
+    <Compile Include="Requests\UserCreateRequest.cs" />
+    <Compile Include="Requests\UserUpdateRequest.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\JsViewModel.cs" />
