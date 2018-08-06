@@ -18,7 +18,7 @@ class UserLogin extends React.Component {
     userLogin(this.state.email, this.state.password)
       .then(result => {
         console.log("LogIn Success", result);
-        this.props.loginChange();
+        //include code that refreshes/updates page with login credentials
       })
       .catch(error => {
         console.log("LogIn Fail", error);

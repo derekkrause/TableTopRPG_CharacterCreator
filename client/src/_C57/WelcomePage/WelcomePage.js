@@ -1,6 +1,5 @@
 import React from "react";
 import "./WelcomePage.css";
-import { Button, PaginationItem, Pagination, PaginationLink, InputGroup, Input, InputGroupAddon } from "reactstrap";
 import UserRegistrationForm from "../RegistrationLoginPage/UserRegistrationForm";
 import UserTypeCards from "./UserCards";
 import FeatureList from "./FeatureList";
@@ -27,6 +26,11 @@ class WelcomePage extends React.Component {
     this.setState({ userType: "Advocate" });
   };
 
+  redirect = () => {
+    console.log("test");
+    this.props.history.push("/app/home");
+  };
+
   render() {
     return (
       <div
@@ -47,7 +51,7 @@ class WelcomePage extends React.Component {
         <FeatureList className="py-5 justify-content-center" />
 
         <div className="py-5" ref={this.registerRef}>
-          <UserRegistrationForm userType={this.state.userType} key={this.state.userType} />
+          <UserRegistrationForm userType={this.state.userType} key={this.state.userType} redirect={this.redirect} />
         </div>
       </div>
     );

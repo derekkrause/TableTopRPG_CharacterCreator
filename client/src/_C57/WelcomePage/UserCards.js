@@ -16,7 +16,7 @@ class UserTypeCards extends React.Component {
               />
               <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
                 <CardTitle className="mb-0 w-100 bg-success rounded-left">
-                  <h1 className="text-white m-0 pl-3 p-2">ATHLETE</h1>
+                  <p className="text-white m-0 pl-3 p-2">ATHLETE</p>
                 </CardTitle>
               </CardImgOverlay>
             </Card>
@@ -45,7 +45,7 @@ class UserTypeCards extends React.Component {
               />
               <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
                 <CardTitle className="mb-0 w-100 bg-primary rounded-left">
-                  <h1 className="text-white m-0 pl-3 p-2">COACH</h1>
+                  <p className="text-white m-0 pl-3 p-2">COACH</p>
                 </CardTitle>
               </CardImgOverlay>
             </Card>
@@ -74,7 +74,7 @@ class UserTypeCards extends React.Component {
               />
               <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
                 <CardTitle className="mb-0 w-100 bg-danger rounded-left">
-                  <h1 className="text-white m-0 pl-3 p-2">ADVOCATE</h1>
+                  <p className="text-white m-0 pl-3 p-2">ADVOCATE</p>
                 </CardTitle>
               </CardImgOverlay>
             </Card>

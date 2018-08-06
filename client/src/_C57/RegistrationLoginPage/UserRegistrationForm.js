@@ -1,9 +1,8 @@
 import React from "react";
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
-import { registerUser, registerCoach, registerAthlete } from "../../services/registerLogin.service";
-import { NotificationContainer, NotificationManager } from "react-notifications";
+import { registerUser, registerCoach, registerAthlete, userLogin } from "../../services/registerLogin.service";
 import { validateRegistration } from "./RegValidation";
-import { SweetAlert } from "react-bootstrap-sweetalert";
+import SweetAlert from "react-bootstrap-sweetalert";
 import "./RegForm.css";
 
 class UserRegistrationForm extends React.Component {
@@ -40,27 +39,6 @@ class UserRegistrationForm extends React.Component {
       passwordValid: result.passwordValid,
       formValid: result.formValid
     });
-  };
-
-  createNotification = type => {
-    return () => {
-      switch (type) {
-        case "info":
-          NotificationManager.info("Info message");
-          break;
-        case "success":
-          NotificationManager.success("Success message", "Title here");
-          break;
-        case "warning":
-          NotificationManager.warning("Warning message", "Close after 3000ms", 3000);
-          break;
-        case "error":
-          NotificationManager.error("Error message", "Click me!", 5000, () => {
-            alert("callback");
-          });
-          break;
-      }
-    };
   };
 
   registerUserType = (userType, userId) => {
@@ -101,8 +79,8 @@ class UserRegistrationForm extends React.Component {
       registerUser(userData)
         .then(result => {
           console.log("Registration Successful", result);
-          this.setState({ regSuccess: true });
           this.registerUserType(this.state.userType, result.data.item);
+          this.setState({ regSuccess: true });
         })
         .catch(response => {
           console.log("Registration Error", response);
@@ -128,18 +106,26 @@ class UserRegistrationForm extends React.Component {
           <h1 className="my-2 text-center">Create an Account</h1>
           <div className="login-form">
             <SweetAlert
+              success
               show={this.state.regSuccess}
-              title="Registration Success"
-              text="Welcome!"
-              onConfirm={() => this.setState({ regSuccess: false })}
-            />
+              title="Welcome!"
+              closeOnEsc={false}
+              closeOnClickOutside={true}
+              onConfirm={() => this.setState({ regSuccess: false }, this.props.redirect)}
+              onOutsideClick={() => this.setState({ regSuccess: false }, this.props.redirect)}
+            >
+              Registration Success
+            </SweetAlert>
             <SweetAlert
+              error
               show={this.state.regFail}
               title="Oops!"
-              text="Ensure all fields are filled out correctly and try again."
+              timer={2500}
               onConfirm={() => this.setState({ regFail: false })}
-            />
-            <Form className="row pb-0" autoComplete="on">
+            >
+              Ensure all fields are filled out correctly and try again.
+            </SweetAlert>
+            <Form className="row pb-0" autoComplete="on" onSubmit={this.signUp}>
               <FormGroup className="col-12">
                 {/* <InputGroup className="col-12 my-1"> */}
                 <Label for="firstName">First Name</Label>
@@ -277,7 +263,7 @@ class UserRegistrationForm extends React.Component {
           <div className="d-flex justify-content-center">
             <Button
               type="submit"
-              onSubmit={this.signUp}
+              onClick={this.signUp}
               className="btn btn-primary py-2 my-2"
               disabled={!this.state.formValid}
             >
