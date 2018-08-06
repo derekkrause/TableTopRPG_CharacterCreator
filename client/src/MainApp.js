@@ -2,10 +2,11 @@ import React from "react";
 import { ConnectedRouter } from "react-router-redux";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import configureStore, { history } from "./store";
+import { history, store } from "./store";
 import App from "./containers/App";
+import "./services/currentUser.service";
 
-export const store = configureStore();
+// export const store = configureStore();
 
 const MainApp = () => (
   <Provider store={store}>

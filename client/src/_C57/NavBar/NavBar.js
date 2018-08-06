@@ -7,6 +7,7 @@ import CoachSearchFilter from "./CoachSearchFilter";
 import ArticleSearchFilter from "./ArticleSearchFilter";
 import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
+import TopBar from "./TopNav";
 
 class NavBar extends React.Component {
   state = {
@@ -66,7 +67,8 @@ class NavBar extends React.Component {
                 name="searchType"
                 value={this.state.searchType}
                 id="exampleSelect"
-                onChange={this.onChange}>
+                onChange={this.onChange}
+              >
                 <option value="all" selected={() => this.setState({ collapsed: true })}>
                   All
                 </option>
@@ -94,7 +96,8 @@ class NavBar extends React.Component {
               <span
                 className="icon-btn jr-menu-icon hamburger-icon-animate"
                 id={"Popover-Search-Filter"}
-                onClick={this.toggle}>
+                onClick={this.toggle}
+              >
                 <span className="menu-icon" />
               </span>
             </div>

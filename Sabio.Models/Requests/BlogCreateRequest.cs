@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Sabio.Models.Requests
 {
@@ -13,10 +14,10 @@ namespace Sabio.Models.Requests
         [Required, MaxLength(450)]
         public string Slug { get; set; }
 
-        public string ImageUrl { get; set; }
+        public JRaw ImageUrl { get; set; }
 
         [MaxLength(250)]
-        public string VideoUrl { get; set; }
+        public JRaw VideoUrl { get; set; }
 
     }
 }

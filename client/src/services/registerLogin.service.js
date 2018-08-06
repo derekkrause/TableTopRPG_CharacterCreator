@@ -36,3 +36,8 @@ export function userLogin(email, password) {
   const data = { email, password };
   return axios.post("/api/users/login", data);
 }
+
+//LOGIN STATUS
+export function getCurrentUser() {
+  return axios.get("/api/users/current");
+}

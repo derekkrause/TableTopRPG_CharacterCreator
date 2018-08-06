@@ -1,10 +1,12 @@
-﻿using Sabio.Data.Providers;
+﻿using Newtonsoft.Json.Linq;
+using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Sabio.Data;
 
 namespace Sabio.Services
 {
@@ -36,8 +38,8 @@ namespace Sabio.Services
                     parameters.AddWithValue("@Id", request.Id);
                     parameters.AddWithValue("@Title", request.Title);
                     parameters.AddWithValue("@Content", request.Content);
-                    parameters.AddWithValue("@ImageUrl", request.ImageUrl);
-                    parameters.AddWithValue("@VideoUrl", request.VideoUrl);
+                    parameters.AddWithValue("@ImageUrl", request.ImageUrl.ToString());
+                    parameters.AddWithValue("@VideoUrl", request.VideoUrl.ToString());
                 });
         }
 
@@ -53,8 +55,8 @@ namespace Sabio.Services
                     parameters.AddWithValue("@Title", request.Title);
                     parameters.AddWithValue("@Content", request.Content);
                     parameters.AddWithValue("@Slug", request.Slug);
-                    parameters.AddWithValue("@ImageUrl", request.ImageUrl);
-                    parameters.AddWithValue("@VideoUrl", request.VideoUrl);
+                    parameters.AddWithValue("@ImageUrl", request.ImageUrl.ToString());
+                    parameters.AddWithValue("@VideoUrl", request.VideoUrl.ToString());
                     parameters.AddWithValue("@AuthorId", authorId);
 
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
@@ -94,31 +96,16 @@ namespace Sabio.Services
                         PublishDate = (DateTime)reader["PublishDate"],
                         IsPublished = (bool)reader["IsPublished"],
                         DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"],
+                        DateModified = reader.GetSafeDateTimeNullable("DateModified"),
                         FirstName = (string)reader["FirstName"],
                         LastName = (string)reader["LastName"],
-                        AvatarUrl = (string)reader["AvatarUrl"]
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        ImageUrl = new JRaw((string)reader["ImageUrl"]),
+                        VideoUrl = new JRaw((string)reader["VideoUrl"])
 
                     };
 
-                    object imageUrlObj = reader["ImageUrl"];
-                    if (imageUrlObj != DBNull.Value)
-                    {
-                        blog.ImageUrl = (string)imageUrlObj;
-                    }
-
-                    object dateModifiedObj = reader["DateModified"];
-                    if (dateModifiedObj != DBNull.Value)
-                    {
-                        blog.DateModified = (DateTime)dateModifiedObj;
-                    }
-
-                    object vidoeUrlObj = reader["VideoUrl"];
-                    if (vidoeUrlObj != DBNull.Value)
-                    {
-                        blog.VideoUrl = (string)vidoeUrlObj;
-                    }
-
+                    
                     pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 
                     blogList.Add(blog);

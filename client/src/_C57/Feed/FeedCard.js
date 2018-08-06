@@ -2,6 +2,8 @@ import React from "react";
 import CardLayout from "components/CardLayout";
 import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerContainer";
 import FileUploader from "../FileUploader/FileUploader";
+import SweetAlert from "react-bootstrap-sweetalert";
+import PropTypes from "prop-types";
 
 class FeedCard extends React.Component {
   state = {
@@ -11,7 +13,8 @@ class FeedCard extends React.Component {
     videoUrl: this.props.feed.videoUrl,
     editMode: false,
     filePreview: "",
-    imageDiv: true
+    imageDiv: true,
+    alert: null
   };
 
   handleOnClickEditToggle = () => {
@@ -49,6 +52,26 @@ class FeedCard extends React.Component {
     });
   };
 
+  delete = () => {
+    const getAlert = () => (
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes"
+        confirmBtnBsStyle="danger"
+        cancelBtnBsStyle="default"
+        title={`Are you sure you want to delete `}
+        onConfirm={this.props.handleDeleteFeed} //what function you want on confirm
+        onCancel={this.onClickCancel} //what function you want on cancel
+      />
+    );
+    this.setState({ alert: getAlert() });
+  };
+
+  onClickCancel = () => {
+    this.setState({ alert: null });
+  };
+
   render() {
     return (
       <CardLayout styleName="col-lg-6">
@@ -62,7 +85,8 @@ class FeedCard extends React.Component {
             <div className="text-right">
               <button
                 type="button"
-                onClick={this.props.handleModalToggle}
+                // onClick={this.props.handleModalToggle}
+                onClick={() => this.delete()}
                 className="jr-btn jr-flat-btn btn btn-default"
               >
                 <i className="zmdi zmdi-delete zmdi-hc-lg" /> &nbsp;Delete
@@ -82,7 +106,7 @@ class FeedCard extends React.Component {
                 </div>
               )}
 
-              {this.props.feed.videoUrl !== "" && <VideoPlayerContainer videoUrl={this.props.feed.videoUrl} />}
+              {/* {this.props.feed.videoUrl !== "" && <VideoPlayerContainer videoUrl={this.props.feed.videoUrl} />} */}
 
               <div className="card-body">
                 {this.props.feed.videoUrl !== "" && (
@@ -146,13 +170,13 @@ class FeedCard extends React.Component {
             ) : (
               <img className="img-fluid" src={this.props.feed.imageUrl} alt="Card image cap" />
             )}
-            {this.props.feed.videoUrl == "" ? (
+            {/* {this.props.feed.videoUrl == "" ? (
               <div />
             ) : (
               <div className="videoWrapper">
                 <VideoPlayerContainer videoUrl={this.props.feed.videoUrl} />
               </div>
-            )}
+            )} */}
             <div className="card-body">
               <h3>{this.props.feed.title.charAt(0).toUpperCase() + this.props.feed.title.slice(1)}</h3>
 
@@ -187,6 +211,7 @@ class FeedCard extends React.Component {
             </div>
           </React.Fragment>
         )}
+        {this.state.alert}
       </CardLayout>
     );
   }

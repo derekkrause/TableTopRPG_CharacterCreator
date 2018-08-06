@@ -5,6 +5,7 @@ using Sabio.Models.Responses;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Sabio.Data;
 
 namespace Sabio.Services
 {
@@ -61,7 +62,7 @@ namespace Sabio.Services
                         Id = (int)reader["Id"],
                         FirstName = (string)reader["FirstName"],
                         LastName = (string)reader["LastName"],
-                        Gender = (int)reader["Gender"],
+                        Gender = reader.GetSafeInt32Nullable("Gender"),
                         AvatarUrl = (string)reader["AvatarUrl"],
                         Email = (string)reader["Email"],
                         DateCreated = (DateTime)reader["DateCreated"],
@@ -100,7 +101,7 @@ namespace Sabio.Services
                         Id = (int)reader["Id"],
                         FirstName = (string)reader["FirstName"],
                         LastName = (string)reader["LastName"],
-                        Gender = (int)reader["Gender"],
+                        Gender = reader.GetSafeInt32Nullable("Gender"),
                         AvatarUrl = (string)reader["AvatarUrl"],
                         Email = (string)reader["Email"],
                         DateCreated = (DateTime)reader["DateCreated"],
