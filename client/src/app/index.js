@@ -1,9 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
-import { withRouter, Route, Switch, PrivateRoute } from "react-router-dom";
-=======
 import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-dom";
->>>>>>> origin/master
 import { connect } from "react-redux";
 import Footer from "components/Footer";
 import CustomScrollbars from "../util/CustomScrollbars";
@@ -17,11 +13,8 @@ import {
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
-<<<<<<< HEAD
-=======
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
->>>>>>> origin/master
 
 class App extends React.Component {
   render() {
@@ -55,37 +48,18 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
-                <Route
-<<<<<<< HEAD
-                  path={`${match.url}/admin`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
-                  path={`${match.url}/articles/create`}
-                  component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
-=======
-                  path={`${match.url}/welcome`}
-                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
-                />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
-
-                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
                 {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
+
                 <Route
                   path={`${match.url}/admin`}
                   component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
->>>>>>> origin/master
                 />
                 <Route
-<<<<<<< HEAD
-=======
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
-
                 <Route
->>>>>>> origin/master
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
@@ -98,11 +72,13 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
                 <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
+
+                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
+
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
-<<<<<<< HEAD
                 />
                 <Route
                   path={`${match.url}/sample-page`}
@@ -111,12 +87,6 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
-=======
-                />
-                <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/SamplePage"))}
->>>>>>> origin/master
                 />
 
                 <Route component={asyncComponent(() => import("components/Error404"))} />
