@@ -1,13 +1,13 @@
 import React from "react";
-import BlogCard from "./BlogCard";
-import { getBlog, postBlog, putUpdateBlog, deleteBlog } from "../../services/blog.sevice";
-import BlogForm from "./BlogForm";
-import "./Blog.css";
+import FeedCard from "./FeedCard";
+import { getFeed, postFeed, putUpdateFeed, deleteFeed } from "../../services/feed.sevice";
+import FeedForm from "./FeedForm";
+import "./Feed.css";
 import ConfirmModal from "./ConfirmModal";
 
-class Blog extends React.Component {
+class Feed extends React.Component {
   state = {
-    blogs: [],
+    feeds: [],
     name: "",
     description: "tbd",
     body: "",
@@ -17,30 +17,30 @@ class Blog extends React.Component {
     avatarUrl: "",
     firstName: "",
     lastName: "",
-    blogForm: false,
+    feedForm: false,
     formVideoLinkInput: false,
     formFileBtn: true,
     videoUrl: "",
-    blogId: 0,
+    feedId: 0,
     updateBtn: false,
     modal: false
   };
 
   componentDidMount() {
-    getBlog()
+    getFeed()
       .then(response => {
         console.log("Get All", response);
         this.setState({
-          blogs: response.data.item.pagedItems
+          feeds: response.data.item.pagedItems
         });
       })
       .catch(error => console.log(error));
   }
 
-  handleSubmitBlog = payload => {
-    let blogId = payload.id;
-    if (blogId) {
-      putUpdateBlog(payload, blogId)
+  handleSubmitFeed = payload => {
+    let feedId = payload.id;
+    if (feedId) {
+      putUpdateFeed(payload, feedId)
         .then(response => {
           console.log("UPDATE/PUT", response);
           this.setState({
@@ -53,7 +53,7 @@ class Blog extends React.Component {
         })
         .catch(error => console.log(error));
     } else {
-      postBlog(payload)
+      postFeed(payload)
         .then(response => {
           console.log("CREATE/POST", response);
           this.setState({
@@ -61,7 +61,7 @@ class Blog extends React.Component {
             content: "",
             imageUrl: "",
             videoUrl: "",
-            blogForm: false
+            feedForm: false
           });
           window.location.reload();
         })
@@ -69,27 +69,27 @@ class Blog extends React.Component {
     }
   };
 
-  handleUpdateBlog = blogId => {
-    console.log("UPDATE", blogId);
+  handleUpdateFeed = feedId => {
+    console.log("UPDATE", feedId);
   };
 
-  handleDeleteBlog = () => {
-    const blogId = this.state.blogId;
-    deleteBlog(blogId).then(response => {
+  handleDeleteFeed = () => {
+    const feedId = this.state.feedId;
+    deleteFeed(feedId).then(response => {
       console.log("DELETE", response);
       this.setState({
         modal: !this.state.modal,
-        blogId: ""
+        feedId: ""
       });
       window.location.reload();
     });
   };
 
-  handleOnClickBlogForm = () => {
-    if (this.state.blogForm === false) {
-      this.setState({ blogForm: true });
+  handleOnClickFeedForm = () => {
+    if (this.state.feedForm === false) {
+      this.setState({ feedForm: true });
     } else {
-      this.setState({ blogForm: false });
+      this.setState({ feedForm: false });
     }
   };
 
@@ -108,10 +108,10 @@ class Blog extends React.Component {
     }
   };
 
-  handleModalToggle = blogId => {
+  handleModalToggle = feedId => {
     this.setState({
       modal: !this.state.modal,
-      blogId
+      feedId
     });
   };
 
@@ -126,26 +126,26 @@ class Blog extends React.Component {
                   <h1> Feed </h1>
                 </div>
                 <div className="col-md-6 col-6 mt-4 text-right">
-                  {this.state.blogForm ? (
+                  {this.state.feedForm ? (
                     <div />
                   ) : (
                     <button
                       type="button"
                       className="jr-btn btn-blue-grey btn btn-default"
-                      onClick={this.handleOnClickBlogForm}
+                      onClick={this.handleOnClickFeedForm}
                     >
                       Add post
                     </button>
                   )}
                 </div>
               </div>
-              {this.state.blogForm ? (
-                <BlogForm
-                  closeBlogForm={this.handleOnClickBlogForm}
+              {this.state.feedForm ? (
+                <FeedForm
+                  closeFeedForm={this.handleOnClickFeedForm}
                   videoUrl={this.state.videoUrl}
                   handleOnclickVideoLink={this.handleOnclickVideoLink}
                   formFileBtn={this.state.formFileBtn}
-                  handleSubmitBlog={this.handleSubmitBlog}
+                  handleSubmitFeed={this.handleSubmitFeed}
                   capitalize={this.capitalize}
                   formVideoLinkInput={this.state.formVideoLinkInput}
                 />
@@ -153,17 +153,17 @@ class Blog extends React.Component {
                 <div />
               )}
               <div className="cus-card-container">
-                {this.state.blogs
+                {this.state.feeds
                   .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
                   .reverse()
-                  .map(blog => (
-                    <BlogCard
-                      key={blog.id}
-                      blog={blog}
-                      editBlog={this.handleOnClickEditBlog}
-                      handleUpdateBlog={() => this.handleUpdateBlog(blog.id)}
-                      handleModalToggle={() => this.handleModalToggle(blog.id)}
-                      handleSubmitBlog={this.handleSubmitBlog}
+                  .map(feed => (
+                    <FeedCard
+                      key={feed.id}
+                      feed={feed}
+                      editFeed={this.handleOnClickEditFeed}
+                      handleUpdateFeed={() => this.handleUpdateFeed(feed.id)}
+                      handleModalToggle={() => this.handleModalToggle(feed.id)}
+                      handleSubmitFeed={this.handleSubmitFeed}
                       imageUrl={this.state.imageUrl}
                       handleOnClickUploader={this.handleOnClickUploader}
                     />
@@ -173,7 +173,7 @@ class Blog extends React.Component {
                 <ConfirmModal
                   handleModalToggle={this.handleModalToggle}
                   modal={this.state.modal}
-                  handleDeleteBlog={this.handleDeleteBlog}
+                  handleDeleteFeed={this.handleDeleteFeed}
                 />
               </div>
             </div>
@@ -184,4 +184,4 @@ class Blog extends React.Component {
   }
 }
 
-export default Blog;
+export default Feed;

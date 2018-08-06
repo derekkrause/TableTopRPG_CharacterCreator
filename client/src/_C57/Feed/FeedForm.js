@@ -1,10 +1,10 @@
 import React from "react";
 import IntlMessages from "util/IntlMessages";
-import "./Blog.css";
+import "./Feed.css";
 import axios from "axios";
 import FileUploader from "../FileUploader/FileUploader";
 
-class BlogForm extends React.Component {
+class FeedForm extends React.Component {
   state = {
     title: "",
     content: "",
@@ -18,7 +18,7 @@ class BlogForm extends React.Component {
   };
 
   handleOnClickPayload = () => {
-    this.props.handleSubmitBlog({
+    this.props.handleSubmitFeed({
       title: this.state.title,
       content: this.state.content,
       imageUrl: this.state.imageUrl,
@@ -45,7 +45,7 @@ class BlogForm extends React.Component {
               <div className="col-md-4 col-4 text-right">
                 <button
                   type="button"
-                  onClick={this.props.closeBlogForm}
+                  onClick={this.props.closeFeedForm}
                   className="btn btn-sm  btn-primary text-white btn btn-default"
                 >
                   <i className="zmdi zmdi-close zmdi-hc-lg" />
@@ -136,4 +136,4 @@ class BlogForm extends React.Component {
   }
 }
 
-export default BlogForm;
+export default FeedForm;

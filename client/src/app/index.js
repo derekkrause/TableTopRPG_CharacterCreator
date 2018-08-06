@@ -1,5 +1,9 @@
 import React from "react";
+<<<<<<< HEAD
 import { withRouter, Route, Switch, PrivateRoute } from "react-router-dom";
+=======
+import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-dom";
+>>>>>>> origin/master
 import { connect } from "react-redux";
 import Footer from "components/Footer";
 import CustomScrollbars from "../util/CustomScrollbars";
@@ -13,16 +17,21 @@ import {
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
+<<<<<<< HEAD
+=======
+import NavBar from "_C57/NavBar/NavBar";
+import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
+>>>>>>> origin/master
 
 class App extends React.Component {
   render() {
-    const { match, drawerType, navigationStyle, horizontalNavPosition } = this.props;
+    const { match, drawerType, navigationStyle, horizontalNavPosition, currentUser } = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
         ? "collapsible-drawer"
         : "mini-drawer";
-
+    console.log("CurrentUser", currentUser);
     //set default height and overflow for iOS mobile Safari 10+ support.
     if (isIOS && isMobile) {
       document.body.classList.add("ios-mobile-view-height");
@@ -34,7 +43,12 @@ class App extends React.Component {
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
         <div className="app-main-container">
           <div className="app-header">
-            <TopNav />
+            <IfLoginStatus loggedIn={false}>
+              <TopNav />
+            </IfLoginStatus>
+            <IfLoginStatus loggedIn={true}>
+              <NavBar />
+            </IfLoginStatus>
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
@@ -43,15 +57,35 @@ class App extends React.Component {
               <Switch>
                 {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
                 <Route
+<<<<<<< HEAD
                   path={`${match.url}/admin`}
                   component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
                 />
                 <Route
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
+=======
+                  path={`${match.url}/welcome`}
+                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
-                <Route path={`${match.url}/blog-page`} component={asyncComponent(() => import("../_C57/blog/Blog"))} />
+                {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
+
+                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
+                {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
                 <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+>>>>>>> origin/master
+                />
+                <Route
+<<<<<<< HEAD
+=======
+                  path={`${match.url}/articles/create`}
+                  component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
+                />
+
+                <Route
+>>>>>>> origin/master
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
@@ -63,10 +97,12 @@ class App extends React.Component {
                   path={`${match.url}/fav-page`}
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
+                <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+<<<<<<< HEAD
                 />
                 <Route
                   path={`${match.url}/sample-page`}
@@ -75,7 +111,14 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
+=======
                 />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/SamplePage"))}
+>>>>>>> origin/master
+                />
+
                 <Route component={asyncComponent(() => import("components/Error404"))} />
                 {/* Please keep Routes alphebetized by URL */}
               </Switch>
@@ -89,8 +132,8 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ settings }) => {
+const mapStateToProps = ({ currentUser, settings }) => {
   const { drawerType, navigationStyle, horizontalNavPosition } = settings;
-  return { drawerType, navigationStyle, horizontalNavPosition };
+  return { drawerType, navigationStyle, horizontalNavPosition, currentUser };
 };
 export default withRouter(connect(mapStateToProps)(App));

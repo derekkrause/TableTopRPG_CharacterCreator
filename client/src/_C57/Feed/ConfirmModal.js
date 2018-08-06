@@ -14,7 +14,7 @@ class ConfirmModal extends React.Component {
             <Button color="secondary" onClick={this.props.handleModalToggle}>
               No
             </Button>
-            <Button color="primary" onClick={this.props.handleDeleteBlog}>
+            <Button color="primary" onClick={this.props.handleDeleteFeed}>
               Yes
             </Button>
           </ModalFooter>

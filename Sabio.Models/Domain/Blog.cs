@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 
 namespace Sabio.Models.Domain
 {
@@ -11,12 +12,12 @@ namespace Sabio.Models.Domain
         public int AuthorId { get; set; }
         public DateTime PublishDate { get; set; }
         public bool IsPublished { get; set; }
-        public string ImageUrl { get; set; }
+        public JRaw ImageUrl { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string AvatarUrl { get; set; }
-        public string VideoUrl { get; set; }
+        public JRaw VideoUrl { get; set; }
     }
 }

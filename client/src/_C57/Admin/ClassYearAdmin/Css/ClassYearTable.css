@@ -1,0 +1,64 @@
+div.ClassYearTable {
+ width: 450px;
+   
+}
+
+button.ClassYearTable {
+    float: right;
+    display: inline-block;
+    font-size: 14px;
+    text-align: center;
+}
+
+table.ClassYearTable {
+    padding-left: 30px;
+    margin-left: 30px;
+   
+}
+
+thead.ClassYearTable {
+    float: left;
+    margin-left: 15px;
+    margin-top: -35px;
+    margin-bottom: 15px;
+
+}
+
+th.ClassYearTable {
+     border-top: none;
+     margin-bottom: 20px;
+     
+}
+
+
+
+td.ClassYearTable {
+    border-top: none !important;
+    font-size: 16px;
+
+    
+}
+
+.ClassYearTable td:hover {
+    font-size: 18px;
+    font-style: italic;
+    transform: translateX(5%);
+    transition: ease-in-out .2s; 
+}
+
+.ClassYearTable td:hover > button.ClassYearTable {
+    font-size: 12px;
+    font-style:italic;  
+    transform: translateX(-100%);
+    transition: ease-in-out .4s;
+    opacity: 1;
+    margin-left: 30px;
+
+}
+
+
+td > button.ClassYearTable {
+    opacity: 0;
+}
+
+

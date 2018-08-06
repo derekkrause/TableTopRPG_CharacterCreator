@@ -15,15 +15,20 @@ This component will:
 -upload the image
 -show preview after image is uploaded
 -preview demention: 150px x 150px
+-generate text 
 
-//add this state to parent of this component. This will hold image url after upload the image.
-you can set this to your payload. EX. (your img url state name) : this.state.imageUrl
+//this is the component you will need to add on render. (copy/paste)
 
- imageUrl: ""
+<FileUploader onImageUrlChange={this.handleImageUrlChange} />
+
+//add imageUrl state (one below) to where FileUploader is pasted (code above) This will hold image url after upload the image.
+you can set this to your payload by this.setState({your img url state name on payload : this.state.imageUrl}) 
+
+imageUrl: ""
 
 
-// add this function above render of the parent of this component.
-purpose of this function is sync imageUrl state on the parent so you can add this into your payload before render. 
+// add handleImageUrlChange function (one below) above render() of where FileUplaoder is placed.
+Purpose of this function is sync imageUrl state as it generate the url, so you can add this into your payload before render since normally states are async. 
 
 handleImageUrlChange = imageUrl => {
     this.setState({
@@ -31,11 +36,7 @@ handleImageUrlChange = imageUrl => {
     });
   };
 
-  //this is the component you will need to add on render. (copy/paste)
-
-   <FileUploader onImageUrlChange={this.handleImageUrlChange} />
-
-   //if you have any question or feedback, please talk to Ji
+//if you have any question or feedback, please talk to Ji
 
 */
 
@@ -71,9 +72,13 @@ handleImageUrlChange = imageUrl => {
   };
 
   handleOnClickDelete = () => {
-    this.setState({
-      imagePreview: ""
-    });
+    this.setState(
+      {
+        imagePreview: "",
+        imageUrl: ""
+      },
+      this.props.onImageUrlChange(imageUrl)
+    );
   };
   render() {
     return (

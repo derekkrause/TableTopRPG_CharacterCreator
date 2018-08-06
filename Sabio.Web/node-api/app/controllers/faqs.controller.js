@@ -2,14 +2,14 @@ const responses = require("../models/responses/index");
 const faqsService = require("../services/faqs.service");
 
 module.exports = {
-  getAll: async (req, res) => {
+  getAll: (req, res) => {
     faqsService.getAll().then(item => {
       const r = new responses.ItemsResponse(item);
       res.json(r);
     });
   },
 
-  getFaqBySearch: async (req, res) => {
+  getFaqBySearch: (req, res) => {
     faqsService
       .searchFaq(req)
       .then(item => {
@@ -21,7 +21,7 @@ module.exports = {
       });
   },
 
-  getFaqByCategory: async (req, res) => {
+  getFaqByCategory: (req, res) => {
     faqsService
       .searchFaqByCategory(req)
       .then(item => {
@@ -33,7 +33,7 @@ module.exports = {
       });
   },
 
-  postFaq: async (req, res) => {
+  postFaq: (req, res) => {
     const { categoryId, question, answer, displayOrder } = req.body;
 
     faqsService.postFaq(categoryId, question, answer, displayOrder).then(Id => {
@@ -41,7 +41,7 @@ module.exports = {
     });
   },
 
-  updateFaq: async (req, res) => {
+  updateFaq: (req, res) => {
     const { categoryId, question, answer, displayOrder } = req.body;
 
     faqsService.updateFaq(categoryId, question, answer, displayOrder, req).then(() => {
@@ -49,7 +49,7 @@ module.exports = {
     });
   },
 
-  deleteFaq: async (req, res) => {
+  deleteFaq: (req, res) => {
     faqsService.deleteFaq(req).then(() => {
       res.sendStatus(200);
     });

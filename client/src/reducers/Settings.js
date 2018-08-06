@@ -34,6 +34,7 @@ const initialSettings = {
 };
 
 const settings = (state = initialSettings, action) => {
+  // console.log("ACTION.TYPE", action.type);
   switch (action.type) {
     case "@@router/LOCATION_CHANGE":
       return {

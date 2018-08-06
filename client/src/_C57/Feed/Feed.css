@@ -1,6 +1,8 @@
 .preview-container{
    position: relative;
    width: 150px ;
+   margin:15px;
+
 }
 .preview-container img
 {
@@ -25,7 +27,7 @@ position: absolute;
 color:white;
 background-color: red;
 }
-.blog-text-vert-center{
+.feed-text-vert-center{
     vertical-align: middle
 }
 

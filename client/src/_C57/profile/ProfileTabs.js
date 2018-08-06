@@ -5,7 +5,7 @@ import ProfileCalendar from "./ProfileCalendar";
 import AcademicTable from "./AcademicTable";
 import ProfileImages from "./ProfileImages";
 import EventModal from "./EventModal";
-import Blog from "../blog/Blog";
+import Feed from "../Feed/Feed";
 
 class ProfileTabs extends React.Component {
   state = {
@@ -76,7 +76,7 @@ class ProfileTabs extends React.Component {
           <TabContent activeTab={this.state.activeTab}>
             <TabPane tabId="1">
               <CardBody>
-                <Blog />
+                <Feed />
               </CardBody>
             </TabPane>
 

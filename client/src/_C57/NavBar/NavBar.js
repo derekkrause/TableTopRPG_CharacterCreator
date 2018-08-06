@@ -7,6 +7,7 @@ import CoachSearchFilter from "./CoachSearchFilter";
 import ArticleSearchFilter from "./ArticleSearchFilter";
 import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
+import TopBar from "./TopNav";
 
 class NavBar extends React.Component {
   state = {

@@ -1,17 +1,17 @@
 import axios from "axios";
 
-export function getBlog() {
+export function getFeed() {
   return axios.get("/api/blogs");
 }
 
-export function postBlog(payload) {
+export function postFeed(payload) {
   return axios.post("/api/blogs", payload);
 }
 
-export function putUpdateBlog(payload, blogId) {
+export function putUpdateFeed(payload, blogId) {
   return axios.put("/api/blogs/" + blogId, payload);
 }
 
-export function deleteBlog(blogId) {
+export function deleteFeed(blogId) {
   return axios.delete("/api/blogs/" + blogId);
 }
