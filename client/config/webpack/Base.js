@@ -87,7 +87,11 @@ class WebpackBaseConfig {
         port: 3001,
         proxy: {
           "/api/": "http://localhost:54810",
-          "/node-api/": "http://localhost:54810"
+          "/node-api/": "http://localhost:54810",
+          "/socket.io/": {
+            target: "http://localhost:54810",
+            ws: true
+          }
         }
       },
       entry: "./index.js",
