@@ -8,14 +8,11 @@ namespace Sabio.Models
         [Required]
         public int UserId { get; set; }
 
-        [Required]
         public string DOB { get; set; }
-
-        [Required]
+        
         public string BirthPlace { get; set; }
-
-        [Required]
-        public int SchoolId { get; set; }
+        
+        public int? SchoolId { get; set; }
 
         public int? ClassYearId { get; set; }
 

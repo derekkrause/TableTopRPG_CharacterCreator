@@ -29,7 +29,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@UserId", request.UserId);
                     parameters.AddWithValue("@DOB", request.DOB);
                     parameters.AddWithValue("@BirthPlace", request.BirthPlace);
-                    parameters.AddWithValue("@SchoolId", request.SchoolId);
+                    parameters.AddWithValue("@SchoolId", request.SchoolId ?? (object)DBNull.Value);
                     parameters.AddWithValue("@ClassYearId", request.ClassYearId ?? (object)DBNull.Value);
                     parameters.AddWithValue("@HighSchoolGraduationYear", request.HighSchoolGraduationYear ?? (object)DBNull.Value);
                     parameters.AddWithValue("@ShortBio", request.ShortBio);

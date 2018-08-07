@@ -1,12 +1,12 @@
 import React from "react";
 import { Button, Form, FormFeedback, Input, InputGroupAddon, InputGroup } from "reactstrap";
 import { userLogin } from "../../services/registerLogin.service";
+import { currentUser } from "../../services/currentUser.service";
 
 class UserLogin extends React.Component {
   state = {
     email: "",
-    password: "",
-    invalidLogin: false
+    password: ""
   };
 
   onChange = e => {
@@ -18,38 +18,22 @@ class UserLogin extends React.Component {
     userLogin(this.state.email, this.state.password)
       .then(result => {
         console.log("LogIn Success", result);
-        this.props.loginChange();
+        currentUser();
       })
       .catch(error => {
         console.log("LogIn Fail", error);
-        this.setState({ invalidLogin: true });
       });
   };
 
   render() {
     return (
       <div>
-        <Form inline>
+        <Form inline onSubmit={e => this.login(e)} autoComplete="on">
           <InputGroup size="sm">
-            <Input
-              type="email"
-              onChange={this.onChange}
-              name="email"
-              placeholder="Email"
-              autoComplete="on"
-              invalid={this.state.invalidLogin}
-            />
-            <Input
-              type="password"
-              onChange={this.onChange}
-              name="password"
-              placeholder="Password"
-              autoComplete="on"
-              invalid={this.state.invalidLogin}
-            />
-            <FormFeedback tooltip>Email or Password Invalid</FormFeedback>
+            <Input type="email" onChange={this.onChange} name="email" placeholder="Email" />
+            <Input type="password" onChange={this.onChange} name="password" placeholder="Password" />
             <InputGroupAddon addonType="append">
-              <Button color="primary" onClick={this.login}>
+              <Button className="rounded-right" color="primary" type="submit">
                 Sign-In
               </Button>
             </InputGroupAddon>

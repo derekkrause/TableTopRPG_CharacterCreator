@@ -1,7 +1,7 @@
 import React from "react";
 import "./Tags.css";
 
-const ReactTags = require("react-tag-input").WithOutContext;
+// const ReactTags = require("react-tag-input").WithOutContext;
 
 const KeyCodes = {
   comma: 188,

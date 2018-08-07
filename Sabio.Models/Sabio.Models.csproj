@@ -81,6 +81,7 @@
     <Compile Include="Requests\SportPositionUpdateRequest.cs" />
     <Compile Include="Requests\SportUpdateRequest.cs" />
     <Compile Include="Requests\UserLoginRequest.cs" />
+    <Compile Include="Requests\UserUpdateRequest.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
     <Compile Include="Responses\ItemResponse.cs" />
@@ -89,7 +90,6 @@
     <Compile Include="Responses\SuccessResponse.cs" />
     <Compile Include="Domain\Advocate.cs" />
     <Compile Include="Requests\UserCreateRequest.cs" />
-    <Compile Include="Requests\UserUpdateRequest.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\JsViewModel.cs" />

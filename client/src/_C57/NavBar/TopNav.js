@@ -4,13 +4,8 @@ import { Button, Popover, PopoverBody } from "reactstrap";
 
 class TopNav extends React.Component {
   state = {
-    // loggedIn: false,
     isOpen: false
   };
-
-  // loginChange = () => {
-  //   this.setState({ loggedIn: true });
-  // };
 
   popdown = e => {
     this.setState({ isOpen: !this.state.isOpen });

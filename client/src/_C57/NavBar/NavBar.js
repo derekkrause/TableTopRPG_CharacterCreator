@@ -89,7 +89,7 @@ class NavBar extends React.Component {
                   onChange={this.onChange}
                   value={this.state.searchString}
                 />
-                <Button className="search-icon">
+                <Button type="submit" className="search-icon">
                   <i className="zmdi zmdi-search zmdi-hc-lg" />
                 </Button>
               </FormGroup>

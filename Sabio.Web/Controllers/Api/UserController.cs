@@ -36,6 +36,13 @@ namespace Sabio.Web.Controllers.Api
 
             int newUserId = userTableServices.Create(userCreateRequest);
 
+            authenticationService.LogIn(new UserBase
+            {
+                Id = newUserId,
+                Name = "",
+                Roles = new string[0]
+            });
+
             return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newUserId });
         }
 

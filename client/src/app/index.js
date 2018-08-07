@@ -2,7 +2,6 @@ import React from "react";
 import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
-import CustomScrollbars from "../util/CustomScrollbars";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,
@@ -34,7 +33,13 @@ class App extends React.Component {
     return (
       <div className={`app-container ${drawerStyle}`}>
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
-        <div className="app-main-container">
+        <div
+          className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch"
+          style={{
+            backgroundImage:
+              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
+          }}
+        >
           <div className="app-header">
             <IfLoginStatus loggedIn={false}>
               <TopNav />
@@ -48,14 +53,15 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                {/* This Route must remain above the rest and does not need to be alphebatized */}
                 <Route
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
 
-                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
-                {/* Please keep all Routes alphebetized by URL. Helps with merges. */}
+                {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
+
                 <Route
                   path={`${match.url}/admin`}
                   component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
@@ -64,7 +70,6 @@ class App extends React.Component {
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
-
                 <Route
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
@@ -78,6 +83,9 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
                 <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
+
+                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
+
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
                   path={`${match.url}/profile`}
