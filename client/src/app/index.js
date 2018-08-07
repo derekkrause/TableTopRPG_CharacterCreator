@@ -14,6 +14,7 @@ import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
+import "../_C57/WelcomePage/WelcomePage.css";
 
 class App extends React.Component {
   render() {
@@ -42,7 +43,7 @@ class App extends React.Component {
         >
           <div className="app-header">
             <IfLoginStatus loggedIn={false}>
-              <TopNav />
+              <TopNav {...this.props} />
             </IfLoginStatus>
             <IfLoginStatus loggedIn={true}>
               <NavBar />
@@ -94,6 +95,10 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
+                />
+                <Route
+                  path={`${match.url}/search`}
+                  component={asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"))}
                 />
 
                 <Route component={asyncComponent(() => import("components/Error404"))} />

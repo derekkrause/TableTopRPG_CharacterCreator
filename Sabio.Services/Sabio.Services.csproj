@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdvocateService.cs" />
+    <Compile Include="AthleteSearchService.cs" />
     <Compile Include="AthletesService.cs" />
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />

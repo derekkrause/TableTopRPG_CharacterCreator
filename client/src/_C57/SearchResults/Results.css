@@ -1,0 +1,9 @@
+.SearchResults .myAvatar{
+    height: 100%;
+    width: auto;
+    border-radius: 50%;
+}
+
+.playertag{
+    background-color: blue;
+}
