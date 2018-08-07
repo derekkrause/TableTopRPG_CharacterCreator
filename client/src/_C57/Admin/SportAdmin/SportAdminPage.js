@@ -2,12 +2,13 @@ import React from "react";
 import SportAdminTable from "./SportAdminTable";
 import SportAdminForm from "./SportAdminForm";
 import { Route } from "react-router-dom";
+import "../Admin.css";
 
 class SportAdminPage extends React.Component {
   render() {
     return (
-      <div>
-        <div>
+      <div className="col-md-12">
+        <div className="card jr-card admin-container">
           <Route exact path={`${this.props.match.url}`} render={props => <SportAdminTable {...props} />} />
           <Route
             exact

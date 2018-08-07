@@ -25,6 +25,7 @@ router.get("/sportposition/:sportName", sportsPositionsController.getSportPositi
 router.put("/sportposition", sportsPositionsController.putSportPosition);
 router.delete("/sportposition/:id", sportsPositionsController.deleteSportPosition);
 router.use("/api/pogs", pogsRoutes);
+router.use("/schools", schoolsRoutes);
 
 router.use("/faqs", faqsRoutes);
 

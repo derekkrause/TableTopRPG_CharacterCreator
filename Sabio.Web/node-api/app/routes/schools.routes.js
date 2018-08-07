@@ -3,6 +3,8 @@ const schoolsController = require("../controllers/school.controller");
 
 module.exports = router;
 
+router.get("/search/:PageIndex/:ResultsPerPage", schoolsController.search);
+router.get("/:PageIndex/:ResultsPerPage", schoolsController.getAll);
 router.get("/:id", schoolsController.getById);
 router.get("/", schoolsController.getAll);
 router.post("/", schoolsController.post);

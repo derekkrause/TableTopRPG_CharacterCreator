@@ -1,30 +1,18 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { withRouter } from "react-router-dom";
+import SchoolAdminPage from "./SchoolAdmin/SchoolAdminPage";
 import ClassYearAdmin from "./ClassYearAdmin/ClassYearAdmin";
-import SchoolTable from "./SchoolAdmin/SchoolTable";
-import SchoolForm from "./SchoolAdmin/SchoolForm";
-import AdminSideBar from "./AdminSideBar";
 import SportAdminPage from "./SportAdmin/SportAdminPage";
-import SideNav from "../../containers/SideNav/index";
+import "./Admin.css";
 
 class AdminPage extends React.Component {
-  state = {
-    editContent: false
-  };
-
-  //status is true or false
-  editForm = status => {
-    this.setState({ editContent: status });
-  };
-
   render() {
     return (
       <div className="container ">
-        <SideNav />
-        <div className="row " style={{ margin: "24px" }}>
-          <div className="col-12">
-            <Route path={`${this.props.match.url}/school`} render={() => <SchoolTable />} />
+        <div className="row admin-container ">
+          <div className="col-md-12">
+            <Route path={`${this.props.match.url}/school`} component={SchoolAdminPage} />
             <Route path={`${this.props.match.url}/sports`} render={props => <SportAdminPage {...props} />} />
             <Route
               path={`${this.props.match.url}/classyear/:editingClassId?`}
