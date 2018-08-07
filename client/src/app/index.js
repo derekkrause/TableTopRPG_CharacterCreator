@@ -33,7 +33,13 @@ class App extends React.Component {
     return (
       <div className={`app-container ${drawerStyle}`}>
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
-        <div className="app-main-container">
+        <div
+          className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch"
+          style={{
+            backgroundImage:
+              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
+          }}
+        >
           <div className="app-header">
             <IfLoginStatus loggedIn={false}>
               <TopNav />
