@@ -53,7 +53,8 @@ class AthleteSearchResults extends React.Component {
                   <div className="col-4" style={{ textAlign: "center" }}>
                     <p>Player School</p>
                     <p>
-                      <span>{athlete.City}</span>&nbsp;
+                      <span>{athlete.City}</span>
+                      &nbsp;
                       <span>{athlete.State}</span>
                     </p>
                     <ul className="list-inline d-sm-flex gx-btn-list list-group">

@@ -19,11 +19,7 @@ class SportPositionCollapse extends Component {
           // onClick={this.props.handleCollapseAll(this.props.position.id)}
           style={{ marginBottom: "1rem" }}
           key={this.props.position.id}
-          className={
-            this.props.position.inactive
-              ? "positionInactive row"
-              : "positionActive row"
-          }
+          className={this.props.position.inactive ? "positionInactive row" : "positionActive row"}
           // className="row"
         >
           <div className="col-10">

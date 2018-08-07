@@ -17,8 +17,7 @@ class EventListView extends Component {
         image: "http://via.placeholder.com/500x330",
         title: "5 DIY tips to use in kitchen",
         date: "28 Oct, 2016",
-        description:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt."
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt."
       },
       {
         image: "http://via.placeholder.com/500x330",
@@ -67,13 +66,14 @@ class EventListView extends Component {
           <div className="card-header p-4">
             <h2 className="card-title">Pictures from around the world</h2>
             <p className="card-subtitle text-truncate">
-              Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec
-              velit libero
+              Fusce eget dolor id justo luctus commodo vel pharetra nisi. Donec velit libero
             </p>
           </div>
           <div className="card-body bg-transparent">
             <ul className="post-list">
-              {post.map((post, index) => <PostBox key={index} post={post} />)}
+              {post.map((post, index) => (
+                <PostBox key={index} post={post} />
+              ))}
             </ul>
           </div>
         </CardLayout>

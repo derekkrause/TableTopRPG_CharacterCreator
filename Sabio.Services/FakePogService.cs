@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sabio.Models.Domain;
+﻿using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
+using Sabio.Services.Interfaces;
+using System.Collections.Generic;
 
 namespace Sabio.Services
 {
@@ -14,6 +11,11 @@ namespace Sabio.Services
         public int Create(PogCreateRequest request)
         {
             return 42;
+        }
+
+        public void Delete(int id)
+        {
+            throw new System.NotImplementedException();
         }
 
         public PagedItemResponse<Pog> GetAll(int pageIndex, int pageSize)
@@ -28,6 +30,21 @@ namespace Sabio.Services
                 TotalCount = 0,
                 TotalPages = 0
             };
+        }
+
+        public Pog GetById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int Insert(PogCreateRequest request)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(PogUpdateRequest request)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

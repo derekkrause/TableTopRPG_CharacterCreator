@@ -9,13 +9,7 @@ BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
 const Basic = props => {
   return (
     <div className="app-calendar animated slideInUpTiny animation-duration-3">
-      <BigCalendar
-        {...props}
-        events={events}
-        views={allViews}
-        step={60}
-        defaultDate={new Date(2015, 3, 1)}
-      />
+      <BigCalendar {...props} events={events} views={allViews} step={60} defaultDate={new Date(2015, 3, 1)} />
     </div>
   );
 };

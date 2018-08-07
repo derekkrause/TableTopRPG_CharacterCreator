@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using Sabio.Models;
-using Sabio.Models.Domain;
+using Sabio.Services.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using Sabio.Services.Security;
 
 
 namespace Sabio.Web.Core.Services

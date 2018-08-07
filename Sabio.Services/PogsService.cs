@@ -2,10 +2,11 @@
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
-using Sabio.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Sabio.Data;
+using Sabio.Services.Interfaces;
 
 namespace Sabio.Services
 {
@@ -41,27 +42,28 @@ namespace Sabio.Services
                 },
                 (reader, resultSetIndex) =>
                 {
-                    // this arrow function gets called zero or more times
-                    // (once for every row that comes out of the database)
-                    Pog pog = new Pog
-                    {
-                        Id = (int)reader["id"],
-                        DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"],
-                        //StartDate = (DateTime)reader["StartDate"],
-                        //Country = (string)reader["Country"],
-                        //Points = (int)reader["Points"]
-                    };
+                    switch (resultSetIndex) {
+                        case 0:
+                            {
+                                // this arrow function gets called zero or more times
+                                // (once for every row that comes out of the database)
+                                Pog pog = readRow(reader);
 
-                    object startDateObj = reader["StartDate"];
-                    if (startDateObj != DBNull.Value)
-                    {
-                        pog.StartDate = (DateTime)startDateObj;
+                                object startDateObj = reader["StartDate"];
+                                if (startDateObj != DBNull.Value)
+                                {
+                                    pog.StartDate = (DateTime)startDateObj;
+                                }
+
+                                pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+
+                                listOfPogs.Add(pog);
+                                break;
+                            }
+                        default:
+                            break;
                     }
-
-                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
-
-                    listOfPogs.Add(pog);
+                    
                 });
 
             pagedItemResponse.PagedItems = listOfPogs;
@@ -69,7 +71,36 @@ namespace Sabio.Services
             return pagedItemResponse;
         }
 
-        public int Create(PogCreateRequest request)
+        public Pog GetById(int id)
+        {
+            Pog pog = null;
+
+            dataProvider.ExecuteCmd(
+                "Pog_SelectById",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Id", id);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    switch (resultSetIndex)
+                    {
+                        case 0:
+                            {
+                                // this arrow function gets called zero or more times
+                                // (once for every row that comes out of the database)
+                                pog = readRow(reader);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                });
+
+            return pog;
+        }        
+
+        public int Insert(PogCreateRequest request)
         {
             int newId = 0;
 
@@ -79,14 +110,7 @@ namespace Sabio.Services
                 {
                     // this first arrow function is called by the dataProvider BEFORE
                     // the command is executed. This is where you set up the parameters.
-
-                    parameters.AddWithValue("@Name", request.Name);
-                    parameters.AddWithValue("@StartDate", request.StartDate);
-                    parameters.AddWithValue("@Country", request.Country);
-                    parameters.AddWithValue("@Points", request.Points);
-                    parameters.AddWithValue("@Inactive", request.Inactive);
-                    parameters.AddWithValue("@Url", request.Url);
-
+                    MapCommonParameters(request, parameters);
                     parameters.Add("@id", SqlDbType.Int).Direction = ParameterDirection.Output;
                 },
                 (parameters) =>
@@ -96,8 +120,57 @@ namespace Sabio.Services
 
                     newId = (int)parameters["@id"].Value;
                 });
-
             return newId;
         }
+
+        public void Update(PogUpdateRequest request)
+        {
+            dataProvider.ExecuteNonQuery(
+                "Pog_Update",
+                (parameters) =>
+                {
+                    // this first arrow function is called by the dataProvider BEFORE
+                    // the command is executed. This is where you set up the parameters.
+                    MapCommonParameters(request, parameters);
+                    parameters.AddWithValue("@Id", request.Id);
+                });
+        }
+
+        public void Delete(int id)
+        {
+            dataProvider.ExecuteNonQuery(
+                "Pog_Delete",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Id", id);
+                });
+        }
+
+        #region Private Helper Methods
+
+        private static Pog readRow(IDataReader reader)
+        {
+            return new Pog
+            {
+                Id = (int)reader["id"],
+                DateCreated = (DateTime)reader["DateCreated"],
+                DateModified = (DateTime)reader["DateModified"],
+                StartDate = reader.GetSafeDateTimeNullable("StartDate"),
+                Country = reader.GetSafeString("Country"),
+                Points = reader.GetSafeInt32Nullable("Points")
+            };
+        }
+
+        private static void MapCommonParameters(PogCreateRequest request, System.Data.SqlClient.SqlParameterCollection parameters)
+        {
+            parameters.AddWithValue("@Name", request.Name);
+            parameters.AddWithValue("@StartDate", request.StartDate);
+            parameters.AddWithValue("@Country", request.Country);
+            parameters.AddWithValue("@Points", request.Points);
+            parameters.AddWithValue("@Inactive", request.Inactive);
+            parameters.AddWithValue("@Url", request.Url);
+        }
+
+        #endregion
     }
 }

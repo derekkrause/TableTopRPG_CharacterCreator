@@ -17,11 +17,9 @@ module.exports = {
   postSchool: (req, res) => {
     const { athleteUserId, schoolId, notes, inactive } = req.body;
 
-    athleteSchoolService
-      .postSchool(athleteUserId, schoolId, notes, inactive)
-      .then(Id => {
-        res.status(201).json(Id);
-      });
+    athleteSchoolService.postSchool(athleteUserId, schoolId, notes, inactive).then(Id => {
+      res.status(201).json(Id);
+    });
   },
 
   updateSchool: (req, res) => {

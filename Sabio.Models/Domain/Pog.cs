@@ -11,8 +11,10 @@ namespace Sabio.Models.Domain
         public int Id { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         public string Country { get; set; }
-        public int Points { get; set; }
+        public int? Points { get; set; }
+        public bool? Inactive {get; set;}
+        public Uri Url { get; set; }
     }
 }

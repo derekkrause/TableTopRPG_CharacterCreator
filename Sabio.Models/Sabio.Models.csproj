@@ -49,6 +49,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\Advocate.cs" />
     <Compile Include="Domain\AdvocateUpdate.cs" />
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Requests\EventTypeUpdateRequest.cs" />
     <Compile Include="Requests\EventUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
+    <Compile Include="Requests\PogUpdateRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />
     <Compile Include="Requests\SportPositionCreateRequest.cs" />
     <Compile Include="Requests\SportPositionUpdateRequest.cs" />
@@ -90,7 +92,6 @@
     <Compile Include="Responses\ItemsResponse.cs" />
     <Compile Include="Responses\PagedItemResponse.cs" />
     <Compile Include="Responses\SuccessResponse.cs" />
-    <Compile Include="Domain\Advocate.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="ViewModels\JsViewModel.cs" />

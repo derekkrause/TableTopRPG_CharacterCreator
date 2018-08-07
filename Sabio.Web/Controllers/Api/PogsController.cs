@@ -1,7 +1,7 @@
 ﻿using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
-using Sabio.Services;
+using Sabio.Services.Interfaces;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -30,7 +30,7 @@ namespace Sabio.Web.Controllers.Api
         }
 
         [Route, HttpPost]
-        public HttpResponseMessage Create(PogCreateRequest pogCreateRequest)
+        public HttpResponseMessage Post(PogCreateRequest pogCreateRequest)
         {
             if (pogCreateRequest == null)
             {
@@ -44,9 +44,33 @@ namespace Sabio.Web.Controllers.Api
 
             // if we get here, the model is good
 
-            int newPogId = pogsService.Create(pogCreateRequest);
+            int newPogId = pogsService.Insert(pogCreateRequest);
 
             return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newPogId });
+        }
+
+        [Route("{id:int}"), HttpPut]
+        public HttpResponseMessage Update(int id, PogUpdateRequest pogUpdateRequest)
+        {
+            if (pogUpdateRequest == null)
+            {
+                ModelState.AddModelError("", "missing body data");
+            }
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+            pogsService.Update(pogUpdateRequest);
+
+            return Request.CreateResponse(HttpStatusCode.Created, new SuccessResponse());
+        }
+
+        [Route("{id:int}"), HttpPut]
+        public HttpResponseMessage Delete(int id)
+        {
+            pogsService.Delete(id);
+
+            return Request.CreateResponse(HttpStatusCode.Created, new SuccessResponse());
         }
     }
 }

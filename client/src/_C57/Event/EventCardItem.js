@@ -2,10 +2,7 @@ import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
-import {
-  getEventById,
-  getEventByIdWithUser
-} from "../../services/Event.service";
+import { getEventById, getEventByIdWithUser } from "../../services/Event.service";
 
 class EventCardItem extends Component {
   state = {
@@ -71,11 +68,7 @@ class EventCardItem extends Component {
             <p>{description}</p>
             <ListGroup className="list-inline d-sm-flex flex-sm-row gx-btn-list">
               <ListGroupItem className="border-0">
-                <NavLink
-                  className="btn btn-light jr-btn-rounded"
-                  to={`${this.props.match.url}/${id}`}
-                  target="_blank"
-                >
+                <NavLink className="btn btn-light jr-btn-rounded" to={`${this.props.match.url}/${id}`} target="_blank">
                   More Info
                 </NavLink>
               </ListGroupItem>
