@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import { registerUser, registerCoach, registerAthlete, userLogin } from "../../services/registerLogin.service";
 import { currentUser } from "../../services/currentUser.service";
-import { NotificationManager, NotificationContainer } from "react-notifications";
+import { NotificationManager } from "react-notifications";
 import { validateRegistration } from "./RegValidation";
 import { UserLogin } from "./Login";
 import SweetAlert from "react-bootstrap-sweetalert";
@@ -151,7 +151,6 @@ class UserRegistrationForm extends React.Component {
 
     return (
       <div className="login-container d-flex animated slideInUpTiny animation-duration-3">
-        <NotificationContainer />
         <div className="login-content">
           <div className="login-header text-center">
             <a className="app-logo" title="RecruitHub" href="#">

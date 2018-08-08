@@ -52,6 +52,7 @@
     <Compile Include="Domain\AdvocateUpdate.cs" />
     <Compile Include="Domain\ClassYear.cs" />
     <Compile Include="Domain\ClassYearUpdate.cs" />
+    <Compile Include="Domain\UserLogin.cs" />
     <Compile Include="Requests\AdvocateInsert.cs" />
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />

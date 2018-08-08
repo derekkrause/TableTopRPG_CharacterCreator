@@ -38,7 +38,7 @@ class NavBar extends React.Component {
   };
 
   logout = () => {
-    userLogout().then(currentUser());
+    userLogout().then(currentUser);
   };
 
   handleTypeAheadChange = name => values => {

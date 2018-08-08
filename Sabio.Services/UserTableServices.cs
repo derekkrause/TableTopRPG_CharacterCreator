@@ -127,13 +127,44 @@ namespace Sabio.Services
                     return user;
         }
 
-        public int Login(UserLoginRequest request)
+        //public int Login(UserLoginRequest request)
+        //{
+        //    string storedPassword = "";
+        //    string passwordInput = request.Password;
+        //    int userId = 0;
+        //    //bool userRole = 0;
+
+        //    dataProvider.ExecuteCmd(
+        //        "User_Login",
+        //        (parameters) =>
+        //        {
+        //            parameters.AddWithValue("@Email", request.Email);
+        //        },
+        //        (reader, resultSetIndex) =>
+        //        {
+        //            storedPassword = (string)reader["PasswordHash"];
+        //            userId = (int)reader["Id"];
+        //            //userRole = (bool)reader["Admin"];
+        //        });
+
+        //    if (BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword))
+        //    {
+        //        return userId;
+        //    }
+        //    else
+        //    {
+        //        return 0;
+        //    }
+        //}
+
+        public UserBase Login(UserLoginRequest request)
         {
             string storedPassword = "";
-            string passwordInput = request.Password;
             int userId = 0;
-            //bool userRole = 0;
-
+            string firstName = "";
+            string lastName = "";
+            bool isAdmin = false;
+     
             dataProvider.ExecuteCmd(
                 "User_Login",
                 (parameters) =>
@@ -144,16 +175,23 @@ namespace Sabio.Services
                 {
                     storedPassword = (string)reader["PasswordHash"];
                     userId = (int)reader["Id"];
-                    //userRole = (bool)reader["Admin"];
+                    firstName = (string)reader["FirstName"];
+                    lastName = (string)reader["LastName"];
+                    isAdmin = (bool)reader["Admin"];
                 });
 
-            if (BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword))
+            if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword))
             {
-                return userId;
+                return new UserBase
+                {
+                    Id = userId,
+                    Name = firstName + " " + lastName,
+                    Roles = isAdmin ? new[] { "Admin" } : new string[0]
+                };
             }
             else
             {
-                return 0;
+                return null;
             }
         }
         

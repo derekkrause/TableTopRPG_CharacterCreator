@@ -73,15 +73,47 @@ namespace Sabio.Web.Controllers.Api
         public HttpResponseMessage GetCurrent()
         {
             int? id = User.Identity.GetId();
+            //ItemResponse<UserBase> itemResponse = new ItemResponse<UserBase> { authenticationService.GetCurrentUser() };
             ItemResponse<User> itemResponse = new ItemResponse<User> { Item = userTableServices.GetById(id.Value) };
 
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
+            //return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        //[Route("login"), HttpPost, AllowAnonymous]
+        //public HttpResponseMessage Login(UserLoginRequest userLoginRequest)
+        //{
+        //    if(userLoginRequest == null)
+        //    {
+        //        ModelState.AddModelError("", "Missing Email or Password");
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+        //    }
+        
+        //    int userId = userTableServices.Login(userLoginRequest);
+
+        //    if (userId == 0)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email or Password Invalid");
+        //    }
+
+        //    authenticationService.LogIn(new UserBase
+        //    {
+        //        Id = userId,
+        //        Name = "",
+        //        Roles = new string[0]
+        //    });
+
+        //    return Request.CreateResponse(HttpStatusCode.OK);
+        //}
 
         [Route("login"), HttpPost, AllowAnonymous]
         public HttpResponseMessage Login(UserLoginRequest userLoginRequest)
         {
-            if(userLoginRequest == null)
+            if (userLoginRequest == null)
             {
                 ModelState.AddModelError("", "Missing Email or Password");
             }
@@ -91,25 +123,18 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            //Array userCreds = userTableServices.Login(userLoginRequest);
-            int userId = userTableServices.Login(userLoginRequest);
-            //int userRole = userTableServices.Login(userLoginRequest);
-
-            if (userId == 0)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email or Password Invalid");
-            }
+            UserBase userBase = userTableServices.Login(userLoginRequest);
 
             authenticationService.LogIn(new UserBase
             {
-                Id = userId,
-                Name = "",
-                Roles = new string[0]
+                Id = userBase.Id,
+                Name = userBase.Name,
+                Roles = userBase.Roles
             });
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
-
+        
         [Route("{id:int}"), HttpPut]
         public HttpResponseMessage Update(UserUpdateRequest userUpdateRequest, int id)
         {
