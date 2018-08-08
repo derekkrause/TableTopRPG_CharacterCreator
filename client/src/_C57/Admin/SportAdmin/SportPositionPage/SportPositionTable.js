@@ -54,10 +54,7 @@ class SportPositionTable extends Component {
       <div>
         <h2>Sports Positions</h2>
         <div onClick={this.toggle}>
-          <div
-            style={{ position: "relative", left: "80%" }}
-            className="btn btn-link"
-          >
+          <div style={{ position: "relative", left: "80%" }} className="btn btn-link">
             + Add New
           </div>
         </div>
@@ -111,10 +108,7 @@ class SportPositionTable extends Component {
                 >
                   Add Position
                 </button>
-                <div
-                  onClick={this.toggle}
-                  className="jr-btn jr-btn-default btn btn-default"
-                >
+                <div onClick={this.toggle} className="jr-btn jr-btn-default btn btn-default">
                   Cancel
                 </div>
               </div>

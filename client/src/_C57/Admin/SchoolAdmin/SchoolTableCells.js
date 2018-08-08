@@ -1,34 +1,37 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+import "./schoolStyle.css";
 
-class SchoolTableCells extends React.Component {
-  render() {
-    const tStatus = true;
-    return (
-      //   this will take your data along with admintable and map it out, place get all data here
-      <tr key={this.props.data.id}>
-        <td>
-          <button
-            className="btn btn-link"
-            onClick={() => {
-              this.props.editForm(tStatus);
-            }}
-          >
-            Edit
+const SchoolTableCells = props => {
+  const pascal = str => {
+    if (str != null) {
+      const lowerStr = str.toLowerCase();
+      const newStr = lowerStr[0].toUpperCase() + lowerStr.slice(1);
+      return newStr;
+    }
+  };
+
+  // console.log(props);
+  return (
+    <tr key={props.data.Id}>
+      <td>{pascal(props.data.Name)}</td>
+
+      <td>{pascal(props.data.Street)}</td>
+
+      <td>{pascal(props.data.City)}</td>
+
+      <td>{props.data.State}</td>
+
+      <td>{props.data.Zip}</td>
+      <td>
+        <NavLink to={`${props.match.path}/edit/${props.data.Id}`}>
+          <button className="btn btn-link">
+            <small>Edit</small>
           </button>
-          <button className="btn btn-link">Delete</button>
-        </td>
+        </NavLink>
+      </td>
+    </tr>
+  );
+};
 
-        <td>{this.props.data.name}</td>
-
-        <td>{this.props.data.memberFrom}</td>
-
-        <td>{this.props.data.lastLogin}</td>
-
-        <td>{this.props.data.role}</td>
-
-        <td>{this.props.data.role}</td>
-      </tr>
-    );
-  }
-}
 export default SchoolTableCells;

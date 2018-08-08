@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdvocateService.cs" />
+    <Compile Include="AthleteSearchService.cs" />
     <Compile Include="AthletesService.cs" />
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
@@ -127,9 +128,9 @@
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IEventService.cs" />
     <Compile Include="Interfaces\IEventTypeService.cs" />
+    <Compile Include="Interfaces\IPogsService.cs" />
     <Compile Include="Interfaces\ISportServices.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
-    <Compile Include="IPogsService.cs" />
     <Compile Include="IUserTableService.cs" />
     <Compile Include="PogsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -3,57 +3,53 @@ import "./NavStyle.css";
 import { Button, Collapse, FormGroup, Input, Select } from "reactstrap";
 import { userLogout } from "../../services/registerLogin.service";
 import { currentUser } from "../../services/currentUser.service";
+import { NavLink, withRouter } from "react-router-dom";
 import AthleteSearchFilter from "./AthleteSearchFilter";
 import EventSearchFilter from "./EventSearchFilter";
 import CoachSearchFilter from "./CoachSearchFilter";
 import ArticleSearchFilter from "./ArticleSearchFilter";
 import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
-import TopBar from "./TopNav";
+import { connect } from "react-redux";
 
 class NavBar extends React.Component {
-  state = {
-    collapsed: true,
-    search: "",
-    searchString: "",
-    searchType: "all",
-    //-----------Filter States----------------
-    locationFilter: "",
-    gradYearFilter: "",
-    sportLevelFilter: "",
-    sportPositionFilter: "",
-    schoolFilter: "",
-    coachTitleFilter: "",
-    eventTypeFilter: "",
-    eventStartDateFilter: "",
-    eventEndDateFilter: "",
-    venueTypeFilter: "",
-    articleTypeFilter: "",
-    articleTagFilter: ""
-  };
-
-  onChange = e => {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  logout = () => {
-    userLogout().then(currentUser);
-  };
-
   handleTypeAheadChange = name => values => {
-    this.setState({
+    this.setCriteriaProperties({
       [name]: values
     });
   };
   handleDateChange = (selectedDate, name) => {
-    this.setState({
+    this.setCriteriaProperties({
       [name]: selectedDate
     });
   };
 
+  setCriteriaProperties = properties => {
+    this.props.setSearchCriteria({
+      ...this.props.searchCriteria,
+      ...properties
+    });
+  };
+
+  handleChange = e => {
+    let key = e.target.name;
+    let val = e.target.value;
+
+    this.setCriteriaProperties({
+      [key]: val
+    });
+  };
+
   toggle = () => {
-    this.setState({ collapsed: !this.state.collapsed });
+    console.log("clicked");
+    this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
+  };
+  componentDidMount() {
+    console.log(this.props);
+  }
+
+  logout = () => {
+    userLogout().then(currentUser);
   };
 
   render() {
@@ -72,11 +68,11 @@ class NavBar extends React.Component {
                 data-width="fit"
                 data-style="btn-primary"
                 name="searchType"
-                value={this.state.searchType}
+                value={this.props.searchCriteria.searchType}
                 id="exampleSelect"
-                onChange={this.onChange}
+                onChange={this.handleChange}
               >
-                <option value="all" selected={() => this.setState({ collapsed: true })}>
+                <option value="all" selected={() => this.setCriteriaProperties({ collapsed: true })}>
                   All
                 </option>
                 <option value="athletes">Athletes</option>
@@ -93,12 +89,14 @@ class NavBar extends React.Component {
                   name="searchString"
                   placeholder="Search here..."
                   onFocus={this.toggle}
-                  onChange={this.onChange}
-                  value={this.state.searchString}
+                  onChange={this.handleChange}
+                  value={this.props.searchCriteria.searchString}
                 />
-                <Button type="submit" className="search-icon">
-                  <i className="zmdi zmdi-search zmdi-hc-lg" />
-                </Button>
+                <NavLink to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}>
+                  <Button className="search-icon">
+                    <i className="zmdi zmdi-search zmdi-hc-lg" />
+                  </Button>
+                </NavLink>
               </FormGroup>
               <span
                 className="icon-btn jr-menu-icon hamburger-icon-animate"
@@ -122,62 +120,62 @@ class NavBar extends React.Component {
             />
           </div>
         </div>
-        <Collapse isOpen={!this.state.collapsed}>
-          {this.state.searchType === "all" && <div />}
-          {this.state.searchType === "athletes" && (
+        <Collapse isOpen={!this.props.searchCriteria.collapsed}>
+          {this.props.searchCriteria.searchType === "all" && <div />}
+          {this.props.searchCriteria.searchType === "athletes" && (
             <AthleteSearchFilter
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.state.locationFilter}
-              gradYearFilter={this.state.gradYearFilter}
-              sportLevelFilter={this.state.sportLevelFilter}
-              sportPositionFilter={this.state.sportPositionFilter}
+              locationFilter={this.props.searchCriteria.locationFilter}
+              gradYearFilter={this.props.searchCriteria.gradYearFilter}
+              sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
+              sportPositionFilter={this.props.searchCriteria.sportPositionFilter}
             />
           )}
-          {this.state.searchType === "events" && (
+          {this.props.searchCriteria.searchType === "events" && (
             <EventSearchFilter
               handleDateChange={this.handleDateChange}
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.state.locationFilter}
-              eventTypeFilter={this.state.eventTypeFilter}
-              eventStartDateFilter={this.state.eventStartDateFilter}
-              eventEndDateFilter={this.state.eventEndDateFilter}
+              locationFilter={this.props.searchCriteria.locationFilter}
+              eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
+              eventStartDateFilter={this.props.searchCriteria.eventStartDateFilter}
+              eventEndDateFilter={this.props.searchCriteria.eventEndDateFilter}
             />
           )}
-          {this.state.searchType === "coaches" && (
+          {this.props.searchCriteria.searchType === "coaches" && (
             <CoachSearchFilter
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.state.locationFilter}
-              schoolNameFilter={this.state.schoolNameFilter}
-              sportLevelFilter={this.state.sportLevelFilter}
-              coachTitleFilter={this.state.coachTitleFilter}
+              locationFilter={this.props.searchCriteria.locationFilter}
+              schoolNameFilter={this.props.searchCriteria.schoolNameFilter}
+              sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
+              coachTitleFilter={this.props.searchCriteria.coachTitleFilter}
             />
           )}
-          {this.state.searchType === "articles" && (
+          {this.props.searchCriteria.searchType === "articles" && (
             <ArticleSearchFilter
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.state.locationFilter}
-              articleTypeFilter={this.state.articleTypeFilter}
-              articleTagFilter={this.state.articleTagFilter}
+              locationFilter={this.props.searchCriteria.locationFilter}
+              articleTypeFilter={this.props.searchCriteria.articleTypeFilter}
+              articleTagFilter={this.props.searchCriteria.articleTagFilter}
             />
           )}
-          {this.state.searchType === "schools" && (
+          {this.props.searchCriteria.searchType === "schools" && (
             <SchoolSearchFilter
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.state.locationFilter}
-              sportLevelFilter={this.state.sportLevelFilter}
+              locationFilter={this.props.searchCriteria.locationFilter}
+              sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
             />
           )}
-          {this.state.searchType === "venues" && (
+          {this.props.searchCriteria.searchType === "venues" && (
             <VenueSearchFilter
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.state.locationFilter}
-              eventTypeFilter={this.state.eventTypeFilter}
+              locationFilter={this.props.searchCriteria.locationFilter}
+              eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
             />
           )}
         </Collapse>
@@ -186,4 +184,21 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+function mapStateToProps(state) {
+  return {
+    searchCriteria: state.searchCriteria
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setSearchCriteria: searchCriteria => dispatch({ type: "SET_SEARCH_CRITERIA", searchCriteria })
+  };
+}
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(NavBar)
+);

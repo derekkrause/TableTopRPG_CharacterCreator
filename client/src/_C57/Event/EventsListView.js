@@ -112,7 +112,9 @@ class EventsListView extends Component {
             <h3>{/* Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages} */}</h3>
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
-            {eventCardsList.map(data => <EventCardItem key={data.id} eventId={data.id} {...this.props} />)}
+            {eventCardsList.map(data => (
+              <EventCardItem key={data.id} eventId={data.id} {...this.props} />
+            ))}
           </div>
         </div>
       </div>

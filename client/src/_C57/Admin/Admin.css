@@ -1,0 +1,37 @@
+.top-link{
+    margin-top: 0px !important
+}
+
+.admin-link{
+    margin-top: 10px;
+    margin-bottom: 10px;  
+    width: 100%
+
+}
+
+.admin-link-container{ 
+    list-style-type: none
+}
+.link{
+    color: #878787
+    
+}
+.admin-list-links{
+    position: relative;
+    top: 10px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;   
+    margin-bottom: -17px
+}
+.admin-header{
+    margin-top: 20px;
+    padding-bottom: 8px;
+    border-bottom: solid #e4e6e7 1px; 
+    border-right: solid #ced4da 1px
+}
+.admin-container{
+    overflow-y: hidden;
+    margin-top: 10px;
+    
+}

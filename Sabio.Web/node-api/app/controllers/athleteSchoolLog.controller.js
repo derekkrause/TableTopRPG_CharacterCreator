@@ -15,24 +15,10 @@ module.exports = {
   },
 
   postActivity: (req, res) => {
-    const {
-      athleteSchoolId,
-      dateContacted,
-      notes,
-      contactPersonName,
-      contactPersonId,
-      initiator
-    } = req.body;
+    const { athleteSchoolId, dateContacted, notes, contactPersonName, contactPersonId, initiator } = req.body;
 
     athleteSchoolLogService
-      .postActivity(
-        athleteSchoolId,
-        dateContacted,
-        notes,
-        contactPersonName,
-        contactPersonId,
-        initiator
-      )
+      .postActivity(athleteSchoolId, dateContacted, notes, contactPersonName, contactPersonId, initiator)
       .then(() => {
         res.sendStatus(201);
       })
@@ -42,25 +28,10 @@ module.exports = {
   },
 
   updateActivity: (req, res) => {
-    const {
-      athleteSchoolId,
-      dateContacted,
-      notes,
-      contactPersonName,
-      contactPersonId,
-      initiator
-    } = req.body;
+    const { athleteSchoolId, dateContacted, notes, contactPersonName, contactPersonId, initiator } = req.body;
 
     athleteSchoolLogService
-      .updateActivity(
-        athleteSchoolId,
-        dateContacted,
-        notes,
-        contactPersonName,
-        contactPersonId,
-        initiator,
-        req
-      )
+      .updateActivity(athleteSchoolId, dateContacted, notes, contactPersonName, contactPersonId, initiator, req)
       .then(() => {
         res.sendStatus(200);
       });

@@ -184,14 +184,16 @@ class FeedCard extends React.Component {
                 {this.props.feed.dateModified == this.props.feed.dateCreated ? (
                   <React.Fragment>
                     <span className="meta-date">
-                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />&nbsp;
+                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
+                      &nbsp;
                       {this.props.feed.dateModified.substring(0, 10)}
                     </span>
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
                     <span className="meta-date">
-                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />&nbsp;
+                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
+                      &nbsp;
                       {this.props.feed.dateCreated.substring(0, 10)} &nbsp; Updated
                     </span>
                   </React.Fragment>

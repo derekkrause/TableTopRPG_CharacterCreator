@@ -42,22 +42,23 @@ class SideNav extends React.PureComponent {
 
     return (
       <Drawer
-        docked={type}
+        docked={true}
         className={`app-sidebar ${drawerStyle}`}
-        style={{ overflow: "auto" }}
+        style={{ overflow: "hide", height: "fill" }}
         touch={true}
         position={isDirectionRTL ? "right" : "left"}
         transitions={false}
         enableDragHandle={true}
         open={navCollapsed}
+        children={false}
         onOpenChange={this.onToggleCollapsedNav}
         sidebar={
-          <div className="side-nav">
-            {/* <SidenavLogo drawerType={drawerType} /> */}
-            {/* <SideBarAdmin /> */}
-            {/* <SidenavContent /> */}
+          <div className="side-nav" style={{ width: "fill" }}>
             <AdminSideBarContent />
           </div>
+
+          // {/* <SidenavContent /> */}
+          // <AdminSideBarContent />
         }
       >
         <div />

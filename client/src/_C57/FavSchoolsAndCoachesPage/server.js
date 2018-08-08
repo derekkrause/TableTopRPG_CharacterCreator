@@ -22,12 +22,7 @@ export function postAthleteSchoolTags(payload) {
 }
 
 export function deleteAthleteSchoolTags(id, tagName) {
-  return axios.delete(
-    "/node-api/server.js/athleteSchoolTags/" +
-      id +
-      "?q=" +
-      encodeURIComponent(tagName)
-  );
+  return axios.delete("/node-api/server.js/athleteSchoolTags/" + id + "?q=" + encodeURIComponent(tagName));
 }
 
 export function getAthleteTagsById(userId) {

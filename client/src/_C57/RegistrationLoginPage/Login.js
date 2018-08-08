@@ -19,11 +19,17 @@ class UserLogin extends React.Component {
       .then(result => {
         console.log("LogIn Success", result);
         currentUser();
+<<<<<<< HEAD
         this.props.loginSuccess();
       })
       .catch(error => {
         console.log("LogIn Fail", error);
         this.props.loginFail();
+=======
+      })
+      .catch(error => {
+        console.log("LogIn Fail", error);
+>>>>>>> origin/master
       });
   };
 

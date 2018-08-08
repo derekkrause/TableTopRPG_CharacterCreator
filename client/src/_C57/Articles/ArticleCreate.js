@@ -43,7 +43,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addBlockType("header-one")}
-                  title="Header 1">
+                  title="Header 1"
+                >
                   <strong>h1</strong>
                 </Button>
                 <Button
@@ -51,7 +52,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addBlockType("header-two")}
-                  title="Header 2">
+                  title="Header 2"
+                >
                   <strong>h2</strong>
                 </Button>
                 <Button
@@ -59,7 +61,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addBlockType("unstyled")}
-                  title="Normal Text Size">
+                  title="Normal Text Size"
+                >
                   normal
                 </Button>
               </ButtonGroup>
@@ -70,7 +73,8 @@ class ArticleCreate extends React.Component {
                   // onClick={() => this.addStyle("bold")}
                   onClick={() => this.addInlineStyle("BOLD")}
                   tag="button"
-                  title="Bold">
+                  title="Bold"
+                >
                   <i className="zmdi zmdi-format-bold zmdi-hc-lg" />
                 </Button>
                 <Button
@@ -78,7 +82,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addInlineStyle("ITALIC")}
-                  title="Italics">
+                  title="Italics"
+                >
                   <i className="zmdi zmdi-format-italic zmdi-hc-lg" />
                 </Button>
                 <Button
@@ -86,7 +91,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addInlineStyle("UNDERLINE")}
-                  title="Underline">
+                  title="Underline"
+                >
                   <i className="zmdi zmdi-format-underlined zmdi-hc-lg" />
                 </Button>
               </ButtonGroup>
@@ -96,7 +102,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addBlockType("ordered-list-item")}
-                  title="Numbered List">
+                  title="Numbered List"
+                >
                   <i className="zmdi zmdi-format-list-numbered zmdi-hc-lg" />
                 </Button>
                 <Button
@@ -104,7 +111,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addBlockType("unordered-list-item")}
-                  title="Bulleted List">
+                  title="Bulleted List"
+                >
                   <i className="zmdi zmdi-format-list-bulleted zmdi-hc-lg" />
                 </Button>
               </ButtonGroup>
@@ -114,7 +122,8 @@ class ArticleCreate extends React.Component {
                   color="default"
                   tag="button"
                   onClick={() => this.addBlockType("blockquote")}
-                  title="Quote">
+                  title="Quote"
+                >
                   <i className="zmdi zmdi-quote zmdi-hc-lg" />
                 </Button>
                 <Button className="jr-btn jr-flat-btn btn-lg py-1 px-2" color="default" tag="button" title="Add Link">

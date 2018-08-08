@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Modal,
-  Container,
-  ModalHeader,
-  ModalBody,
-  Input
-} from "reactstrap";
+import { Button, Modal, Container, ModalHeader, ModalBody, Input } from "reactstrap";
 
 class ActivitiesModal extends React.Component {
   state = {
@@ -16,15 +9,9 @@ class ActivitiesModal extends React.Component {
 
   render() {
     return (
-      <Modal
-        isOpen={this.props.modal}
-        toggle={this.props.toggleActivity}
-        className={this.props.className}
-      >
+      <Modal isOpen={this.props.modal} toggle={this.props.toggleActivity} className={this.props.className}>
         <Container>
-          <ModalHeader toggle={this.props.toggleActivity}>
-            Activity Log
-          </ModalHeader>{" "}
+          <ModalHeader toggle={this.props.toggleActivity}>Activity Log</ModalHeader>{" "}
           <ModalBody>
             <div className="col-lg-12 col-sm-6 col-12">
               <div className="jr-card">
@@ -32,10 +19,7 @@ class ActivitiesModal extends React.Component {
                   {this.props.showActivitiesError == false ? (
                     <div className="mr-auto">
                       <div>
-                        <h3
-                          className="card-heading"
-                          style={{ display: "inline-block" }}
-                        >
+                        <h3 className="card-heading" style={{ display: "inline-block" }}>
                           Recent Activities
                         </h3>
                         {this.props.logEditMode ? (
@@ -76,9 +60,7 @@ class ActivitiesModal extends React.Component {
                         )}
                       </div>
                       <div>
-                        <p className="sub-heading">
-                          Last activity was 2 days ago
-                        </p>
+                        <p className="sub-heading">Last activity was 2 days ago</p>
                       </div>
                     </div>
                   ) : (
@@ -102,22 +84,14 @@ class ActivitiesModal extends React.Component {
                       <div className="media social-list-line">
                         <div className="bg-white icon-btn user-avatar size-40 z-index-20 align-item-self mr-3">
                           {activity.Initiator == "Me" ? (
-                            <img
-                              className="rounded-circle avatar size-40"
-                              src={this.props.userProfilePic}
-                            />
+                            <img className="rounded-circle avatar size-40" src={this.props.userProfilePic} />
                           ) : (
-                            <img
-                              className="rounded-circle avatar size-40"
-                              src={this.props.currentSchoolLogo}
-                            />
+                            <img className="rounded-circle avatar size-40" src={this.props.currentSchoolLogo} />
                           )}
                         </div>
                         <div className="media-body">
                           <h4 className="mb-1">{activity.Notes}</h4>
-                          <p className="meta-date">
-                            {activity.DateContacted.substring(0, 10)}
-                          </p>
+                          <p className="meta-date">{activity.DateContacted.substring(0, 10)}</p>
                           {this.props.logEditMode && (
                             <React.Fragment>
                               <Button

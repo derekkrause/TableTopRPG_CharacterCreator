@@ -265,4 +265,7 @@ __pycache__/
 *.pyc
 
 package-lock.json
+yarn.lock
+.vscode/
+
 ._README.md

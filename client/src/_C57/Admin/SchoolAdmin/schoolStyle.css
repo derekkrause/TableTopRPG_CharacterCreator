@@ -1,0 +1,42 @@
+.search-input{
+    border: 1px solid #ced4da;
+    max-width: 30%;
+    ;
+    margin-bottom: 0px;
+    height: 33px ;
+    position: absolute;
+}
+.search-input-button{
+    
+    height: 33px;
+    margin-bottom: 0px;  
+}
+
+.school{
+    width: fill
+}
+input:focus:invalid{
+    border:solid red 1px
+}
+
+
+.paginationButton{
+    border: solid grey 1px;
+}
+.pageNumber{
+    width: 35px
+}
+.table-top{
+    display: block
+}
+
+.add-new{
+    float: right;
+    text-align: right;
+    margin-top:30px;
+    position: absolute;
+}
+.table-row{
+    position: relative;
+    width: 100%
+}
