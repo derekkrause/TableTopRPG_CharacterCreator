@@ -37,6 +37,11 @@ export function userLogin(email, password) {
   return axios.post("/api/users/login", data);
 }
 
+//USER LOGOUT
+export function userLogout() {
+  return axios.get("/api/users/logout");
+}
+
 //LOGIN STATUS
 export function getCurrentUser() {
   return axios.get("/api/users/current");

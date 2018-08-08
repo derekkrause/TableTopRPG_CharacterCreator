@@ -2,6 +2,7 @@ import React from "react";
 import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Footer from "components/Footer";
+import "../_C57/WelcomePage/WelcomePage.css";
 import {
   ABOVE_THE_HEADER,
   BELOW_THE_HEADER,

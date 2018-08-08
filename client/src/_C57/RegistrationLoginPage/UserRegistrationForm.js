@@ -1,21 +1,22 @@
 import React from "react";
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
-import { registerUser, registerCoach, registerAthlete } from "../../services/registerLogin.service";
+import { registerUser, registerCoach, registerAthlete, userLogin } from "../../services/registerLogin.service";
 import { currentUser } from "../../services/currentUser.service";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import { validateRegistration } from "./RegValidation";
+import { UserLogin } from "./Login";
 import SweetAlert from "react-bootstrap-sweetalert";
+import "react-notifications/lib/notifications.css";
 import "./RegForm.css";
 
 class UserRegistrationForm extends React.Component {
   state = {
     //REGISTRATION INPUTS
     firstName: "",
-    middleName: "",
     lastName: "",
     emailInput: "",
     password: "",
     userType: "",
-    avatarUrl: "",
     //VALIDATION
     firstValid: null,
     lastValid: null,
@@ -23,12 +24,35 @@ class UserRegistrationForm extends React.Component {
     passwordValid: null,
     formValid: false,
     //Other
+    loginView: false,
     regSuccess: false,
+    width: window.innerWidth,
     regFail: false
+  };
+
+  updateWindowSize = () => {
+    this.setState({ width: window.innerWidth });
+    if (this.state.width >= 768) {
+      this.setState({ loginView: false });
+    }
+  };
+
+  componentDidMount = () => {
+    this.updateWindowSize();
+    window.addEventListener("resize", this.updateWindowSize);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener("resize", this.updateWindowSize);
   };
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value }, this.validation);
+  };
+
+  toggle = e => {
+    e.preventDefault();
+    this.setState({ loginView: !this.state.loginView });
   };
 
   validation = () => {
@@ -69,6 +93,19 @@ class UserRegistrationForm extends React.Component {
     }
   };
 
+  signin = e => {
+    e.preventDefault();
+    userLogin(this.state.emailInput, this.state.password)
+      .then(result => {
+        console.log("LogIn Success", result);
+        currentUser();
+      })
+      .catch(error => {
+        console.log("LogIn Fail", error);
+        NotificationManager.error("Check email and password and try again.", "Invalid Login", 5000);
+      });
+  };
+
   signUp = e => {
     e.preventDefault();
     if (this.state.formValid) {
@@ -96,8 +133,25 @@ class UserRegistrationForm extends React.Component {
   };
 
   render() {
+    const {
+      firstName,
+      lastName,
+      emailInput,
+      password,
+      userType,
+      firstValid,
+      lastValid,
+      emailValid,
+      passwordValid,
+      formValid,
+      loginView,
+      regSuccess,
+      regFail
+    } = this.state;
+
     return (
       <div className="login-container d-flex animated slideInUpTiny animation-duration-3">
+        <NotificationContainer />
         <div className="login-content">
           <div className="login-header text-center">
             <a className="app-logo" title="RecruitHub" href="#">
@@ -108,11 +162,19 @@ class UserRegistrationForm extends React.Component {
               />
             </a>
           </div>
-          <h1 className="my-2 text-center">Create an Account</h1>
+          <h1 className="my-2 text-center">{loginView ? "Log in" : "Create an Account"}</h1>
+          <div className="d-block d-md-none">
+            <h5 className="text-center d-md-hidden">
+              {loginView ? "Not a user? " : "Already a user? "}
+              <a href="#" onClick={this.toggle}>
+                {loginView ? "Register" : "Login"}
+              </a>
+            </h5>
+          </div>
           <div className="login-form">
             <SweetAlert
               success
-              show={this.state.regSuccess}
+              show={regSuccess}
               title="Welcome!"
               closeOnEsc={false}
               closeOnClickOutside={true}
@@ -126,7 +188,7 @@ class UserRegistrationForm extends React.Component {
             </SweetAlert>
             <SweetAlert
               error
-              show={this.state.regFail}
+              show={regFail}
               title="Oops!"
               timer={2500}
               onConfirm={() => this.setState({ regFail: false })}
@@ -134,7 +196,7 @@ class UserRegistrationForm extends React.Component {
               Ensure all fields are filled out correctly and try again.
             </SweetAlert>
             <Form className="row pb-0" autoComplete="on" onSubmit={this.signUp}>
-              <FormGroup className="col-12">
+              <FormGroup className="col-12" hidden={loginView}>
                 <Label for="firstName">First Name</Label>
                 <Input
                   name="firstName"
@@ -143,14 +205,14 @@ class UserRegistrationForm extends React.Component {
                   type="text"
                   placeholder="First"
                   onChange={this.onChange}
-                  valid={this.state.firstName.length > 0 && this.state.firstValid}
-                  invalid={this.state.firstName.length > 0 && !this.state.firstValid ? true : undefined}
+                  valid={firstName.length > 0 && firstValid}
+                  invalid={firstName.length > 0 && !firstValid ? true : undefined}
                   required
                 />
                 <FormFeedback>Please enter at least 2 letters.</FormFeedback>
                 <FormFeedback valid>Looks good!</FormFeedback>
               </FormGroup>
-              <FormGroup className="col-12">
+              <FormGroup className="col-12" hidden={loginView}>
                 <Label for="lastName">Last Name</Label>
                 <Input
                   name="lastName"
@@ -159,8 +221,8 @@ class UserRegistrationForm extends React.Component {
                   type="text"
                   placeholder="Last"
                   onChange={this.onChange}
-                  valid={this.state.lastName.length > 0 && this.state.lastValid}
-                  invalid={this.state.lastName.length > 0 && !this.state.lastValid ? true : undefined}
+                  valid={lastName.length > 0 && lastValid}
+                  invalid={lastName.length > 0 && !lastValid ? true : undefined}
                   required
                 />
                 <FormFeedback>Please enter at least 2 letters.</FormFeedback>
@@ -175,11 +237,11 @@ class UserRegistrationForm extends React.Component {
                   type="email"
                   placeholder="name@example.com"
                   onChange={this.onChange}
-                  valid={this.state.emailInput.length > 0 && this.state.emailValid}
-                  invalid={this.state.emailInput.length > 0 && !this.state.emailValid ? true : undefined}
+                  valid={emailInput.length > 0 && emailValid}
+                  invalid={emailInput.length > 0 && !emailValid ? true : undefined}
                   required
                 />
-                <FormFeedback>Invalid Email Address</FormFeedback>
+                <FormFeedback>Enter Valid Email Address</FormFeedback>
                 <FormFeedback valid>Looks good!</FormFeedback>
               </FormGroup>
               <FormGroup className="col-12">
@@ -191,8 +253,8 @@ class UserRegistrationForm extends React.Component {
                   type="password"
                   placeholder="********"
                   onChange={this.onChange}
-                  valid={this.state.password.length > 0 && this.state.passwordValid}
-                  invalid={this.state.password.length > 0 && !this.state.passwordValid ? true : undefined}
+                  valid={password.length > 0 && passwordValid}
+                  invalid={password.length > 0 && !passwordValid ? true : undefined}
                   required
                 />
                 <FormFeedback>
@@ -200,7 +262,7 @@ class UserRegistrationForm extends React.Component {
                 </FormFeedback>
                 <FormFeedback valid>Looks good!</FormFeedback>
               </FormGroup>
-              <FormGroup className="col-12">
+              <FormGroup className="col-12" hidden={loginView}>
                 <Label htmlFor="userTypeGroup">Select User Type</Label>
                 <div
                   className="d-flex flex-wrap form-group justify-content-center mx-auto"
@@ -215,7 +277,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Athlete"
                       id="athleteRadio"
-                      checked={this.state.userType == "Athlete" || this.props.userType == "Athlete" ? true : false}
+                      checked={userType == "Athlete" || this.props.userType == "Athlete" ? true : false}
                     />
                     <Label className="custom-control-label" htmlFor="athleteRadio">
                       Athlete
@@ -228,7 +290,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Coach"
                       id="coachRadio"
-                      checked={this.state.userType == "Coach" || this.props.userType == "Coach" ? true : false}
+                      checked={userType == "Coach" || this.props.userType == "Coach" ? true : false}
                     />
                     <Label className="custom-control-label" htmlFor="coachRadio">
                       Coach
@@ -241,7 +303,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Advocate"
                       id="advocateRadio"
-                      // checked={this.state.userType == "Advocate" || this.props.userType == "Advocate" ? true : false}
+                      // checked={userType == "Advocate" || this.props.userType == "Advocate" ? true : false}
                       disabled
                     />
                     <Label className="custom-control-label" htmlFor="advocateRadio">
@@ -268,11 +330,11 @@ class UserRegistrationForm extends React.Component {
           <div className="d-flex justify-content-center">
             <Button
               type="submit"
-              onClick={this.signUp}
+              onClick={loginView ? this.signin : this.signUp}
               className="btn btn-primary py-2 my-2"
-              disabled={!this.state.formValid}
+              disabled={!formValid && !loginView}
             >
-              Sign-up
+              {loginView ? "Sign-in" : "Sign-up"}
             </Button>
           </div>
         </div>

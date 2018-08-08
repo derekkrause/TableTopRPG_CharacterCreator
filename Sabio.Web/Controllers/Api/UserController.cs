@@ -44,6 +44,10 @@ namespace Sabio.Web.Controllers.Api
             });
 
             return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newUserId });
+            
+            
+            //return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email address already registered. Please log in.");
+            
         }
 
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
@@ -87,7 +91,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
+            //Array userCreds = userTableServices.Login(userLoginRequest);
             int userId = userTableServices.Login(userLoginRequest);
+            //int userRole = userTableServices.Login(userLoginRequest);
 
             if (userId == 0)
             {
@@ -130,6 +136,13 @@ namespace Sabio.Web.Controllers.Api
         public HttpResponseMessage Delete(int id)
         {
             userTableServices.Delete(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("logout"), HttpGet]
+        public HttpResponseMessage Logout()
+        {
+            authenticationService.LogOut();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

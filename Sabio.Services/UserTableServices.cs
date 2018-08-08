@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Sabio.Data;
+using System.Data.SqlClient;
 
 namespace Sabio.Services
 {
@@ -23,24 +24,31 @@ namespace Sabio.Services
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
-            dataProvider.ExecuteNonQuery(
-                "User_Insert",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName);
-                    parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                    parameters.AddWithValue("@Email", request.Email);
-                    parameters.AddWithValue("@PasswordHash", passHash);
-                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                },
-                (parameters) =>
-                {
-                    newId = (int)parameters["@Id"].Value;
-                });
+            //try
+            //{
+                dataProvider.ExecuteNonQuery(
+                    "User_Insert",
+                    (parameters) =>
+                    {
+                        parameters.AddWithValue("@FirstName", request.FirstName);
+                        parameters.AddWithValue("@MiddleName", request.MiddleName);
+                        parameters.AddWithValue("@LastName", request.LastName);
+                        parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                        parameters.AddWithValue("@Email", request.Email);
+                        parameters.AddWithValue("@PasswordHash", passHash);
+                        parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    },
+                    (parameters) =>
+                    {
+                        newId = (int)parameters["@Id"].Value;
+                    });            
 
-            return newId;
+                return newId;
+            //}
+            //catch (SqlException ex)
+            //{
+            //    throw new ApplicationException("SqlException Parameter " + ex.Number.ToString());
+            //}
         }
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
@@ -48,40 +56,39 @@ namespace Sabio.Services
             PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
             List<User> userList = new List<User>();
 
-            dataProvider.ExecuteCmd(
-                "User_SelectAll",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@pageIndex", pageIndex);
-                    parameters.AddWithValue("@pageSize", pageSize);
-                },
-                (reader, resultSetIndex) =>
-                {
-                    User user = new User
+                dataProvider.ExecuteCmd(
+                    "User_SelectAll",
+                    (parameters) =>
                     {
-                        Id = (int)reader["Id"],
-                        FirstName = (string)reader["FirstName"],
-                        LastName = (string)reader["LastName"],
-                        Gender = reader.GetSafeInt32Nullable("Gender"),
-                        AvatarUrl = (string)reader["AvatarUrl"],
-                        Email = (string)reader["Email"],
-                        DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"]
-                    };
-
-                    object middleNameObj = reader["MiddleName"];
-                    if (middleNameObj != DBNull.Value)
+                        parameters.AddWithValue("@pageIndex", pageIndex);
+                        parameters.AddWithValue("@pageSize", pageSize);
+                    },
+                    (reader, resultSetIndex) =>
                     {
-                        user.MiddleName = (string)middleNameObj;
-                    }
+                        User user = new User
+                        {
+                            Id = (int)reader["Id"],
+                            FirstName = (string)reader["FirstName"],
+                            LastName = (string)reader["LastName"],
+                            Gender = reader.GetSafeInt32Nullable("Gender"),
+                            AvatarUrl = (string)reader["AvatarUrl"],
+                            Email = (string)reader["Email"],
+                            DateCreated = (DateTime)reader["DateCreated"],
+                            DateModified = (DateTime)reader["DateModified"]
+                        };
 
-                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+                        object middleNameObj = reader["MiddleName"];
+                        if (middleNameObj != DBNull.Value)
+                        {
+                            user.MiddleName = (string)middleNameObj;
+                        }
 
-                    userList.Add(user);
-                });
+                        pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 
-            return pagedItemResponse;
-            
+                        userList.Add(user);
+                    });
+
+                return pagedItemResponse;
         }
 
         public User GetById(int id)
@@ -125,6 +132,7 @@ namespace Sabio.Services
             string storedPassword = "";
             string passwordInput = request.Password;
             int userId = 0;
+            //bool userRole = 0;
 
             dataProvider.ExecuteCmd(
                 "User_Login",
@@ -136,9 +144,9 @@ namespace Sabio.Services
                 {
                     storedPassword = (string)reader["PasswordHash"];
                     userId = (int)reader["Id"];
+                    //userRole = (bool)reader["Admin"];
                 });
 
-            //bool pwMatch = BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword);
             if (BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword))
             {
                 return userId;
@@ -175,5 +183,6 @@ namespace Sabio.Services
                 (parameters) => parameters.AddWithValue("@id", id)
             );
         }
+
     }
 }
