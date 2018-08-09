@@ -34,23 +34,19 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            int newUserId = userTableServices.Create(userCreateRequest);
+            UserBase userBase = userTableServices.Create(userCreateRequest);
 
             authenticationService.LogIn(new UserBase
             {
-                Id = newUserId,
-                Name = "",
-                Roles = new string[0]
+                Id = userBase.Id,
+                Name = userBase.Name,
+                Roles = userBase.Roles
             });
 
-            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newUserId });
-            
-            
-            //return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email address already registered. Please log in.");
-            
+            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = userBase.Id });
         }
 
-        [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
+        [Route("{pageIndex:int}/{pageSize:int}"), HttpGet, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage GetAll(int pageIndex, int pageSize)
         {
            PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
@@ -125,7 +121,7 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("{id:int}"), HttpDelete]
+        [Route("{id:int}"), HttpDelete, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Delete(int id)
         {
             userTableServices.Delete(id);

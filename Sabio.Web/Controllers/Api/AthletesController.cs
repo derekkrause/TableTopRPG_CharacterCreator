@@ -3,6 +3,7 @@ using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using Sabio.Services;
+using Sabio.Services.Security;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -29,7 +30,7 @@ namespace Sabio.Web.Controllers.Api
             });
 
         }
-        [Route, HttpPost, AllowAnonymous]
+        [Route, HttpPost]
         public HttpResponseMessage Insert(AthleteInsertRequest athleteInsertRequest)
         {
             if (athleteInsertRequest == null)
@@ -41,6 +42,8 @@ namespace Sabio.Web.Controllers.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
+            athleteInsertRequest.UserId = User.Identity.GetId().Value;
+
             int id = athletesService.Insert(athleteInsertRequest);
 
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<int> { Item = id });

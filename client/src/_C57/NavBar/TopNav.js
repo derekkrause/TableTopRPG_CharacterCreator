@@ -1,12 +1,10 @@
 import React from "react";
 import UserLogin from "_C57/RegistrationLoginPage/Login.js";
 import { Button, Popover, PopoverBody } from "reactstrap";
-import { NotificationManager, NotificationContainer } from "react-notifications";
+import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 class TopNav extends React.Component {
-  // registerRef = React.createRef();
-
   state = {
     isOpen: false
   };
@@ -15,14 +13,9 @@ class TopNav extends React.Component {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
-  // scrollToRegForm = () => {
-  //   this.registerRef.current.scrollIntoView({ block: "center", behavior: "smooth" });
-  // };
-
   render() {
     return (
       <div>
-        <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="app-toolbar d-flex justify-content-center justify-content-md-between align-items-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">Hub Scout</h4>
@@ -32,8 +25,8 @@ class TopNav extends React.Component {
             <div className="d-none d-md-block mx-auto">
               <UserLogin
                 loginChange={this.loginChange}
-                loginSuccess={this.createNotification("success")}
-                loginFail={this.createNotification("error")}
+                loginSuccess={NotificationManager.success("Welcome back", "Login Success")}
+                loginFail={NotificationManager.error("Check email & password", "Login Error")}
               />
             </div>
             <div className="d-none d-md-block mx-auto">

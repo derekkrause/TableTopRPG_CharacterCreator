@@ -19,13 +19,11 @@ namespace Sabio.Services
             this.dataProvider = dataProvider;
         }
 
-        public int Create(UserCreateRequest request)
+        public UserBase Create(UserCreateRequest request)
         {
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
-            //try
-            //{
                 dataProvider.ExecuteNonQuery(
                     "User_Insert",
                     (parameters) =>
@@ -41,14 +39,14 @@ namespace Sabio.Services
                     (parameters) =>
                     {
                         newId = (int)parameters["@Id"].Value;
-                    });            
+                    });
 
-                return newId;
-            //}
-            //catch (SqlException ex)
-            //{
-            //    throw new ApplicationException("SqlException Parameter " + ex.Number.ToString());
-            //}
+            return new UserBase
+            {
+                Id = newId,
+                Name = "",
+                Roles = new string[0]
+            };
         }
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
@@ -126,36 +124,6 @@ namespace Sabio.Services
                 );
                     return user;
         }
-
-        //public int Login(UserLoginRequest request)
-        //{
-        //    string storedPassword = "";
-        //    string passwordInput = request.Password;
-        //    int userId = 0;
-        //    //bool userRole = 0;
-
-        //    dataProvider.ExecuteCmd(
-        //        "User_Login",
-        //        (parameters) =>
-        //        {
-        //            parameters.AddWithValue("@Email", request.Email);
-        //        },
-        //        (reader, resultSetIndex) =>
-        //        {
-        //            storedPassword = (string)reader["PasswordHash"];
-        //            userId = (int)reader["Id"];
-        //            //userRole = (bool)reader["Admin"];
-        //        });
-
-        //    if (BCrypt.Net.BCrypt.Verify(passwordInput, storedPassword))
-        //    {
-        //        return userId;
-        //    }
-        //    else
-        //    {
-        //        return 0;
-        //    }
-        //}
 
         public UserBase Login(UserLoginRequest request)
         {
