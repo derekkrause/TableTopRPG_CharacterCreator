@@ -27,7 +27,7 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, sport);
         }
 
-        [Route, HttpPost]
+        [Route, HttpPost, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Create(SportCreateRequest sportCreateRequest)
         {
             if (sportCreateRequest == null)
@@ -45,7 +45,7 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, newSportId);
         }
 
-        [Route("{id:int}"), HttpPut]
+        [Route("{id:int}"), HttpPut, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Update(SportUpdateRequest sportUpdateRequest, int id)
         {
             if (sportUpdateRequest == null)
@@ -66,7 +66,7 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("{id:int}"), HttpDelete]
+        [Route("{id:int}"), HttpDelete, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Delete(int id)
         {
             sportService.Delete(id);

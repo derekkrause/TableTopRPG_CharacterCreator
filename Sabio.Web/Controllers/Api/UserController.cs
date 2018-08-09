@@ -34,19 +34,19 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            int newUserId = userTableServices.Create(userCreateRequest);
+            UserBase userBase = userTableServices.Create(userCreateRequest);
 
             authenticationService.LogIn(new UserBase
             {
-                Id = newUserId,
-                Name = "",
-                Roles = new string[0]
+                Id = userBase.Id,
+                Name = userBase.Name,
+                Roles = userBase.Roles
             });
 
-            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newUserId });
+            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = userBase.Id });
         }
 
-        [Route("{pageIndex:int}/{pageSize:int}"), HttpGet]
+        [Route("{pageIndex:int}/{pageSize:int}"), HttpGet, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage GetAll(int pageIndex, int pageSize)
         {
            PagedItemResponse<User> pagedItemResponse = userTableServices.GetAll(pageIndex, pageSize);
@@ -77,7 +77,7 @@ namespace Sabio.Web.Controllers.Api
         [Route("login"), HttpPost, AllowAnonymous]
         public HttpResponseMessage Login(UserLoginRequest userLoginRequest)
         {
-            if(userLoginRequest == null)
+            if (userLoginRequest == null)
             {
                 ModelState.AddModelError("", "Missing Email or Password");
             }
@@ -87,23 +87,18 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            int userId = userTableServices.Login(userLoginRequest);
-
-            if (userId == 0)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email or Password Invalid");
-            }
+            UserBase userBase = userTableServices.Login(userLoginRequest);
 
             authenticationService.LogIn(new UserBase
             {
-                Id = userId,
-                Name = "",
-                Roles = new string[0]
+                Id = userBase.Id,
+                Name = userBase.Name,
+                Roles = userBase.Roles
             });
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
-
+        
         [Route("{id:int}"), HttpPut]
         public HttpResponseMessage Update(UserUpdateRequest userUpdateRequest, int id)
         {
@@ -126,10 +121,17 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("{id:int}"), HttpDelete]
+        [Route("{id:int}"), HttpDelete, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Delete(int id)
         {
             userTableServices.Delete(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [Route("logout"), HttpGet]
+        public HttpResponseMessage Logout()
+        {
+            authenticationService.LogOut();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

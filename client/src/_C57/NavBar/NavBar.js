@@ -1,6 +1,8 @@
 import React from "react";
 import "./NavStyle.css";
 import { Button, Collapse, FormGroup, Input, Select } from "reactstrap";
+import { userLogout } from "../../services/registerLogin.service";
+import { currentUser } from "../../services/currentUser.service";
 import { NavLink, withRouter } from "react-router-dom";
 import AthleteSearchFilter from "./AthleteSearchFilter";
 import EventSearchFilter from "./EventSearchFilter";
@@ -46,6 +48,10 @@ class NavBar extends React.Component {
     console.log(this.props);
   }
 
+  logout = () => {
+    userLogout().then(currentUser);
+  };
+
   render() {
     return (
       <div>
@@ -54,6 +60,7 @@ class NavBar extends React.Component {
             <h4 className="mb-0 mr-auto">
               <b>Hub Scout</b>
             </h4>
+            <button onClick={this.logout}>Logout</button>
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select
                 className="selectpicker"

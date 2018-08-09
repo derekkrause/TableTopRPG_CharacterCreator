@@ -68,7 +68,7 @@ namespace Sabio.Web.Core.Services
             IEnumerable<AuthenticationDescription> authenticationTypes = owinContext.Authentication.GetAuthenticationTypes();
             owinContext.Authentication.SignOut(authenticationTypes.Select(o => o.AuthenticationType).ToArray());
 
-            //HttpContext.Current.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            HttpContext.Current.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
         }
 
 

@@ -4,8 +4,7 @@ namespace Sabio.Models
 {
     public class AthleteInsertRequest
     {
-
-        [Required]
+        
         public int UserId { get; set; }
 
         public string DOB { get; set; }
