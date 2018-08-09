@@ -24,7 +24,6 @@ class TopNav extends React.Component {
             </a>
             <div className="d-none d-md-block mx-auto">
               <UserLogin
-                loginChange={this.loginChange}
                 loginSuccess={NotificationManager.success("Welcome back", "Login Success")}
                 loginFail={NotificationManager.error("Check email & password", "Login Error")}
               />
