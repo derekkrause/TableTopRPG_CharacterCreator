@@ -52,7 +52,7 @@ class WelcomePage extends React.Component {
 
         <FeatureList className="py-5 justify-content-center" />
 
-        <div className="py-5" ref={this.registerRef}>
+        <div className="py-5 mb-5" ref={this.registerRef}>
           <UserRegistrationForm userType={this.state.userType} key={this.state.userType} redirect={this.redirect} />
         </div>
 
