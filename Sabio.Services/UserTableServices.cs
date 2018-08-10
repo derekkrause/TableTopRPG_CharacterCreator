@@ -112,6 +112,7 @@ namespace Sabio.Services
                         IsAthlete = (bool)reader["IsAthlete"],
                         IsCoach = (bool)reader["IsCoach"],
                         IsAdvocate = (bool)reader["IsAdvocate"],
+                        IsAdmin = (bool)reader["Admin"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
                     };
