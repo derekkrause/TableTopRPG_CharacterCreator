@@ -109,6 +109,9 @@ namespace Sabio.Services
                         Gender = reader.GetSafeInt32Nullable("Gender"),
                         AvatarUrl = (string)reader["AvatarUrl"],
                         Email = (string)reader["Email"],
+                        IsAthlete = (bool)reader["IsAthlete"],
+                        IsCoach = (bool)reader["IsCoach"],
+                        IsAdvocate = (bool)reader["IsAdvocate"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
                     };
