@@ -60,6 +60,8 @@
     <Compile Include="Domain\Event.cs" />
     <Compile Include="Domain\EventType.cs" />
     <Compile Include="Domain\EventUser.cs" />
+    <Compile Include="Domain\EventUserAttendee.cs" />
+    <Compile Include="Domain\EventUserTable.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Sport.cs" />
     <Compile Include="Domain\SportPosition.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Requests\EventTypeCreateRequest.cs" />
     <Compile Include="Requests\EventTypeUpdateRequest.cs" />
     <Compile Include="Requests\EventUpdateRequest.cs" />
+    <Compile Include="Requests\EventUserTableCreateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Requests\PogUpdateRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />

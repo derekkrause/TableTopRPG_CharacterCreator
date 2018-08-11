@@ -11,6 +11,7 @@ import EventView from "./EventView";
 import EventCardItem from "./EventCardItem";
 import EventTypeListView from "./EventTypeListView";
 import EventForm from "./EventForm";
+import EventTypeTable from "../Admin/EventTypeAdmin/EventTypeTable";
 
 class EventApp extends Component {
   state = {
@@ -18,7 +19,8 @@ class EventApp extends Component {
     showEventListPage: false,
     showEventTypePage: false,
     showEventCardItem: false,
-    showEventForm: false
+    showEventForm: false,
+    showEventTypeTable: false
   };
 
   toggleEventPage() {
@@ -61,12 +63,25 @@ class EventApp extends Component {
     });
   }
 
+  toggleEventTypeTable() {
+    const showEventTypeTable = this.state.showEventTypeTable;
+
+    this.setState({ showEventTypeTable: !showEventTypeTable });
+  }
+
   // componentDidMount() {
   //   this.setState({ showEventPage: false, showEventListPage: false });
   // }
 
   render() {
-    const { showEventListPage, showEventPage, showEventCardItem, showEventTypePage, showEventForm } = this.state;
+    const {
+      showEventListPage,
+      showEventPage,
+      showEventCardItem,
+      showEventTypePage,
+      showEventForm,
+      showEventTypeTable
+    } = this.state;
     let showPage;
 
     if (showEventPage) {
@@ -87,6 +102,10 @@ class EventApp extends Component {
 
     if (showEventForm) {
       showPage = <EventForm />;
+    }
+
+    if (showEventTypeTable) {
+      showPage = <EventTypeTable />;
     }
 
     return (
@@ -110,6 +129,9 @@ class EventApp extends Component {
                 </Button>
                 <Button color="primary" className="jr-btn" onClick={this.toggleEventTypePage.bind(this)}>
                   Toggle Event Type Page
+                </Button>
+                <Button color="primary" className="jr-btn" onClick={this.toggleEventTypeTable.bind(this)}>
+                  Toggle Event Type Table
                 </Button>
               </div>
             </CardBox>

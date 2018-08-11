@@ -520,89 +520,89 @@ namespace Sabio.Services
 
         public List<Event> SearchAll(string searchTerms)
         {
-            List<Event> events = new List<Event>();
+        List<Event> events = new List<Event>();
 
-            dataProvider.ExecuteCmd("Event_SearchAll",
-                (parameters) =>
+        dataProvider.ExecuteCmd("Event_SearchAll",
+            (parameters) =>
+            {
+                parameters.AddWithValue("@SearchTerms", searchTerms);
+            },
+            (reader, resultSetIndex) =>
+            {
+                Event eventItem = new Event
                 {
-                    parameters.AddWithValue("@SearchTerms", searchTerms);
-                },
-                (reader, resultSetIndex) =>
+                    Id = (int)reader["Id"],
+                    Name = (string)reader["Name"],
+                    ShortName = (string)reader["ShortName"],
+                    EventTypeId = (int)reader["EventTypeId"],
+                    // AddressId = (int)reader["AddressId"],
+                    IsOngoing = (bool)reader["IsOngoing"],
+                    CreatedBy = (int)reader["CreatedBy"],
+                    ModifiedBy = (int)reader["ModifiedBy"],
+                    DateCreated = (DateTime)reader["DateCreated"],
+                    Street = (string)reader["Street"],
+                    Suite = (string)reader["Suite"],
+                    City = (string)reader["City"],
+                    State = (string)reader["State"],
+                    Zip = (string)reader["Zip"]
+                };
+
+                object startDateObj = reader["StartDate"];
+                if (startDateObj != DBNull.Value)
                 {
-                    Event eventItem = new Event
-                    {
-                        Id = (int)reader["Id"],
-                        Name = (string)reader["Name"],
-                        ShortName = (string)reader["ShortName"],
-                        EventTypeId = (int)reader["EventTypeId"],
-                        // AddressId = (int)reader["AddressId"],
-                        IsOngoing = (bool)reader["IsOngoing"],
-                        CreatedBy = (int)reader["CreatedBy"],
-                        ModifiedBy = (int)reader["ModifiedBy"],
-                        DateCreated = (DateTime)reader["DateCreated"],
-                        Street = (string)reader["Street"],
-                        Suite = (string)reader["Suite"],
-                        City = (string)reader["City"],
-                        State = (string)reader["State"],
-                        Zip = (string)reader["Zip"]
-                    };
+                    eventItem.StartDate = (DateTime)startDateObj;
+                }
 
-                    object startDateObj = reader["StartDate"];
-                    if (startDateObj != DBNull.Value)
-                    {
-                        eventItem.StartDate = (DateTime)startDateObj;
-                    }
+                object endDateObj = reader["EndDate"];
+                if (endDateObj != DBNull.Value)
+                {
+                    eventItem.EndDate = (DateTime)endDateObj;
+                }
 
-                    object endDateObj = reader["EndDate"];
-                    if (endDateObj != DBNull.Value)
-                    {
-                        eventItem.EndDate = (DateTime)endDateObj;
-                    }
+                object descObj = reader["Description"];
+                if (descObj != DBNull.Value)
+                {
+                    eventItem.Description = (string)descObj;
+                }
 
-                    object descObj = reader["Description"];
-                    if (descObj != DBNull.Value)
-                    {
-                        eventItem.Description = (string)descObj;
-                    }
+                object webUrl = reader["WebsiteUrl"];
+                if (webUrl != DBNull.Value)
+                {
+                    eventItem.WebsiteUrl = (string)webUrl;
+                }
 
-                    object webUrl = reader["WebsiteUrl"];
-                    if (webUrl != DBNull.Value)
-                    {
-                        eventItem.WebsiteUrl = (string)webUrl;
-                    }
+                object logoObj = reader["Logo"];
+                if (logoObj != DBNull.Value)
+                {
+                    eventItem.Logo = (string)logoObj;
+                }
 
-                    object logoObj = reader["Logo"];
-                    if (logoObj != DBNull.Value)
-                    {
-                        eventItem.Logo = (string)logoObj;
-                    }
+                object orgObj = reader["Organizer"];
+                if (orgObj != DBNull.Value)
+                {
+                    eventItem.Organizer = (string)orgObj;
+                }
 
-                    object orgObj = reader["Organizer"];
-                    if (orgObj != DBNull.Value)
-                    {
-                        eventItem.Organizer = (string)orgObj;
-                    }
+                object dateModObj = reader["DateModified"];
+                if (dateModObj != DBNull.Value)
+                {
+                    eventItem.DateModified = (DateTime)dateModObj;
+                }
 
-                    object dateModObj = reader["DateModified"];
-                    if (dateModObj != DBNull.Value)
-                    {
-                        eventItem.DateModified = (DateTime)dateModObj;
-                    }
+                object latObj = reader["Lat"];
+                if (latObj != DBNull.Value)
+                {
+                    eventItem.Lat = (double)latObj;
+                }
 
-                    object latObj = reader["Lat"];
-                    if (latObj != DBNull.Value)
-                    {
-                        eventItem.Lat = (double)latObj;
-                    }
+                object longObj = reader["Long"];
+                if (longObj != DBNull.Value)
+                {
+                    eventItem.Long = (double)longObj;
+                }
 
-                    object longObj = reader["Long"];
-                    if (longObj != DBNull.Value)
-                    {
-                        eventItem.Long = (double)longObj;
-                    }
-
-                    events.Add(eventItem);
-                });
+                events.Add(eventItem);
+            });
 
             return events;
         }
@@ -793,5 +793,100 @@ namespace Sabio.Services
 
             return eventEvt;
         }
+
+        public List<Event> SearchAllWithFilters(string searchTerms = null, string searchState = null, int? searchEventType = null, DateTime? searchStartDate = null, DateTime? searchEndDate = null, int? searchDistance = null)
+        {
+            List<Event> events = new List<Event>();
+
+            dataProvider.ExecuteCmd("Event_SearchAllWithFilters",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@SearchTerms", searchTerms);
+                    parameters.AddWithValue("@SearchState", searchState);
+                    parameters.AddWithValue("@SearchEventType", searchEventType);
+                    parameters.AddWithValue("@SearchStartDate", searchStartDate);
+                    parameters.AddWithValue("@SearchEndDate", searchEndDate);
+                    parameters.AddWithValue("@SearchDistance", searchDistance);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    Event eventItem = new Event
+                    {
+                        Id = (int)reader["Id"],
+                        Name = (string)reader["Name"],
+                        ShortName = (string)reader["ShortName"],
+                        EventTypeId = (int)reader["EventTypeId"],
+                    // AddressId = (int)reader["AddressId"],
+                    IsOngoing = (bool)reader["IsOngoing"],
+                        CreatedBy = (int)reader["CreatedBy"],
+                        ModifiedBy = (int)reader["ModifiedBy"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        Street = (string)reader["Street"],
+                        Suite = (string)reader["Suite"],
+                        City = (string)reader["City"],
+                        State = (string)reader["State"],
+                        Zip = (string)reader["Zip"]
+                    };
+
+                    object startDateObj = reader["StartDate"];
+                    if (startDateObj != DBNull.Value)
+                    {
+                        eventItem.StartDate = (DateTime)startDateObj;
+                    }
+
+                    object endDateObj = reader["EndDate"];
+                    if (endDateObj != DBNull.Value)
+                    {
+                        eventItem.EndDate = (DateTime)endDateObj;
+                    }
+
+                    object descObj = reader["Description"];
+                    if (descObj != DBNull.Value)
+                    {
+                        eventItem.Description = (string)descObj;
+                    }
+
+                    object webUrl = reader["WebsiteUrl"];
+                    if (webUrl != DBNull.Value)
+                    {
+                        eventItem.WebsiteUrl = (string)webUrl;
+                    }
+
+                    object logoObj = reader["Logo"];
+                    if (logoObj != DBNull.Value)
+                    {
+                        eventItem.Logo = (string)logoObj;
+                    }
+
+                    object orgObj = reader["Organizer"];
+                    if (orgObj != DBNull.Value)
+                    {
+                        eventItem.Organizer = (string)orgObj;
+                    }
+
+                    object dateModObj = reader["DateModified"];
+                    if (dateModObj != DBNull.Value)
+                    {
+                        eventItem.DateModified = (DateTime)dateModObj;
+                    }
+
+                    object latObj = reader["Lat"];
+                    if (latObj != DBNull.Value)
+                    {
+                        eventItem.Lat = (double)latObj;
+                    }
+
+                    object longObj = reader["Long"];
+                    if (longObj != DBNull.Value)
+                    {
+                        eventItem.Long = (double)longObj;
+                    }
+
+                    events.Add(eventItem);
+                });
+
+            return events;
+        }
+
     }
 }

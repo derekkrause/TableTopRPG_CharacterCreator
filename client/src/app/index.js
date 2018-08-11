@@ -56,6 +56,16 @@ class App extends React.Component {
               <Switch>
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
                 <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />

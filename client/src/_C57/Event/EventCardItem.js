@@ -16,7 +16,7 @@ class EventCardItem extends Component {
   getEventItem(eventId) {
     getEventByIdWithUser(eventId)
       .then(response => {
-        console.log("Get by Event ID Ajax GET request success!");
+        console.log("Get by Event ID with User Ajax GET request success!");
         console.log(response);
 
         this.setState({
@@ -25,12 +25,16 @@ class EventCardItem extends Component {
         });
       })
       .catch(error => {
-        console.log("Get by Event ID Ajax GET request error!");
+        console.log("Get by Event ID with User Ajax GET request error!");
         console.log(error);
       });
   }
 
   componentDidMount() {
+    console.log("EventCardItem Component Mounted");
+
+    // console.log("EventCardItem props: ", this.props);
+
     const propsEventId = this.props.eventId;
 
     this.getEventItem(propsEventId);
@@ -48,7 +52,9 @@ class EventCardItem extends Component {
         name: eventDataItem.name,
         description: eventDataItem.description,
         organizer: eventDataItem.organizer,
-        id: eventDataItem.id
+        id: eventDataItem.id,
+        firstName: eventDataItem.firstName,
+        lastName: eventDataItem.lastName
       };
 
       this.setState({ data: card });
@@ -56,7 +62,7 @@ class EventCardItem extends Component {
   }
 
   render() {
-    const { image, image2, name, description, organizer, id } = this.state.data;
+    const { image, image2, name, description, organizer, id, firstName, lastName } = this.state.data;
 
     return (
       <div>
@@ -65,10 +71,18 @@ class EventCardItem extends Component {
           <div className="description">
             <h3>{name}</h3>
             <h4>Organized by {organizer}</h4>
+            <h4>
+              Event created by {firstName} {lastName}
+            </h4>
             <p>{description}</p>
             <ListGroup className="list-inline d-sm-flex flex-sm-row gx-btn-list">
               <ListGroupItem className="border-0">
-                <NavLink className="btn btn-light jr-btn-rounded" to={`${this.props.match.url}/${id}`} target="_blank">
+                <NavLink
+                  className="btn btn-light jr-btn-rounded"
+                  // to={`${this.props.match.url}/${id}`}
+                  to={`/app/events/${id}`}
+                  // target="_blank"
+                >
                   More Info
                 </NavLink>
               </ListGroupItem>

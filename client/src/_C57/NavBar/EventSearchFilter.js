@@ -6,6 +6,8 @@ import options from "../profile/data";
 import EventStartDatePicker from "./EventStartDatePicker";
 import EventEndDatePicker from "./EventEndDatePicker";
 
+import { getEventTypes } from "../../services/EventType.service";
+
 class EventSearchFilter extends React.Component {
   state = {
     //------------Filter Settings-------------
@@ -14,14 +16,48 @@ class EventSearchFilter extends React.Component {
     flip: false,
     highlightOnlyResult: false,
     minLength: 2,
-    selectHintOnEnter: true
+    selectHintOnEnter: true,
+
+    eventTypeOptions: []
   };
 
   //   handleChange = (event, value) => {
   //     this.setState({ value });
   //   };
 
+  getEventTypesList() {
+    getEventTypes()
+      .then(response => {
+        console.log("Get Event Types GET Ajax Request success!");
+        console.log(response);
+
+        const eventTypes = response.data.items;
+
+        this.convertEventTypeObjToArray(eventTypes);
+      })
+      .catch(error => {
+        console.log("Get Event Types GET Ajax Request failed!");
+        console.log(error);
+      });
+  }
+
+  convertEventTypeObjToArray = eventTypes => {
+    const eventTypeOptions = eventTypes.map(eType => {
+      return eType.name;
+    });
+
+    this.setState({ eventTypeOptions: eventTypeOptions });
+  };
+
+  componentDidMount() {
+    console.log("EventSearchFilter component mounted");
+
+    this.getEventTypesList();
+  }
+
   render() {
+    const { eventTypeOptions } = this.state;
+
     return (
       //---------------------Event Search Filter-------------------------
       <div className="row">
@@ -50,7 +86,7 @@ class EventSearchFilter extends React.Component {
               {...this.state}
               //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
-              options={options}
+              options={eventTypeOptions}
               placeholder="Specify event type..."
               value={this.props.eventTypeFilter}
               onChange={this.props.handleTypeAheadChange("eventTypeFilter")}

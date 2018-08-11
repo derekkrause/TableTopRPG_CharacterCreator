@@ -1,13 +1,18 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
+import { Button, Form, FormGroup, Label, Input, FormFeedback, FormText } from "reactstrap";
+import { connect } from "react-redux";
+import SweetAlert from "react-bootstrap-sweetalert";
+import { NotificationContainer, NotificationManager } from "react-notifications";
 import Geocode from "react-geocode";
+import PropTypes from "prop-types";
 
 import CardBox from "../../components/CardBox";
-// import CustomDateTimePicker from "./CustomDateTimePicker";
+import CustomDateTimePicker from "./CustomDateTimePicker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 
-import { getEventById, createEventPost, editEventPut } from "../../services/Event.service";
+import { getEventById, createEventPost, editEventPut, deleteEventDelete } from "../../services/Event.service";
+import { getEventTypes } from "../../services/EventType.service";
 import FileUploader from "../FileUploader/FileUploader";
 
 class EventForm extends Component {
@@ -32,14 +37,26 @@ class EventForm extends Component {
     long: 0.0,
     eventId: 0,
     eventDataItem: {},
+
+    eventTypeItems: [],
+
     imageUrl: "Image URL",
 
     inEditMode: false,
 
-    startSelectedDay: undefined,
-    startIsDisabled: false,
-    endSelectedDay: undefined,
-    endIsDisabled: false
+    selectedDay: undefined,
+    isDisabled: false,
+    selectedDayS: undefined,
+    isDisabledS: false,
+    selectedDayE: undefined,
+    isDisabledE: false,
+
+    cancelAlert: null,
+    deleteAlert: null,
+    alert: null,
+    geocodeAlert: null,
+
+    currentUser: {}
   };
 
   emptyState = {
@@ -72,22 +89,41 @@ class EventForm extends Component {
     this.setState({ logo: imageUrl });
   };
 
-  handleStartDayChange(startSelectedDay, modifiers) {
-    this.setState({
-      startSelectedDay,
-      startIsDisabled: modifiers.disabled === true
-    });
-  }
+  // handleDayChange = this.handleDayChange.bind(this);
 
-  handleEndDayChange(endSelectedDay, modifiers) {
+  handleDayChange = (selectedDay, modifiers) => {
     this.setState({
-      endSelectedDay,
-      endIsDisabled: modifiers.disabled === true
+      selectedDay,
+      isDisabled: modifiers.disabled === true
     });
-  }
+  };
 
-  handlerCreateEvent = event => {
-    event.preventDefault();
+  handleStartDayChange = (selectedDay, modifiers) => {
+    this.setState({
+      selectedDayS: selectedDay,
+      isDisabledS: modifiers.disabled === true
+    });
+
+    const { inEditMode, selectedDayE } = this.state;
+
+    if (!inEditMode && !selectedDayE) {
+      this.setState({ selectedDayE: selectedDay, startDate: selectedDay, endDate: selectedDay });
+    } else {
+      this.setState({ startDate: selectedDay });
+    }
+  };
+
+  handleEndDayChange = (selectedDay, modifiers) => {
+    this.setState({
+      selectedDayE: selectedDay,
+      isDisabledE: modifiers.disabled === true
+    });
+
+    this.setState({ endDate: selectedDay });
+  };
+
+  handlerCreateEvent = () => {
+    const createdUser = this.state.currentUser.id;
 
     const newAddress = {
       street: this.state.street,
@@ -96,17 +132,45 @@ class EventForm extends Component {
       zip: this.state.zip
     };
 
-    this.convertAddressToLatLng(newAddress);
+    const address = `${newAddress.street}, ${newAddress.city}, ${newAddress.state} ${newAddress.zip}`;
 
-    const newEvent = this.readForm();
+    console.log("Converting from address: ", address);
+    console.log("to Lat/Long coordinates...");
 
-    this.createEvent(newEvent);
+    Geocode.fromAddress(address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+        console.log(lat, lng);
+
+        this.setState({ lat: lat, long: lng }, () => {
+          const newEvent = this.readForm();
+
+          newEvent.CreatedBy = createdUser;
+          newEvent.ModifiedBy = createdUser;
+
+          this.createEvent(newEvent);
+        });
+      },
+      error => {
+        console.error(error);
+
+        console.log("Cannot save Lat/Long coordinates from address. Creating event anyway.");
+
+        const newEvent = this.readForm();
+
+        newEvent.CreatedBy = createdUser;
+        newEvent.ModifiedBy = createdUser;
+
+        this.createEvent(newEvent);
+      }
+    );
+
+    // console.log("Conversion is temporily disabled due to API usage issue.");
   };
 
-  handlerEditEvent = event => {
-    event.preventDefault();
-
-    const modifyUser = 4;
+  handlerEditEvent = () => {
+    // const modifyUser = 4;
+    const modifyUser = this.state.currentUser.id;
 
     const editAddress = {
       street: this.state.street,
@@ -115,38 +179,195 @@ class EventForm extends Component {
       zip: this.state.zip
     };
 
-    this.convertAddressToLatLng(editAddress);
+    const address = `${editAddress.street}, ${editAddress.city}, ${editAddress.state} ${editAddress.zip}`;
 
-    const editedEvent = this.readForm();
+    console.log(editAddress);
+    console.log("Converting from address: ", address);
+    console.log("to Lat/Long coordinates...");
 
-    editedEvent.ModifiedBy = modifyUser;
-    editedEvent.Id = this.state.eventId;
+    if (address.street !== "" && address.city !== "" && address.state !== "" && address.zip !== "") {
+      Geocode.fromAddress(address).then(
+        response => {
+          const { lat, lng } = response.results[0].geometry.location;
+          console.log(lat, lng);
 
-    this.editEvent(editedEvent);
+          this.setState({ lat: lat, long: lng }, () => {
+            const editedEvent = this.readForm();
+
+            editedEvent.ModifiedBy = modifyUser;
+            editedEvent.Id = this.state.eventId;
+
+            this.editEvent(editedEvent);
+          });
+        },
+        error => {
+          console.error(error);
+
+          console.log("Cannot save Lat/Long coordinates from address. Editing/Updating event anyway.");
+
+          const editedEvent = this.readForm();
+
+          editedEvent.ModifiedBy = modifyUser;
+          editedEvent.Id = this.state.eventId;
+
+          this.editEvent(editedEvent);
+        }
+      );
+
+      // console.log("Conversion is temporily disabled due to API usage issue.");
+    } else {
+      console.log("Enter a valid address!");
+
+      //       <SweetAlert title="Here's a message!" onConfirm={this.onConfirm}>
+      // It's pretty, isn't it?
+      // </SweetAlert>
+
+      const getAlert = () => (
+        <SweetAlert danger title="Enter a valid address!" onConfirm={() => this.setState({ geocodeAlert: null })} />
+      );
+
+      this.setState({ geocodeAlert: getAlert() });
+    }
   };
 
-  checkIsOngoing() {
-    const isOngoing = this.state.isOngoing;
+  handlerCancelButton = () => {
+    // const getAlert = () => <SweetAlert info title="Cancel Event Form Entry?" onConfirm={this.hideCancelAlert} />;
 
-    // if (newEvent.IsOngoing === "true") {
-    //   newEvent.IsOngoing = true;
-    // }
+    const getAlert = () => (
+      <SweetAlert
+        info
+        showCancel
+        confirmBtnText="Yes"
+        confirmBtnBsStyle="info"
+        cancelBtnText="No"
+        cancelBtnBsStyle="default"
+        title="Cancel Event Form Entry?"
+        onConfirm={this.cancelEventForm}
+        onCancel={this.cancelAlert}
+      />
+    );
 
-    // if (newEvent.IsOngoing === "false") {
-    //   newEvent.IsOngoing = false;
-    // }
+    this.setState({ cancelAlert: getAlert() });
+  };
 
-    if (isOngoing === "true") {
-      editedEvent.IsOngoing = true;
+  handlerDeleteEvent = () => {
+    const { createdBy, currentUser } = this.state;
+
+    if (currentUser.id === createdBy) {
+      const getAlert = () => (
+        <SweetAlert
+          warning
+          showCancel
+          confirmBtnText="Yes, delete it!"
+          confirmBtnBsStyle="danger"
+          cancelBtnBsStyle="default"
+          title="Are you sure?"
+          onConfirm={this.deleteEvent}
+          onCancel={this.cancelDeleteEvent}
+        >
+          You will not be able to recover this event data!
+        </SweetAlert>
+      );
+
+      this.setState({ deleteAlert: getAlert() });
+    } else {
+      console.log("You are not the user who created the event! Delete Event error!");
     }
-
-    if (isOngoing === "false") {
-      editedEvent.IsOngoing = false;
-    }
-  }
+  };
 
   handlerIsOngoing = e => {
     this.setState({ isOngoing: e.target.value === "true" });
+  };
+
+  createNotification = type => {
+    // return () => {
+    //     switch (type) {
+    //         case 'info':
+    //             NotificationManager.info(<IntlMessages id="notification.infoMsg"/>);
+    //             break;
+    //         case 'success':
+    //             NotificationManager.success(<IntlMessages id="notification.successMessage"/>, <IntlMessages
+    //                 id="notification.titleHere"/>);
+    //             break;
+    //         case 'warning':
+    //             NotificationManager.warning(<IntlMessages id="notification.warningMessage"/>, <IntlMessages
+    //                 id="notification.closeAfter3000ms"/>, 3000);
+    //             break;
+    //         case 'error':
+    //             NotificationManager.error(<IntlMessages id="notification.errorMessage"/>, <IntlMessages
+    //                 id="notification.clickMe"/>, 5000, () => {
+    //                 alert('callback');
+    //             });
+    //             break;
+    //     }
+    // };
+
+    return () => {
+      switch (type) {
+        case "info":
+          NotificationManager.info(<IntlMessages id="notification.infoMsg" />);
+          break;
+        case "success":
+          NotificationManager.success("Create Event Success!", "Success!");
+          break;
+        case "warning":
+          NotificationManager.warning(
+            <IntlMessages id="notification.warningMessage" />,
+            <IntlMessages id="notification.closeAfter3000ms" />,
+            3000
+          );
+          break;
+        case "error":
+          NotificationManager.error(
+            <IntlMessages id="notification.errorMessage" />,
+            <IntlMessages id="notification.clickMe" />,
+            5000,
+            () => {
+              alert("callback");
+            }
+          );
+          break;
+      }
+    };
+  };
+
+  cancelEventForm = () => {
+    console.log("Cancel Event Form Entry!");
+
+    this.clearForm();
+
+    this.setState({ cancelAlert: null });
+
+    this.props.history.goBack();
+  };
+
+  cancelAlert = () => {
+    this.setState({ cancelAlert: null });
+  };
+
+  deleteEvent = () => {
+    const { eventId } = this.state;
+
+    console.log("Deleting Event ID: ", eventId);
+
+    deleteEventDelete(eventId)
+      .then(response => {
+        console.log("Delete Event Ajax DELETE request success!");
+        console.log(response);
+
+        this.clearForm();
+        this.setState({ deleteAlert: null });
+
+        this.props.history.push("/app/events");
+      })
+      .catch(error => {
+        console.log("Delete Event Ajax DELETE request failed!");
+        console.log(error);
+      });
+  };
+
+  cancelDeleteEvent = () => {
+    this.setState({ deleteAlert: null });
   };
 
   readForm = () => ({
@@ -183,7 +404,11 @@ class EventForm extends Component {
         console.log("Create Event Ajax POST request success!");
         console.log(response);
 
+        this.createNotification("success");
         this.clearForm();
+        this.setState({ inEditMode: false });
+
+        this.props.history.goBack();
       })
       .catch(error => {
         console.log("Create Event Ajax POST request failed!");
@@ -200,6 +425,9 @@ class EventForm extends Component {
         console.log(response);
 
         this.clearForm();
+        this.setState({ inEditMode: false });
+
+        this.props.history.goBack();
       })
       .catch(error => {
         console.log("Edit Event Ajax PUT request failed!");
@@ -207,7 +435,7 @@ class EventForm extends Component {
       });
   };
 
-  getEventInfo(eventId) {
+  getEventInfo = eventId => {
     console.log("Loading event with ID: ", eventId);
 
     getEventById(eventId)
@@ -221,9 +449,9 @@ class EventForm extends Component {
         console.log("Get by Event Id Ajax GET request failed!");
         console.log(error);
       });
-  }
+  };
 
-  updateEventStates(responseDataItem) {
+  updateEventStates = responseDataItem => {
     console.log("responseDataItem: ", responseDataItem);
 
     this.setState({
@@ -247,48 +475,66 @@ class EventForm extends Component {
       lat: responseDataItem.lat,
       long: responseDataItem.long,
       eventId: responseDataItem.id,
-      eventItem: responseDataItem
+      eventDataItem: responseDataItem
     });
-  }
 
-  convertLatLngToAddress(lat, long) {
-    const sampleLatLong = ["48.8583701", "2.2922926"];
+    const startDate = new Date(responseDataItem.startDate);
+    const endDate = new Date(responseDataItem.endDate);
 
-    Geocode.fromLatLng(lat, long).then(
-      response => {
-        const address = response.results[0].formatted_address;
-        console.log(address);
-      },
-      error => {
-        console.error(error);
-      }
-    );
-  }
+    this.setState({
+      selectedDayS: startDate,
+      selectedDayE: endDate
+    });
+  };
 
-  convertAddressToLatLng(addressObj) {
+  getEventTypes = () => {
+    getEventTypes()
+      .then(response => {
+        console.log("Get Event Types GET Ajax Request success!");
+        console.log(response);
+
+        const eventTypeItems = response.data.items;
+
+        // console.log("eventTypeItems: ", eventTypeItems);
+
+        this.setState({ eventTypeItems: eventTypeItems });
+      })
+      .catch(error => {
+        console.log("Get Event Types GET Ajax Request failed!");
+        console.log(error);
+      });
+  };
+
+  convertAddressToLatLng = addressObj => {
     const sampleAddress = "Eiffel Tower";
 
     const address = `${addressObj.street}, ${addressObj.city}, ${addressObj.state} ${addressObj.zip}`;
 
-    console.log("Converting from address: ", address);
-    console.log("to Lat/Long coordinates...");
+    console.log("address: ", address);
 
-    Geocode.fromAddress(address).then(
-      response => {
-        const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
+    if (address) {
+      console.log("Converting from address: ", address);
+      console.log("to Lat/Long coordinates...");
 
-        this.setState({ lat: lat, long: lng });
-      },
-      error => {
-        console.error(error);
-      }
-    );
-  }
+      Geocode.fromAddress(address).then(
+        response => {
+          const { lat, lng } = response.results[0].geometry.location;
+          console.log(lat, lng);
+
+          this.setState({ lat: lat, long: lng }, () => {});
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
+  };
 
   componentDidMount = () => {
-    const currentUser = 3,
-      ongoing = true;
+    console.log("EventForm Component Mounted");
+
+    // const currentUser = 3,
+    //   ongoing = true;
 
     const userData = {
       name: "Excursion: LA Dodgers vs San Diego Padres",
@@ -309,140 +555,99 @@ class EventForm extends Component {
       zip: "90670"
     };
 
+    const currentUser = this.props.currentUser;
+
+    this.setState({ currentUser: currentUser });
+
     const eventId = this.props.match.params.eventId;
 
     console.log("Form eventId: ", eventId);
 
     if (eventId) {
       this.getEventInfo(eventId);
-      this.setState({ inEditMode: true });
+      this.setState({ inEditMode: true, modifiedBy: currentUser.id });
     } else {
-      this.setState({
-        createdBy: currentUser,
-        modifiedBy: currentUser,
-        isOngoing: ongoing,
-        inEditMode: false
-      });
-      this.setState(userData);
+      this.setState(this.emptyState);
+      this.setState({ inEditMode: false, createdBy: currentUser.id, modifiedBy: currentUser.id });
     }
 
-    const googleApiKey = "AIzaSyD7iu5CfoFeysqETwfFNxbBnnwupWKewWU";
+    this.getEventTypes();
+
+    const googleApiKey = "AIzaSyA6UaP-xYgEZ1ItLFGYjVYOkN5vKAV_o9A";
 
     Geocode.setApiKey(googleApiKey);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    const currentEventId = this.props.currentEventId;
-
-    if (this.state.currentEventId !== prevState.currentEventId) {
-      this.setState({ currentEventId: currentEventId, inEditMode: true });
-    }
+    // const currentEventId = this.props.currentEventId;
+    // if (this.state.currentEventId !== prevState.currentEventId) {
+    //   this.setState({ currentEventId: currentEventId, inEditMode: true });
+    // }
   };
 
   render() {
-    let showButton;
+    let showEditButton, showDeleteButton;
 
     if (this.state.inEditMode) {
-      showButton = (
+      showEditButton = (
         <Button color="primary" className="jr-btn" onClick={this.handlerEditEvent}>
-          Edit Event
+          Save Event
+        </Button>
+      );
+
+      showDeleteButton = (
+        <Button color="danger" className="jr-btn" onClick={this.handlerDeleteEvent}>
+          Delete
         </Button>
       );
     } else {
-      showButton = (
+      showEditButton = (
         <Button color="primary" className="jr-btn" onClick={this.handlerCreateEvent}>
           Create Event
         </Button>
       );
+
+      showDeleteButton = null;
     }
 
-    let customRadioButtons;
+    const { selectedDay, isDisabled } = this.state;
+    const { selectedDayS, selectedDayE } = this.state;
 
-    if (this.state.isOngoing) {
-      customRadioButtons = (
-        <div>
-          <div className="custom-control custom-radio mr-4">
-            <input
-              type="radio"
-              id="customRadioTrue"
-              name="customRadioOngoing"
-              className="custom-control-input"
-              value="true"
-              onChange={this.handlerIsOngoing}
-              checked
-            />
-            <label className="custom-control-label" htmlFor="customRadioTrue">
-              True
-            </label>
-          </div>
-          <div className="custom-control custom-radio mr-4">
-            <input
-              type="radio"
-              id="customRadioFalse"
-              name="customRadioOngoing"
-              className="custom-control-input"
-              value="false"
-              onChange={this.handlerIsOngoing}
-            />
-            <label className="custom-control-label" htmlFor="customRadioFalse">
-              False
-            </label>
-          </div>
-        </div>
-      );
-    } else {
-      customRadioButtons = (
-        <div>
-          <div className="custom-control custom-radio mr-4">
-            <input
-              type="radio"
-              id="customRadioTrue"
-              name="customRadioOngoing"
-              className="custom-control-input"
-              value="true"
-              onChange={this.handlerIsOngoing}
-            />
-            <label className="custom-control-label" htmlFor="customRadioTrue">
-              True
-            </label>
-          </div>
-          <div className="custom-control custom-radio mr-4">
-            <input
-              type="radio"
-              id="customRadioFalse"
-              name="customRadioOngoing"
-              className="custom-control-input"
-              value="false"
-              onChange={this.handlerIsOngoing}
-              checked
-            />
-            <label className="custom-control-label" htmlFor="customRadioFalse">
-              False
-            </label>
-          </div>
-        </div>
-      );
-    }
+    // console.log("render", this.state.isOngoing);
+    // console.log("render: ");
+    // console.log("selectedDay: ", selectedDay);
+    // console.log("selectedDayS: ", selectedDayS);
+    // console.log("selectedDayE: ", selectedDayE);
 
-    const { startSelectedDay, startIsDisabled } = this.state;
-    const { endSelectedDay, endIsDisabled } = this.state;
+    const { eventTypeItems } = this.state;
 
-    console.log("render", this.state.isOngoing);
+    // console.log("render eventTypeItems: ", eventTypeItems);
+
+    const { cancelAlert, deleteAlert, geocodeAlert } = this.state;
 
     return (
       <div>
         <div className="app-wrapper">
           <div className="animated slideInUpTiny animation-duration-3">
-            <h2>Event Form</h2>
             <div className="row">
               <CardBox styleName="col-lg-12">
-                <form className="row" noValidate autoComplete="off">
+                <Form className="row">
+                  <div className="col-md-4 col-12 mt-4">
+                    <h1>Event Form</h1>
+                  </div>
+                  <div className="col-md-4 col-12 mt-4"> </div>
+                  <div className="col-md-4 col-12 mt-4">
+                    <Button color="default" className="jr-btn" onClick={this.handlerCancelButton}>
+                      Cancel
+                    </Button>
+                    {showDeleteButton}
+                    {showEditButton}
+                  </div>
                   <div className="col-md-4 col-12 mt-4">
                     <label>Event Name</label>
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Event Name"
                       value={this.state.name}
                       onChange={e => this.setState({ name: e.target.value })}
                     />
@@ -452,19 +657,24 @@ class EventForm extends Component {
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Short Name"
                       value={this.state.shortName}
                       onChange={e => this.setState({ shortName: e.target.value })}
                     />
                   </div>
                   <div className="col-md-4 col-12 mt-4">
                     <label>Event Type</label>
-                    <select className="form-control">
-                      <option>Event Type</option>
-                      <option>$</option>
+                    <select className="form-control" onChange={e => this.setState({ eventTypeId: e.target.value })}>
+                      <option> </option>
+                      {/* <option>$</option>
                       <option>€</option>
                       <option>฿</option>
-                      <option>¥</option>
+                      <option>¥</option> */}
+                      {eventTypeItems &&
+                        eventTypeItems.map(item => (
+                          <option key={item.id} value={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
                     </select>
                   </div>
 
@@ -474,7 +684,7 @@ class EventForm extends Component {
                       <textarea
                         className="form-control"
                         id="exampleFormControlTextarea1"
-                        rows="2"
+                        rows="4"
                         value={this.state.description}
                         onChange={e => this.setState({ description: e.target.value })}
                       />
@@ -485,14 +695,18 @@ class EventForm extends Component {
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Website URL"
                       value={this.state.websiteUrl}
                       onChange={e => this.setState({ websiteUrl: e.target.value })}
                     />
                   </div>
                   <div className="col-md-4 col-12 mt-4">
                     <label>Logo</label>
-                    <input className="form-control" type="text" placeholder="Logo" value={this.state.logo} />
+                    <input
+                      className="form-control"
+                      type="text"
+                      value={this.state.logo}
+                      onChange={e => this.setState({ logo: e.target.value })}
+                    />
                     <FileUploader onImageUrlChange={this.handleImageUrlChange} />
                   </div>
                   <div className="col-sm-8 col-md-4 col-12 mt-4">
@@ -548,7 +762,6 @@ class EventForm extends Component {
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Organizer"
                       value={this.state.organizer}
                       onChange={e => this.setState({ organizer: e.target.value })}
                     />
@@ -560,7 +773,6 @@ class EventForm extends Component {
                       <input
                         className="form-control"
                         type="text"
-                        placeholder="Street"
                         value={this.state.street}
                         onChange={e => this.setState({ street: e.target.value })}
                       />
@@ -570,7 +782,6 @@ class EventForm extends Component {
                       <input
                         className="form-control"
                         type="text"
-                        placeholder="Suite"
                         value={this.state.suite}
                         onChange={e => this.setState({ suite: e.target.value })}
                       />
@@ -581,7 +792,6 @@ class EventForm extends Component {
                         type="text"
                         className="form-control"
                         id="validationServer03"
-                        placeholder="City"
                         value={this.state.city}
                         onChange={e => this.setState({ city: e.target.value })}
                         required
@@ -594,7 +804,6 @@ class EventForm extends Component {
                         type="text"
                         className="form-control"
                         id="validationServer04"
-                        placeholder="State"
                         value={this.state.state}
                         onChange={e => this.setState({ state: e.target.value })}
                         required
@@ -607,7 +816,6 @@ class EventForm extends Component {
                         type="text"
                         className="form-control"
                         id="validationServer05"
-                        placeholder="Zip"
                         value={this.state.zip}
                         onChange={e => this.setState({ zip: e.target.value })}
                         required
@@ -639,19 +847,18 @@ class EventForm extends Component {
                       {/* <CustomDateTimePicker /> */}
                       <div>
                         <p>
-                          {!startSelectedDay && "🤔 Type or pick a valid day"}
-                          {startSelectedDay && startIsDisabled && "😡 This day is disabled"}
-                          {startSelectedDay &&
-                            !startIsDisabled &&
-                            `😄 You chose ${startSelectedDay.toLocaleDateString()}`}
+                          {!selectedDayS && "🤔 Type or pick a valid day"}
+                          {selectedDayS && isDisabled && "😡 This day is disabled"}
+                          {selectedDayS && !isDisabled && `😄 You chose ${selectedDayS.toLocaleDateString()}`}
                         </p>
                         <DayPickerInput
-                          value={startSelectedDay}
-                          onDayChange={this.handleStartDayChange}
+                          value={selectedDayS}
+                          onDayChange={this.handleStartDayChange.bind(this)}
                           dayPickerProps={{
-                            selectedDays: startSelectedDay,
+                            selectedDays: selectedDayS,
                             disabledDays: {
-                              daysOfWeek: [0, 6]
+                              // daysOfWeek: [0, 6]
+                              daysOfWeek: []
                             }
                           }}
                         />
@@ -662,30 +869,29 @@ class EventForm extends Component {
                       {/* <CustomDateTimePicker /> */}
                       <div>
                         <p>
-                          {!endSelectedDay && "🤔 Type or pick a valid day"}
-                          {endSelectedDay && endIsDisabled && "😡 This day is disabled"}
-                          {endSelectedDay && !endIsDisabled && `😄 You chose ${endSelectedDay.toLocaleDateString()}`}
+                          {!selectedDayE && "🤔 Type or pick a valid day"}
+                          {selectedDayE && isDisabled && "😡 This day is disabled"}
+                          {selectedDayE && !isDisabled && `😄 You chose ${selectedDayE.toLocaleDateString()}`}
                         </p>
                         <DayPickerInput
-                          value={endSelectedDay}
-                          onDayChange={this.handleEndDayChange}
+                          value={selectedDayE}
+                          onDayChange={this.handleEndDayChange.bind(this)}
                           dayPickerProps={{
-                            selectedDays: endSelectedDay,
+                            selectedDays: selectedDayE,
                             disabledDays: {
-                              daysOfWeek: [0, 6]
+                              // daysOfWeek: [0, 6]
+                              daysOfWeek: []
                             }
                           }}
                         />
                       </div>
                     </div>
-                    <div className="col-md-4 col-12 mt-4">{showButton}</div>
                   </div>
-                </form>
+                </Form>
               </CardBox>
             </div>
           </div>
         </div>
-
         {/* <div className="animated slideInUpTiny animation-duration-3">
         <ContainerHeader title={<IntlMessages id="sidebar.components.textFields"/>} match={match}/>
 
@@ -695,9 +901,16 @@ class EventForm extends Component {
             </CardBox>
         </div>
         </div> */}
+        {cancelAlert} {deleteAlert} {geocodeAlert}
+        <NotificationContainer />
       </div>
     );
   }
 }
 
-export default EventForm;
+function mapStateToProps(state) {
+  return { currentUser: state.currentUser };
+}
+
+// export default EventForm;
+export default connect(mapStateToProps)(EventForm);

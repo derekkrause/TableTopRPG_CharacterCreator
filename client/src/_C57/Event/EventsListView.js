@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Button } from "reactstrap";
+import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
 
 import { getEventById, getEventList, getEventListPaged, getEventsListGet } from "../../services/Event.service";
 import "./EventView.css";
@@ -9,7 +12,8 @@ class EventsListView extends Component {
     eventDataItem: {},
     eventList: [],
     userList: [],
-    eventCardsList: []
+    eventCardsList: [],
+    currentUser: {}
   };
 
   getEventInfo(eventId) {
@@ -82,11 +86,19 @@ class EventsListView extends Component {
   }
 
   componentDidMount() {
+    console.log("EventListView Component Mounted");
+
     const pageIndex = 0,
       pageSize = 6;
 
     // this.getEventList(pageIndex, pageSize);
     this.getEventsList();
+
+    // console.log("EventListsView componentDidMount props: ", this.props);
+
+    // const { currentUser } = this.props;
+
+    // this.setState({ currentUser: currentUser });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -104,17 +116,26 @@ class EventsListView extends Component {
     const eventCardsList = this.state.eventCardsList;
     const title = "Events List";
 
+    // console.log("render currentUser: ", this.state.currentUser);
+
     return (
       <div>
         <div className="app-wrapper">
           <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
             <h2 className="title mb-3 mb-sm-0">{title}</h2>
             <h3>{/* Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages} */}</h3>
+            <NavLink
+              to={`${this.props.match.url}/form`}
+              // target="_blank"
+            >
+              <Button color="primary" className="jr-btn">
+                Add Event
+              </Button>
+            </NavLink>
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
-            {eventCardsList.map(data => (
-              <EventCardItem key={data.id} eventId={data.id} {...this.props} />
-            ))}
+            {eventCardsList.map(data => <EventCardItem key={data.id} eventId={data.id} {...this.props} />)}
+            {/* User logged in: {this.state.currentUser.firstName} */}
           </div>
         </div>
       </div>
@@ -122,4 +143,11 @@ class EventsListView extends Component {
   }
 }
 
+// function mapStateToProps(state) {
+//   console.log("EventsListView redux store: ", state);
+
+//   return { currentUserFromStore: state.currentUser };
+// }
+
 export default EventsListView;
+// export default connect(mapStateToProps)(EventsListView);
