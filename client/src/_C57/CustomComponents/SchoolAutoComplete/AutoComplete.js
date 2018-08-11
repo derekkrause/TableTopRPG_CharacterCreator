@@ -33,7 +33,7 @@ class SchoolAutoComplete extends React.Component {
     this.props.value.length >= this.props.numberOfCharacters - 1 ? this.setTimer() : null;
   };
   onChange = e => {
-    this.props.onChange(e.target.value);
+    this.props.onChange(e.target.value, e.target.name);
     this.checkLength();
     this.setState({ selectedSchool: e.target.value });
   };
@@ -42,6 +42,7 @@ class SchoolAutoComplete extends React.Component {
     console.log(e.target.id);
     this.props.onChange(e.target.innerHTML);
     this.setState({ options: null });
+    this.props.onHandleSchoolSelect(e.target.id);
   };
 
   render() {

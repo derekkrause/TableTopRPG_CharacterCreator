@@ -249,6 +249,7 @@
     <Compile Include="Controllers\Api\AdvocateController.cs" />
     <Compile Include="Controllers\Api\AthletesController.cs" />
     <Compile Include="Controllers\Api\AthleteSearchController.cs" />
+    <Compile Include="Controllers\Api\AthleteSportController.cs" />
     <Compile Include="Controllers\Api\BlogsController.cs" />
     <Compile Include="Controllers\Api\ClassYearController.cs" />
     <Compile Include="Controllers\Api\EventController.cs" />
@@ -257,7 +258,9 @@
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\S3FilesController.cs" />
+    <Compile Include="Controllers\Api\SchoolController.cs" />
     <Compile Include="Controllers\Api\SearchesController.cs" />
+    <Compile Include="Controllers\Api\SportLevelController.cs" />
     <Compile Include="Controllers\Api\SportsController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
