@@ -1,5 +1,4 @@
 import React from "react";
-
 import EventsSearch from "../Event/EventsSearch";
 
 class EventSearchResults extends React.Component {

@@ -129,7 +129,7 @@ namespace Sabio.Services
         public void Update(SportUpdateRequest request)
         {
             dataProvider.ExecuteNonQuery(
-                "Sport_Update",
+                "SportAndPositions_Update",
                 (parameters) =>
                 {
 
@@ -139,22 +139,23 @@ namespace Sabio.Services
                     parameters.AddWithValue("@Inactive", request.Inactive);
                     parameters.AddWithValue("@Gender", request.Gender);
                     parameters.AddWithValue("@Id", request.Id);
+                    parameters.AddWithValue("@positions", request.Positions.ToString());
                 });
 
-            foreach (var position in request.Positions)
-            {
-                dataProvider.ExecuteNonQuery(
-               "SportPosition_Update",
-               (parameters) =>
-               {
-                   parameters.AddWithValue("@Code", position.Code);
-                   parameters.AddWithValue("@Name", position.Name);
-                   parameters.AddWithValue("@Inactive", position.Inactive);
-                   parameters.AddWithValue("@sportID", request.Id);
-                   parameters.AddWithValue("@Id", position.Id);
-               });
+            //foreach (var position in request.Positions)
+            //{
+            //    dataProvider.ExecuteNonQuery(
+            //   "SportPosition_Update",
+            //   (parameters) =>
+            //   {
+            //       parameters.AddWithValue("@Code", position.Code);
+            //       parameters.AddWithValue("@Name", position.Name);
+            //       parameters.AddWithValue("@Inactive", position.Inactive);
+            //       parameters.AddWithValue("@sportID", request.Id);
+            //       parameters.AddWithValue("@Id", position.Id);
+            //   });
 
-            }
+            //}
         }
 
         public void Delete(int Id)

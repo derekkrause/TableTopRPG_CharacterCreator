@@ -1,4 +1,5 @@
-﻿using Sabio.Data;
+﻿using Newtonsoft.Json.Linq;
+using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using System;
@@ -19,7 +20,7 @@ namespace Sabio.Services
             this.dataProvider = dataProvider;
         }
 
-        public  List<AthleteSearchInfo> Search(string q)
+        public  List<AthleteSearchInfo> Search(string q, string classYear, string state, string school, string sportPosition)
         {
             List<AthleteSearchInfo> listOfAthletes = new List<AthleteSearchInfo>();
             dataProvider.ExecuteCmd(
@@ -27,6 +28,10 @@ namespace Sabio.Services
                 (parameters) =>
                 {
                     parameters.AddWithValue("@SearchString", q);
+                    parameters.AddWithValue("@ClassYear", classYear);
+                    parameters.AddWithValue("@School", school);
+                    parameters.AddWithValue("@State", state);
+                    parameters.AddWithValue("@SportPosition", sportPosition);
                 },
                 (reader, resultSetIndex) =>
                 {
@@ -93,6 +98,42 @@ namespace Sabio.Services
                     listOfAthletes.Add(athleteSearchInfo);
                 });
             return listOfAthletes;
+        }
+        public AthleteFilterOptions GetAllOptions()
+        {
+            AthleteFilterOptions Options = new AthleteFilterOptions();
+
+            dataProvider.ExecuteCmd(
+                "Athlete_Search_Options",
+                (parameters) =>
+                { },
+                (reader, resultSetIndex) =>
+                {
+                    switch (resultSetIndex) {
+                        case 0:
+                            DropDownClassYear classYear = new DropDownClassYear
+                            {
+                                Name = (string)reader["ClassYear"]
+                            };
+                            Options.ClassYear.Add(classYear);
+                            break;
+                        case 1:
+                            DropDownSportPosition sportPosition = new DropDownSportPosition
+                            {
+                                Name = (string)reader["SportPosition"]
+                            };
+                            Options.SportPosition.Add(sportPosition);
+                            break;
+                        case 2:
+                            State state = new State
+                            {
+                                Name = (string)reader["State"]
+                            };
+                            Options.State.Add(state);
+                            break; 
+                }
+                });
+            return Options;
         }
     }
 }

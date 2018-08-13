@@ -52,12 +52,15 @@
     <Compile Include="Domain\Advocate.cs" />
     <Compile Include="Domain\AdvocateUpdate.cs" />
     <Compile Include="Domain\Athlete.cs" />
+    <Compile Include="Domain\AthleteFilterOptions.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\AthleteSearchInfo.cs" />
     <Compile Include="Domain\AthleteSportTeam.cs" />
     <Compile Include="Domain\Blog.cs" />
     <Compile Include="Domain\ClassYear.cs" />
     <Compile Include="Domain\ClassYearUpdate.cs" />
+    <Compile Include="Domain\DropDownClassYear.cs" />
+    <Compile Include="Domain\DropDownSportPosition.cs" />
     <Compile Include="Domain\Event.cs" />
     <Compile Include="Domain\EventType.cs" />
     <Compile Include="Domain\EventUser.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Domain\SportLevel.cs" />
     <Compile Include="Domain\SportPosition.cs" />
     <Compile Include="Domain\SportPositionBasic.cs" />
+    <Compile Include="Domain\State.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Domain\UserLogin.cs" />
@@ -92,6 +96,7 @@
     <Compile Include="Requests\SportCreateRequest.cs" />
     <Compile Include="Requests\SportPositionCreateRequest.cs" />
     <Compile Include="Requests\SportPositionUpdateRequest.cs" />
+    <Compile Include="Requests\SportRequestBase.cs" />
     <Compile Include="Requests\SportUpdateRequest.cs" />
     <Compile Include="Requests\UserCreateRequest.cs" />
     <Compile Include="Requests\UserLoginRequest.cs" />
