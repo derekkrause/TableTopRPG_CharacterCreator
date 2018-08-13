@@ -2,7 +2,6 @@ import React from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane, Card, CardHeader, CardBody } from "reactstrap";
 import ProfileTabs from "./ProfileTabs";
 import ProfileBio from "./ProfileBio";
-import AddSportHistory from "./AddSportHistory/AddSportHistory";
 
 class ProfileCard extends React.Component {
   state = {
@@ -12,32 +11,14 @@ class ProfileCard extends React.Component {
   render() {
     return (
       <div className="profile-intro text-center">
-        <div className="row">
-          <div className="col-md-3">
-            <div className="row">
-              <div className="col-md-12">
-                <ProfileBio handleChange={this.props.handleChange} bio={this.props.bio} />
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-md-12">
-                <h1>Athlete History</h1>
-                <AddSportHistory />
-              </div>
-            </div>
-          </div>
-          <div className="col-md-9">
-            <ProfileTabs
-              handleChange={this.props.handleChange}
-              stats={this.props.stats}
-              s
-              gpa={this.props.gpa}
-              sat={this.props.sat}
-              act={this.props.act}
-              desiredMajor={this.props.desiredMajor}
-            />
-          </div>
-        </div>
+        <ProfileTabs
+          handleChange={this.props.handleChange}
+          stats={this.props.stats}
+          gpa={this.props.gpa}
+          sat={this.props.sat}
+          act={this.props.act}
+          desiredMajor={this.props.desiredMajor}
+        />
         <div className="pi-footer">
           <div className="icons-wrapper">
             <a className="icon facebook-icon" href="javascript:void(0)">

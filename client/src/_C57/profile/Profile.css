@@ -1,0 +1,37 @@
+.profileJrCard {
+    margin: 0 auto;
+    border: none;
+    color:#181818
+}
+
+.profileJrCardTwo {
+    
+    border: none;
+    color:#181818
+}
+
+.slash {
+    color:#b1afaf;
+    font-size: 22px;
+    position: relative;
+    top: -3px
+}
+
+.profileInfoBtn {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(154, 152, 152);
+    padding-left: 45px;
+    padding-right: 45px
+}
+
+.profileInfoBtnTwo {
+    font-size: 18px;
+    font-weight: 600;
+    color:white;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #4caf50;
+    margin-bottom: 0px;
+    margin-right:-5%
+}

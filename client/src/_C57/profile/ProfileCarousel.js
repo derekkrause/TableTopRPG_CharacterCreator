@@ -5,20 +5,20 @@ import "./ProfileBanner.css";
 const items = [
   {
     id: 1,
-    /* altText: "Slide 1",
-    caption: "Slide 1",*/
-    src: "http://www.hellthyjunkfood.com/wp-content/uploads/maxresdefault-17.jpg"
+    altText: "Slide 1",
+    /*caption: "Slide 1",*/
+    src: "http://res.cloudinary.com/dv4p9sgci/image/upload/v1533663624/athlete-baseball-baseball-bat-163287.jpg"
   },
   {
     id: 2,
-    /* altText: "Slide 2",
-    caption: "Slide 2",*/
+    altText: "Slide 2",
+    /*caption: "Slide 2",*/
     src: "https://www.ballparksofbaseball.com/wp-content/uploads/2016/03/fenway15955.jpg"
   },
   {
     id: 3,
-    /* altText: "Slide 3",
-    caption: "Slide 3",*/
+    altText: "Slide 3",
+    /*caption: "Slide 3",*/
     src: "https://usathss.files.wordpress.com/2017/06/baseball_graphic1.jpg?w=1000&h=600&crop=1"
   }
 ];
@@ -64,7 +64,7 @@ class ProfileCarousel extends React.Component {
       return (
         <CarouselItem key={item.id} onExiting={this.onExiting} onExited={this.onExited}>
           <img src={item.src} alt={item.altText} className="rounded" />
-          <CarouselCaption className="text-danger" captionText={item.altText} captionHeader={item.caption} />
+          {/* <CarouselCaption className="text-danger" captionText={item.altText} captionHeader={item.caption} /> */}
         </CarouselItem>
       );
     });
