@@ -7,8 +7,15 @@ import EventView from "./EventView";
 import EventsListView from "./EventsListView";
 import EventTypeListView from "./EventTypeListView";
 import EventForm from "./EventForm";
+import EventTypeTable from "../Admin/EventTypeAdmin/EventTypeTable";
+import EventTypeForm from "../Admin/EventTypeAdmin/EventTypeForm";
+import EventsSearch from "./EventsSearch";
 
 class EventContainer extends Component {
+  componentDidMount() {
+    console.log("EventContainer Component Mounted");
+  }
+
   render() {
     return (
       // <div className="App">
@@ -34,7 +41,14 @@ class EventContainer extends Component {
           path={`${this.props.match.url}/form/:eventId(\\d+)`}
           render={props => <EventForm eventBaseUrl={this.props.match.url} {...props} />}
         />
-        <Route exact path={`${this.props.match.url}/eventtype`} component={EventTypeListView} />
+        <Route exact path={`${this.props.match.url}/eventtypes`} component={EventTypeTable} />
+        <Route exact path={`${this.props.match.url}/eventtypes/form`} component={EventTypeForm} />
+        <Route
+          exact
+          path={`${this.props.match.url}/eventtypes/form/:eventTypeId(\\d+)`}
+          render={props => <EventTypeForm baseUrl={this.props.match.url} {...props} />}
+        />
+        <Route exact path={`${this.props.match.url}/search`} render={props => <EventsSearch {...props} />} />
       </div>
     );
   }

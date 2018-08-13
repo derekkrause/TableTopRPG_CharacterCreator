@@ -8,18 +8,8 @@ using System.Threading.Tasks;
 
 namespace Sabio.Models.Requests
 {
-    public class SportCreateRequest
+    public class SportCreateRequest : SportRequestBase
     {
-        [Required]
-        public string Code { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public int? DisplayOrder { get; set; }
-        [Required]
-        public bool? Inactive { get; set; }
-        [Required]
-        public char Gender { get; set; }
 
         public List<SportPosition> Positions { get; set; }
     }

@@ -14,7 +14,18 @@ class AthleteSearchResults extends React.Component {
 
   search = () => {
     return axios
-      .get("api/search/athlete/?q=" + this.props.searchCriteria.searchString)
+      .get(
+        "api/search/athlete/?q=" +
+          this.props.searchCriteria.searchString +
+          "&classYear=" +
+          this.props.searchCriteria.gradYearFilter +
+          "&state=" +
+          this.props.searchCriteria.locationFilter +
+          "&school=" +
+          this.props.searchCriteria.schoolFilter +
+          "&sportPosition=" +
+          this.props.searchCriteria.sportPositionFilter
+      )
       .then(res => {
         console.log("Good Get All!", res.data);
         this.setState({

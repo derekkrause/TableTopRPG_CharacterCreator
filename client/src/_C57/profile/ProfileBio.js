@@ -14,8 +14,7 @@ class ProfileBio extends React.Component {
 
   render() {
     return (
-      <div className="ml-2">
-        <h1 className="mt-2">Bio</h1>
+      <div className="ml-2" style={{ marginBottom: "5%" }}>
         <p className="profileCardTextArea">
           {this.state.editMode === false ? (
             <a onClick={this.editField}>{this.props.bio}</a>
@@ -34,8 +33,19 @@ class ProfileBio extends React.Component {
           )}
         </p>
         {this.state.editMode === false ? (
-          <button className="float-right profileCardButtonOpacity" type="button" onClick={this.editField}>
-            Edit
+          <button
+            className="float-right profileCardButtonOpacity"
+            style={{
+              transform: "rotate(90deg)",
+              backgroundColor: "white",
+              fontSize: "30px",
+              position: "relative",
+              top: "-90px"
+            }}
+            type="button"
+            onClick={this.editField}
+          >
+            <i className="zmdi zmdi-more-vert zmdi-hc-lg" />
           </button>
         ) : (
           <button className="float-right" type="button" onClick={this.editField}>

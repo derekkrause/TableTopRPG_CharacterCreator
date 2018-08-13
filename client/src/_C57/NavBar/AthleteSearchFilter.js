@@ -3,6 +3,7 @@ import { Button, Form, Input, InputGroup, FormGroup, Label } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import options from "../profile/data";
+import { connect } from "react-redux";
 
 class AthleteSearchFilter extends React.Component {
   state = {
@@ -12,16 +13,37 @@ class AthleteSearchFilter extends React.Component {
     flip: false,
     highlightOnlyResult: false,
     minLength: 2,
-    selectHintOnEnter: true
+    selectHintOnEnter: true,
+    states: [],
+    classYear: [],
+    sportPosition: []
   };
 
-  // handleChange = (event, value) => {
-  //   this.setState({ value });
-  // };
+  componentDidMount() {
+    const statesArray = [];
+    const classYearArray = [];
+    const sportPositionArray = [];
+
+    this.props.dropdownOptions.state.map(data => {
+      statesArray.push(data.name);
+    });
+    this.props.dropdownOptions.classYear.map(data => {
+      classYearArray.push(data.name);
+    });
+    this.props.dropdownOptions.sportPosition.map(data => {
+      sportPositionArray.push(data.name);
+    });
+    this.setState({
+      states: statesArray,
+      classYear: classYearArray,
+      sportPosition: sportPositionArray
+    });
+  }
 
   render() {
     return (
       //---------------------Athlete Search Filter-------------------------
+
       <div className="row">
         <div className="col-md-12">
           <h3 className="ml-2 pr-4 mt-2">
@@ -35,9 +57,9 @@ class AthleteSearchFilter extends React.Component {
               {...this.state}
               //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
-              options={options}
+              options={this.state.states}
               placeholder="Specify state..."
-              value={this.props.locationFilter}
+              value={this.props.searchCriteria.locationFilter}
               onChange={this.props.handleTypeAheadChange("locationFilter")}
             />
             &nbsp;
@@ -48,23 +70,23 @@ class AthleteSearchFilter extends React.Component {
               {...this.state}
               //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
-              options={options}
+              options={this.state.classYear}
               placeholder="Specify graduation year..."
-              value={this.props.gradYearFilter}
+              value={this.props.searchCriteria.gradYearFilter}
               onChange={this.props.handleTypeAheadChange("gradYearFilter")}
             />
             &nbsp;
-            <h4>Competition Level&nbsp;</h4>
+            <h4>School&nbsp;</h4>
             <Typeahead
               className="pr-3"
-              name="sportLevelFilter"
+              name="SchoolFilter"
               {...this.state}
               //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
               options={options}
-              placeholder="Specify competition level..."
-              value={this.props.sportLevelFilter}
-              onChange={this.props.handleTypeAheadChange("sportLevelFilter")}
+              placeholder="Specify school..."
+              value={this.props.searchCriteria.schoolFilter}
+              onChange={this.props.handleTypeAheadChange("SchoolFilter")}
             />
             &nbsp;
             <h4>Athlete Position&nbsp;</h4>
@@ -74,9 +96,9 @@ class AthleteSearchFilter extends React.Component {
               {...this.state}
               //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
-              options={options}
+              options={this.state.sportPosition}
               placeholder="Specify position..."
-              value={this.props.sportPositionFilter}
+              value={this.props.searchCriteria.sportPositionFilter}
               onChange={this.props.handleTypeAheadChange("sportPositionFilter")}
             />
           </div>
@@ -85,4 +107,19 @@ class AthleteSearchFilter extends React.Component {
     );
   }
 }
-export default AthleteSearchFilter;
+function mapStateToProps({ searchCriteria, dropdownOptions }) {
+  return {
+    searchCriteria: searchCriteria,
+    dropdownOptions: dropdownOptions
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setSearchCriteria: searchCriteria => dispatch({ type: "SET_SEARCH_CRITERIA", searchCriteria })
+  };
+}
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AthleteSearchFilter);

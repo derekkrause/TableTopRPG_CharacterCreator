@@ -139,3 +139,4 @@ export const UPDATE_SEARCH = "update_search";
 
 //Ricky put this in!
 export const SET_SEARCH_CRITERIA = "SET_SEARCH_CRITERIA";
+export const SET_DROPDOWN_VALUES = "SET_DROPDOWN_VALUES";

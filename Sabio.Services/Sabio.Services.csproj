@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="AdvocateService.cs" />
     <Compile Include="AthleteSearchService.cs" />
+    <Compile Include="AthleteSportService.cs" />
     <Compile Include="AthletesService.cs" />
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
@@ -126,12 +127,14 @@
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />
+    <Compile Include="EventUserTableService.cs" />
     <Compile Include="FakePogService.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IEventService.cs" />
     <Compile Include="Interfaces\IEventTypeService.cs" />
+    <Compile Include="Interfaces\IEventUserTableService.cs" />
     <Compile Include="Interfaces\IPogsService.cs" />
     <Compile Include="Interfaces\ISportServices.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
@@ -139,9 +142,11 @@
     <Compile Include="PogsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="S3FilesService.cs" />
+    <Compile Include="SchoolService.cs" />
     <Compile Include="SearchesService.cs" />
     <Compile Include="Security\IIdentityExtensions.cs" />
     <Compile Include="Security\SecurityStringExtensions.cs" />
+    <Compile Include="SportLevelService.cs" />
     <Compile Include="SportServices.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="UserTableServices.cs" />

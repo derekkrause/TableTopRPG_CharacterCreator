@@ -3,6 +3,7 @@ using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using Sabio.Services;
 using Sabio.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -115,6 +116,19 @@ namespace Sabio.Web.Controllers
 
             itemsResponse.Items = events;
         
+            return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
+        }
+
+        [Route("searchfilters"), HttpGet]
+        public HttpResponseMessage SearchAllWithFilters(string q = null, string s = null, int? t = null, DateTime? u = null, DateTime? v = null, int? w = null)
+        {
+            //List<Event> SearchAllWithFilters(string searchTerms, string searchState, int searchEventType, DateTime searchStartDate, DateTime searchEndDate, int searchDistance)
+
+            List<Event> events = eventService.SearchAllWithFilters(q, s, t, u, v, w);
+            ItemsResponse<Event> itemsResponse = new ItemsResponse<Event>();
+
+            itemsResponse.Items = events;
+
             return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
         }
 

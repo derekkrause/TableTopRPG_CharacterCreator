@@ -20,14 +20,17 @@ namespace Sabio.Web.Controllers.Api
             this.athleteSearchService = athleteSearchService;
         }
         [Route("athlete"), HttpGet]
-        public HttpResponseMessage Search(string q)
+        public HttpResponseMessage Search(string q, string classYear, string state, string school, string sportPosition)
         {
-            List<AthleteSearchInfo> athleteSearchInfo = athleteSearchService.Search(q);
+            List<AthleteSearchInfo> athleteSearchInfo = athleteSearchService.Search(q, classYear, state, school, sportPosition);
             return Request.CreateResponse(HttpStatusCode.OK, athleteSearchInfo);
         }
+        [Route, HttpGet]
+        public HttpResponseMessage GetAllOptions()
+        {
+            AthleteFilterOptions options = athleteSearchService.GetAllOptions();
 
-
-
-
+            return Request.CreateResponse(HttpStatusCode.OK, options);
+        }
     }
 }

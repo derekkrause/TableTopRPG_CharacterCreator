@@ -7,6 +7,7 @@ import { Form, FormGroup, Input } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "./ProfileBanner.css";
+import "./Profile.css";
 
 const schoolOptions = ["Stanford", "Harvard", "Penn", "Cornell"];
 const sportOptions = [];
@@ -29,20 +30,6 @@ const stateOptions = [];
 
 class ProfileInfo extends React.Component {
   state = {
-    //   firstName: "First",
-    //   middleName: "Middle",
-    //   lastName: "Last",
-    //   schoolName: "Test School Name",
-    //   city: "Test City",
-    //   state: "Test State",
-    //   classYear: "Test Junior",
-    //   graduationYear: "Test Grad Year",
-    //   sport: "Baseball",
-    //   sportPosition: "Position",
-    //   sportLevel: "High School Varsity",
-    //   height: "7'12''",
-    //   weight: "500 lbs",
-    //   gpa: "5.10",
     editMode: false
   };
 
@@ -56,65 +43,76 @@ class ProfileInfo extends React.Component {
       <div>
         {this.state.editMode === false && (
           <React.Fragment>
-            <div className="row justify-content-center">
-              <div className="col-md-12">
-                <h1 className="text-center">
-                  {this.props.firstName}
-                  &nbsp;
-                  {this.props.middleName}
-                  &nbsp;
-                  {this.props.lastName}
-                </h1>
-              </div>
-            </div>
-            <hr />
-            <div className="row justify-content-center">
-              <div className="col-md-12">
-                <h1 className="text-center">
-                  {this.props.sport}
-                  &nbsp;|&nbsp;
-                  {this.props.sportPosition}
-                  &nbsp;|&nbsp;
-                  {this.props.sportLevel}
-                </h1>
-              </div>
-            </div>
-            <hr />
-            <div className="row d-flex justify-content-around">
-              <div className="col-md-3">
-                <h2>{this.props.schoolName}</h2>
-              </div>
-              <div className="col-md-3">
-                <h2>{this.props.classYear}</h2>
-              </div>
-            </div>
-
-            <div className="row d-flex justify-content-around">
-              <div className="col-md-3">
-                <h2>
-                  {this.props.city}, {this.props.state}
-                </h2>
-              </div>
-              <div className="col-md-3">
-                <h2>Class of {this.props.gradYear}</h2>
-              </div>
-            </div>
-            <hr />
-            <div className="row justify-content-center">
-              <div className="col-md-12">
-                <h2 className="text-center">
-                  Height: {this.props.height} | Weight: {this.props.weight} | GPA: {this.props.gpa}
-                </h2>
-              </div>
-            </div>
             <div className="row">
               <div className="col-md-12">
-                <button className="profileBannerButtonOpacity float-right" type="button" onClick={this.editField}>
-                  Edit
-                </button>
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <button
+                    style={{
+                      position: "relative",
+                      right: "-94%",
+                      transform: "rotate(90deg)",
+                      backgroundColor: "white",
+                      fontSize: "30px",
+                      top: "-20px"
+                    }}
+                    className="profileBannerButtonOpacity float-right"
+                    type="button"
+                    onClick={this.editField}
+                  >
+                    <i className="zmdi zmdi-more-vert zmdi-hc-lg" />
+                  </button>
+                </div>
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <h1 style={{ fontWeight: "1000", marginBottom: "20px" }}>
+                    {this.props.firstName}
+                    &nbsp;
+                    {this.props.middleName}
+                    &nbsp;
+                    {this.props.lastName}
+                  </h1>
+                </div>
+
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <h2>{this.props.schoolName}</h2>
+                  &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
+                  <h2>
+                    {this.props.city}, {this.props.state}
+                  </h2>
+                  {/* <h1 style={{ position: "relative", left: "4%" }}>
+                    {this.props.sport}
+                    &nbsp;|&nbsp;
+                    {this.props.sportPosition} */}
+                  {/* &nbsp;|&nbsp;
+                  {this.props.sportLevel} */}
+                  {/* </h1> */}
+                </div>
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <h2>{this.props.classYear}</h2>
+                  &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
+                  <h2 style={{ display: "inline-block" }}>Class of </h2>{" "}
+                  <h2 style={{ display: "inline-block" }}>&nbsp; {this.props.gradYear}</h2>{" "}
+                </div>
+                <div className="row" style={{ position: "relative", left: "4%", marginBottom: "40px" }}>
+                  <h2>Height: {this.props.height}</h2> &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
+                  <h2> Weight: {this.props.weight}</h2>
+                </div>
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <div role="group" className="btn-group">
+                    <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Follow</button>
+                    <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Highlight</button>
+                  </div>
+                  <div style={{ marginLeft: "7%" }}>
+                    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
+                      <i className="zmdi zmdi-open-in-new zmdi-hc-lg" /> &nbsp;Stats
+                    </button>
+                    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
+                      <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
+                      &nbsp; Message
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-            <hr />
           </React.Fragment>
         )}
         {this.state.editMode === true && (

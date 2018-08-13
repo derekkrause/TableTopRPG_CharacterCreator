@@ -15,8 +15,29 @@ import TopNav from "_C57/NavBar/TopNav.js";
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
 import "../_C57/WelcomePage/WelcomePage.css";
+import axios from "axios";
+import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
 
 class App extends React.Component {
+  componentDidMount() {
+    axios
+      .get("api/search")
+      .then(res => {
+        console.log("Good Get All!", res.data);
+        this.props.setDropdownValues(res.data);
+      })
+      .catch(() => {
+        console.log("Get All Failed");
+      });
+  }
+
+  setDropdownProperties = properties => {
+    this.props.setDropdownValues({
+      ...this.props.dropDownOptions,
+      ...properties
+    });
+  };
+
   render() {
     const { match, drawerType, navigationStyle, horizontalNavPosition, currentUser } = this.props;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
@@ -56,6 +77,16 @@ class App extends React.Component {
               <Switch>
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
                 <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
@@ -114,8 +145,20 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ currentUser, settings }) => {
+const mapStateToProps = ({ currentUser, settings, dropDownOptions }) => {
   const { drawerType, navigationStyle, horizontalNavPosition } = settings;
-  return { drawerType, navigationStyle, horizontalNavPosition, currentUser };
+  return { drawerType, navigationStyle, horizontalNavPosition, currentUser, dropDownOptions };
 };
-export default withRouter(connect(mapStateToProps)(App));
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setDropdownValues: dropdownOptions => dispatch({ type: SET_DROPDOWN_VALUES, dropdownOptions })
+  };
+}
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+);
