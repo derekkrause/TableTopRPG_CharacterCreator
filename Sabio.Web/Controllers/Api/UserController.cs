@@ -34,16 +34,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            UserBase userBase = userTableServices.Create(userCreateRequest);
-
-            authenticationService.LogIn(new UserBase
-            {
-                Id = userBase.Id,
-                Name = userBase.Name,
-                Roles = userBase.Roles
-            });
-
-            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = userBase.Id });
+            int newUserId = userTableServices.Create(userCreateRequest);
+            
+            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> {Item = newUserId });
         }
 
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet, Authorize(Roles = "Admin", Users = "")]
@@ -135,4 +128,6 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
+
+    
 }

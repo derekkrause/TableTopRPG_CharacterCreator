@@ -19,34 +19,45 @@ namespace Sabio.Services
             this.dataProvider = dataProvider;
         }
 
-        public UserBase Create(UserCreateRequest request)
+        public int Create(UserCreateRequest request)
         {
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+            string TransactionId = Guid.NewGuid().ToString();
 
-                dataProvider.ExecuteNonQuery(
-                    "User_Insert",
-                    (parameters) =>
-                    {
-                        parameters.AddWithValue("@FirstName", request.FirstName);
-                        parameters.AddWithValue("@MiddleName", request.MiddleName);
-                        parameters.AddWithValue("@LastName", request.LastName);
-                        parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                        parameters.AddWithValue("@Email", request.Email);
-                        parameters.AddWithValue("@PasswordHash", passHash);
-                        parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    },
-                    (parameters) =>
-                    {
-                        newId = (int)parameters["@Id"].Value;
-                    });
+            dataProvider.ExecuteNonQuery(
+                "User_Insert",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@FirstName", request.FirstName);
+                    parameters.AddWithValue("@MiddleName", request.MiddleName);
+                    parameters.AddWithValue("@LastName", request.LastName);
+                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                    parameters.AddWithValue("@Email", request.Email);
+                    parameters.AddWithValue("@PasswordHash", passHash);
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                },
+                (parameters) =>
+                {
+                    newId = (int)parameters["@Id"].Value;
+                });
 
-            return new UserBase
-            {
-                Id = newId,
-                Name = "",
-                Roles = new string[0]
-            };
+            dataProvider.ExecuteNonQuery(
+                "EmailConfirmation_Insert",
+                (parameters) =>
+                {
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    parameters.AddWithValue("@RegEmail", request.Email);
+                    parameters.AddWithValue("@TokenId", TransactionId);
+                    parameters.AddWithValue("@TokenTypeId", 1);
+                });
+
+            return newId;
+
+            //1. CREATE A GUID TO INSERT IN THE EMAIL --DONE
+            //2. CREATE A ROW ON THE TABLE --DONE
+            //3. SEND AN EMAIL WITH CONFIRMATION LINK
+
         }
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
