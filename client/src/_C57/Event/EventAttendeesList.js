@@ -55,13 +55,13 @@ class EventAttendeesList extends Component {
   getAttendeesInfo = (eventUsersList, createdBy) => {
     let attendees = [];
 
-    console.log("EventAttendeesList eventUserList: ", eventUsersList);
+    // console.log("EventAttendeesList eventUserList: ", eventUsersList);
 
     eventUsersList.forEach(user => {
       getUserInfoByIdGet(user.userId)
         .then(response => {
-          console.log("Get User by ID GET Ajax request success!");
-          console.log(response);
+          // console.log("Get User by ID GET Ajax request success!");
+          // console.log(response);
 
           const thisUser = response.data.item;
 
@@ -79,19 +79,19 @@ class EventAttendeesList extends Component {
           this.setState({ attendees: attendees });
         })
         .catch(error => {
-          console.log("Get User by ID GET Ajax request failed!");
-          console.log(error);
+          // console.log("Get User by ID GET Ajax request failed!");
+          // console.log(error);
         });
     });
   };
 
   componentDidMount = () => {
-    console.log("EventAttendeesList Component Mounted");
+    // console.log("EventAttendeesList Component Mounted");
 
     const { attendees, eventId, createdBy } = this.props;
 
-    console.log("EventAttendeesList props: ", this.props);
-    console.log("EventAttendeesList attendees: ", attendees);
+    // console.log("EventAttendeesList props: ", this.props);
+    // console.log("EventAttendeesList attendees: ", attendees);
     // console.log("EventAttendeesList Event ID: ", eventId);
 
     // this.getEventUsersByEventId(eventId, createdBy);
@@ -113,44 +113,11 @@ class EventAttendeesList extends Component {
   render() {
     const { attendees, eventUsersList } = this.state;
 
-    console.log("EventAttendeesList render attendees: ", attendees);
+    // console.log("EventAttendeesList render attendees: ", attendees);
     // console.log("render eventUsersList: ", eventUsersList);
 
     return (
       <ListGroup>
-        {/* {attendees &&
-          attendees.map(user => (
-            <ListGroupItem className="d-flex align-items-center" key={user.email}>
-              <div className="media">
-                <div className="mr-3 mb-2">
-                  <img className="user-avatar size-50" alt="Remy Sharp" src={user.image} />
-                </div>
-                <div className="media-body">
-                  <h3 className="mb-0">{user.email}</h3>
-                  <span className="text-muted">
-                    <small>March 9, 2018</small>
-                  </span>
-                </div>
-              </div>
-
-              <Badge className="text-uppercase ml-auto" color="success" pill>
-                User
-              </Badge>
-
-              <div className="form-checkbox mx-3 ">
-                <input
-                  type="checkbox"
-                  color="primary"
-                  onChange={event => this.handleToggle(event, user.id)}
-                  checked={this.state.checked.indexOf(user.id) !== -1}
-                  tabIndex="-1"
-                />
-                <span className="check">
-                  <i className="zmdi zmdi-check zmdi-hc-lg" />
-                </span>
-              </div>
-            </ListGroupItem>
-          ))} */}
         {attendees &&
           attendees.map(user => (
             <ListGroupItem className="d-flex align-items-center" key={user.id}>

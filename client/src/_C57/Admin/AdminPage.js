@@ -6,8 +6,8 @@ import ClassYearAdmin from "./ClassYearAdmin/ClassYearAdmin";
 import SportAdminPage from "./SportAdmin/SportAdminPage";
 import "./Admin.css";
 
-import EventTypeTable from "./EventTypeAdmin/EventTypeTable";
-import EventTypeForm from "./EventTypeAdmin/EventTypeForm";
+import EventTypeAdmin from "./EventTypeAdmin/EventTypeAdmin";
+import EventAdmin from "./EventAdmin/EventAdmin";
 
 class AdminPage extends React.Component {
   render() {
@@ -22,12 +22,10 @@ class AdminPage extends React.Component {
               render={props => <ClassYearAdmin {...props} />}
             />
             {/* your admin table populated with your data will be placed here */}
-            <Route exact path={`${this.props.match.url}/eventtypes`} render={props => <EventTypeTable {...props} />} />
-            <Route
-              exact
-              path={`${this.props.match.url}/eventtypes/form/:eventTypeId?`}
-              render={props => <EventTypeForm {...props} />}
-            />
+            <Route path={`${this.props.match.url}/eventtypes`} component={EventTypeAdmin} />
+            {/* <Route exact path={`${this.props.match.url}/eventtypes`} render={props => <EventTypeAdmin {...props} />} /> */}
+            <Route path={`${this.props.match.url}/eventadmin`} component={EventAdmin} />
+            {/* <Route exact path={`${this.props.match.url}/eventadmin`} render={props => <EventAdmin {...props} />} /> */}
           </div>
         </div>
       </div>

@@ -22,7 +22,7 @@ namespace Sabio.Web.Controllers
             this.eventTypeService = eventTypeService;
         }
 
-        [Route, HttpPost]
+        [Route, HttpPost, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Create(EventTypeCreateRequest eventTypeCreateRequest)
         {
             if (eventTypeCreateRequest == null)
@@ -62,7 +62,7 @@ namespace Sabio.Web.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<EventType> { Item = oneEventType });
         }
 
-        [Route("{eventTypeId:int}"), HttpPut]
+        [Route("{eventTypeId:int}"), HttpPut, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Update(EventTypeUpdateRequest eventTypeUpdateRequest, int eventTypeId)
         {
             if (eventTypeUpdateRequest == null)
@@ -84,7 +84,7 @@ namespace Sabio.Web.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        [Route("{eventTypeId:int}"), HttpDelete]
+        [Route("{eventTypeId:int}"), HttpDelete, Authorize(Roles = "Admin", Users = "")]
         public HttpResponseMessage Delete(int eventTypeId)
         {
             eventTypeService.Delete(eventTypeId);

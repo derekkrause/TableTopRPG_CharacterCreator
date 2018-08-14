@@ -32,7 +32,7 @@ class EventsSearch extends Component {
   };
 
   handlerSearchBtn = () => {
-    console.log("Search! button clicked!");
+    // console.log("Search! button clicked!");
 
     const { searchTerms } = this.state;
 
@@ -40,45 +40,26 @@ class EventsSearch extends Component {
   };
 
   getEventInfo(eventId) {
-    console.log("Loading event with ID: ", eventId);
+    // console.log("Loading event with ID: ", eventId);
 
     getEventById(eventId)
       .then(response => {
-        console.log("Get by Event Id Ajax GET request success!");
-        console.log(response);
+        // console.log("Get by Event Id Ajax GET request success!");
+        // console.log(response);
 
         this.setState({ eventList: response.data.item });
       })
       .catch(error => {
-        console.log("Get by Event Id Ajax GET request failed!");
-        console.log(error);
-      });
-  }
-
-  getEventList(pageIndex, pageSize) {
-    console.log("pageIndex: ", pageIndex, "pageSize: ", pageSize);
-
-    getEventListPaged(pageIndex, pageSize)
-      .then(response => {
-        console.log("Get Events Paged Ajax GET request success!");
-        console.log(response);
-
-        this.setState({
-          eventDataItem: response.data.item,
-          eventList: response.data.item.pagedItems
-        });
-      })
-      .catch(error => {
-        console.log("Get Events Paged Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get by Event Id Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   getEventsList() {
     getEventsListGet()
       .then(response => {
-        console.log("Get Events Ajax GET request success!");
-        console.log(response);
+        // console.log("Get Events Ajax GET request success!");
+        // console.log(response);
 
         this.setState({
           eventDataItem: response.data.items,
@@ -86,24 +67,28 @@ class EventsSearch extends Component {
         });
       })
       .catch(error => {
-        console.log("Get Events Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get Events Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   getEventTypesList() {
     getEventTypes()
       .then(response => {
-        console.log("Get Event Types GET Ajax Request success!");
-        console.log(response);
+        // console.log("EventsSearch Get Event Types GET Ajax Request success!");
+        // console.log(response);
 
         const eventTypes = response.data.items;
 
-        this.setState({ eventTypesList: eventTypes });
+        const { searchCriteria } = this.state;
+
+        this.setState({ eventTypesList: eventTypes }, () => {
+          this.searchEventsList(searchCriteria);
+        });
       })
       .catch(error => {
-        console.log("Get Event Types GET Ajax Request failed!");
-        console.log(error);
+        // console.log("EventsSearch Get Event Types GET Ajax Request failed!");
+        // console.log(error);
       });
   }
 
@@ -125,76 +110,72 @@ class EventsSearch extends Component {
   }
 
   searchEventsList(searchObj) {
-    // Search Events
     let searchTerms = searchObj.searchString;
 
-    console.log("Searching Events for terms: ", searchTerms);
+    // console.log("Searching Events for terms: ", searchTerms);
 
     this.setState({ searchTerms: searchTerms });
 
     if (searchTerms === "") {
-      searchTerms = null;
+      searchTerms = "";
     }
 
     const statesList = getStatesList();
 
     // console.log("EventsSearch statesList: ", statesList);
 
-    console.log("EventsSearch searchObj: ", searchObj);
+    // console.log("EventsSearch searchObj: ", searchObj);
 
     let stateObj = statesList.find(state => {
-      // console.log("a: ", searchObj.locationFilter[0], typeof searchObj.locationFilter[0]);
-      // console.log("b: ", state.stateName, typeof state.stateName);
-
       return searchObj.locationFilter[0] === state.stateName;
     });
 
-    console.log("EventsSearch stateObj: ", stateObj);
+    // console.log("EventsSearch stateObj: ", stateObj);
 
     const startDate = searchObj.eventStartDateFilter;
     const endDate = searchObj.eventEndDateFilter;
 
-    console.log("EventsSearch startDate: ", startDate, typeof startDate, ", endDate: ", endDate, typeof endDate);
+    // console.log("EventsSearch startDate: ", startDate, typeof startDate, ", endDate: ", endDate, typeof endDate);
 
     let sDateString, eDateString;
 
     if (startDate === "") {
-      sDateString = null;
+      sDateString = "";
     } else {
       sDateString = startDate.toDateString();
     }
 
     if (endDate === "") {
-      eDateString = null;
+      eDateString = "";
     } else {
       eDateString = endDate.toDateString();
     }
 
-    console.log(
-      "EventsSearch sDateString: ",
-      sDateString,
-      typeof sDateString,
-      ", eDateString: ",
-      eDateString,
-      typeof eDateString
-    );
+    // console.log(
+    //   "EventsSearch sDateString: ",
+    //   sDateString,
+    //   typeof sDateString,
+    //   ", eDateString: ",
+    //   eDateString,
+    //   typeof eDateString
+    // );
 
     const { eventTypesList } = this.state;
 
-    console.log("EventsSearch eventTypesList: ", eventTypesList);
+    // console.log("EventsSearch eventTypesList: ", eventTypesList);
 
     let eventTypeObj = eventTypesList.find(eType => {
       return searchObj.eventTypeFilter[0] === eType.name;
     });
 
-    console.log("EventsSearch eventTypeObj: ", eventTypeObj);
+    // console.log("EventsSearch eventTypeObj: ", eventTypeObj);
 
     if (!stateObj) {
-      stateObj = { stateAbbrev: null };
+      stateObj = { stateAbbrev: "" };
     }
 
     if (!eventTypeObj) {
-      eventTypeObj = { id: null };
+      eventTypeObj = { id: "" };
     }
 
     const eSearchObj = {
@@ -206,7 +187,7 @@ class EventsSearch extends Component {
       searchDistance: null
     };
 
-    console.log("EventsSearch eSearchObj: ", eSearchObj);
+    // console.log("EventsSearch eSearchObj: ", eSearchObj);
 
     searchEventsWithFiltersGet(
       eSearchObj.searchTerms,
@@ -217,8 +198,8 @@ class EventsSearch extends Component {
       eSearchObj.searchDistance
     )
       .then(response => {
-        console.log("Search Events with filters GET Ajax request success!");
-        console.log(response);
+        // console.log("Search Events with filters GET Ajax request success!");
+        // console.log(response);
 
         this.setState({
           eventDataItem: response.data.items,
@@ -226,35 +207,32 @@ class EventsSearch extends Component {
         });
       })
       .catch(error => {
-        console.log("Search Events with filters GET Ajax request failed!");
-        console.log(error);
+        // console.log("Search Events with filters GET Ajax request failed!");
+        // console.log(error);
       });
   }
 
   componentDidMount() {
-    console.log("EventsSearch component mounted");
+    // console.log("EventsSearch component mounted");
 
     const pageIndex = 0,
       pageSize = 6;
 
-    // this.getEventList(pageIndex, pageSize);
-    // this.getEventsList();
+    const { currentUser, searchCriteria } = this.props;
 
-    // const searchTerms = this.props.searchTerms;
-    // const searchTerms = "los angeles";
+    this.setState({ currentUser: currentUser, searchCriteria: searchCriteria });
 
-    // this.setState({ searchTerms: searchTerms });
+    // console.log("EventsSearch mounted currentUser: ", currentUser, ", searchCriteria: ", searchCriteria);
 
     this.getEventTypesList();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("EventsSearch component updated");
+    // console.log("EventsSearch component updated");
 
     if (this.state.eventDataItem !== prevState.eventDataItem) {
       const eventPagedList = this.state.eventDataItem;
 
-      // const cardList = this.createCardList(eventPagedList.pagedItems);
       const cardList = this.createCardList(eventPagedList);
 
       this.setState({ eventCardsList: cardList });
@@ -275,7 +253,7 @@ class EventsSearch extends Component {
 
       this.setState({ currentUser: currentUser, searchCriteria: searchCriteria });
 
-      console.log("EventsSearch currentUser: ", currentUser, ", searchCriteria: ", searchCriteria);
+      // console.log("EventsSearch updated currentUser: ", currentUser, ", searchCriteria: ", searchCriteria);
 
       this.searchEventsList(searchCriteria);
     }
@@ -291,36 +269,8 @@ class EventsSearch extends Component {
         <div className="app-wrapper">
           <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
             <h2 className="title mb-3 mb-sm-0">{title}</h2>
-            <h3>{/* Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages} */}</h3>
-            {/* <NavLink
-              to={`${this.props.match.url}/form`}
-              // target="_blank"
-            >
-              <Button color="primary" className="jr-btn">
-                Add Event
-              </Button>
-            </NavLink> */}
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
-            {/* <Form>
-              <Row>
-                <Col>
-                  <FormGroup>
-                    <Label>Search for: </Label>
-                    <Input
-                      type="text"
-                      value={this.state.searchTerms}
-                      onChange={e => this.setState({ searchTerms: e.target.value })}
-                    />
-                  </FormGroup>
-                </Col>
-                <Col>
-                  <Button color="primary" className="jr-btn" onClick={this.handlerSearchBtn}>
-                    Search!
-                  </Button>
-                </Col>
-              </Row>
-            </Form> */}
             {searchStatus}
             {eventCardsList &&
               eventCardsList.map(data => <EventCardItem key={data.id} eventId={data.id} {...this.props} />)}

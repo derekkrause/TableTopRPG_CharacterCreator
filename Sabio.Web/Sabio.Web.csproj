@@ -272,8 +272,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Content Include="client/**/*">
+      <Visible>false</Visible>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="node-api/**/*">
+      <Visible>false</Visible>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -289,14 +295,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="node-api/**/*">
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="client/**/*">
-      <Visible>false</Visible>
-    </Content>
   </ItemGroup>  <ItemGroup>
     <ProjectReference Include="..\Sabio.Data\Sabio.Data.csproj">
       <Project>{f696cb27-02f4-4326-a80d-99b070a888ce}</Project>

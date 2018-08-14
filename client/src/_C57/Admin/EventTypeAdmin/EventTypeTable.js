@@ -30,6 +30,8 @@ class EventTypeTable extends Component {
   componentDidMount() {
     console.log("EventTypeTable Component Mounted");
 
+    // console.log("EventTypeTable props: ", this.props);
+
     this.getEventTypes();
   }
 
@@ -39,35 +41,36 @@ class EventTypeTable extends Component {
     return (
       <div className="app-wrapper">
         <div className="animated slideInUpTiny animation-duration-3">
-          <div className="table-responsive-material">
-            <Table>
-              <thead>
-                {/* <tr>
+          <div className="jr-card">
+            <div className="table-responsive-material">
+              <Table>
+                <thead>
+                  {/* <tr>
               <th className="border-top-0">Dessert (100g serving)</th>
               <th className="border-top-0">Calories</th>
               <th className="border-top-0">Fat (g)</th>
               <th className="border-top-0">Carbs (g)</th>
               <th className="border-top-0">Protein (g)</th>
             </tr> */}
-                <tr>
-                  <th> </th>
-                  <th> </th>
-                  <th>
-                    <NavLink to={`${this.props.match.url}/form`}>
-                      <button className="btn btn-link">Add Event Type</button>
-                    </NavLink>
-                  </th>
-                </tr>
-                <tr>
-                  <th> </th>
-                  <th className="border-top-0">Event Type Name</th>
-                  <th className="border-top-0">Event Type Code</th>
-                  {/* <th className="border-top-0">Event Type Display Order</th>
+                  <tr>
+                    <th> </th>
+                    <th> </th>
+                    <th>
+                      <NavLink to={`${this.props.match.url}/form`}>
+                        <button className="btn btn-link">Add Event Type</button>
+                      </NavLink>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th> </th>
+                    <th className="border-top-0">Event Type Name</th>
+                    <th className="border-top-0">Event Type Code</th>
+                    {/* <th className="border-top-0">Event Type Display Order</th>
                     <th className="border-top-0">Event Type Inactive?</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {/* {data.map(n => {
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* {data.map(n => {
               return (
                 <tr key={n.id}>
                   <td>{n.name}</td>
@@ -78,21 +81,22 @@ class EventTypeTable extends Component {
                 </tr>
               );
             })} */}
-                {eventTypeItems &&
-                  eventTypeItems.map(item => (
-                    // <tr key={item.id} eventTypeId={item.id}>
-                    //   <td>{item.name}</td>
-                    //   <td>{item.code}</td>
-                    //   <td>{item.displayOrder}</td>
-                    //   <td>
-                    //     <Button onClick={this.toggle}>Edit</Button> <Button>Delete</Button>
-                    //   </td>
-                    // </tr>
-                    <EventTypeTableCell key={item.id} data={item} {...this.props} />
-                  ))}
-              </tbody>
-              <tfoot />
-            </Table>
+                  {eventTypeItems &&
+                    eventTypeItems.map(item => (
+                      // <tr key={item.id} eventTypeId={item.id}>
+                      //   <td>{item.name}</td>
+                      //   <td>{item.code}</td>
+                      //   <td>{item.displayOrder}</td>
+                      //   <td>
+                      //     <Button onClick={this.toggle}>Edit</Button> <Button>Delete</Button>
+                      //   </td>
+                      // </tr>
+                      <EventTypeTableCell key={item.id} data={item} {...this.props} />
+                    ))}
+                </tbody>
+                <tfoot />
+              </Table>
+            </div>
           </div>
         </div>
       </div>

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { ListGroup, ListGroupItem } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
-import { getEventById, getEventByIdWithUser } from "../../services/Event.service";
+import { getEventById, getEventByIdWithUser } from "../../../services/Event.service";
 
-class EventCardItem extends Component {
+class EventCardItemAdmin extends Component {
   state = {
     index: 0,
     data: {},
@@ -16,8 +16,8 @@ class EventCardItem extends Component {
   getEventItem(eventId) {
     getEventByIdWithUser(eventId)
       .then(response => {
-        // console.log("Get by Event ID with User Ajax GET request success!");
-        // console.log(response);
+        console.log("Get by Event ID with User Ajax GET request success!");
+        console.log(response);
 
         this.setState({
           eventDataItem: response.data.item,
@@ -25,15 +25,15 @@ class EventCardItem extends Component {
         });
       })
       .catch(error => {
-        // console.log("Get by Event ID with User Ajax GET request error!");
-        // console.log(error);
+        console.log("Get by Event ID with User Ajax GET request error!");
+        console.log(error);
       });
   }
 
   componentDidMount() {
-    // console.log("EventCardItem Component Mounted");
+    console.log("EventCardItemAdmin Component Mounted");
 
-    // console.log("EventCardItem props: ", this.props);
+    console.log("EventCardItemAdmin props: ", this.props);
 
     const propsEventId = this.props.eventId;
 
@@ -91,14 +91,42 @@ class EventCardItem extends Component {
               {startDate} - {endDate}
             </h4>
             <p>{description}</p>
-            <NavLink className="btn btn-light jr-btn-rounded" to={`/app/events/${id}`}>
+            <NavLink className="btn btn-light jr-btn-rounded" to={`${this.props.match.url}/events/${id}`}>
               More Info
             </NavLink>
           </div>
         </div>
+
+        {/* <div className="user-list d-sm-flex flex-sm-row card">
+          <img alt="..." src={image} className="user-avatar border-0" />
+          <div className="description">
+            <h3>{name}</h3>
+            <h4>Organized by {organizer}</h4>
+            <h4>
+              Event created by {firstName} {lastName}
+            </h4>
+            <p>{description}</p>
+            <ListGroup className="list-inline d-sm-flex flex-sm-row gx-btn-list">
+              <ListGroupItem className="border-0">
+                <NavLink
+                  className="btn btn-light jr-btn-rounded"
+                  // to={`${this.props.match.url}/${id}`}
+                  to={`/app/events/${id}`}
+                  // target="_blank"
+                >
+                  More Info
+                </NavLink>
+              </ListGroupItem>
+            </ListGroup>
+          </div>
+
+          <div className="img-section ml-sm-4 mb-2">
+            <img className="img-fluid " src={image2} alt="..." />
+          </div>
+        </div> */}
       </div>
     );
   }
 }
 
-export default EventCardItem;
+export default EventCardItemAdmin;
