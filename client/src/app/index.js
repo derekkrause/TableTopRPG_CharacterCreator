@@ -57,18 +57,24 @@ class App extends React.Component {
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
         <div
           className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch"
-          style={{
-            backgroundImage:
-              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
-          }}
+          // style={{
+          //   backgroundImage:
+          //     "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
+          // }}
         >
           <div className="app-header">
             <IfLoginStatus loggedIn={false}>
               <TopNav {...this.props} />
             </IfLoginStatus>
+
             <IfLoginStatus loggedIn={true}>
               <NavBar />
             </IfLoginStatus>
+
+            {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
+            <NavBar />
+            </IfLoginStatus> */}
+
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
@@ -102,6 +108,7 @@ class App extends React.Component {
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
+
                 <Route
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
@@ -116,12 +123,16 @@ class App extends React.Component {
                 />
                 <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
 
-                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
+                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
 
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
                   path={`${match.url}/profile`}
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                />
+                <Route
+                  path={`${match.url}/coach`}
+                  component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
                 />
                 <Route
                   path={`${match.url}/sample-page`}

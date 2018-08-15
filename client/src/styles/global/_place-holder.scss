@@ -106,7 +106,7 @@
   margin-bottom: $jr-card-margin;
   background-color: $white;
   @include border-radius($border-radius-lg);
-  border: $jr-border;
+  // border: $jr-border;
   position: relative;
 }
 

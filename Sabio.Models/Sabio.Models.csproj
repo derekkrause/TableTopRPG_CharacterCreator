@@ -55,6 +55,7 @@
     <Compile Include="Domain\AthleteFilterOptions.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\AthleteSearchInfo.cs" />
+    <Compile Include="Domain\AthleteTrend.cs" />
     <Compile Include="Domain\AthleteSportTeam.cs" />
     <Compile Include="Domain\Blog.cs" />
     <Compile Include="Domain\ClassYear.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Domain\EventUser.cs" />
     <Compile Include="Domain\EventUserAttendee.cs" />
     <Compile Include="Domain\EventUserTable.cs" />
+    <Compile Include="Domain\FeedHome.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Schools.cs" />
     <Compile Include="Domain\Sport.cs" />

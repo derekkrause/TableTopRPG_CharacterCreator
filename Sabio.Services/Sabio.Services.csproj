@@ -117,6 +117,7 @@
     <Compile Include="AthleteSearchService.cs" />
     <Compile Include="AthleteSportService.cs" />
     <Compile Include="AthletesService.cs" />
+    <Compile Include="AthleteTrendService.cs" />
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="ClassYearService.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="EventTypeService.cs" />
     <Compile Include="EventUserTableService.cs" />
     <Compile Include="FakePogService.cs" />
+    <Compile Include="FeedHomeService.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />

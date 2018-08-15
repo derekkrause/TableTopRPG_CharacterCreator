@@ -26,6 +26,11 @@ const getAll = (pageIndex, pageSize) => {
     });
 };
 
+const getTrend = () => {
+  return mssql.executeProc("Coach_Trend", sqlRequest => {}).then(response => {
+    return response;
+  });
+};
 // const search = (pageIndex, pageSize, searchString) => {
 //   return mssql
 //     .executeProc("Coach_Search", sqlRequest => {
@@ -112,5 +117,6 @@ module.exports = {
   //search,
   post,
   put,
-  del
+  del,
+  getTrend
 };

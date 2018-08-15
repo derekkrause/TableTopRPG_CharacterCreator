@@ -151,5 +151,14 @@ namespace Sabio.Web.Controllers
 
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<Event> { Item = oneEvent });
         }
+
+        [Route("upcoming"), HttpGet]
+        public HttpResponseMessage GetUpcoming()
+        {
+            List<Event> events = eventService.GetUpcoming();
+            ItemsResponse<Event> itemsResponse = new ItemsResponse<Event> { Items = events };
+
+            return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
+        }
     }
 }

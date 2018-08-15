@@ -5,6 +5,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 :root {
+
     --blue: #007bff;
     --indigo: #6610f2;
     --purple: #6f42c1;
@@ -18,7 +19,7 @@
     --white: #fff;
     --gray: #6c757d;
     --gray-dark: #343a40;
-    --primary: #007bff;
+    --primary: #388e3c;
     --secondary: #6c757d;
     --success: #28a745;
     --info: #17a2b8;
@@ -2675,14 +2676,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #338e3c;
+    border-color: #338e3c;
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #0069d9;
-    border-color: #0062cc;
+    background-color: #4caf50;
+    border-color: #4caf50;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -4642,8 +4643,8 @@ tbody.collapse.show {
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 0.25rem;
+    /* border: 1px solid rgba(0, 0, 0, 0.125); */
+    /* border-radius: 0.25rem; */
 }
 
 .card > hr {

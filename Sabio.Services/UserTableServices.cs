@@ -24,22 +24,22 @@ namespace Sabio.Services
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
-                dataProvider.ExecuteNonQuery(
-                    "User_Insert",
-                    (parameters) =>
-                    {
-                        parameters.AddWithValue("@FirstName", request.FirstName);
-                        parameters.AddWithValue("@MiddleName", request.MiddleName);
-                        parameters.AddWithValue("@LastName", request.LastName);
-                        parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                        parameters.AddWithValue("@Email", request.Email);
-                        parameters.AddWithValue("@PasswordHash", passHash);
-                        parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    },
-                    (parameters) =>
-                    {
-                        newId = (int)parameters["@Id"].Value;
-                    });
+            dataProvider.ExecuteNonQuery(
+                "User_Insert",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@FirstName", request.FirstName);
+                    parameters.AddWithValue("@MiddleName", request.MiddleName);
+                    parameters.AddWithValue("@LastName", request.LastName);
+                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                    parameters.AddWithValue("@Email", request.Email);
+                    parameters.AddWithValue("@PasswordHash", passHash);
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                },
+                (parameters) =>
+                {
+                    newId = (int)parameters["@Id"].Value;
+                });
 
             return new UserBase
             {
@@ -54,39 +54,39 @@ namespace Sabio.Services
             PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
             List<User> userList = new List<User>();
 
-                dataProvider.ExecuteCmd(
-                    "User_SelectAll",
-                    (parameters) =>
+            dataProvider.ExecuteCmd(
+                "User_SelectAll",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@pageIndex", pageIndex);
+                    parameters.AddWithValue("@pageSize", pageSize);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    User user = new User
                     {
-                        parameters.AddWithValue("@pageIndex", pageIndex);
-                        parameters.AddWithValue("@pageSize", pageSize);
-                    },
-                    (reader, resultSetIndex) =>
+                        Id = (int)reader["Id"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        Gender = reader.GetSafeInt32Nullable("Gender"),
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        Email = (string)reader["Email"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"]
+                    };
+
+                    object middleNameObj = reader["MiddleName"];
+                    if (middleNameObj != DBNull.Value)
                     {
-                        User user = new User
-                        {
-                            Id = (int)reader["Id"],
-                            FirstName = (string)reader["FirstName"],
-                            LastName = (string)reader["LastName"],
-                            Gender = reader.GetSafeInt32Nullable("Gender"),
-                            AvatarUrl = (string)reader["AvatarUrl"],
-                            Email = (string)reader["Email"],
-                            DateCreated = (DateTime)reader["DateCreated"],
-                            DateModified = (DateTime)reader["DateModified"]
-                        };
+                        user.MiddleName = (string)middleNameObj;
+                    }
 
-                        object middleNameObj = reader["MiddleName"];
-                        if (middleNameObj != DBNull.Value)
-                        {
-                            user.MiddleName = (string)middleNameObj;
-                        }
+                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 
-                        pagedItemResponse.TotalCount = (int)reader["TotalRows"];
-
-                        userList.Add(user);
-                    });
-
-                return pagedItemResponse;
+                    userList.Add(user);
+                });
+            pagedItemResponse.PagedItems = userList;
+            return pagedItemResponse;
         }
 
         public User GetById(int id)
@@ -112,6 +112,7 @@ namespace Sabio.Services
                         IsAthlete = (bool)reader["IsAthlete"],
                         IsCoach = (bool)reader["IsCoach"],
                         IsAdvocate = (bool)reader["IsAdvocate"],
+                        IsAdmin = (bool)reader["Admin"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
                     };
@@ -135,7 +136,7 @@ namespace Sabio.Services
             string firstName = "";
             string lastName = "";
             bool isAdmin = false;
-     
+
             dataProvider.ExecuteCmd(
                 "User_Login",
                 (parameters) =>

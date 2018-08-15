@@ -8,10 +8,10 @@ const coachesController = require("../controllers/coaches.controller");
 
 module.exports = router;
 
-router.get("/:id", coachesController.getById);
+router.get("/:id([0-9]+)", coachesController.getById);
 
 router.get("/", coachesController.getAll);
-
+router.get("/trend", coachesController.getTrend);
 //router.get("/:pageIndex/:pageSize", coachesController.getAll);
 //router.get("/search/:pageIndex/:pageSize/", coachesController.search);
 

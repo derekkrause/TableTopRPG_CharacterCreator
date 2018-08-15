@@ -1,22 +1,34 @@
 import React from "react";
 import CardLayout from "components/CardLayout";
 import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerContainer";
-import FileUploader from "../FileUploader/FileUploader";
-import SweetAlert from "react-bootstrap-sweetalert";
-import PropTypes from "prop-types";
+import FileUploader from "../CustomComponents/FileUploader/FileUploader";
+import { utc } from "../../../node_modules/moment";
+import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
+import { DeleteButton } from "../CustomComponents/Button";
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import Popover from "../CustomComponents/Popover";
+import IfLoginStatus from "../CustomComponents/IfLoginStatus";
 
 class FeedCard extends React.Component {
   state = {
     title: this.props.feed.title,
     content: this.props.feed.content,
-    imageUrl: "",
-    videoUrl: this.props.feed.videoUrl,
+    imageUrl: [],
+    videoUrl: [],
     editMode: false,
     filePreview: "",
     imageDiv: true,
-    alert: null
+    videoHeight: "130px",
+    videoWidth: "130px",
+    mixedArray: [],
+    popoverOpen: false
   };
 
+  toggle = () => {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  };
   handleOnClickEditToggle = () => {
     this.setState({
       editMode: !this.state.editMode,
@@ -40,42 +52,135 @@ class FeedCard extends React.Component {
     });
   };
 
-  handleImageUrlChange = imageUrl => {
-    this.setState({
-      imageUrl
-    });
-  };
-
   handleOnClickDeleteCurrent = () => {
     this.setState({
       imageDiv: false
     });
   };
 
-  delete = () => {
-    const getAlert = () => (
-      <SweetAlert
-        warning
-        showCancel
-        confirmBtnText="Yes"
-        confirmBtnBsStyle="danger"
-        cancelBtnBsStyle="default"
-        title={`Are you sure you want to delete `}
-        onConfirm={this.props.handleDeleteFeed} //what function you want on confirm
-        onCancel={this.onClickCancel} //what function you want on cancel
-      />
-    );
-    this.setState({ alert: getAlert() });
+  handleImageUrlChange = newImageUrl => {
+    let newArr = [];
+    for (let i = 0; i < newImageUrl.length; i++) {
+      newArr.push(newImageUrl[i].url);
+    }
+    this.setState({
+      imageUrl: newArr
+    });
   };
 
-  onClickCancel = () => {
-    this.setState({ alert: null });
+  handleVideoUrlChange = newVideoUrl => {
+    let newArr = [];
+    // for (let i = 0; i < newVideoUrl.length; i++) {
+    //   newArr.push(newVideoUrl[i].url);
+    // }
+    newVideoUrl.map(video => newArr.push(video.url));
+    this.setState({
+      videoUrl: newArr
+    });
   };
+
+  shuffle = array => {
+    let currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+  };
+
+  componentWillMount() {
+    const imageArray = this.props.feed.imageUrl;
+    const mappedImageArray = imageArray.map(image => ({
+      url: image,
+      type: "imageSmall"
+    }));
+    const videoArray = this.props.feed.videoUrl;
+    const mappedVideoArray = videoArray.map(video => ({
+      url: video,
+      type: "videoSmall",
+      col: null
+    }));
+    if (mappedImageArray.length == 1 && mappedVideoArray.length == 0) {
+      mappedImageArray[0].type = "image";
+    }
+    if (mappedImageArray.length == 0 && mappedVideoArray.length == 1) {
+      mappedVideoArray[0].type = "video";
+    }
+    const mixedArray = mappedImageArray.concat(mappedVideoArray);
+    switch (mixedArray.length) {
+      case 8:
+        mixedArray[7].col = 8;
+        mixedArray[6].col = 4;
+        mixedArray[5].col = 4;
+        mixedArray[4].col = 8;
+        mixedArray[3].col = 8;
+        mixedArray[2].col = 4;
+        mixedArray[1].col = 4;
+        mixedArray[0].col = 8;
+        break;
+      case 7:
+        mixedArray[6].col = 8;
+        mixedArray[5].col = 4;
+        mixedArray[4].col = 4;
+        mixedArray[3].col = 8;
+        mixedArray[2].col = 4;
+        mixedArray[1].col = 4;
+        mixedArray[0].col = 4;
+        break;
+      case 6:
+        mixedArray[5].col = 8;
+        mixedArray[4].col = 4;
+        mixedArray[3].col = 4;
+        mixedArray[2].col = 8;
+        mixedArray[1].col = 8;
+        mixedArray[0].col = 4;
+        break;
+      case 5:
+        mixedArray[4].col = 8;
+        mixedArray[3].col = 4;
+        mixedArray[2].col = 4;
+        mixedArray[1].col = 4;
+        mixedArray[0].col = 4;
+        break;
+      case 4:
+        mixedArray[3].col = 8;
+        mixedArray[2].col = 4;
+        mixedArray[1].col = 4;
+        mixedArray[0].col = 8;
+        break;
+      case 3:
+        mixedArray[2].col = 4;
+        mixedArray[1].col = 4;
+        mixedArray[0].col = 4;
+        break;
+      case 2:
+        mixedArray[0].col = 8;
+        mixedArray[1].col = 4;
+        break;
+      case 1:
+        mixedArray[0].col = 12;
+        break;
+    }
+    // this.shuffle(mixedArray);
+
+    this.setState({ mixedArray });
+  }
 
   render() {
     return (
-      <CardLayout styleName="col-lg-6">
-        <div className="cus-card-header">
+      <div className="card">
+        <div className="cus-card-header" style={{ borderLeft: `7px solid ${this.props.borderColor}` }}>
           <div className="user-profile d-flex flex-row align-items-center">
             <img alt="..." src={this.props.feed.avatarUrl} className="user-avatar rounded-circle" />
             <div className="user-detail cus-user-detail">
@@ -83,72 +188,55 @@ class FeedCard extends React.Component {
               <p className="user-description">school and sport type</p>
             </div>
             <div className="text-right">
-              <button
+              <IfLoginStatus loggedIn={true} isAdmin={true}>
+                <Popover
+                  isOpen={this.state.popoverOpen}
+                  popover={this.props.popover}
+                  handleDelete={() => this.props.handleDelete(feed.id)}
+                  handleUpdate={() => this.props.handleUpdateFeed(feed.id)}
+                />
+              </IfLoginStatus>
+              {/* <UncontrolledDropdown>
+                <DropdownToggle className="zmdi zmdi-more zmdi-hc-lg ash" />
+                <DropdownMenu right>
+                  <DropdownItem>Edit</DropdownItem>
+                  <DropdownItem onClick={() => this.delete()}>Delete</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown> */}
+              {/* <DeleteButton
                 type="button"
                 // onClick={this.props.handleModalToggle}
                 onClick={() => this.delete()}
-                className="jr-btn jr-flat-btn btn btn-default"
-              >
-                <i className="zmdi zmdi-delete zmdi-hc-lg" /> &nbsp;Delete
-              </button>
+              /> */}
             </div>
           </div>
         </div>
         {this.state.editMode ? (
           <React.Fragment>
-            <form>
-              {this.state.imageDiv && (
-                <div className="preview-container">
-                  <img src={this.props.feed.imageUrl} className="img" />
-                  <button type="button" className="btn" onClick={this.handleOnClickDeleteCurrent}>
-                    <i className="zmdi zmdi-close zmdi-hc-lg" />
-                  </button>
-                </div>
-              )}
+            <MultiFileUploader
+              onImageUrlChange={this.handleImageUrlChange}
+              onVideoUrlChange={this.handleVideoUrlChange}
+              incommingImageArray={this.props.feed.imageUrl}
+              incommingVideoArray={this.props.feed.videoUrl}
+            />
+            <h4> Title </h4>
+            <input
+              className="form-control"
+              type="text"
+              value={this.state.title}
+              onChange={e => this.setState({ title: e.target.value })}
+            />
 
-              {/* {this.props.feed.videoUrl !== "" && <VideoPlayerContainer videoUrl={this.props.feed.videoUrl} />} */}
-
-              <div className="card-body">
-                {this.props.feed.videoUrl !== "" && (
-                  <React.Fragment>
-                    <div className="mt-4">
-                      <h4> Video Link</h4>
-                      <div className="input-group mb-3">
-                        <input
-                          className="form-control"
-                          type="text"
-                          value={this.state.videoUrl}
-                          onChange={e => this.setState({ videoUrl: e.target.value })}
-                        />
-                      </div>
-                    </div>
-                  </React.Fragment>
-                )}
-                {this.props.feed.imageUrl !== "" && (
-                  <React.Fragment>
-                    <FileUploader onImageUrlChange={this.handleImageUrlChange} />
-                  </React.Fragment>
-                )}
-                <h4> Title </h4>
-                <input
-                  className="form-control"
-                  type="text"
-                  value={this.state.title}
-                  onChange={e => this.setState({ title: e.target.value })}
-                />
-
-                <div className="mt-4">
-                  <h4> Content</h4>
-                  <textarea
-                    className="form-control"
-                    rows="8"
-                    placeholder="Share your thoughts, moments and tips "
-                    value={this.state.content}
-                    onChange={e => this.setState({ content: e.target.value })}
-                  />
-                </div>
-              </div>
-            </form>
+            <div className="mt-4">
+              <h4> Content</h4>
+              <textarea
+                className="form-control"
+                rows="8"
+                placeholder="Share your thoughts, moments and tips "
+                value={this.state.content}
+                onChange={e => this.setState({ content: e.target.value })}
+              />
+            </div>
             <div className="btn-container text-right">
               <button
                 type="button"
@@ -165,43 +253,80 @@ class FeedCard extends React.Component {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            {this.props.feed.imageUrl == "" ? (
-              <div />
-            ) : (
-              <img className="img-fluid" src={this.props.feed.imageUrl} alt="Card image cap" />
-            )}
-            {/* {this.props.feed.videoUrl == "" ? (
-              <div />
-            ) : (
-              <div className="videoWrapper">
-                <VideoPlayerContainer videoUrl={this.props.feed.videoUrl} />
-              </div>
-            )} */}
-            <div className="card-body">
-              <h3>{this.props.feed.title.charAt(0).toUpperCase() + this.props.feed.title.slice(1)}</h3>
-
-              <div className="meta-wrapper">
-                {this.props.feed.dateModified == this.props.feed.dateCreated ? (
-                  <React.Fragment>
-                    <span className="meta-date">
-                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
-                      &nbsp;
-                      {this.props.feed.dateModified.substring(0, 10)}
-                    </span>
+            <div className="gl-image">
+              <div className="gl row g-ul" style={{ maxHeight: "100%" }}>
+                {this.state.mixedArray.map((tile, index) => (
+                  <React.Fragment key={index}>
+                    {tile.type == "imageSmall" && (
+                      <div className={`col-${tile.col}`} style={{ height: 160, padding: 0 }}>
+                        <div className="grid">
+                          <img
+                            src={tile.url}
+                            alt={tile.title}
+                            style={{ objectFit: "cover", width: "100%", padding: 0 }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {tile.type == "image" && (
+                      <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
+                        <div className="grid">
+                          <img
+                            src={tile.url}
+                            alt={tile.title}
+                            style={{ objectFit: "cover", width: "100%", padding: 0 }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {tile.type == "video" && (
+                      <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
+                        <div className="grid">
+                          <VideoPlayerContainer videoUrl={tile.url} />
+                        </div>
+                      </div>
+                    )}
+                    {tile.type == "videoSmall" && (
+                      <div className={`col-${tile.col}`} style={{ height: 160, objectFit: "cover", padding: 0 }}>
+                        <div className="grid">
+                          {/* {console.log(tile)} */}
+                          <VideoPlayerContainer videoUrl={tile.url} height="160px" />
+                        </div>
+                      </div>
+                    )}
                   </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <span className="meta-date">
-                      <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
-                      &nbsp;
-                      {this.props.feed.dateCreated.substring(0, 10)} &nbsp; Updated
-                    </span>
-                  </React.Fragment>
-                )}
+                ))}
               </div>
-              <p className="card-text text-muted">{this.props.feed.content}</p>
             </div>
-            <div className="btn-container text-right">
+
+            <div className="card-body">
+              <blockquote className="blockquote mb-0">
+                <h3>{this.props.feed.title.charAt(0).toUpperCase() + this.props.feed.title.slice(1)}</h3>
+
+                <div className="meta-wrapper">
+                  {this.props.feed.dateModified == this.props.feed.dateCreated ? (
+                    <React.Fragment>
+                      <span className="meta-date">
+                        <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
+                        &nbsp;
+                        {this.props.feed.dateModified.substring(0, 10)}
+                      </span>
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <span className="meta-date">
+                        <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
+                        &nbsp;
+                        {this.props.feed.dateCreated.substring(0, 10)} &nbsp; Updated
+                      </span>
+                    </React.Fragment>
+                  )}
+                </div>
+                <p className="card-text text-muted">{this.props.feed.content}</p>
+              </blockquote>
+            </div>
+
+            {/* <div className="btn-container text-right">
               <button
                 type="button"
                 className="jr-btn jr-btn-default btn btn-default"
@@ -210,11 +335,11 @@ class FeedCard extends React.Component {
                 <i className="zmdi zmdi-edit zmdi-hc-fw" />
                 <span className="btn-name card-text">Edit</span>
               </button>
-            </div>
+            </div> */}
           </React.Fragment>
         )}
         {this.state.alert}
-      </CardLayout>
+      </div>
     );
   }
 }

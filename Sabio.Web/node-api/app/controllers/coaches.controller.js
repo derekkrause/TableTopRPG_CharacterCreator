@@ -10,6 +10,13 @@ const getAll = (req, res) => {
   });
 };
 
+const getTrend = (req, res) => {
+  coachesService.getTrend().then(response => {
+    console.log(response);
+    res.json(response);
+  });
+};
+
 // const getAll = (req, res) => {
 //   const pageIndex = req.params.pageIndex || req.query.pageIndex || 0;
 //   const pageSize = req.params.pageSize || req.query.pageSize || 4;
@@ -89,5 +96,6 @@ module.exports = {
   //search,
   post,
   put,
-  del
+  del,
+  getTrend
 };

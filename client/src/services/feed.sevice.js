@@ -15,3 +15,7 @@ export function putUpdateFeed(payload, blogId) {
 export function deleteFeed(blogId) {
   return axios.delete("/api/blogs/" + blogId);
 }
+
+export function getFeedHome() {
+  return axios.get("api/feedhome");
+}

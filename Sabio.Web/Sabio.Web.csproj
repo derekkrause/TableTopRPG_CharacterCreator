@@ -250,12 +250,14 @@
     <Compile Include="Controllers\Api\AthletesController.cs" />
     <Compile Include="Controllers\Api\AthleteSearchController.cs" />
     <Compile Include="Controllers\Api\AthleteSportController.cs" />
+    <Compile Include="Controllers\Api\AthleteTrendController.cs" />
     <Compile Include="Controllers\Api\BlogsController.cs" />
     <Compile Include="Controllers\Api\ClassYearController.cs" />
     <Compile Include="Controllers\Api\EventController.cs" />
     <Compile Include="Controllers\Api\EventTypeController.cs" />
     <Compile Include="Controllers\Api\EventUserTableController.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
+    <Compile Include="Controllers\Api\FeedHomeController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\S3FilesController.cs" />
     <Compile Include="Controllers\Api\SchoolController.cs" />

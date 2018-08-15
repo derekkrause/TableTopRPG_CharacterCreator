@@ -4,6 +4,7 @@ import { getFeed, postFeed, putUpdateFeed, deleteFeed } from "../../services/fee
 import FeedForm from "./FeedForm";
 import "./Feed.css";
 import ConfirmModal from "./ConfirmModal";
+import { CreateButton } from "../CustomComponents/Button";
 
 class Feed extends React.Component {
   state = {
@@ -46,8 +47,8 @@ class Feed extends React.Component {
           this.setState({
             title: "",
             content: "",
-            imageUrl: "",
-            videoUrl: ""
+            imageUrl: [],
+            videoUrl: []
           });
           window.location.reload();
         })
@@ -117,66 +118,62 @@ class Feed extends React.Component {
 
   render() {
     return (
-      <div className="app-wrapper">
-        <div className="animated slideInUpTiny animation-duration">
-          <div className="row">
-            <div className="animation slideInLeft">
-              <div className="row cus-page-header-container">
-                <div className="col-md-6 col-6 mt-4">
-                  <h1> Feed </h1>
-                </div>
-                <div className="col-md-6 col-6 mt-4 text-right">
-                  {this.state.feedForm ? (
-                    <div />
-                  ) : (
-                    <button
-                      type="button"
-                      className="jr-btn btn-blue-grey btn btn-default"
-                      onClick={this.handleOnClickFeedForm}
-                    >
-                      Add post
-                    </button>
-                  )}
+      <div className="row">
+        <div className="animation slideInLeft">
+          <div className="mb-md-3">
+            {this.state.feedForm ? (
+              <div />
+            ) : (
+              <div className="jr-card" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
+                <div className="row">
+                  <div className="col-md-8 col-12">
+                    <h3 className="card-text">Share Photos, videos or Tips</h3>
+                  </div>
+                  <div className="col-md-4 col-12 text-right">
+                    <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
+                  </div>
                 </div>
               </div>
-              {this.state.feedForm ? (
-                <FeedForm
-                  closeFeedForm={this.handleOnClickFeedForm}
-                  videoUrl={this.state.videoUrl}
-                  handleOnclickVideoLink={this.handleOnclickVideoLink}
-                  formFileBtn={this.state.formFileBtn}
+            )}
+          </div>
+          {this.state.feedForm ? (
+            <FeedForm
+              closeFeedForm={this.handleOnClickFeedForm}
+              videoUrl={this.state.videoUrl}
+              handleOnclickVideoLink={this.handleOnclickVideoLink}
+              formFileBtn={this.state.formFileBtn}
+              handleSubmitFeed={this.handleSubmitFeed}
+              capitalize={this.capitalize}
+              formVideoLinkInput={this.state.formVideoLinkInput}
+            />
+          ) : (
+            <div />
+          )}
+          <div className="cus-card-container">
+            {this.state.feeds
+              .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
+              .reverse()
+              .map(feed => (
+                <FeedCard
+                  borderColor="#009CE0"
+                  popover={feed.id}
+                  key={feed.id}
+                  feed={feed}
+                  editFeed={this.handleOnClickEditFeed}
+                  handleUpdateFeed={() => this.handleUpdateFeed(feed.id)}
+                  handleModalToggle={() => this.handleModalToggle(feed.id)}
                   handleSubmitFeed={this.handleSubmitFeed}
-                  capitalize={this.capitalize}
-                  formVideoLinkInput={this.state.formVideoLinkInput}
+                  imageUrl={this.state.imageUrl}
+                  handleOnClickUploader={this.handleOnClickUploader}
                 />
-              ) : (
-                <div />
-              )}
-              <div className="cus-card-container">
-                {this.state.feeds
-                  .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
-                  .reverse()
-                  .map(feed => (
-                    <FeedCard
-                      key={feed.id}
-                      feed={feed}
-                      editFeed={this.handleOnClickEditFeed}
-                      handleUpdateFeed={() => this.handleUpdateFeed(feed.id)}
-                      handleModalToggle={() => this.handleModalToggle(feed.id)}
-                      handleSubmitFeed={this.handleSubmitFeed}
-                      imageUrl={this.state.imageUrl}
-                      handleOnClickUploader={this.handleOnClickUploader}
-                    />
-                  ))}
-              </div>
-              <div>
-                <ConfirmModal
-                  handleModalToggle={this.handleModalToggle}
-                  modal={this.state.modal}
-                  handleDeleteFeed={this.handleDeleteFeed}
-                />
-              </div>
-            </div>
+              ))}
+          </div>
+          <div>
+            <ConfirmModal
+              handleModalToggle={this.handleModalToggle}
+              modal={this.state.modal}
+              handleDeleteFeed={this.handleDeleteFeed}
+            />
           </div>
         </div>
       </div>

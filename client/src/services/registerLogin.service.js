@@ -46,3 +46,8 @@ export function userLogout() {
 export function getCurrentUser() {
   return axios.get("/api/users/current");
 }
+
+//USER GET ALL
+export function getAll(pageIndex, pageSize) {
+  return axios.get("api/users/" + pageIndex + "/" + pageSize);
+}

@@ -38,7 +38,7 @@ router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
 router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);
 
 router.use("/athleteTags", athleteTagsRoutes);
-router.use("/api/coaches", coachesRoutes);
+router.use("/coaches", coachesRoutes);
 
 router.use("/api/conferences", conferencesRoutes);
 router.use("/school", schoolsRoutes);
