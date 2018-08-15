@@ -98,6 +98,7 @@
     <Compile Include="Requests\SportPositionUpdateRequest.cs" />
     <Compile Include="Requests\SportRequestBase.cs" />
     <Compile Include="Requests\SportUpdateRequest.cs" />
+    <Compile Include="Requests\UserConfirmRequest.cs" />
     <Compile Include="Requests\UserCreateRequest.cs" />
     <Compile Include="Requests\UserLoginRequest.cs" />
     <Compile Include="Requests\UserUpdateRequest.cs" />

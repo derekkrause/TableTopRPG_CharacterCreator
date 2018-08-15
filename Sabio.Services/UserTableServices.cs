@@ -1,29 +1,35 @@
-﻿using Sabio.Data.Providers;
+﻿using Sabio.Data;
+using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
+using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Sabio.Data;
-using System.Data.SqlClient;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Sabio.Services
 {
     public class UserTableServices : IUserTableService
     {
         readonly IDataProvider dataProvider;
+        //readonly IEmailService emailService;
+        readonly EmailService emailService;
+        readonly string domain = "http://localhost:54810/api/users";
 
-        public UserTableServices(IDataProvider dataProvider)
+        public UserTableServices(IDataProvider dataProvider, EmailService emailService)
         {
             this.dataProvider = dataProvider;
+            this.emailService = emailService;
         }
 
-        public int Create(UserCreateRequest request)
+        public async Task<Response> Create(UserCreateRequest request)
         {
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
-            string TransactionId = Guid.NewGuid().ToString();
+            string tokenId= Guid.NewGuid().ToString();
 
             dataProvider.ExecuteNonQuery(
                 "User_Insert",
@@ -48,17 +54,27 @@ namespace Sabio.Services
                 {
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     parameters.AddWithValue("@RegEmail", request.Email);
-                    parameters.AddWithValue("@TokenId", TransactionId);
+                    parameters.AddWithValue("@TokenId", tokenId);
                     parameters.AddWithValue("@TokenTypeId", 1);
                 });
 
-            return newId;
-
-            //1. CREATE A GUID TO INSERT IN THE EMAIL --DONE
-            //2. CREATE A ROW ON THE TABLE --DONE
             //3. SEND AN EMAIL WITH CONFIRMATION LINK
+            Email email = new Email()
+            {
+                FromAddress = "RecruitHubSports@dispostable.com",
+                FromName = "RecruitHubSports",
+                ToAddress = request.Email,
+                ToName = request.FirstName + " " + request.LastName,
+                Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
+                Subject = "Registration Confirmation",
+                Link = domain + "/register_confirmation/" + tokenId
+            };
 
+            return await emailService.Execute(email);
+             
         }
+
+        
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {

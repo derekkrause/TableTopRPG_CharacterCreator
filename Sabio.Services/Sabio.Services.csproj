@@ -87,6 +87,7 @@
       <HintPath>..\packages\Sendgrid.9.9.0\lib\net452\SendGrid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -123,8 +124,8 @@
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="ClassYearService.cs" />
-    <Compile Include="ConfirmationEmailService.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
+    <Compile Include="EmailService.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />
     <Compile Include="EventUserTableService.cs" />
@@ -171,6 +172,10 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.18\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RegistrationConfirmationEmail_HTML.txt" />
+    <Content Include="ResetPasswordConfirmation_HTML.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
