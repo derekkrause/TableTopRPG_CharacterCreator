@@ -18,6 +18,7 @@ class NavBar extends React.Component {
       [name]: values
     });
   };
+
   handleDateChange = (selectedDate, name) => {
     this.setCriteriaProperties({
       [name]: selectedDate
@@ -38,6 +39,13 @@ class NavBar extends React.Component {
     this.setCriteriaProperties({
       [key]: val
     });
+  };
+
+  handleKeyPress = e => {
+    console.log("key pressed", e.which);
+    if (e.charCode === 13 || e.which === 13) {
+      this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
+    }
   };
 
   toggle = () => {
@@ -93,6 +101,7 @@ class NavBar extends React.Component {
                   placeholder="Search here..."
                   onFocus={this.toggle}
                   onChange={this.handleChange}
+                  onKeyPress={this.handleKeyPress}
                   value={this.props.searchCriteria.searchString}
                 />
                 <NavLink to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}>
@@ -128,6 +137,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "athletes" && (
             <AthleteSearchFilter
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               gradYearFilter={this.props.searchCriteria.gradYearFilter}
@@ -139,6 +149,7 @@ class NavBar extends React.Component {
             <EventSearchFilter
               handleDateChange={this.handleDateChange}
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
@@ -149,6 +160,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "coaches" && (
             <CoachSearchFilter
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               schoolNameFilter={this.props.searchCriteria.schoolNameFilter}
@@ -159,6 +171,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "articles" && (
             <ArticleSearchFilter
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               articleTypeFilter={this.props.searchCriteria.articleTypeFilter}
@@ -168,6 +181,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "schools" && (
             <SchoolSearchFilter
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
@@ -176,6 +190,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "venues" && (
             <VenueSearchFilter
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               eventTypeFilter={this.props.searchCriteria.eventTypeFilter}

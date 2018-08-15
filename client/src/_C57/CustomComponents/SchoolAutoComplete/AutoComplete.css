@@ -9,9 +9,13 @@
     border-bottom: solid  rgb(180, 180, 180, 0.5) 1px;
     border-left: solid  rgb(180, 180, 180, 0.5) 1px;
     border-right: solid  rgb(180, 180, 180, 0.5) 1px;
-    display: block
+    display: none
 }
-.dropdown-input:hover .options-div{
+.dropdown-input:focus-within .options-div{
+    display: block
+
+  }
+  .dropdown-input:hover .options-div{
     display: block
 
   }

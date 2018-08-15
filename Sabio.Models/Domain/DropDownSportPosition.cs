@@ -8,7 +8,7 @@ namespace Sabio.Models.Domain
 {
     public class DropDownSportPosition
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
     }

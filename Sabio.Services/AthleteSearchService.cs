@@ -113,6 +113,7 @@ namespace Sabio.Services
                         case 0:
                             DropDownClassYear classYear = new DropDownClassYear
                             {
+                                Id = reader.GetSafeInt32Nullable("ClassYearId"),
                                 Name = (string)reader["ClassYear"]
                             };
                             Options.ClassYear.Add(classYear);
@@ -120,6 +121,7 @@ namespace Sabio.Services
                         case 1:
                             DropDownSportPosition sportPosition = new DropDownSportPosition
                             {
+                                Id = reader.GetSafeInt32Nullable("SportPositionId"),
                                 Name = (string)reader["SportPosition"]
                             };
                             Options.SportPosition.Add(sportPosition);
@@ -127,6 +129,7 @@ namespace Sabio.Services
                         case 2:
                             State state = new State
                             {
+                                Id = reader.GetSafeInt32Nullable("StateId"),
                                 Name = (string)reader["State"]
                             };
                             Options.State.Add(state);
