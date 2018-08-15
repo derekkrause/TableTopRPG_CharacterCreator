@@ -14,6 +14,8 @@
   "author": "John Darragh",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.287.0",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "cors": "^2.8.4",
@@ -21,6 +23,7 @@
     "express": "^4.16.3",
     "joi": "^13.4.0",
     "jsonwebtoken": "^8.3.0",
+    "request": "^2.87.0",
     "tedious": "^2.6.3",
     "tedious-connection-pool": "^1.0.5"
   },

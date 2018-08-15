@@ -31,20 +31,23 @@ const getTrend = (req, res) => {
 //     });
 // };
 
-// const search = (req, res) => {
-//   const searchString = req.query.searchString || "";
-//   const pageIndex = req.params.pageIndex || req.query.pageIndex || 0;
-//   const pageSize = req.params.pageSize || req.query.pageSize || 4;
-//   coachesService
-//     .search(pageIndex, pageSize, searchString)
-//     .then(item => {
-//       const r = new responses.ItemResponse(item);
-//       res.json(r);
-//     })
-//     .catch(err => {
-//       res.set(500).send(err);
-//     });
-// };
+const search = (req, res) => {
+  const searchString = req.query.searchString || "";
+  const state = req.params.state || null;
+  const schoolName = req.params.name || null;
+  const title = req.params.title || null;
+  //   const pageIndex = req.params.pageIndex || req.query.pageIndex || 0;
+  //   const pageSize = req.params.pageSize || req.query.pageSize || 4;
+  coachesService
+    .search(searchString, state, schoolName, title)
+    .then(item => {
+      const r = new responses.ItemResponse(item);
+      res.json(r);
+    })
+    .catch(err => {
+      res.set(500).send(err);
+    });
+};
 
 const getById = (req, res) => {
   coachesService
@@ -71,7 +74,7 @@ const post = (req, res) => {
 const put = (req, res) => {
   coachesService
     .put(req.model)
-    .then(response => {
+    .then(res => {
       res.sendStatus(200);
     })
     .catch(err => {
@@ -93,7 +96,7 @@ const del = (req, res) => {
 module.exports = {
   getAll,
   getById,
-  //search,
+  search,
   post,
   put,
   del,

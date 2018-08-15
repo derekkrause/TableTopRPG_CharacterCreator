@@ -5,19 +5,21 @@ import "./ProfileBanner.css";
 
 const IconButtonGroup = ({ isVertical }) => {
   return (
-    <ButtonGroup className="float-right" vertical={isVertical}>
-      <Button color="default" className="jr-btn jr-btn-default">
+    <div>
+      {/* <ButtonGroup className="float-right" vertical={isVertical}> */}
+      <button className="btn-lg btn-default mx-2 profileButtonPressedAnimation">
         <i className="zmdi zmdi-account-add zmdi-hc-fw " />
-      </Button>
-      <Button color="default" className="jr-btn jr-btn-default">
+      </button>
+      <button className="fistbump-button btn-lg btn-default mx-2 profileButtonPressedAnimation">
         <FontAwesomeIcon icon="hand-rock" className="fistbump-animate" />
 
         {/* <i className="zmdi zmdi-thumb-up zmdi-hc-fw " /> */}
-      </Button>
-      <Button color="default" className="jr-btn jr-btn-default">
-        <i className="zmdi zmdi-mail-send zmdi-hc-fw" />
-      </Button>
-    </ButtonGroup>
+      </button>
+      <button className="btn-lg btn-default mx-2 profileButtonPressedAnimation message-button">
+        <i className="zmdi zmdi-mail-send zmdi-hc-fw message-animate" />
+      </button>
+      {/* </ButtonGroup> */}
+    </div>
   );
 };
 

@@ -1,9 +1,34 @@
 import React from "react";
 import BigCalendar from "react-big-calendar";
-import events from "./events";
 import moment from "moment";
+import { getEventById } from "./ProfileServer";
 
 BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment));
+
+// function handleDoubleClickEvent(event) {
+//   getEventById(event.id).then(response => {
+//     console.log("GET", response);
+//     let eventData = {
+//       name: response.data.item.name,
+//       shortName: response.data.item.shortName,
+//       eventTypeId: response.data.item.eventTypeId,
+//       startDate: response.data.item.startDate,
+//       endDate: response.data.item.endDate,
+//       description: response.data.item.description,
+//       websiteUrl: response.data.item.websiteUrl,
+//       logo: response.data.item.logo,
+//       isOngoing: response.data.item.isOngoing,
+//       organizer: response.data.item.organizer,
+//       street: response.data.item.street,
+//       suite: response.data.item.suite,
+//       city: response.data.item.city,
+//       state: response.data.item.state,
+//       zip: response.data.item.zip,
+//       lat: response.data.item.lat,
+//       long: response.data.item.long
+//     };
+//   });
+// }
 
 function Event({ event }) {
   return (
@@ -23,13 +48,16 @@ function EventAgenda({ event }) {
   );
 }
 
-const ProfileCalendar = () => {
+const ProfileCalendar = props => {
   return (
     <div className="app-calendar animated slideInUpTiny animation-duration-3">
       <BigCalendar
-        events={events}
-        defaultDate={Date.now()}
-        defaultView="agenda"
+        events={props.events}
+        defaultDate={new Date(Date.now())}
+        defaultView="month"
+        drilldownView="day"
+        onDoubleClickEvent={props.handleDoubleClickEvent}
+        //eventData={eventData ? eventData : ""}
         components={{
           event: Event,
           agenda: {

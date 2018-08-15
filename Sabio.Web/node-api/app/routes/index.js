@@ -11,6 +11,12 @@ const athleteTagsRoutes = require("./athleteTags.routes");
 const coachesRoutes = require("./coaches.routes");
 const conferencesRoutes = require("./conferences.routes");
 const schoolsRoutes = require("./schools.routes");
+const profilesRoutes = require("./profiles.routes");
+const mediaRoutes = require("./media.routes");
+const s3Routes = require("./s3.routes");
+const followRoutes = require("./follow.routes");
+const highlightsRoutes = require("./highlights.routes");
+const likesRoutes = require("./likes.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");
 const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
@@ -27,6 +33,21 @@ router.delete("/sportposition/:id", sportsPositionsController.deleteSportPositio
 router.use("/api/pogs", pogsRoutes);
 router.use("/schools", schoolsRoutes);
 
+router.use("/api/coaches", coachesRoutes);
+
+router.use("/profile", profilesRoutes);
+router.use("/s3image", s3Routes);
+router.use("/media", mediaRoutes);
+router.use("/follow", followRoutes);
+router.use("/highlights", highlightsRoutes);
+router.use("/likes", likesRoutes);
+
+router.use("/api/conferences", conferencesRoutes);
+router.use("/school", schoolsRoutes);
+
+router.route("/faqs").get(FaqsController.getAll);
+
+router.route("/faqs/:id").get(FaqsController.getFaqByCategory);
 router.use("/faqs", faqsRoutes);
 
 router.use("/faqsCategories", faqsCategoriesRoutes);
