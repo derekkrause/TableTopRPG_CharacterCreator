@@ -127,9 +127,11 @@
     <Compile Include="EventUserTableService.cs" />
     <Compile Include="FakePogService.cs" />
     <Compile Include="FeedHomeService.cs" />
+    <Compile Include="HardCodedConfiguration.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
+    <Compile Include="Interfaces\IConfiguration.cs" />
     <Compile Include="Interfaces\IEventService.cs" />
     <Compile Include="Interfaces\IEventTypeService.cs" />
     <Compile Include="Interfaces\IEventUserTableService.cs" />
