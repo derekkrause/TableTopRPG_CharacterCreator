@@ -13,7 +13,6 @@ const conferencesRoutes = require("./conferences.routes");
 const schoolsRoutes = require("./schools.routes");
 const profilesRoutes = require("./profiles.routes");
 const mediaRoutes = require("./media.routes");
-const s3Routes = require("./s3.routes");
 const followRoutes = require("./follow.routes");
 const highlightsRoutes = require("./highlights.routes");
 const likesRoutes = require("./likes.routes");
@@ -36,7 +35,6 @@ router.use("/schools", schoolsRoutes);
 router.use("/api/coaches", coachesRoutes);
 
 router.use("/profile", profilesRoutes);
-router.use("/s3image", s3Routes);
 router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
 router.use("/highlights", highlightsRoutes);
