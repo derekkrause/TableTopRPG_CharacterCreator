@@ -49,18 +49,20 @@ class NavBar extends React.Component {
   };
 
   toggle = () => {
-    console.log("clicked");
+    console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
+
   componentDidMount() {
-    console.log(this.props);
+    console.log("componentDidMount 1", this.props);
   }
 
   logout = () => {
     userLogout().then(currentUser);
   };
+
   componentDidMount() {
-    console.log(this.props);
+    console.log("componentDidMount 2", this.props);
   }
 
   render() {
@@ -133,7 +135,7 @@ class NavBar extends React.Component {
             />
           </div>
         </div>
-        <Collapse isOpen={!this.props.searchCriteria.collapsed}>
+        <Collapse style={{ backgroundColor: "white" }} isOpen={!this.props.searchCriteria.collapsed}>
           {this.props.searchCriteria.searchType === "all" && <div />}
           {this.props.searchCriteria.searchType === "athletes" && (
             <AthleteSearchFilter
@@ -190,11 +192,9 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "venues" && (
             <VenueSearchFilter
-              handleChange={this.onChange}
-              handleKeyPress={this.handleKeyPress}
+              handleChange={this.handleChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.props.searchCriteria.locationFilter}
-              eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
+              searchCriteria={this.props.searchCriteria}
             />
           )}
         </Collapse>

@@ -10,6 +10,9 @@
     background-color: blue;
 }
 
+.venuetag {
+    border-left: solid 8px yellow;
+}
 .line-clamp {
     display: -webkit-box;
     -webkit-line-clamp: 2;

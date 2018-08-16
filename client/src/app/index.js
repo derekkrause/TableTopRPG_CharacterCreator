@@ -12,11 +12,15 @@ import {
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
+import { Header } from "reactstrap";
+import { NotificationContainer } from "react-notifications";
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
 import "../_C57/WelcomePage/WelcomePage.css";
 import axios from "axios";
 import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
+
+//import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
 class App extends React.Component {
   componentDidMount() {
@@ -54,6 +58,7 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
+        <NotificationContainer />
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
         <div
           className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch"
@@ -81,6 +86,10 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                />
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
 
                 <Route
@@ -99,7 +108,10 @@ class App extends React.Component {
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
-
+                <Route
+                  path={`${match.url}/coach`}
+                  component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
+                />
                 <Route
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
@@ -133,16 +145,16 @@ class App extends React.Component {
                   }}
                 />
                 <Route
-                  path={`${match.url}/coach`}
-                  component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
-                />
-                <Route
                   path={`${match.url}/sample-page`}
                   component={asyncComponent(() => import("../_C57/SamplePage"))}
                 />
                 <Route
                   path={`${match.url}/search`}
                   component={asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"))}
+                />
+                <Route
+                  path={`${match.url}/venues`}
+                  component={asyncComponent(() => import("../_C57/venues/AdminVenues"))}
                 />
 
                 <Route component={asyncComponent(() => import("components/Error404"))} />

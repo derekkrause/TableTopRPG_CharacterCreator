@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const poolConfig = { min: 2, max: 4, log: true };
+const poolConfig = { min: 2, max: 4, log: false };
 
 var connectionConfig = {
   server: process.env.SQL_SERVER_NAME,
@@ -77,7 +77,7 @@ function executeProc(procName, paramsCallback) {
         response.outputParameters[paramName] = value;
       });
 
-      request.on("doneInProc", function(rowCount, more, rows) {
+      request.on("done", function(rowCount, more, rows) {
         // End of result set, advance to next result set.
         setIndex++;
       });
