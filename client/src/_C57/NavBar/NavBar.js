@@ -71,7 +71,9 @@ class NavBar extends React.Component {
             <h4 className="mb-0 mr-auto">
               <b>Hub Scout</b>
             </h4>
-            <button onClick={this.logout}>Logout</button>
+            <button className="d-none d-sm-block" onClick={this.logout}>
+              Logout
+            </button>
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select
                 className="selectpicker"
