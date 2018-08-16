@@ -82,17 +82,8 @@ class App extends React.Component {
             <div className="app-main-content">
               <Switch>
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
+
                 <Route
-                  path={`${match.url}/admin`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
@@ -114,6 +105,10 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
                 <Route
+                  path={`${match.url}/examples`}
+                  component={asyncComponent(() => import("../_C57/CustomComponents/_Examples"))}
+                />
+                <Route
                   path={`${match.url}/faqs-page`}
                   component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
@@ -127,8 +122,15 @@ class App extends React.Component {
 
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
                 <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                  path={`${match.url}/profile/:id(\\d+)`}
+                  render={props => {
+                    const Component = asyncComponent(() => import("../_C57/profile/ProfileContainer"));
+                    return (
+                      <IfLoginStatus loggedIn={true}>
+                        <Component {...props} />
+                      </IfLoginStatus>
+                    );
+                  }}
                 />
                 <Route
                   path={`${match.url}/coach`}

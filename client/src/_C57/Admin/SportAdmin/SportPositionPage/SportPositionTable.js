@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import SportPositionCollapse from "./SportPositionCollapse";
 import "./SportPosition.css";
 import { Collapse, Button, CardBody, Card } from "reactstrap";
-import { CreateButton } from "../../../CustomComponents/Button";
+import { CancelButton, SaveButton, CreateButton } from "../../../CustomComponents/Button";
 
 class SportPositionTable extends Component {
-  state = { collapse: false };
+  state = {
+    collapse: false,
+    removedPosition: ""
+  };
 
   toggle = () => {
     this.setState({ collapse: !this.state.collapse });
@@ -48,9 +51,22 @@ class SportPositionTable extends Component {
     this.toggle;
   };
 
-  render() {
-    // name your table and map your data
+  removePosition = (event, index) => {
+    let newSportsData = [...this.props.sportsData];
+    let removedPosition = newSportsData[index];
+    this.setState(
+      {
+        removedPosition
+      },
+      () => console.log(this.state.removedPosition)
+    );
+    newSportsData.splice(index, 1);
+    console.log(newSportsData, "after splice");
+    this.props.updateSportsDataPositions(newSportsData);
+    this.toggle;
+  };
 
+  render() {
     return (
       <div>
         <h2>Sports Positions</h2>
@@ -66,25 +82,23 @@ class SportPositionTable extends Component {
                 <h3>Sport Position Add Form</h3>
               </header>
 
-              <div className="form-group">
-                <label>Code</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Code"
-                  name="code"
-                  value={this.props.code}
-                  onChange={this.props.handleChangeAdd}
-                />
-              </div>
               <div className=" form-group">
                 <label>Name</label>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Name"
                   name="name"
                   value={this.props.name}
+                  onChange={this.props.handleChangeAdd}
+                />
+              </div>
+              <div className="form-group">
+                <label>Code</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="code"
+                  value={this.props.code}
                   onChange={this.props.handleChangeAdd}
                 />
               </div>
@@ -92,7 +106,6 @@ class SportPositionTable extends Component {
                 <input
                   type="checkbox"
                   name="inactive"
-                  // checked={!!this.props.inactive}
                   value={!!this.props.inactive}
                   id="inactiveCheckbox"
                   onChange={this.props.handleCheck}
@@ -100,18 +113,9 @@ class SportPositionTable extends Component {
                 <label htmlFor="inactiveCheckbox">Inactive</label>
               </div>
               <div className=" form-group float-right">
-                <button
-                  type="button"
-                  onClick={() => {
-                    this.addPosition();
-                  }}
-                  className="jr-btn btn btn-primary"
-                >
-                  Add Position
-                </button>
-                <div onClick={this.toggle} className="jr-btn jr-btn-default btn btn-default">
-                  Cancel
-                </div>
+                <CreateButton onClick={() => this.addPosition()} />
+
+                <CancelButton onClick={this.toggle} />
               </div>
             </div>
           </Collapse>
@@ -126,7 +130,8 @@ class SportPositionTable extends Component {
               position={position}
               handleUpdateClick={this.props.handleUpdateClick}
               handleEditClick={this.props.handleEditClick}
-              handleDeleteClick={this.props.handleDeleteClick}
+              removePosition={e => this.removePosition(e, index)}
+              removedPosition={this.state.removedPosition}
               handleCheck={this.props.handleCheck}
               handleChange={e => this.handleChange(e, index)}
               code={this.props.code}

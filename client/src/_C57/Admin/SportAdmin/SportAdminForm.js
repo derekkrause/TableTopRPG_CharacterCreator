@@ -1,10 +1,14 @@
 import React from "react";
 import { getById, addSport, updateSport } from "./SportAdminService";
 import SportPosition from "./SportPositionPage/SportPosition";
+import { CancelButton, SaveButton, DeleteButton } from "../../CustomComponents/Button";
+import SweetAlert from "react-bootstrap-sweetalert";
+import { getAllSports, deleteSport } from "./SportAdminService";
 
 class SportAdminForm extends React.Component {
   state = {
-    sportsData: {}
+    sportsData: {},
+    alert: null
   };
 
   componentDidMount() {
@@ -21,6 +25,49 @@ class SportAdminForm extends React.Component {
         });
     }
   }
+
+  delete = () => {
+    const getAlert = () => (
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes, delete it!"
+        confirmBtnBsStyle="danger"
+        cancelBtnBsStyle="default"
+        title={`Are you sure you want to delete `}
+        onConfirm={this.handleDelete} //what function you want on confirm
+        onCancel={this.cancelAlert} //what function you want on cancel
+      />
+    );
+    this.setState({ alert: getAlert() });
+  };
+
+  cancelAlert = () => {
+    this.setState({
+      alert: null
+    });
+  };
+
+  handleDelete = () => {
+    deleteSport(this.state.sportsData.id).then(() => {
+      console.log("deleted!");
+      this.props.history.goBack();
+      this.getAll();
+    });
+  };
+
+  getAll = () => {
+    getAllSports()
+      .then(res => {
+        console.log("Good Get All!", res.data);
+        this.setState({
+          sports: res.data
+        });
+      })
+      .catch(() => {
+        console.log("Get All Failed");
+      });
+  };
 
   handleCollapseAll = keepOpen => {
     if (keepOpen == position.id) {
@@ -70,6 +117,7 @@ class SportAdminForm extends React.Component {
   };
 
   update = sportInfo => {
+    console.log(sportInfo, "update test");
     updateSport(sportInfo)
       .then(res => {
         console.log("Updated!", res.data);
@@ -84,12 +132,14 @@ class SportAdminForm extends React.Component {
   };
 
   updateSportsDataPositions = positions => {
+    console.log(positions, "admin form test");
     this.setState(prevState => ({
       sportsData: {
         ...prevState.sportsData,
         positions
       }
     }));
+    console.log(this.state.sportsData, "sportsdata");
   };
 
   render() {
@@ -167,30 +217,25 @@ class SportAdminForm extends React.Component {
           </div>
           <div className="col-10 offset-1">
             <SportPosition
-              // handleCollapseAll={this.handleCollapseAll}
               sportsData={sportsData.positions}
               updateSportsDataPositions={this.updateSportsDataPositions}
             />
           </div>
+          {this.props.match.params.id && (
+            <div className="float-left">
+              <DeleteButton onClick={this.delete} />
+            </div>
+          )}
           <div className=" form-group float-right">
-            <button
-              type="button"
-              className="jr-btn btn btn-primary"
-              onClick={() => this.handleSubmit(this.state.sportsData)}
-            >
-              Save
-            </button>
-            <button
-              type="button"
-              className="jr-btn jr-btn-default btn btn-default"
+            <SaveButton onClick={() => this.handleSubmit(this.state.sportsData)} />
+            <CancelButton
               onClick={() => {
                 this.props.history.goBack();
               }}
-            >
-              Cancel
-            </button>
+            />
           </div>
         </form>
+        {this.state.alert}
       </div>
     );
   }

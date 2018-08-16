@@ -4,7 +4,7 @@ import "./Feed.css";
 import axios from "axios";
 import FileUploader from "../FileUploader/FileUploader";
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
-import { SubmitButton } from "../CustomComponents/Button";
+import { SubmitButtonWide } from "../CustomComponents/Button";
 
 class FeedForm extends React.Component {
   state = {
@@ -99,16 +99,18 @@ class FeedForm extends React.Component {
               </div>
             </form>
 
-            <div className="mt-4 row">
-              <div className="col-md-8 col-sm-12 col-12">
+            <div className="">
+              <div className="">
                 <MultiFileUploader
                   onImageUrlChange={this.handleImageUrlChange}
                   onVideoUrlChange={this.handleVideoUrlChange}
                 />
               </div>
-              <div className="col-md-4 col-sm-0 col-12 text-right">
-                <SubmitButton type="button" name="Post" onClick={this.handleOnClickPayload} />
+              {/* <div className="" style={{ position: "relative", bottom: "0%", right: "0%" }}> */}
+              <div className="pt-3">
+                <SubmitButtonWide type="button" name="Post" onClick={this.handleOnClickPayload} />
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>

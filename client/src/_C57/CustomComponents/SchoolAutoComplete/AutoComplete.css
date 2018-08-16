@@ -4,18 +4,18 @@
 .options-div{
     width:100%;
     background-color: white;
-    
+    z-index: 1000;
     position: absolute;
     border-bottom: solid  rgb(180, 180, 180, 0.5) 1px;
     border-left: solid  rgb(180, 180, 180, 0.5) 1px;
     border-right: solid  rgb(180, 180, 180, 0.5) 1px;
     display: none
 }
+.dropdown-input:hover .options-div{
+    display: block;
+    cursor: pointer;
+}
 .dropdown-input:focus-within .options-div{
-    display: block
-
-  }
-  .dropdown-input:hover .options-div{
     display: block
 
   }

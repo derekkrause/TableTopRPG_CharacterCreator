@@ -17,6 +17,19 @@ const SubmitButton = props => {
     </button>
   );
 };
+
+const SubmitButtonWide = props => {
+  return (
+    <button
+      type="button"
+      className="jr-btn jr-btn-primary text-uppercase btn-block btn btn-primary"
+      onClick={props.onClick}
+    >
+      {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
+      {props.name}
+    </button>
+  );
+};
 const CancelButton = props => {
   return (
     <button type="button" className="jr-btn jr-btn-default btn btn-default" onClick={props.onClick}>
@@ -97,5 +110,6 @@ export {
   CloseButtonLight,
   CloseButtonDark,
   CloseButtonText,
-  SubmitButton
+  SubmitButton,
+  SubmitButtonWide
 };

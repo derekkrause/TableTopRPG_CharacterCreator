@@ -75,11 +75,11 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
         headers: {
           "Content-Type": file.type
         },
+        withCredentials: false,
         onUploadProgress: progressEvent => {
           console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
         }
       };
-      debugger;
       putUploadFile(presignedUrl, file, options).then(s3res => {
         console.log("Uploaded", s3res);
         var imageUrl = presignedUrl.split("?", 2)[0];
@@ -198,7 +198,7 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
 
   render() {
     return (
-      <div>
+      <div className="text-right">
         <div>
           <React.Fragment>
             <input
@@ -209,10 +209,14 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
               style={{ display: "none" }}
               onChange={this.handleOnClickUploader}
             />
-            <div className="preview-container">
+            <div className="preview-container mt-3">
               <div className="row">
                 {this.state.previewUrls.map((imagePreview, index) => (
-                  <div key={index} className="col-3" style={{ paddingRight: 10, paddingLeft: 14, paddingTop: 5 }}>
+                  <div
+                    key={index}
+                    className="col-md-auto col-sm-auto col-auto"
+                    style={{ paddingRight: 10, paddingLeft: 14, paddingTop: 3 }}
+                  >
                     {imagePreview.type == "image" ? (
                       <React.Fragment>
                         <img src={imagePreview.url} className="img" />

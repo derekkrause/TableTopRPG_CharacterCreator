@@ -1,13 +1,10 @@
 import React from "react";
-import CardLayout from "components/CardLayout";
 import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerContainer";
-import FileUploader from "../CustomComponents/FileUploader/FileUploader";
-import { utc } from "../../../node_modules/moment";
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
-import { DeleteButton } from "../CustomComponents/Button";
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Popover from "../CustomComponents/Popover";
 import IfLoginStatus from "../CustomComponents/IfLoginStatus";
+import "./FeedCard.css";
+import ImageModal from "../profile/ImageModal";
 
 class FeedCard extends React.Component {
   state = {
@@ -21,7 +18,11 @@ class FeedCard extends React.Component {
     videoHeight: "130px",
     videoWidth: "130px",
     mixedArray: [],
-    popoverOpen: false
+    popoverOpen: false,
+    //  img carousel
+    showImgModal: false,
+    images: [],
+    selectedImg: null
   };
 
   toggle = () => {
@@ -102,20 +103,20 @@ class FeedCard extends React.Component {
   componentWillMount() {
     const imageArray = this.props.feed.imageUrl;
     const mappedImageArray = imageArray.map(image => ({
-      url: image,
-      type: "imageSmall"
+      img: image,
+      type: "image"
     }));
     const videoArray = this.props.feed.videoUrl;
     const mappedVideoArray = videoArray.map(video => ({
-      url: video,
-      type: "videoSmall",
+      img: video,
+      type: "video",
       col: null
     }));
     if (mappedImageArray.length == 1 && mappedVideoArray.length == 0) {
-      mappedImageArray[0].type = "image";
+      mappedImageArray[0].type = "imageLarge";
     }
     if (mappedImageArray.length == 0 && mappedVideoArray.length == 1) {
-      mappedVideoArray[0].type = "video";
+      mappedVideoArray[0].type = "videoLarge";
     }
     const mixedArray = mappedImageArray.concat(mappedVideoArray);
     switch (mixedArray.length) {
@@ -177,6 +178,25 @@ class FeedCard extends React.Component {
     this.setState({ mixedArray });
   }
 
+  toggleImgModal = imgIndex => {
+    this.setState({
+      selectedImg: imgIndex,
+      showImgModal: !this.state.showImgModal
+    });
+  };
+
+  nextImg = () => {
+    this.setState(prevState => ({
+      selectedImg: parseInt(prevState.selectedImg) + 1
+    }));
+  };
+
+  prevImg = () => {
+    this.setState(prevState => ({
+      selectedImg: parseInt(prevState.selectedImg) - 1
+    }));
+  };
+
   render() {
     return (
       <div className="card">
@@ -211,6 +231,7 @@ class FeedCard extends React.Component {
             </div>
           </div>
         </div>
+        <br />
         {this.state.editMode ? (
           <React.Fragment>
             <MultiFileUploader
@@ -236,6 +257,7 @@ class FeedCard extends React.Component {
                 value={this.state.content}
                 onChange={e => this.setState({ content: e.target.value })}
               />
+              <br />
             </div>
             <div className="btn-container text-right">
               <button
@@ -257,42 +279,58 @@ class FeedCard extends React.Component {
               <div className="gl row g-ul" style={{ maxHeight: "100%" }}>
                 {this.state.mixedArray.map((tile, index) => (
                   <React.Fragment key={index}>
-                    {tile.type == "imageSmall" && (
+                    {tile.type == "image" && (
                       <div className={`col-${tile.col}`} style={{ height: 160, padding: 0 }}>
-                        <div className="grid">
+                        <div className="grid img-grid">
                           <img
-                            src={tile.url}
+                            className="img-grid-item"
+                            src={tile.img}
                             alt={tile.title}
                             style={{ objectFit: "cover", width: "100%", padding: 0 }}
                           />
+                          <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
                     )}
-                    {tile.type == "image" && (
+                    {tile.type == "imageLarge" && (
                       <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
-                        <div className="grid">
+                        <div className="grid img-grid">
                           <img
-                            src={tile.url}
+                            className="img-grid-item"
+                            src={tile.img}
                             alt={tile.title}
                             style={{ objectFit: "cover", width: "100%", padding: 0 }}
                           />
+                          <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
+                        </div>
+                      </div>
+                    )}
+                    {tile.type == "videoLarge" && (
+                      <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
+                        <div className="grid img-grid">
+                          <VideoPlayerContainer videoUrl={tile.img} className="img-grid-item" />
+                          <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
                     )}
                     {tile.type == "video" && (
-                      <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
-                        <div className="grid">
-                          <VideoPlayerContainer videoUrl={tile.url} />
+                      <div className={`col-${tile.col}`} style={{ height: 160, objectFit: "cover", padding: 0 }}>
+                        <div className="grid img-grid">
+                          <VideoPlayerContainer videoUrl={tile.img} height="160px" className="img-grid-item" />
+                          <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
                     )}
-                    {tile.type == "videoSmall" && (
-                      <div className={`col-${tile.col}`} style={{ height: 160, objectFit: "cover", padding: 0 }}>
-                        <div className="grid">
-                          {/* {console.log(tile)} */}
-                          <VideoPlayerContainer videoUrl={tile.url} height="160px" />
-                        </div>
-                      </div>
+                    {this.state.showImgModal && (
+                      <ImageModal
+                        showImgModal={this.state.showImgModal}
+                        toggleImgModal={this.toggleImgModal}
+                        className={this.props.className}
+                        images={this.state.mixedArray}
+                        selectedImg={this.state.selectedImg}
+                        nextImg={this.nextImg}
+                        prevImg={this.prevImg}
+                      />
                     )}
                   </React.Fragment>
                 ))}
@@ -326,7 +364,7 @@ class FeedCard extends React.Component {
               </blockquote>
             </div>
 
-            {/* <div className="btn-container text-right">
+            <div className="btn-container text-right">
               <button
                 type="button"
                 className="jr-btn jr-btn-default btn btn-default"
@@ -335,7 +373,7 @@ class FeedCard extends React.Component {
                 <i className="zmdi zmdi-edit zmdi-hc-fw" />
                 <span className="btn-name card-text">Edit</span>
               </button>
-            </div> */}
+            </div>
           </React.Fragment>
         )}
         {this.state.alert}

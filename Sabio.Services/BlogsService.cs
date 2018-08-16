@@ -105,7 +105,7 @@ namespace Sabio.Services
 
                     };
 
-                    
+
                     pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 
                     blogList.Add(blog);

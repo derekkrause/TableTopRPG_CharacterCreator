@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const sportsPositionsController = require("../controllers/sportPositions.controller");
 const FaqsController = require("../controllers/faqs.controller");
 const FaqsCategoriesController = require("../controllers/faqsCategories.controller");
+const sportPositionsRoutes = require("./sportPosition.routes");
 const pogsRoutes = require("./pogs.routes");
 const faqsRoutes = require("./faqs.routes");
 const athleteSchoolRoutes = require("./athleteSchool.routes");
@@ -17,18 +17,15 @@ const followRoutes = require("./follow.routes");
 const highlightsRoutes = require("./highlights.routes");
 const likesRoutes = require("./likes.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");
+const athleteRoutes = require("./athlete.routes");
 const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
 const userFromJWT = require("../filters/jwt.user");
 
 module.exports = router;
 
-router.post("/sportposition", sportsPositionsController.postSportPosition);
-router.get("/sportposition", sportsPositionsController.getAllSportPosition);
-// router.get("/sportposition/:id", sportsPositionsController.getSportPositionById);
-router.get("/sportposition/:sportName", sportsPositionsController.getSportPositionBySportName);
-router.put("/sportposition", sportsPositionsController.putSportPosition);
-router.delete("/sportposition/:id", sportsPositionsController.deleteSportPosition);
+router.use("/sportPosition", sportPositionsRoutes);
+
 router.use("/api/pogs", pogsRoutes);
 router.use("/schools", schoolsRoutes);
 
@@ -51,7 +48,7 @@ router.use("/faqs", faqsRoutes);
 router.use("/faqsCategories", faqsCategoriesRoutes);
 
 router.use("/athleteSchool", athleteSchoolRoutes);
-
+router.use("/athlete", athleteRoutes);
 router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
 
 router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);

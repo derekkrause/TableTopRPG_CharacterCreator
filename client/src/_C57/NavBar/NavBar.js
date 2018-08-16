@@ -83,9 +83,8 @@ class NavBar extends React.Component {
                 id="exampleSelect"
                 onChange={this.handleChange}
               >
-                <option value="all" selected={() => this.setCriteriaProperties({ collapsed: true })}>
-                  All
-                </option>
+                <option />
+                <option value="all">All</option>
                 <option value="athletes">Athletes</option>
                 <option value="coaches">Coaches</option>
                 <option value="schools">Schools</option>

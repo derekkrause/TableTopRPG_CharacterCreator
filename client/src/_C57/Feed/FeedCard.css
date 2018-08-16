@@ -1,0 +1,31 @@
+.img-grid button {
+    position: absolute;
+    bottom: 10%;
+    opacity: 0;
+    z-index: -1;
+    right: 45%
+}
+.img-grid .img-grid-item:hover  {
+    opacity: .5;
+
+}
+.img-grid:hover button {
+    opacity: .8;
+    z-index: 1;
+}
+
+.vert-center-right {
+    height: 40%;
+    width: 90%;
+    position: absolute;
+    top: 30%;
+    left: 5%;
+}
+.vert-center-left {
+    height: 40%;
+    width: 90%;
+    position: absolute;
+    top: 30%;
+    right: 5%;
+
+}

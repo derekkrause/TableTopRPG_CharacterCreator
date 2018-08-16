@@ -4,6 +4,7 @@ import SportAdminTableCells from "./SportAdminTableCells";
 import { withRouter } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { getAllSports, deleteSport } from "./SportAdminService";
+import { CreateButton } from "../../CustomComponents/Button";
 
 class SportAdminTable extends Component {
   state = {
@@ -44,30 +45,24 @@ class SportAdminTable extends Component {
     const { sports } = this.state;
     return (
       <div>
+        <NavLink className="float-right" to={`${this.props.match.url}/create`}>
+          <CreateButton />
+        </NavLink>
         <h3 style={{ textAlign: "center" }}>Sports</h3>
         <Table className="table-middle table float-left ">
           {/* <thead className="justify-content-md-center">Sports</thead> */}
           <tbody>
             <tr>
-              <th />
               <th>Sport Name</th>
               <th>Sport Code</th>
               <th>Sport Gender</th>
               <th>Active Status</th>
               <th>Display Order</th>
+              <th />
             </tr>
             {sports.map(sport => {
-              return (
-                <SportAdminTableCells key={sport.id} data={sport} handleDelete={this.handleDelete} {...this.props} />
-              );
+              return <SportAdminTableCells key={sport.id} data={sport} {...this.props} />;
             })}
-            <tr>
-              <td>
-                <NavLink to={`${this.props.match.url}/create`}>
-                  <button className="btn btn-link">+ Add New</button>
-                </NavLink>
-              </td>
-            </tr>
           </tbody>
         </Table>
       </div>
