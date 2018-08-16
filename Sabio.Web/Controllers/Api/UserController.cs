@@ -131,23 +131,23 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        //[Route("register_confirmation/{tokenId:string}"), HttpPut, AllowAnonymous]
-        //public HttpResponseMessage Confirm(string tokenId)
-        //{
-        //    if (tokenId.Length == 0)
-        //    {
-        //        ModelState.AddModelError("TokenId", "Invalid or Expired Token");
-        //    }
+        [Route("confirm"), HttpPut, AllowAnonymous]
+        public HttpResponseMessage Confirm(UserConfirmRequest request)
+        {
+            if (request.TokenId == null)
+            {
+                ModelState.AddModelError("TokenId", "Invalid or Expired Token");
+            }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
 
-        //    userTableServices.Confirm(tokenId);
+            userTableServices.Confirm(request);
 
-            //return Request.CreateResponse(HttpStatusCode.OK);
-        //}
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
     
 }

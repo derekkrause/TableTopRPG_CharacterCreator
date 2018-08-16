@@ -127,6 +127,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "all" && <div />}
           {this.props.searchCriteria.searchType === "athletes" && (
             <AthleteSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
@@ -137,6 +138,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "events" && (
             <EventSearchFilter
+              className="bg-white"
               handleDateChange={this.handleDateChange}
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
@@ -148,6 +150,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "coaches" && (
             <CoachSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
@@ -158,6 +161,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "articles" && (
             <ArticleSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
@@ -167,6 +171,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "schools" && (
             <SchoolSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
@@ -175,6 +180,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "venues" && (
             <VenueSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}

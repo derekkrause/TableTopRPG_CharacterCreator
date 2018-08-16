@@ -17,7 +17,7 @@ namespace Sabio.Services
         readonly IDataProvider dataProvider;
         //readonly IEmailService emailService;
         readonly EmailService emailService;
-        readonly string domain = "http://localhost:54810/api/users";
+        readonly string domain = "http://localhost:3001/#/app";
 
         public UserTableServices(IDataProvider dataProvider, EmailService emailService)
         {
@@ -67,14 +67,22 @@ namespace Sabio.Services
                 ToName = request.FirstName + " " + request.LastName,
                 Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
                 Subject = "Registration Confirmation",
-                Link = domain + "/register_confirmation/" + tokenId
+                Link = domain + "/registration_confirmation/?token=" + tokenId
             };
 
             return await emailService.Execute(email);
              
         }
 
-        
+        public void Confirm(UserConfirmRequest request)
+        {
+            dataProvider.ExecuteNonQuery(
+                "EmailConfirmation_UpdateConfirmed",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@TokenId", request.TokenId);
+                });
+        }
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {

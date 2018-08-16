@@ -5,6 +5,11 @@ export function registerUser(userData) {
   return axios.post("/api/users", userData);
 }
 
+//CONFIRM REGISTRATION
+export function confirmUser(tokenId) {
+  return axios.put("/api/users/confirm", tokenId);
+}
+
 //COACH TABLE INSERT USER
 export function registerCoach(userId) {
   const data = {

@@ -17,16 +17,13 @@
 .card-container {
   perspective: 700px;
   display: grid;
-}
-
-.card-flip,
-.card-container {
   transform-style: preserve-3d;
   transition: all 0.7s ease;
 }
 
 .card-flip div {
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   transform-style: preserve-3d;
 }
 
@@ -44,7 +41,7 @@
   grid-template: 1fr / 1fr;
   grid-template-areas: "frontAndBack";
   transform-style: preserve-3d;
-  transition: all 0.7s ease;
+  transition: all 0.8s ease;
 }
 
 .front {

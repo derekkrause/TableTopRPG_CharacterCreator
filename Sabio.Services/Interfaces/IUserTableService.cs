@@ -14,6 +14,6 @@ namespace Sabio.Services
         UserBase Login(UserLoginRequest request);
         void Update(UserUpdateRequest request);
         void Delete(int id);
-        //void Confirm(string tokenId);
+        void Confirm(UserConfirmRequest request);
     }
 }

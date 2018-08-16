@@ -24,7 +24,7 @@ class AthleteSearchFilter extends React.Component {
     const classYearArray = [];
     const sportPositionArray = [];
 
-    this.props.dropdownOptions.state.map(data => {
+    this.props.dropdownOptions.states.map(data => {
       statesArray.push(data.name);
     });
     this.props.dropdownOptions.classYear.map(data => {
