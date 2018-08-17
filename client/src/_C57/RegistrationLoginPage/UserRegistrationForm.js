@@ -26,7 +26,8 @@ class UserRegistrationForm extends React.Component {
     loginView: false,
     regSuccess: false,
     width: window.innerWidth,
-    regFail: false
+    regFail: false,
+    emailUsed: false
   };
 
   updateWindowSize = () => {
@@ -122,6 +123,7 @@ class UserRegistrationForm extends React.Component {
           console.log("Registration Successful", result);
           this.registerUserType(this.state.userType, result.data.item);
           this.setState({ regSuccess: true });
+          //SweetAlert directing to check email.
         })
         .catch(response => {
           console.log("Registration Error", response);
@@ -145,7 +147,8 @@ class UserRegistrationForm extends React.Component {
       formValid,
       loginView,
       regSuccess,
-      regFail
+      regFail,
+      emailUsed
     } = this.state;
 
     return (
@@ -173,7 +176,7 @@ class UserRegistrationForm extends React.Component {
             <SweetAlert
               success
               show={regSuccess}
-              title="Welcome!"
+              title={`Welcome ${firstName}!`}
               closeOnEsc={false}
               closeOnClickOutside={true}
               onConfirm={() => {
@@ -182,16 +185,19 @@ class UserRegistrationForm extends React.Component {
               }}
               onClose={() => this.setState({ regSuccess: false })}
             >
-              Registration Success
+              Almost complete! A Confirmation link has been sent to {emailInput}. Once confirmed, you'll be ready to get
+              started!
             </SweetAlert>
             <SweetAlert
               error
-              show={regFail}
+              show={!regFail}
               title="Oops!"
               timer={2500}
               onConfirm={() => this.setState({ regFail: false })}
             >
-              Ensure all fields are filled out correctly and try again.
+              {emailUsed
+                ? "Try loggining in. If you've forgotten your password, click here."
+                : "Ensure all fields are filled out correctly and try again."}
             </SweetAlert>
             <Form className="row pb-0" autoComplete="on" onSubmit={this.signUp}>
               <FormGroup className="col-12" hidden={loginView}>
