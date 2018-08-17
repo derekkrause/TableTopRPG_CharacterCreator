@@ -60,7 +60,7 @@ namespace Sabio.Web.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
         }
-
+        
         [Route("current"), HttpGet]
         public HttpResponseMessage GetCurrent()
         {

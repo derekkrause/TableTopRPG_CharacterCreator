@@ -171,6 +171,8 @@ namespace Sabio.Services
             string firstName = "";
             string lastName = "";
             bool isAdmin = false;
+            bool confirmed = false;
+
      
             dataProvider.ExecuteCmd(
                 "User_Login",
@@ -185,9 +187,10 @@ namespace Sabio.Services
                     firstName = (string)reader["FirstName"];
                     lastName = (string)reader["LastName"];
                     isAdmin = (bool)reader["Admin"];
+                    confirmed = (bool)reader["Confirmed"];
                 });
 
-            if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword))
+            if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword) && confirmed)
             {
                 return new UserBase
                 {

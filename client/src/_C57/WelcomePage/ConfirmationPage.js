@@ -1,9 +1,12 @@
 import React from "react";
 import { confirmUser } from "../../services/registerLogin.service";
+import SweetAlert from "react-bootstrap-sweetalert";
+import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-dom";
 
 class ConfirmationPage extends React.Component {
   state = {
-    tokenId: ""
+    tokenId: "",
+    confirmSuccess: false
   };
 
   getToken = string => {
@@ -14,7 +17,10 @@ class ConfirmationPage extends React.Component {
   confirmRegistration = token => {
     let responseObject = { tokenId: token };
     confirmUser(responseObject)
-      .then(result => console.log(result))
+      .then(result => {
+        console.log(result);
+        this.setState({ confirmSuccess: true });
+      })
       .catch(error => console.log(error));
   };
 
@@ -25,7 +31,23 @@ class ConfirmationPage extends React.Component {
   }
 
   render() {
-    return <div />;
+    return (
+      <div>
+        <SweetAlert
+          success
+          show={this.state.confirmSuccess}
+          title="Confirmed!"
+          closeOnEsc={false}
+          closeOnClickOutside={true}
+          onConfirm={() => {
+            this.setState({ confirmSuccess: false });
+            this.props.history.push("/app/home");
+          }}
+        >
+          Your account has been confirmed. Click 'OK' to Login and get started!
+        </SweetAlert>
+      </div>
+    );
   }
 }
 
