@@ -4,6 +4,8 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import options from "../profile/data";
 import { connect } from "react-redux";
+import AutoComplete from "../CustomComponents/SchoolAutoComplete/AutoComplete";
+import { schoolSearch } from "../Admin/SchoolAdmin/SchoolAdminServer";
 
 class AthleteSearchFilter extends React.Component {
   state = {
@@ -16,7 +18,18 @@ class AthleteSearchFilter extends React.Component {
     selectHintOnEnter: true,
     states: [],
     classYear: [],
-    sportPosition: []
+    sportPosition: [],
+    school: ""
+  };
+
+  callback = () => {
+    return schoolSearch(0, this.props.searchCriteria.schoolFilter); // schoolSearch available in SchoolAdminServer.js
+  };
+
+  onChange = value => {
+    this.setState({
+      school: value
+    });
   };
 
   componentDidMount() {
@@ -55,12 +68,12 @@ class AthleteSearchFilter extends React.Component {
               className="pr-3"
               name="locationFilter"
               {...this.state}
-              //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
               options={this.state.states}
               placeholder="Specify state..."
-              value={this.props.searchCriteria.locationFilter}
+              value={this.props.searchCriteria.locationFilter || null}
               onChange={this.props.handleTypeAheadChange("locationFilter")}
+              onKeyDown={this.props.handleKeyPress}
             />
             &nbsp;
             <h4>Graduation Year&nbsp;</h4>
@@ -68,25 +81,27 @@ class AthleteSearchFilter extends React.Component {
               className="pr-3"
               name="gradYearFilter"
               {...this.state}
-              //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
               options={this.state.classYear}
               placeholder="Specify graduation year..."
-              value={this.props.searchCriteria.gradYearFilter}
+              value={this.props.searchCriteria.gradYearFilter || null}
               onChange={this.props.handleTypeAheadChange("gradYearFilter")}
+              onKeyDown={this.props.handleKeyPress}
             />
             &nbsp;
             <h4>School&nbsp;</h4>
-            <Typeahead
-              className="pr-3"
-              name="SchoolFilter"
-              {...this.state}
-              //emptyLabel={emptyLabel ? "" : undefined}
-              labelKey="name"
-              options={options}
+            <AutoComplete
+              numberOfCharacters={5}
+              includeCityState={false}
+              callBack={this.callback}
+              value={this.props.searchCriteria.schoolFilter || null}
+              onChange={this.props.handleTypeAheadChange("schoolFilter")}
+              name="schoolFilter"
               placeholder="Specify school..."
-              value={this.props.searchCriteria.schoolFilter}
-              onChange={this.props.handleTypeAheadChange("SchoolFilter")}
+              limit={500}
+              className={"form-control"}
+              resultSetNumber={1}
+              onKeyPress={this.props.handleKeyPress}
             />
             &nbsp;
             <h4>Athlete Position&nbsp;</h4>
@@ -94,12 +109,12 @@ class AthleteSearchFilter extends React.Component {
               className="pr-3"
               name="sportPositionFilter"
               {...this.state}
-              //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
-              options={this.state.sportPosition}
+              options={this.state.sportPosition || null}
               placeholder="Specify position..."
               value={this.props.searchCriteria.sportPositionFilter}
               onChange={this.props.handleTypeAheadChange("sportPositionFilter")}
+              onKeyDown={this.props.handleKeyPress}
             />
           </div>
         </div>

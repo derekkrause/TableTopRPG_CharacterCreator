@@ -26,6 +26,11 @@ const getAll = (pageIndex, pageSize) => {
     });
 };
 
+const getTrend = () => {
+  return mssql.executeProc("Coach_Trend", sqlRequest => {}).then(response => {
+    return response;
+  });
+};
 // const search = (pageIndex, pageSize, searchString) => {
 //   return mssql
 //     .executeProc("Coach_Search", sqlRequest => {
@@ -52,6 +57,23 @@ const getAll = (pageIndex, pageSize) => {
 //       };
 //     });
 // };
+
+const search = (searchString, state, title, name) => {
+  return mssql
+    .executeProc("Coach_Search", sqlRequest => {
+      sqlRequest.addParameter("SearchString", TYPES.NVarChar, searchString, {
+        length: 250
+      });
+      sqlRequest.addParameter("State", TYPES.NVarChar, state, { length: 2 });
+      sqlRequest.addParameter("Title", TYPES.NVarChar, title, { length: 250 });
+      sqlRequest.addParameter("Name", TYPES.NVarChar, schoolName, {
+        length: 250
+      });
+    })
+    .then(response => {
+      return response;
+    });
+};
 
 const getById = id => {
   return mssql
@@ -109,8 +131,9 @@ const del = id => {
 module.exports = {
   getAll,
   getById,
-  //search,
+  search,
   post,
   put,
-  del
+  del,
+  getTrend
 };

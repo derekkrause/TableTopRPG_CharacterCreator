@@ -281,15 +281,15 @@
 
 .list-line-item {
   position: relative;
-  padding-left: 40px;
+  padding-left: 30px;
 
   &:not(:last-child):before {
     border-left: solid 1px $gray-500;
     content: "";
-    left: 20px;
+    left: 4px;
     position: absolute;
-    top: -25px;
-    bottom: -25px;
+    top: 12px;
+    bottom: -10px;
     width: 1px;
     z-index: 1;
   }
@@ -297,19 +297,19 @@
 
 .list-line-badge {
   position: absolute;
-  left: 16px;
-  top: 15px;
+  left: 0px;
+  top: 4px;
   z-index: 2;
   @include border-radius(50%);
-  height: 10px;
-  width: 10px;
+  height: 9px;
+  width: 9px;
   background-color: $gray-500;
 }
 
 .circle-shape {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   @include border-radius($border-radius-circle);
 }
 

@@ -18,6 +18,7 @@ class NavBar extends React.Component {
       [name]: values
     });
   };
+
   handleDateChange = (selectedDate, name) => {
     this.setCriteriaProperties({
       [name]: selectedDate
@@ -40,19 +41,28 @@ class NavBar extends React.Component {
     });
   };
 
+  handleKeyPress = e => {
+    console.log("key pressed", e.which);
+    if (e.charCode === 13 || e.which === 13) {
+      this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
+    }
+  };
+
   toggle = () => {
-    console.log("clicked");
+    console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
+
   componentDidMount() {
-    console.log(this.props);
+    console.log("componentDidMount 1", this.props);
   }
 
   logout = () => {
     userLogout().then(currentUser);
   };
+
   componentDidMount() {
-    console.log(this.props);
+    console.log("componentDidMount 2", this.props);
   }
 
   render() {
@@ -63,7 +73,9 @@ class NavBar extends React.Component {
             <h4 className="mb-0 mr-auto">
               <b>Hub Scout</b>
             </h4>
-            <button onClick={this.logout}>Logout</button>
+            <button className="d-none d-sm-block" onClick={this.logout}>
+              Logout
+            </button>
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select
                 className="selectpicker"
@@ -75,9 +87,8 @@ class NavBar extends React.Component {
                 id="exampleSelect"
                 onChange={this.handleChange}
               >
-                <option value="all" selected={() => this.setCriteriaProperties({ collapsed: true })}>
-                  All
-                </option>
+                <option />
+                <option value="all">All</option>
                 <option value="athletes">Athletes</option>
                 <option value="coaches">Coaches</option>
                 <option value="schools">Schools</option>
@@ -93,6 +104,7 @@ class NavBar extends React.Component {
                   placeholder="Search here..."
                   onFocus={this.toggle}
                   onChange={this.handleChange}
+                  onKeyPress={this.handleKeyPress}
                   value={this.props.searchCriteria.searchString}
                 />
                 <NavLink to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}>
@@ -123,12 +135,13 @@ class NavBar extends React.Component {
             />
           </div>
         </div>
-        <Collapse isOpen={!this.props.searchCriteria.collapsed}>
+        <Collapse style={{ backgroundColor: "white" }} isOpen={!this.props.searchCriteria.collapsed}>
           {this.props.searchCriteria.searchType === "all" && <div />}
           {this.props.searchCriteria.searchType === "athletes" && (
             <AthleteSearchFilter
               className="bg-white"
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               gradYearFilter={this.props.searchCriteria.gradYearFilter}
@@ -141,6 +154,7 @@ class NavBar extends React.Component {
               className="bg-white"
               handleDateChange={this.handleDateChange}
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
@@ -152,6 +166,7 @@ class NavBar extends React.Component {
             <CoachSearchFilter
               className="bg-white"
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               schoolNameFilter={this.props.searchCriteria.schoolNameFilter}
@@ -163,6 +178,7 @@ class NavBar extends React.Component {
             <ArticleSearchFilter
               className="bg-white"
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               articleTypeFilter={this.props.searchCriteria.articleTypeFilter}
@@ -173,6 +189,7 @@ class NavBar extends React.Component {
             <SchoolSearchFilter
               className="bg-white"
               handleChange={this.onChange}
+              handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
@@ -180,11 +197,9 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "venues" && (
             <VenueSearchFilter
-              className="bg-white"
-              handleChange={this.onChange}
+              handleChange={this.handleChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.props.searchCriteria.locationFilter}
-              eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
+              searchCriteria={this.props.searchCriteria}
             />
           )}
         </Collapse>

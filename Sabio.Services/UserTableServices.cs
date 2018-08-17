@@ -89,39 +89,39 @@ namespace Sabio.Services
             PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
             List<User> userList = new List<User>();
 
-                dataProvider.ExecuteCmd(
-                    "User_SelectAll",
-                    (parameters) =>
+            dataProvider.ExecuteCmd(
+                "User_SelectAll",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@pageIndex", pageIndex);
+                    parameters.AddWithValue("@pageSize", pageSize);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    User user = new User
                     {
-                        parameters.AddWithValue("@pageIndex", pageIndex);
-                        parameters.AddWithValue("@pageSize", pageSize);
-                    },
-                    (reader, resultSetIndex) =>
+                        Id = (int)reader["Id"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        Gender = reader.GetSafeInt32Nullable("Gender"),
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        Email = (string)reader["Email"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = (DateTime)reader["DateModified"]
+                    };
+
+                    object middleNameObj = reader["MiddleName"];
+                    if (middleNameObj != DBNull.Value)
                     {
-                        User user = new User
-                        {
-                            Id = (int)reader["Id"],
-                            FirstName = (string)reader["FirstName"],
-                            LastName = (string)reader["LastName"],
-                            Gender = reader.GetSafeInt32Nullable("Gender"),
-                            AvatarUrl = (string)reader["AvatarUrl"],
-                            Email = (string)reader["Email"],
-                            DateCreated = (DateTime)reader["DateCreated"],
-                            DateModified = (DateTime)reader["DateModified"]
-                        };
+                        user.MiddleName = (string)middleNameObj;
+                    }
 
-                        object middleNameObj = reader["MiddleName"];
-                        if (middleNameObj != DBNull.Value)
-                        {
-                            user.MiddleName = (string)middleNameObj;
-                        }
+                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
 
-                        pagedItemResponse.TotalCount = (int)reader["TotalRows"];
-
-                        userList.Add(user);
-                    });
-
-                return pagedItemResponse;
+                    userList.Add(user);
+                });
+            pagedItemResponse.PagedItems = userList;
+            return pagedItemResponse;
         }
 
         public User GetById(int id)

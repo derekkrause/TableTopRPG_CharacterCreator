@@ -51,3 +51,7 @@ export function searchEventsWithFiltersGet(
 
   return axios.get(encodedUri);
 }
+
+export function getUpcoming() {
+  return axios.get("/api/events/upcoming");
+}

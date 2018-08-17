@@ -15,3 +15,7 @@ export function getClassYear() {
 export function getSportLevels() {
   return axios.get("api/sportLevels/");
 }
+
+export function getAthleteInfoById(pageIndex, pageSize, id) {
+  return axios.get("api/athletesport/" + pageIndex + "/" + pageSize + "/" + id);
+}

@@ -6,9 +6,7 @@ using Sabio.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Sabio.Data;
 
 namespace Sabio.Services
 {
@@ -520,89 +518,89 @@ namespace Sabio.Services
 
         public List<Event> SearchAll(string searchTerms)
         {
-        List<Event> events = new List<Event>();
+            List<Event> events = new List<Event>();
 
-        dataProvider.ExecuteCmd("Event_SearchAll",
-            (parameters) =>
-            {
-                parameters.AddWithValue("@SearchTerms", searchTerms);
-            },
-            (reader, resultSetIndex) =>
-            {
-                Event eventItem = new Event
+            dataProvider.ExecuteCmd("Event_SearchAll",
+                (parameters) =>
                 {
-                    Id = (int)reader["Id"],
-                    Name = (string)reader["Name"],
-                    ShortName = (string)reader["ShortName"],
-                    EventTypeId = (int)reader["EventTypeId"],
-                    // AddressId = (int)reader["AddressId"],
-                    IsOngoing = (bool)reader["IsOngoing"],
-                    CreatedBy = (int)reader["CreatedBy"],
-                    ModifiedBy = (int)reader["ModifiedBy"],
-                    DateCreated = (DateTime)reader["DateCreated"],
-                    Street = (string)reader["Street"],
-                    Suite = (string)reader["Suite"],
-                    City = (string)reader["City"],
-                    State = (string)reader["State"],
-                    Zip = (string)reader["Zip"]
-                };
-
-                object startDateObj = reader["StartDate"];
-                if (startDateObj != DBNull.Value)
+                    parameters.AddWithValue("@SearchTerms", searchTerms);
+                },
+                (reader, resultSetIndex) =>
                 {
-                    eventItem.StartDate = (DateTime)startDateObj;
-                }
+                    Event eventItem = new Event
+                    {
+                        Id = (int)reader["Id"],
+                        Name = (string)reader["Name"],
+                        ShortName = (string)reader["ShortName"],
+                        EventTypeId = (int)reader["EventTypeId"],
+                        // AddressId = (int)reader["AddressId"],
+                        IsOngoing = (bool)reader["IsOngoing"],
+                        CreatedBy = (int)reader["CreatedBy"],
+                        ModifiedBy = (int)reader["ModifiedBy"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        Street = (string)reader["Street"],
+                        Suite = (string)reader["Suite"],
+                        City = (string)reader["City"],
+                        State = (string)reader["State"],
+                        Zip = (string)reader["Zip"]
+                    };
 
-                object endDateObj = reader["EndDate"];
-                if (endDateObj != DBNull.Value)
-                {
-                    eventItem.EndDate = (DateTime)endDateObj;
-                }
+                    object startDateObj = reader["StartDate"];
+                    if (startDateObj != DBNull.Value)
+                    {
+                        eventItem.StartDate = (DateTime)startDateObj;
+                    }
 
-                object descObj = reader["Description"];
-                if (descObj != DBNull.Value)
-                {
-                    eventItem.Description = (string)descObj;
-                }
+                    object endDateObj = reader["EndDate"];
+                    if (endDateObj != DBNull.Value)
+                    {
+                        eventItem.EndDate = (DateTime)endDateObj;
+                    }
 
-                object webUrl = reader["WebsiteUrl"];
-                if (webUrl != DBNull.Value)
-                {
-                    eventItem.WebsiteUrl = (string)webUrl;
-                }
+                    object descObj = reader["Description"];
+                    if (descObj != DBNull.Value)
+                    {
+                        eventItem.Description = (string)descObj;
+                    }
 
-                object logoObj = reader["Logo"];
-                if (logoObj != DBNull.Value)
-                {
-                    eventItem.Logo = (string)logoObj;
-                }
+                    object webUrl = reader["WebsiteUrl"];
+                    if (webUrl != DBNull.Value)
+                    {
+                        eventItem.WebsiteUrl = (string)webUrl;
+                    }
 
-                object orgObj = reader["Organizer"];
-                if (orgObj != DBNull.Value)
-                {
-                    eventItem.Organizer = (string)orgObj;
-                }
+                    object logoObj = reader["Logo"];
+                    if (logoObj != DBNull.Value)
+                    {
+                        eventItem.Logo = (string)logoObj;
+                    }
 
-                object dateModObj = reader["DateModified"];
-                if (dateModObj != DBNull.Value)
-                {
-                    eventItem.DateModified = (DateTime)dateModObj;
-                }
+                    object orgObj = reader["Organizer"];
+                    if (orgObj != DBNull.Value)
+                    {
+                        eventItem.Organizer = (string)orgObj;
+                    }
 
-                object latObj = reader["Lat"];
-                if (latObj != DBNull.Value)
-                {
-                    eventItem.Lat = (double)latObj;
-                }
+                    object dateModObj = reader["DateModified"];
+                    if (dateModObj != DBNull.Value)
+                    {
+                        eventItem.DateModified = (DateTime)dateModObj;
+                    }
 
-                object longObj = reader["Long"];
-                if (longObj != DBNull.Value)
-                {
-                    eventItem.Long = (double)longObj;
-                }
+                    object latObj = reader["Lat"];
+                    if (latObj != DBNull.Value)
+                    {
+                        eventItem.Lat = (double)latObj;
+                    }
 
-                events.Add(eventItem);
-            });
+                    object longObj = reader["Long"];
+                    if (longObj != DBNull.Value)
+                    {
+                        eventItem.Long = (double)longObj;
+                    }
+
+                    events.Add(eventItem);
+                });
 
             return events;
         }
@@ -807,7 +805,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@SearchStartDate", searchStartDate);
                     parameters.AddWithValue("@SearchEndDate", searchEndDate);
                     parameters.AddWithValue("@SearchDistance", searchDistance);
-                },
+                 },
                 (reader, resultSetIndex) =>
                 {
                     Event eventItem = new Event
@@ -888,5 +886,29 @@ namespace Sabio.Services
             return events;
         }
 
+        public List<Event> GetUpcoming()
+        {
+            List<Event> eventsUpcoming = new List<Event>();
+
+            dataProvider.ExecuteCmd("Event_Upcoming",
+                 (parameters) =>
+                 {
+
+                 },
+                (reader, resultSetIndex) =>
+                {
+                    Event eventItem = new Event
+                    {
+                        Id = (int)reader["Id"],
+                        Name = (string)reader["Name"],
+                        StartDate = reader.GetSafeDateTimeNullable("StartDate")
+
+                    };
+
+                    eventsUpcoming.Add(eventItem);
+                });
+
+            return eventsUpcoming;
+        }
     }
 }

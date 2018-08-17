@@ -44,7 +44,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;AUTH_COOKIE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -253,12 +253,14 @@
     <Compile Include="Controllers\Api\AthletesController.cs" />
     <Compile Include="Controllers\Api\AthleteSearchController.cs" />
     <Compile Include="Controllers\Api\AthleteSportController.cs" />
+    <Compile Include="Controllers\Api\AthleteTrendController.cs" />
     <Compile Include="Controllers\Api\BlogsController.cs" />
     <Compile Include="Controllers\Api\ClassYearController.cs" />
     <Compile Include="Controllers\Api\EventController.cs" />
     <Compile Include="Controllers\Api\EventTypeController.cs" />
     <Compile Include="Controllers\Api\EventUserTableController.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
+    <Compile Include="Controllers\Api\FeedHomeController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\S3FilesController.cs" />
     <Compile Include="Controllers\Api\SchoolController.cs" />
@@ -275,8 +277,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Content Include="client/**/*">
+      <Visible>false</Visible>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="node-api/**/*">
+      <Visible>false</Visible>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -292,14 +300,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="node-api/**/*">
-      <Visible>false</Visible>
-    </Content>
-    <Content Include="client/**/*">
-      <Visible>false</Visible>
-    </Content>
   </ItemGroup>  <ItemGroup>
     <ProjectReference Include="..\Sabio.Data\Sabio.Data.csproj">
       <Project>{f696cb27-02f4-4326-a80d-99b070a888ce}</Project>

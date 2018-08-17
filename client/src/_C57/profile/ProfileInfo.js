@@ -1,36 +1,14 @@
 import React from "react";
-import { Form, FormGroup, Input } from "reactstrap";
-//import createFilterOptions from "react-select-fast-filter-options";
-//import "react-select/dist/react-select.css";
-//import "react-virtualized/styles.css";
-//import "react-virtualized-select/styles.css";
-import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import "./ProfileBanner.css";
 import "./Profile.css";
-
-const schoolOptions = ["Stanford", "Harvard", "Penn", "Cornell"];
-const sportOptions = [];
-const sportPositionOptions = [];
-const sportLevelOptions = [];
-const classYearOptions = [];
-const gradYearOptions = [];
-const stateOptions = [];
-
-// const filterOptions = createFilterOptions({ schoolOptions });
-// const field = ({ schoolOptions }) => (
-//   <Select
-//     name="university"
-//     value={this.props.schoolName}
-//     options={schoolOptions}
-//     filterOptions={filterOptions}
-//     onChange={val => console.log(val)}
-//   />
-// );
+import AutoComplete from "../CustomComponents/SchoolAutoComplete/AutoComplete";
+import { schoolSearch } from "../Admin/SchoolAdmin/SchoolAdminServer";
 
 class ProfileInfo extends React.Component {
   state = {
-    editMode: false
+    editMode: false,
+    schoolName: ""
   };
 
   editField = () => {
@@ -38,6 +16,26 @@ class ProfileInfo extends React.Component {
     this.setState({ editMode: !currentState });
   };
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.schoolName !== state.schoolName) {
+      return {
+        schoolName: props.schoolName
+      };
+    }
+    return null;
+  }
+
+  onChange = value => {
+    this.setState({
+      schoolName: value
+    });
+  };
+
+  callback = () => {
+    return schoolSearch(0, this.state.schoolName); // schoolSearch available in SchoolAdminServer.js
+  };
+
+  // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     return (
       <div>
@@ -78,13 +76,6 @@ class ProfileInfo extends React.Component {
                   <h2>
                     {this.props.city}, {this.props.state}
                   </h2>
-                  {/* <h1 style={{ position: "relative", left: "4%" }}>
-                    {this.props.sport}
-                    &nbsp;|&nbsp;
-                    {this.props.sportPosition} */}
-                  {/* &nbsp;|&nbsp;
-                  {this.props.sportLevel} */}
-                  {/* </h1> */}
                 </div>
                 <div className="row" style={{ position: "relative", left: "4%" }}>
                   <h2>{this.props.classYear}</h2>
@@ -93,8 +84,25 @@ class ProfileInfo extends React.Component {
                   <h2 style={{ display: "inline-block" }}>&nbsp; {this.props.gradYear}</h2>{" "}
                 </div>
                 <div className="row" style={{ position: "relative", left: "4%", marginBottom: "40px" }}>
-                  <h2>Height: {this.props.height}</h2> &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
-                  <h2> Weight: {this.props.weight}</h2>
+                  {this.props.height && (
+                    <React.Fragment>
+                      <h2>
+                        Height: {this.props.heightFeet}'{this.props.heightInches}
+                      </h2>
+                      {this.props.weight && (
+                        <React.Fragment>
+                          &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
+                        </React.Fragment>
+                      )}
+                    </React.Fragment>
+                  )}
+                  {this.props.weight && (
+                    <h2>
+                      {" "}
+                      Weight: {this.props.weight}
+                      lbs.
+                    </h2>
+                  )}
                 </div>
                 <div className="row" style={{ position: "relative", left: "4%" }}>
                   <div role="group" className="btn-group">
@@ -117,210 +125,169 @@ class ProfileInfo extends React.Component {
         )}
         {this.state.editMode === true && (
           <React.Fragment>
-            <div className="row justify-content-center">
-              <div className="col-md-12">
-                <h1>
-                  {this.props.firstName}
-                  &nbsp;
-                  {this.props.middleName}
-                  &nbsp;
-                  {this.props.lastName}
-                </h1>
-              </div>
-            </div>
-            <hr />
-            <div className="row justify-content-center">
-              <div className="col-md-12">
-                <Typeahead
-                  name="sport"
-                  labelKey="sport"
-                  //multiple={multiple}
-                  options={sportOptions}
-                  placeholder="Select Sport"
-                  value={this.props.sport}
-                />
-                {/* <Select
-                  type="select"
-                  name="sport"
-                  placeholder="Select Sport"
-                  value={this.props.sport}
-                >
-                  <option>John</option>
-                  <option>Stella</option>
-                  <option>Dorris</option>
-                  <option>Smith</option>
-                  <option>Dommic</option>
-                </Select>*/}
-                &nbsp;|&nbsp;
-                <Typeahead
-                  name="sportPosition"
-                  labelKey="sportPosition"
-                  //multiple={multiple}
-                  options={sportPositionOptions}
-                  placeholder="Select Sport Position"
-                  value={this.props.sportPosition}
-                />
-                {/* <Select
-                  type="select"
-                  name="sportPosition"
-                  placeholder="Select Position"
-                  value={this.props.sportPosition}
-                >
-                  <option>John</option>
-                  <option>Stella</option>
-                  <option>Dorris</option>
-                  <option>Smith</option>
-                  <option>Dommic</option>
-                </Select> */}
-                &nbsp;|&nbsp;
-                <Typeahead
-                  name="sportLevel"
-                  labelKey="sportLevel"
-                  //multiple={multiple}
-                  options={sportLevelOptions}
-                  placeholder="Select Sport Level"
-                  value={this.props.sportLevel}
-                />
-                {/* <Select
-                  type="select"
-                  name="sportLevel"
-                  placeholder="Select Sport Level"
-                  value={this.props.sportLevel}
-                >
-                  <option>John</option>
-                  <option>Stella</option>
-                  <option>Dorris</option>
-                  <option>Smith</option>
-                  <option>Dommic</option>
-                </Select> */}
-                {/* <input type="text" name="sport" placeholder="Your Sport" value={this.props.sport} onChange={this.props.handleChange} />&nbsp;|&nbsp;
-                <input type="text" name="sportPosition" placeholder="Your Position" value={this.props.sportPosition} onChange={this.props.handleChange} />&nbsp;|&nbsp;
-                <input type="text" name="sportLevel" placeholder="Your Level" value={this.props.sportLevel} onChange={this.props.handleChange} /> */}
-              </div>
-            </div>
-            <hr />
             <div className="row">
-              <div className="col-md-6">
-                {/* <Select
-                  name="schoolName"
-                  placeholder="Select School"
-                  filterOptions={filterOptions}
-                  options={schoolOptions}
-                  value={this.state.schoolName}
-                /> */}
-                <Typeahead
-                  name="schoolName"
-                  labelKey="schoolName"
-                  //multiple={multiple}
-                  options={schoolOptions}
-                  placeholder="Select School"
-                  value={this.props.schoolName}
-                />
-
-                {/* <input
-                  type="text"
-                  name="schoolName"
-                  value={this.props.schoolName}
-                  placeholder="School Name"
-                  onChange={this.props.handleChange}
-                /> */}
-              </div>
-              <br />
-              <div className="col-md-6">
-                {/* <Select
-                  placeholder="Select Class Year"
-                  type="select"
-                  name="classYear"
-                  onChange={this.props.handleChange}
-                  value={this.props.classYear}
-                >
-                  <option value="Freshman">Freshman</option>
-                  <option value="Sophomore">Sophomore</option>
-                  <option value="Junior">Junior</option>
-                  <option value="Senior">Senior</option>
-                  <option value="Other">Other</option>
-                </Select> */}
-                <Typeahead
-                  name="classYear"
-                  labelKey="classYear"
-                  //multiple={multiple}
-                  options={classYearOptions}
-                  placeholder="Select Class Year"
-                  value={this.props.classYear}
-                />
-                {/* <input
-                  type="text"
-                  name="classYear"
-                  value={this.props.classYear}
-                  placeholder="Class Year"
-                  onChange={this.props.handleChange}
-                /> */}
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-md-6">
-                <Input
-                  type="text"
-                  name="city"
-                  value={this.props.city}
-                  onChange={this.props.handleChange}
-                  placeholder="City"
-                />
-                <br />
-                {/* <Input
-                  type="text"
-                  name="state"
-                  value={this.props.state}
-                  placeholder="State"
-                  onChange={this.props.handleChange}
-                /> */}
-                <Typeahead
-                  name="state"
-                  labelKey="state"
-                  //multiple={multiple}
-                  options={stateOptions}
-                  placeholder="State"
-                  value={this.props.state}
-                />
-              </div>
-              <div className="col-md-6">
-                {/* <Input
-                  type="text"
-                  name="gradYear"
-                  value={this.props.gradYear}
-                  onChange={this.props.handleChange}
-                  placeholder="Graduation Year"
-                /> */}
-                <Typeahead
-                  name="gradYear"
-                  labelKey="gradYear"
-                  //multiple={multiple}
-                  options={gradYearOptions}
-                  placeholder="Select Graduation Year"
-                  value={this.props.gradYear}
-                />
-              </div>
-            </div>
-            <hr />
-            <div className="row justify-content-center">
               <div className="col-md-12">
-                Height:
-                <Input type="text" name="height" value={this.props.height} onChange={this.props.handleChange} />
-                &nbsp;| Weight:
-                <Input type="text" name="weight" value={this.props.weight} onChange={this.props.handleChange} />
-                &nbsp;| GPA:
-                <Input type="text" name="gpa" value={this.props.gpa} onChange={this.props.handleChange} />
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <button
+                    style={{
+                      position: "relative",
+                      right: "-94%",
+                      transform: "rotate(90deg)",
+                      backgroundColor: "white",
+                      fontSize: "30px",
+                      top: "-20px"
+                    }}
+                    className="profileBannerButtonOpacity float-right"
+                    type="button"
+                    onClick={this.editField}
+                  >
+                    <i className="zmdi zmdi-more-vert zmdi-hc-lg" />
+                  </button>
+                </div>
+                <form>
+                  <div className="row addedHeight col-md-12">
+                    <div className="form-group col-md-4">
+                      <label>First Name:</label>
+                      <input
+                        className="nameInputs form-control"
+                        onChange={this.props.handleChange}
+                        value={this.props.firstName}
+                        name="firstName"
+                      />
+                    </div>{" "}
+                    <div className=" form-group col-md-4">
+                      <label>Middle Name:</label>
+                      <input
+                        className="nameInputs form-control"
+                        onChange={this.props.handleChange}
+                        value={this.props.middleName}
+                        name="middleName"
+                      />
+                    </div>{" "}
+                    <div className="form-group col-md-4">
+                      <label>Last Name:</label>
+                      <input
+                        className="nameInputs form-control"
+                        onChange={this.props.handleChange}
+                        value={this.props.lastName}
+                        name="lastName"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row col-md-12">
+                    <div className="form-group col-md-6">
+                      <label>School:</label>
+                      <AutoComplete
+                        numberOfCharacters={5} // when you want callback function to fire
+                        callBack={this.callback} // the call back function in the parent you want called
+                        value={this.state.schoolName} // value you want changed
+                        onChange={this.props.onChange} // onChange function in the parent
+                        name={this.state.schoolName} // name
+                        limit={10} // limit the results on the dropdown, recommend 10
+                        className={"form-control"} // any classnames you want to include in the input
+                        resultSetNumber={1} // res.data.resultSets[*] * = the number your resultsets come back on
+                        onHandleSchoolSelect={this.props.onHandleSchoolSelect}
+                      />
+                    </div>
+                    <label> </label>
+                    <div className="form-group col-md-4">
+                      <label>City:</label>
+                      <input
+                        className="form-control"
+                        value={this.props.city}
+                        name="city"
+                        onChange={this.props.handleChange}
+                      />
+                    </div>
+                    <div className="form-group col-md">
+                      <label>State:</label>
+                      <input
+                        className="form-control"
+                        value={this.props.state}
+                        name="state"
+                        onChange={this.props.handleChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="row addedHeight col-md-12">
+                    <div className="form-group col-md-4">
+                      <label>Class Year</label>
+                      <select
+                        className="form-control"
+                        type="text"
+                        value={this.props.classYearId}
+                        name="classYearId"
+                        onChange={this.props.handleChange}
+                        style={{ height: "2rem" }}
+                      >
+                        <option>Class Year</option>
+                        {this.props.classYearOptions.map(year => (
+                          <option name={year.name} key={year.id} value={year.id}>
+                            {year.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="form-group col-md-5">
+                      <label>Class of:</label>
+                      <input
+                        value={this.props.gradYear}
+                        name="gradYear"
+                        onChange={this.props.handleChange}
+                        className="form-control"
+                      />
+                    </div>
+                  </div>
+                  <div className="row col-md-12">
+                    <div className="col">Height </div>
+                  </div>
+                  <div className="row col-md-12">
+                    <div className="form-group col-md-2" style={{ paddingRight: 5 }}>
+                      Feet:
+                      <input
+                        className="form-control"
+                        type="number"
+                        value={this.props.heightFeet}
+                        name="heightFeet"
+                        onChange={this.props.handleChange}
+                      />
+                    </div>
+                    <div className="form-group col-md-2" style={{ paddingLeft: 5 }}>
+                      Inches:
+                      <input
+                        className="form-control"
+                        type="number"
+                        value={this.props.heightInches}
+                        name="heightInches"
+                        onChange={this.props.handleChange}
+                      />
+                    </div>
+                    <div className="form-group col-md-3">
+                      <label>weight: </label>
+                      <input
+                        className="form-control"
+                        value={this.props.weight}
+                        name="weight"
+                        onChange={this.props.handleChange}
+                      />
+                    </div>
+                  </div>
+                </form>
               </div>
             </div>
-            <hr />
             <div className="row">
               <div className="col-md-12">
                 <button type="button" className="float-right" onClick={this.editField}>
+                  Cancel
+                </button>
+                <button type="button" className="float-right" onClick={this.props.handleSaveProfile}>
                   Save
                 </button>
               </div>
             </div>
+
             <hr />
           </React.Fragment>
         )}

@@ -12,11 +12,15 @@ import {
 import { isIOS, isMobile } from "react-device-detect";
 import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
+import { Header } from "reactstrap";
+import { NotificationContainer } from "react-notifications";
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
 import "../_C57/WelcomePage/WelcomePage.css";
 import axios from "axios";
 import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
+
+//import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
 class App extends React.Component {
   componentDidMount() {
@@ -54,27 +58,38 @@ class App extends React.Component {
     }
     return (
       <div className={`app-container ${drawerStyle}`}>
+        <NotificationContainer />
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
         <div
           className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch"
-          style={{
-            backgroundImage:
-              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
-          }}
+          // style={{
+          //   backgroundImage:
+          //     "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
+          // }}
         >
           <div className="app-header">
             <IfLoginStatus loggedIn={false}>
               <TopNav {...this.props} />
             </IfLoginStatus>
+
             <IfLoginStatus loggedIn={true}>
               <NavBar />
             </IfLoginStatus>
+
+            {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
+            <NavBar />
+            </IfLoginStatus> */}
+
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                />
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
 
                 <Route
@@ -99,8 +114,16 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
                 <Route
+                  path={`${match.url}/coach`}
+                  component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
+                />
+                <Route
                   path={`${match.url}/events`}
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
+                />
+                <Route
+                  path={`${match.url}/examples`}
+                  component={asyncComponent(() => import("../_C57/CustomComponents/_Examples"))}
                 />
                 <Route
                   path={`${match.url}/faqs-page`}
@@ -112,18 +135,29 @@ class App extends React.Component {
                 />
                 <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
 
-                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/SamplePage"))} />
+                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
 
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
 
                 <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                  path={`${match.url}/profile/:id(\\d+)`}
+                  render={props => {
+                    const Component = asyncComponent(() => import("../_C57/profile/ProfileContainer"));
+                    return (
+                      <IfLoginStatus loggedIn={true}>
+                        <Component {...props} />
+                      </IfLoginStatus>
+                    );
+                  }}
                 />
 
                 <Route
                   path={`${match.url}/search`}
                   component={asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"))}
+                />
+                <Route
+                  path={`${match.url}/venues`}
+                  component={asyncComponent(() => import("../_C57/venues/AdminVenues"))}
                 />
 
                 <Route component={asyncComponent(() => import("components/Error404"))} />

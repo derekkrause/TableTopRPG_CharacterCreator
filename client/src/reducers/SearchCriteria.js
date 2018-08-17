@@ -18,7 +18,8 @@ export default function SearchCriteria(state, action) {
       eventEndDateFilter: "",
       venueTypeFilter: "",
       articleTypeFilter: "",
-      articleTagFilter: ""
+      articleTagFilter: "",
+      radius: 10
     };
   }
 

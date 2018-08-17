@@ -4,7 +4,8 @@ import "./AutoComplete.css";
 class SchoolAutoComplete extends React.Component {
   state = {
     options: null,
-    selectedSchool: []
+    selectedSchool: [],
+    needCityState: this.props.includeCityState
   };
   latestAjaxCallNum = 0;
 
@@ -22,7 +23,7 @@ class SchoolAutoComplete extends React.Component {
 
         if (currentAjaxCallNum === this.latestAjaxCallNum) {
           this.setState({
-            options: response.data.resultSets[this.props.resultSetNumber]
+            options: response.data.resultSets && response.data.resultSets[this.props.resultSetNumber]
           });
         }
       });
@@ -39,10 +40,12 @@ class SchoolAutoComplete extends React.Component {
   };
 
   handleDropdownSelect = e => {
-    console.log(e.target.id);
+    console.log("test", e.target.id);
     this.props.onChange(e.target.innerHTML);
     this.setState({ options: null });
-    this.props.onHandleSchoolSelect(e.target.id);
+    {
+      this.props.onHandleSchoolSelect ? this.props.onHandleSchoolSelect(e.target.id) : null;
+    }
   };
 
   render() {
@@ -58,6 +61,8 @@ class SchoolAutoComplete extends React.Component {
           name={this.props.name}
           list="schools"
           className={this.props.className}
+          placeholder={this.props.placeholder || null}
+          onKeyPress={this.props.onKeyPress || null}
         />
         {this.state.options && (
           <div className={"options-div " + this.props.className}>
@@ -70,7 +75,12 @@ class SchoolAutoComplete extends React.Component {
                     key={options.Id}
                     id={options.Id}
                   >
-                    {options.Name}, {options.City}, {options.State}
+                    {options.Name}
+                    {this.state.needCityState ? (
+                      <React.Fragment>
+                        ,{options.City}, {options.State}
+                      </React.Fragment>
+                    ) : null}
                   </div>
                 ))
               : null}

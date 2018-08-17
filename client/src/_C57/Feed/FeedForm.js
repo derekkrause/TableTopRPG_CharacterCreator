@@ -3,16 +3,17 @@ import IntlMessages from "util/IntlMessages";
 import "./Feed.css";
 import axios from "axios";
 import FileUploader from "../FileUploader/FileUploader";
+import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
+import { SubmitButtonWide } from "../CustomComponents/Button";
 
 class FeedForm extends React.Component {
   state = {
     title: "",
     content: "",
-    imageUrl: "",
-    imagePreview: "",
+    imageUrl: [],
     authorId: 13,
     isPublished: 1,
-    videoUrl: "",
+    videoUrl: [],
     presignedUrl: "",
     fileUrl: ""
   };
@@ -29,16 +30,38 @@ class FeedForm extends React.Component {
     });
   };
 
-  handleImageUrlChange = imageUrl => {
+  handleImageUrlChange = newImageUrl => {
+    let newArr = [];
+    for (let i = 0; i < newImageUrl.length; i++) {
+      newArr.push(newImageUrl[i].url);
+    }
     this.setState({
-      imageUrl
+      imageUrl: newArr
     });
+  };
+
+  handleVideoUrlChange = newVideoUrl => {
+    let newArr = [];
+    for (let i = 0; i < newVideoUrl.length; i++) {
+      newArr.push(newVideoUrl[i].url);
+    }
+    this.setState({
+      videoUrl: newArr
+    });
+  };
+
+  getUrlOut = arr => {
+    let newArr = [];
+    for (let i = 0; i < arr.length; i++) {
+      newArr.push(arr[i].url);
+      return newArr;
+    }
   };
 
   render() {
     return (
-      <div>
-        <div className="undifined card">
+      <div className="FeedForm">
+        <div className="undifined card cus-card-container">
           <div className="bg-primary text-white card-header">
             <div className="row">
               <div className="col-md-8 col-8">Add Your Story</div>
@@ -74,60 +97,20 @@ class FeedForm extends React.Component {
                   onChange={e => this.setState({ content: e.target.value })}
                 />
               </div>
-              {this.props.formVideoLinkInput ? (
-                <div className="mt-4">
-                  <h4> Video Link</h4>
-                  <div className="input-group mb-3">
-                    <input
-                      className="form-control"
-                      type="text"
-                      value={this.state.videoUrl}
-                      placeholder="Paste video link here"
-                      onChange={e => this.setState({ videoUrl: e.target.value })}
-                    />
-                    <div className="input-group-append">
-                      <button className="btn btn-secondary" type="button" onClick={this.props.handleOnclickVideoLink}>
-                        <i className="zmdi zmdi-close zmdi-hc-lg" />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div />
-              )}
             </form>
 
-            <div className="mt-4 row">
-              <div className="col-md-8 col-8">
-                {!this.props.formVideoLinkInput && (
-                  <React.Fragment>
-                    <div className="row">
-                      <div className="col-md-6 col-6">
-                        <FileUploader onImageUrlChange={this.handleImageUrlChange} />
-                      </div>
-                      <div className="col-me-6 col-6">
-                        {this.state.imageUrl == "" && (
-                          <React.Fragment>
-                            <button
-                              type="button"
-                              className="jr-btn jr-btn-default btn btn-default"
-                              onClick={this.props.handleOnclickVideoLink}
-                            >
-                              <i className="zmdi zmdi-videocam zmdi-hc-fw" />
-                              &nbsp;Link Video
-                            </button>
-                          </React.Fragment>
-                        )}
-                      </div>
-                    </div>
-                  </React.Fragment>
-                )}
+            <div className="">
+              <div className="">
+                <MultiFileUploader
+                  onImageUrlChange={this.handleImageUrlChange}
+                  onVideoUrlChange={this.handleVideoUrlChange}
+                />
               </div>
-              <div className="col-md-4 col-4 text-right">
-                <button type="button" className="jr-btn btn btn-primary" onClick={this.handleOnClickPayload}>
-                  Post
-                </button>
+              {/* <div className="" style={{ position: "relative", bottom: "0%", right: "0%" }}> */}
+              <div className="pt-3">
+                <SubmitButtonWide type="button" name="Post" onClick={this.handleOnClickPayload} />
               </div>
+              {/* </div> */}
             </div>
           </div>
         </div>

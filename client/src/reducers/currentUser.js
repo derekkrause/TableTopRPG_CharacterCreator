@@ -7,6 +7,6 @@ export default function userReducer(state = null, action) {
     return action.value;
   }
 
-  console.log("reducer state", state);
+  // console.log("reducer state", state);
   return state;
 }

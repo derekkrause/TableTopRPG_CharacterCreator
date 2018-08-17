@@ -4,10 +4,8 @@ import { connect } from "react-redux";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { NotificationContainer, NotificationManager } from "react-notifications";
 import Geocode from "react-geocode";
-import PropTypes from "prop-types";
 
 import CardBox from "../../components/CardBox";
-import CustomDateTimePicker from "./CustomDateTimePicker";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 
@@ -218,10 +216,6 @@ class EventForm extends Component {
     } else {
       console.log("Enter a valid address!");
 
-      //       <SweetAlert title="Here's a message!" onConfirm={this.onConfirm}>
-      // It's pretty, isn't it?
-      // </SweetAlert>
-
       const getAlert = () => (
         <SweetAlert danger title="Enter a valid address!" onConfirm={() => this.setState({ geocodeAlert: null })} />
       );
@@ -280,28 +274,6 @@ class EventForm extends Component {
   };
 
   createNotification = type => {
-    // return () => {
-    //     switch (type) {
-    //         case 'info':
-    //             NotificationManager.info(<IntlMessages id="notification.infoMsg"/>);
-    //             break;
-    //         case 'success':
-    //             NotificationManager.success(<IntlMessages id="notification.successMessage"/>, <IntlMessages
-    //                 id="notification.titleHere"/>);
-    //             break;
-    //         case 'warning':
-    //             NotificationManager.warning(<IntlMessages id="notification.warningMessage"/>, <IntlMessages
-    //                 id="notification.closeAfter3000ms"/>, 3000);
-    //             break;
-    //         case 'error':
-    //             NotificationManager.error(<IntlMessages id="notification.errorMessage"/>, <IntlMessages
-    //                 id="notification.clickMe"/>, 5000, () => {
-    //                 alert('callback');
-    //             });
-    //             break;
-    //     }
-    // };
-
     return () => {
       switch (type) {
         case "info":
@@ -352,8 +324,8 @@ class EventForm extends Component {
 
     deleteEventDelete(eventId)
       .then(response => {
-        console.log("Delete Event Ajax DELETE request success!");
-        console.log(response);
+        // console.log("Delete Event Ajax DELETE request success!");
+        // console.log(response);
 
         this.clearForm();
         this.setState({ deleteAlert: null });
@@ -361,8 +333,8 @@ class EventForm extends Component {
         this.props.history.push("/app/events");
       })
       .catch(error => {
-        console.log("Delete Event Ajax DELETE request failed!");
-        console.log(error);
+        // console.log("Delete Event Ajax DELETE request failed!");
+        // console.log(error);
       });
   };
 
@@ -397,12 +369,12 @@ class EventForm extends Component {
   };
 
   createEvent = newEvent => {
-    console.log("newEvent: ", newEvent);
+    // console.log("newEvent: ", newEvent);
 
     createEventPost(newEvent)
       .then(response => {
-        console.log("Create Event Ajax POST request success!");
-        console.log(response);
+        // console.log("Create Event Ajax POST request success!");
+        // console.log(response);
 
         this.createNotification("success");
         this.clearForm();
@@ -411,8 +383,8 @@ class EventForm extends Component {
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log("Create Event Ajax POST request failed!");
-        console.log(error);
+        // console.log("Create Event Ajax POST request failed!");
+        // console.log(error);
       });
   };
 
@@ -421,8 +393,8 @@ class EventForm extends Component {
 
     editEventPut(eventToEdit.Id, eventToEdit)
       .then(response => {
-        console.log("Edit Event Ajax PUT request success!");
-        console.log(response);
+        // console.log("Edit Event Ajax PUT request success!");
+        // console.log(response);
 
         this.clearForm();
         this.setState({ inEditMode: false });
@@ -430,29 +402,29 @@ class EventForm extends Component {
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log("Edit Event Ajax PUT request failed!");
-        console.log(error);
+        // console.log("Edit Event Ajax PUT request failed!");
+        // console.log(error);
       });
   };
 
   getEventInfo = eventId => {
-    console.log("Loading event with ID: ", eventId);
+    // console.log("Loading event with ID: ", eventId);
 
     getEventById(eventId)
       .then(response => {
-        console.log("Get by Event Id Ajax GET request success!");
-        console.log(response);
+        // console.log("Get by Event Id Ajax GET request success!");
+        // console.log(response);
 
         this.updateEventStates(response.data.item);
       })
       .catch(error => {
-        console.log("Get by Event Id Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get by Event Id Ajax GET request failed!");
+        // console.log(error);
       });
   };
 
   updateEventStates = responseDataItem => {
-    console.log("responseDataItem: ", responseDataItem);
+    // console.log("responseDataItem: ", responseDataItem);
 
     this.setState({
       name: responseDataItem.name,
@@ -490,8 +462,8 @@ class EventForm extends Component {
   getEventTypes = () => {
     getEventTypes()
       .then(response => {
-        console.log("Get Event Types GET Ajax Request success!");
-        console.log(response);
+        // console.log("Get Event Types GET Ajax Request success!");
+        // console.log(response);
 
         const eventTypeItems = response.data.items;
 
@@ -500,8 +472,8 @@ class EventForm extends Component {
         this.setState({ eventTypeItems: eventTypeItems });
       })
       .catch(error => {
-        console.log("Get Event Types GET Ajax Request failed!");
-        console.log(error);
+        // console.log("Get Event Types GET Ajax Request failed!");
+        // console.log(error);
       });
   };
 
@@ -531,7 +503,9 @@ class EventForm extends Component {
   };
 
   componentDidMount = () => {
-    console.log("EventForm Component Mounted");
+    // console.log("EventForm Component Mounted");
+
+    // console.log("EventForm props: ", this.props);
 
     // const currentUser = 3,
     //   ongoing = true;
@@ -740,21 +714,6 @@ class EventForm extends Component {
                           False
                         </label>
                       </div>
-                      {/* {customRadioButtons} */}
-                      {/* <div className="custom-control custom-radio mr-4">
-                        <input
-                          type="radio"
-                          id="customRadio6"
-                          name="customRadio"
-                          className="custom-control-input"
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="customRadio6"
-                        >
-                          Other
-                        </label>
-                      </div> */}
                     </div>
                   </div>
                   <div className="col-md-4 col-12 mt-4">
@@ -892,15 +851,6 @@ class EventForm extends Component {
             </div>
           </div>
         </div>
-        {/* <div className="animated slideInUpTiny animation-duration-3">
-        <ContainerHeader title={<IntlMessages id="sidebar.components.textFields"/>} match={match}/>
-
-        <div className="row mb-md-4">
-            <CardBox styleName="col-lg-12" heading={<IntlMessages id="component.textFields.textfield"/>}>
-                <TextFields/>
-            </CardBox>
-        </div>
-        </div> */}
         {cancelAlert} {deleteAlert} {geocodeAlert}
         <NotificationContainer />
       </div>

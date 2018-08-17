@@ -1,7 +1,8 @@
 import React from "react";
 import AddSportModal from "./AddSportModal";
 import { connect } from "react-redux";
-import { postAthleteSport } from "./AddSportService";
+import { postAthleteSport, getAthleteInfoById } from "./AddSportService";
+import AthleteSportHistoryCard from "../AthleteSportHistoryCard";
 
 class AddSportHistory extends React.Component {
   state = {
@@ -16,12 +17,17 @@ class AddSportHistory extends React.Component {
     sportLevelId: ""
   };
 
+  componentDidMount() {
+    // getAthleteInfoById(0, 5, this.props.currentUser.id).then(res => {
+    //   console.log(res);
+    // });
+  }
+
   onHandleChange = e => {
     let name = e.target.name;
     let value = e.target.value;
     this.setState({ [name]: value });
   };
-  q;
 
   onSportPositionIdChange = sportPositionIds => {
     this.setState({ sportPositionId: sportPositionIds });

@@ -13,8 +13,6 @@
 .slash {
     color:#b1afaf;
     font-size: 22px;
-    position: relative;
-    top: -3px
 }
 
 .profileInfoBtn {
@@ -34,4 +32,22 @@
     background-color: #4caf50;
     margin-bottom: 0px;
     margin-right:-5%
+}
+
+/* .nameInputs{
+   width: 
+} */
+
+/* .form-group{
+    margin-bottom: 1em !important;
+} */
+
+.addedHeight{
+    padding-bottom: 1rem !important;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }

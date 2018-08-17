@@ -35,30 +35,35 @@ class WelcomePage extends React.Component {
 
   render() {
     return (
-      <div
-        className="container-fluid mainContainer mx-auto p-0 align-self-stretch"
-        style={{
-          backgroundImage:
-            "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
-        }}
-      >
-        <div className="container-fluid py-5">
-          <UserTypeCards
-            regScrollCoach={this.scrollToRegFormCoach}
-            regScrollAthlete={this.scrollToRegFormAthlete}
-            regScrollAdvocate={this.scrollToRegFormAdvocate}
-          />
-        </div>
+      <div>
+        <IfLoginStatus loggedIn={true}>
+          <Redirect to={`home`} />
+        </IfLoginStatus>
+        <div
+          className="container-fluid mainContainer mx-auto p-0 align-self-stretch"
+          style={{
+            backgroundImage:
+              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
+          }}
+        >
+          <div className="container-fluid py-5">
+            <UserTypeCards
+              regScrollCoach={this.scrollToRegFormCoach}
+              regScrollAthlete={this.scrollToRegFormAthlete}
+              regScrollAdvocate={this.scrollToRegFormAdvocate}
+            />
+          </div>
 
-        <FeatureList className="py-5 justify-content-center" />
+          <FeatureList className="py-5 justify-content-center" />
 
         <div className="py-5 mb-5" ref={this.registerRef}>
-          <UserRegistrationForm userType={this.state.userType} key={this.state.userType} redirect={this.redirect} />
-        </div>
+            <UserRegistrationForm userType={this.state.userType} key={this.state.userType} redirect={this.redirect} />
+          </div>
 
-        <IfLoginStatus loggedIn={true}>
-          <Redirect to={"/app/home"} />
-        </IfLoginStatus>
+          <IfLoginStatus loggedIn={true}>
+            <Redirect to={"/app/home"} />
+          </IfLoginStatus>
+        </div>
       </div>
     );
   }

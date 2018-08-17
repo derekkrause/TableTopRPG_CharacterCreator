@@ -72,10 +72,22 @@ class VideoPlayerContainer extends React.Component {
     this.onEnded();
   }
   render() {
+    let videoHeight = null;
+    let videoWidth = null;
+    if (this.props.height) {
+      videoHeight = this.props.height;
+    } else {
+      videoHeight = this.state.height;
+    }
+    if (this.props.width) {
+      videoWidth = this.props.width;
+    } else {
+      videoWidth = this.state.width;
+    }
     const videoParams = {
       controls: this.state.controls,
-      height: this.state.height,
-      width: this.state.width,
+      height: videoHeight,
+      width: videoWidth,
       videoUrl: this.props.videoUrl,
       volume: this.state.volume
     };

@@ -97,13 +97,13 @@ handleImageUrlChange = imageUrl => {
               <button
                 type="button"
                 id="UploadButton"
-                className="jr-btn jr-btn-default btn btn-default"
+                className={`jr-btn jr-btn-default btn btn-default ${this.props.cssClassName}`}
                 onClick={() => {
                   this.upload.click();
                 }}
               >
                 <i className="zmdi zmdi-image zmdi-hc-fw" />
-                &nbsp;Upload Images
+                {this.props.uploaderName ? this.props.uploaderName : <p>&nbsp;Upload Images</p>}
               </button>
             </React.Fragment>
           ) : (

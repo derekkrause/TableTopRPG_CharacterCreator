@@ -29,6 +29,8 @@ namespace Sabio.Web
             // give them an instance of "PogsService"
             container.RegisterType<IPogsService, FakePogService>();
 
+            container.RegisterType<IConfiguration, HardCodedConfiguration>();
+
             container.RegisterType<IUserTableService, UserTableServices>();
             container.RegisterType<IEventService, EventService>();
 

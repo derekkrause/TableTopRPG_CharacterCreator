@@ -2,19 +2,16 @@ import axios from "axios";
 
 const nodeBaseUrl = "/node-api/server.js/api";
 
-const BaseUrl;;
-
-
 axios.defaults.withCredentials = true;
 
 //------------GET------------------------
 
 export function getGradYears() {
-    return axios.get("");
+  return axios.get("");
 }
 
 export function getSportPositions() {
-  return axios.get("");
+  return axios.get("/sportpositions");
 }
 
 export function getSportLevels() {
@@ -22,21 +19,21 @@ export function getSportLevels() {
 }
 
 export function getSchools() {
-    return axios.get(nodeBaseUrl + "/schools");
-  }
+  return axios.get(nodeBaseUrl + "/school");
+}
 
 export function getEventTypes() {
-    return axios.get("");
+  return axios.get("");
 }
 
 export function getVenueTypes() {
-    return axios.get("");
+  return axios.get("");
 }
 
 export function getArticleTypes() {
-    return axios.get("");
+  return axios.get("");
 }
 
 export function getArticleTags() {
-    return axios.get("");
+  return axios.get("");
 }

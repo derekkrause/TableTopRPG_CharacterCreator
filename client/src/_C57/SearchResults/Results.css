@@ -1,9 +1,21 @@
-.SearchResults .myAvatar{
-    height: 100%;
-    width: auto;
+.myAvatar{
     border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    object-fit: cover;
+
 }
 
 .playertag{
     background-color: blue;
 }
+
+.venuetag {
+    border-left: solid 8px yellow;
+}
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+  }

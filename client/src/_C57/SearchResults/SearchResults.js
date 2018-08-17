@@ -11,8 +11,8 @@ import AllSearchResults from "./AllSearchResults";
 class SearchResults extends React.Component {
   render() {
     return (
-      <div className="container ">
-        <div className="row " style={{ margin: "24px" }}>
+      <div className="container">
+        <div className="row mt-3 ml-1">
           <div className="col-12">
             <Route path={`${this.props.match.url}/all`} render={props => <AllSearchResults {...props} />} />
             <Route path={`${this.props.match.url}/athletes`} render={props => <AthleteSearchResults {...props} />} />

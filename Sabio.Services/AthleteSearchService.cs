@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using Sabio.Data;
+﻿using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sabio.Services
 {
@@ -36,65 +32,22 @@ namespace Sabio.Services
                 (reader, resultSetIndex) =>
                 {
                     AthleteSearchInfo athleteSearchInfo = new AthleteSearchInfo
-                    { };
-                       
-                    object FirstName = reader["FirstName"];
-                    if (FirstName != DBNull.Value)
                     {
-                        athleteSearchInfo.FirstName = (string)FirstName;
-                    }
+                        Id = reader.GetSafeInt32Nullable("AthleteId"),
+                        ShortBio = (string)reader["ShortBio"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        MiddleName = (string)reader["MiddleName"],
+                        AvatarUrl = (string)reader["AvatarURL"],
+                        ClassYear = (string)reader["ClassYear"],
+                        HighSchoolGraduationYear = reader.GetSafeInt32Nullable("HighSchoolGraduationYear"),
+                        City = (string)reader["City"],
+                        State = (string)reader["State"],
+                        SportName = (string)reader["Sport"],
+                        SportPosition = (string)reader["SportPosition"],
+                        School = (string)reader["School"],
 
-                    object LastName = reader["LastName"];
-                    if (LastName != DBNull.Value)
-                    {
-                        athleteSearchInfo.LastName = (string)LastName;
-                    }
-
-                    object MiddleName = reader["MiddleName"];
-                    if (MiddleName != DBNull.Value)
-                    {
-                        athleteSearchInfo.MiddleName = (string)MiddleName;
-                    }
-
-                    object AvatarURL = reader["AvatarURL"];
-                    if (AvatarURL != DBNull.Value)
-                    {
-                        athleteSearchInfo.AvatarUrl = (string)AvatarURL;
-                    }
-
-                    object ClassYear = reader["ClassYear"];
-                    if (ClassYear != DBNull.Value)
-                    {
-                        athleteSearchInfo.ClassYear = (string)ClassYear;
-                    }
-                    object HighSchoolGraduationYear = reader["HighSchoolGraduationYear"];
-                    if (HighSchoolGraduationYear != DBNull.Value)
-                    {
-                        athleteSearchInfo.HighSchoolGraduationYear = (int)HighSchoolGraduationYear;
-                    }
-
-                    object City = reader["City"];
-                    if (City != DBNull.Value)
-                    {
-                        athleteSearchInfo.City = (string)City;
-                    }
-
-                    object State = reader["State"];
-                    if (State != DBNull.Value)
-                    {
-                        athleteSearchInfo.State = (string)State;
-                    }
-                    object SportName = reader["Sport"];
-                    if (SportName != DBNull.Value)
-                    {
-                        athleteSearchInfo.SportName = (string)SportName;
-                    }
-                    object SportPosition = reader["SportPosition"];
-                    if (SportPosition != DBNull.Value)
-                    {
-                        athleteSearchInfo.SportPosition = (string)SportPosition;
-                    }
-
+                };
                     listOfAthletes.Add(athleteSearchInfo);
                 });
             return listOfAthletes;
@@ -113,6 +66,7 @@ namespace Sabio.Services
                         case 0:
                             DropDownClassYear classYear = new DropDownClassYear
                             {
+                                Id = reader.GetSafeInt32Nullable("ClassYearId"),
                                 Name = (string)reader["ClassYear"]
                             };
                             Options.ClassYear.Add(classYear);
@@ -120,6 +74,7 @@ namespace Sabio.Services
                         case 1:
                             DropDownSportPosition sportPosition = new DropDownSportPosition
                             {
+                                Id = reader.GetSafeInt32Nullable("SportPositionId"),
                                 Name = (string)reader["SportPosition"]
                             };
                             Options.SportPosition.Add(sportPosition);
@@ -127,6 +82,7 @@ namespace Sabio.Services
                         case 2:
                             State state = new State
                             {
+                                Id = reader.GetSafeInt32Nullable("StateId"),
                                 Name = (string)reader["State"]
                             };
                             Options.State.Add(state);
@@ -137,4 +93,3 @@ namespace Sabio.Services
         }
     }
 }
-

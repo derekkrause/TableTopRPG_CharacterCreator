@@ -94,7 +94,7 @@
 }
 
 .notification-info:before {
-    content: ""
+    content: "ℹ️"
 }
 
 .notification-success {
@@ -102,7 +102,7 @@
 }
 
 .notification-success:before {
-    content: ""
+    content: "✔️"
 }
 
 .notification-warning {
@@ -110,7 +110,7 @@
 }
 
 .notification-warning:before {
-    content: ""
+    content: "⚠️"
 }
 
 .notification-error {
@@ -118,5 +118,5 @@
 }
 
 .notification-error:before {
-    content: ""
+    content: "❌"
 }

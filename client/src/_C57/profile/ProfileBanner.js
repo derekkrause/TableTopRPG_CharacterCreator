@@ -32,6 +32,7 @@ class ProfileBanner extends React.Component {
             <div className="col-md-9">
               <ProfileInfo
                 handleChange={this.props.handleChange}
+                onChange={this.props.onChange}
                 firstName={this.props.firstName}
                 middleName={this.props.middleName}
                 lastName={this.props.lastName}
@@ -39,21 +40,29 @@ class ProfileBanner extends React.Component {
                 city={this.props.city}
                 state={this.props.state}
                 schoolName={this.props.schoolName}
+                schoolId={this.props.schoolId}
                 classYear={this.props.classYear}
+                classYearId={this.props.classYearId}
+                classYearOptions={this.props.classYearOptions}
                 gradYear={this.props.gradYear}
                 sport={this.props.sport}
                 sportLevel={this.props.sportLevel}
                 sportPosition={this.props.sportPosition}
                 height={this.props.height}
+                heightFeet={this.props.heightFeet}
+                heightInches={this.props.heightInches}
                 weight={this.props.weight}
                 gpa={this.props.gpa}
+                act={this.props.act}
+                handleSaveProfile={this.props.handleSaveProfile}
+                onHandleSchoolSelect={this.props.onHandleSchoolSelect}
               />
             </div>
           </div>
           {/* <div className="row">
             <div className="col-md-12">
               <ProfileBio handleChange={this.props.handleChange} bio={this.props.bio} />
-            </div>
+        </div>
           </div> */}
         </div>
       </React.Fragment>

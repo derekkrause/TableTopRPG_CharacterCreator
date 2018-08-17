@@ -44,11 +44,12 @@ class EventView extends Component {
     currentUser: {},
     attendingEvent: false,
     eventDataItem: {},
-    attendeesList: []
+    attendeesList: [],
+    adminUser: false
   };
 
   handlerAttendEventBtn = () => {
-    console.log("Attend Event button clicked!");
+    // console.log("Attend Event button clicked!");
 
     const { currentUser, eventId } = this.state;
     const userId = currentUser.id;
@@ -59,12 +60,12 @@ class EventView extends Component {
 
     const attendEventUser = { EventId: eventId, UserId: userId };
 
-    console.log("attendEventUser: ", attendEventUser);
+    // console.log("attendEventUser: ", attendEventUser);
 
     createEventUserPost(attendEventUser)
       .then(response => {
-        console.log("Create EventUser Ajax POST request success!");
-        console.log(response);
+        // console.log("Create EventUser Ajax POST request success!");
+        // console.log(response);
 
         this.setState({ attendingEvent: true }, () => {
           const { eventId } = this.state;
@@ -73,13 +74,13 @@ class EventView extends Component {
         });
       })
       .catch(error => {
-        console.log("Create EventUser Ajax POST request failed!");
-        console.log(error);
+        // console.log("Create EventUser Ajax POST request failed!");
+        // console.log(error);
       });
   };
 
   handlerDontAttendEventBtn = () => {
-    console.log("Don't Attend Event button clicked!");
+    // console.log("Don't Attend Event button clicked!");
 
     const { currentUser, eventId } = this.state;
     const userId = currentUser.id;
@@ -90,12 +91,12 @@ class EventView extends Component {
 
     const dontAttendEventUser = { EventId: eventId, UserId: userId };
 
-    console.log("dontAttendEventUser: ", dontAttendEventUser);
+    // console.log("dontAttendEventUser: ", dontAttendEventUser);
 
     deleteEventUserByEventIdUserIdDelete(dontAttendEventUser)
       .then(response => {
-        console.log("Delete EventUser Ajax DELETE request success!");
-        console.log(response);
+        // console.log("Delete EventUser Ajax DELETE request success!");
+        // console.log(response);
 
         this.setState({ attendingEvent: false }, () => {
           const { eventId } = this.state;
@@ -104,19 +105,18 @@ class EventView extends Component {
         });
       })
       .catch(error => {
-        console.log("Delete EventUser Ajax DELETE request failed!");
-        console.log(error);
+        // console.log("Delete EventUser Ajax DELETE request failed!");
+        // console.log(error);
       });
   };
 
   handlerGoBackBtn = () => {
-    console.log("Go Back button clicked!");
-
+    // console.log("Go Back button clicked!");
     // this.props.history.goBack();
   };
 
   updateEventStates(responseDataItem) {
-    console.log("responseDataItem: ", responseDataItem);
+    // console.log("responseDataItem: ", responseDataItem);
 
     this.setState({
       name: responseDataItem.name,
@@ -143,44 +143,44 @@ class EventView extends Component {
   }
 
   getEventInfo(eventId) {
-    console.log("Loading event with ID: ", eventId);
+    // console.log("Loading event with ID: ", eventId);
 
     getEventById(eventId)
       .then(response => {
-        console.log("Get by Event Id Ajax GET request success!");
-        console.log(response);
+        // console.log("Get by Event Id Ajax GET request success!");
+        // console.log(response);
 
         this.updateEventStates(response.data.item);
 
         this.getEventAttendees(response.data.item.id);
       })
       .catch(error => {
-        console.log("Get by Event Id Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get by Event Id Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   getEventTypeInfo(eventTypeId) {
-    console.log("eventTypeId: ", eventTypeId);
+    // console.log("eventTypeId: ", eventTypeId);
 
     getEventTypeById(eventTypeId)
       .then(response => {
-        console.log("Get by EventType Id Ajax GET request success!");
-        console.log(response);
+        // console.log("Get by EventType Id Ajax GET request success!");
+        // console.log(response);
 
         this.setState({ eventTypeItem: response.data.item });
       })
       .catch(error => {
-        console.log("Get by EventType Id Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get by EventType Id Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   getEventItem(eventId) {
     getEventByIdWithUser(eventId)
       .then(response => {
-        console.log("Get by Event ID with User Ajax GET request success!");
-        console.log(response);
+        // console.log("Get by Event ID with User Ajax GET request success!");
+        // console.log(response);
 
         this.setState({
           eventDataItem: response.data.item
@@ -188,27 +188,27 @@ class EventView extends Component {
         });
       })
       .catch(error => {
-        console.log("Get by Event ID with User Ajax GET request error!");
-        console.log(error);
+        // console.log("Get by Event ID with User Ajax GET request error!");
+        // console.log(error);
       });
 
     getEventUsersListByEventIdGet(eventId)
       .then(response => {
-        console.log("Get EventUsers List by Event ID Ajax GET request success!");
-        console.log(response);
+        // console.log("Get EventUsers List by Event ID Ajax GET request success!");
+        // console.log(response);
 
         const attendeesList = response.data.items;
 
         this.setState({ attendeesList: attendeesList });
       })
       .catch(error => {
-        console.log("Get EventUsers List by Event ID Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get EventUsers List by Event ID Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   findUserInAttendees = attendeesList => {
-    console.log("EventView attendeesList: ", attendeesList);
+    // console.log("EventView attendeesList: ", attendeesList);
 
     const { currentUser, createdBy } = this.state;
 
@@ -217,13 +217,7 @@ class EventView extends Component {
       return currentUser.id === user.userId;
     });
 
-    console.log("EventView userInAttendees: ", userInAttendees);
-
-    // if (currentUser.id === userInAttendees.userId) {
-    //   this.setState({ attendingEvent: true });
-    // } else {
-    //   this.setState({ attendingEvent: false });
-    // }
+    // console.log("EventView userInAttendees: ", userInAttendees);
 
     if (userInAttendees) {
       this.setState({ attendingEvent: true });
@@ -238,7 +232,7 @@ class EventView extends Component {
     });
 
     const createdEventUserIndexInAttendees = attendeesList.findIndex(user => {
-      console.log("findIndex createdBy: ", createdBy, ", user.userId: ", user.userId);
+      // console.log("findIndex createdBy: ", createdBy, ", user.userId: ", user.userId);
       return createdBy === user.userId;
     });
 
@@ -274,7 +268,7 @@ class EventView extends Component {
       attendeesModded.push(thisUser);
     });
 
-    console.log("EventView attendeesModded: ", attendeesModded);
+    // console.log("EventView attendeesModded: ", attendeesModded);
 
     this.setState({ attendeesList: attendeesModded });
   };
@@ -282,8 +276,8 @@ class EventView extends Component {
   getEventAttendees = eventId => {
     getEventAttendeesListGet(eventId)
       .then(response => {
-        console.log("Get Event Attendees by Event ID Ajax GET request success!");
-        console.log(response);
+        // console.log("Get Event Attendees by Event ID Ajax GET request success!");
+        // console.log(response);
 
         const attendees = response.data.items;
 
@@ -292,36 +286,35 @@ class EventView extends Component {
         this.findUserInAttendees(attendees);
       })
       .catch(error => {
-        console.log("Get Event Attendees by Event ID Ajax GET request error!");
-        console.log(error);
+        // console.log("Get Event Attendees by Event ID Ajax GET request error!");
+        // console.log(error);
       });
   };
 
   componentDidMount() {
-    console.log("EventView Component Mounted");
+    // console.log("EventView Component Mounted");
 
-    const defaultEventId = 8; // University of Phoenix Stadium, ID = 14
-    const userId = this.props.match.params.userId;
+    // console.log("EventView props: ", this.props);
 
     const eventId = this.props.match.params.eventId;
 
-    // console.log("eventId: ", eventId);
-
     if (eventId) {
       this.getEventInfo(eventId);
-      // this.getEventAttendees(eventId);
 
       this.setState({ eventId: eventId });
     }
-    // else {
-    //   this.getEventInfo(defaultEventId);
-    // }
 
-    const { currentUser } = this.props;
+    const { currentUser, adminUser } = this.props;
 
     this.setState({ currentUser: currentUser });
 
-    // console.log("Current User: ", currentUser);
+    // console.log("EventView Current User: ", currentUser);
+
+    if (adminUser) {
+      this.setState({ adminUser: true });
+    } else {
+      this.setState({ adminUser: false });
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -330,16 +323,6 @@ class EventView extends Component {
 
       this.getEventTypeInfo(eventTypeId);
     }
-
-    // if (this.state.attendingEvent !== prevState.attendingEvent) {
-    //   const { eventId } = this.state;
-
-    //   this.getEventInfo(eventId);
-    // }
-
-    // if (this.state.createdBy !== prevState.createdBy) {
-    //   this.findUserInAttendees(attendeesList);
-    // }
   }
 
   render() {
@@ -384,7 +367,7 @@ class EventView extends Component {
       </GoogleMap>
     ));
 
-    const { eventId, createdBy, attendingEvent, currentUser, eventDataItem, attendeesList } = this.state;
+    const { eventId, createdBy, attendingEvent, currentUser, eventDataItem, attendeesList, adminUser } = this.state;
 
     // console.log("EventView render createdBy: ", createdBy);
 
@@ -404,7 +387,7 @@ class EventView extends Component {
       );
     }
 
-    if (createdBy === currentUser.id) {
+    if (createdBy === currentUser.id || adminUser === true) {
       attendLeaveButton = null;
       editButton = (
         <NavLink
@@ -424,7 +407,7 @@ class EventView extends Component {
 
     const { firstName, lastName } = eventDataItem;
 
-    console.log("EventView render attendeesList: ", attendeesList);
+    // console.log("EventView render attendeesList: ", attendeesList);
 
     return (
       <div>

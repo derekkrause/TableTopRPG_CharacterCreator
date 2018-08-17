@@ -2,6 +2,7 @@
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using Sabio.Services;
+using Sabio.Services.Security;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -69,7 +70,7 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            int authorId = 3; //TODO: update to userId from cookies yum
+            int authorId = User.Identity.GetId().Value; 
 
             int newBlogId = blogsService.Create(blogCreateRequest, authorId);
 

@@ -41,10 +41,11 @@ class SportPositionCollapse extends Component {
           <Collapse isOpen={this.state.collapse}>
             <SportPositionCollapseInput
               handleEditClick={this.handleEditClick}
+              removePosition={this.props.removePosition}
+              removedPosition={this.props.removedPosition}
               position={this.props.position}
               handleCheck={this.props.handleCheck}
               handleChange={this.props.handleChange}
-              handleDeleteClick={this.props.handleDeleteClick}
               handleUpdateClick={this.props.handleUpdateClick}
               sportsData={this.props.sportsData}
             />

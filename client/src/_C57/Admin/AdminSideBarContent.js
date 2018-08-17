@@ -22,36 +22,32 @@ class AdminSideBarContent extends React.Component {
           <ul className="admin-link-container">
             <li className="admin-link top-link">
               <NavLink className="link" to={`${this.props.match.url}/school`}>
-                  Schools
+                Schools
               </NavLink>
-              </li>
+            </li>
 
             <li className="admin-link">
               <NavLink className="link" to={`${this.props.match.url}/sports`}>
-                    Sports
-                </NavLink>
-              </li>
-              <li>
-                <button className="btn btn-link" style={{ marginTop: "10px" }}>
-                  <NavLink to={`${this.props.match.url}/classyear`}>Class Year</NavLink>
-                </button>
-              </li>
-              <li className="menu ">
-                <button className="btn btn-link dropdown-toggle" onClick={this.toggleClass}>
-                  Events
-                </button>
-                {
-                  <React.Fragment>
-                    <ul>
-                      <li>
-                        <NavLink to={`${this.props.match.url}/eventtypes`}>Event Types</NavLink>
-                      </li>
-                    </ul>
-                  </React.Fragment>
-                }
-              </li>
-            </ul>
-          </div>
+                Sports
+              </NavLink>
+            </li>
+            <li>
+              <button className="btn btn-link" style={{ marginTop: "10px" }}>
+                <NavLink to={`${this.props.match.url}/classyear`}>Class Year</NavLink>
+              </button>
+            </li>
+            <li>
+              <button className="btn btn-link" style={{ marginTop: "10px" }}>
+                <NavLink to={`${this.props.match.url}/eventadmin`}>Events</NavLink>
+              </button>
+            </li>
+            <li>
+              <button className="btn btn-link" style={{ marginTop: "10px" }}>
+                <NavLink to={`${this.props.match.url}/eventtypes`}>Event Types</NavLink>
+              </button>
+            </li>
+          </ul>
+        </div>
       </CustomScrollbars>
     );
   }

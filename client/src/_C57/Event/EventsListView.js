@@ -17,28 +17,28 @@ class EventsListView extends Component {
   };
 
   getEventInfo(eventId) {
-    console.log("Loading event with ID: ", eventId);
+    // console.log("Loading event with ID: ", eventId);
 
     getEventById(eventId)
       .then(response => {
-        console.log("Get by Event Id Ajax GET request success!");
-        console.log(response);
+        // console.log("Get by Event Id Ajax GET request success!");
+        // console.log(response);
 
         this.setState({ eventList: response.data.item });
       })
       .catch(error => {
-        console.log("Get by Event Id Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get by Event Id Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   getEventList(pageIndex, pageSize) {
-    console.log("pageIndex: ", pageIndex, "pageSize: ", pageSize);
+    // console.log("pageIndex: ", pageIndex, "pageSize: ", pageSize);
 
     getEventListPaged(pageIndex, pageSize)
       .then(response => {
-        console.log("Get Events Paged Ajax GET request success!");
-        console.log(response);
+        // console.log("Get Events Paged Ajax GET request success!");
+        // console.log(response);
 
         this.setState({
           eventDataItem: response.data.item,
@@ -46,16 +46,16 @@ class EventsListView extends Component {
         });
       })
       .catch(error => {
-        console.log("Get Events Paged Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get Events Paged Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
   getEventsList() {
     getEventsListGet()
       .then(response => {
-        console.log("Get Events Ajax GET request success!");
-        console.log(response);
+        // console.log("Get Events Ajax GET request success!");
+        // console.log(response);
 
         this.setState({
           eventDataItem: response.data.items,
@@ -63,8 +63,8 @@ class EventsListView extends Component {
         });
       })
       .catch(error => {
-        console.log("Get Events Ajax GET request failed!");
-        console.log(error);
+        // console.log("Get Events Ajax GET request failed!");
+        // console.log(error);
       });
   }
 
@@ -86,7 +86,7 @@ class EventsListView extends Component {
   }
 
   componentDidMount() {
-    console.log("EventListView Component Mounted");
+    // console.log("EventListView Component Mounted");
 
     const pageIndex = 0,
       pageSize = 6;
@@ -134,7 +134,9 @@ class EventsListView extends Component {
             </NavLink>
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
-            {eventCardsList.map(data => <EventCardItem key={data.id} eventId={data.id} {...this.props} />)}
+            {eventCardsList.map(data => (
+              <EventCardItem key={data.id} eventId={data.id} {...this.props} />
+            ))}
             {/* User logged in: {this.state.currentUser.firstName} */}
           </div>
         </div>

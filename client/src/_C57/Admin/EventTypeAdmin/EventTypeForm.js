@@ -201,11 +201,11 @@ class EventTypeForm extends Component {
 
     const eventTypeId = this.props.match.params.eventTypeId;
 
-    console.log("Form eventId: ", eventTypeId);
-    console.log("Form props: ", this.props);
+    // console.log("EventTypeForm eventId: ", eventTypeId);
+    // console.log("EventTypeForm props: ", this.props);
 
     if (eventTypeId) {
-      console.log("Form eventId: ", eventTypeId);
+      console.log("EventTypeForm eventId: ", eventTypeId);
 
       this.getEventTypeInfo(eventTypeId);
     } else {
@@ -299,7 +299,8 @@ class EventTypeForm extends Component {
                         value="true"
                         onChange={this.handlerInactive}
                         checked={this.state.inactive}
-                      />True
+                      />
+                      True
                     </Label>
                   </FormGroup>
                   <FormGroup check>
@@ -310,7 +311,8 @@ class EventTypeForm extends Component {
                         value="false"
                         onChange={this.handlerInactive}
                         checked={!this.state.inactive}
-                      />False
+                      />
+                      False
                     </Label>
                   </FormGroup>
                 </FormGroup>

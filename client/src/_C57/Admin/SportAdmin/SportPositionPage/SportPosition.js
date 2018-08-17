@@ -13,8 +13,7 @@ class SportPosition extends React.Component {
     sportId: "",
     code: "",
     name: "",
-    inactive: false,
-    collapsed: true
+    inactive: false
   };
 
   handleChangeAdd = e => {
@@ -25,14 +24,6 @@ class SportPosition extends React.Component {
     this.setState({ inactive: e.target.checked });
   };
 
-  handleSubmit = () => {};
-
-  handleExpandPosition = sportPosition => {
-    this.state;
-  };
-
-  handleUpdateClick = () => {};
-
   handleEditClick = sportPositionInfo => {
     this.setState({
       id: sportPositionInfo.id,
@@ -41,10 +32,6 @@ class SportPosition extends React.Component {
       name: sportPositionInfo.name,
       inactive: sportPositionInfo.inactive
     });
-  };
-
-  handleDeleteClick = sportPositionInfo => {
-    deleteSportPosition(sportPositionInfo.Id);
   };
 
   handleAddPosition = () => {
@@ -58,9 +45,7 @@ class SportPosition extends React.Component {
       <div>
         <SportPositionTable
           handleCollapseAll={this.props.handleCollapseAll}
-          handleDeleteClick={this.handleDeleteClick}
           handleAddPosition={this.handleAddPosition}
-          handleUpdateClick={this.handleUpdateClick}
           handleEditClick={this.handleEditClick}
           handleChangeAdd={this.handleChangeAdd}
           handleCheck={this.handleCheck}

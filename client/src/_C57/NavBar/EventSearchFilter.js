@@ -28,7 +28,7 @@ class EventSearchFilter extends React.Component {
   getEventTypesList() {
     getEventTypes()
       .then(response => {
-        console.log("Get Event Types GET Ajax Request success!");
+        console.log("EventSearchFilter Get Event Types GET Ajax Request success!");
         console.log(response);
 
         const eventTypes = response.data.items;
@@ -36,7 +36,7 @@ class EventSearchFilter extends React.Component {
         this.convertEventTypeObjToArray(eventTypes);
       })
       .catch(error => {
-        console.log("Get Event Types GET Ajax Request failed!");
+        console.log("EventSearchFilter Get Event Types GET Ajax Request failed!");
         console.log(error);
       });
   }
