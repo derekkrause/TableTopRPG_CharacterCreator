@@ -37,9 +37,17 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            var response = await userTableServices.Create(userCreateRequest);
+            try
+            {
+                var response = await userTableServices.Create(userCreateRequest);
+                return Request.CreateResponse(HttpStatusCode.Created, response);
+            }
+            catch(DuplicateEmailException)
+            {
+                HttpError err = new HttpError("Email already registered. Please try logging in.");
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, err); 
+            }
 
-            return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet, Authorize(Roles = "Admin", Users = "")]
@@ -83,8 +91,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
+            try
+            {
             UserBase userBase = userTableServices.Login(userLoginRequest);
-
             authenticationService.LogIn(new UserBase
             {
                 Id = userBase.Id,
@@ -93,6 +102,12 @@ namespace Sabio.Web.Controllers.Api
             });
 
             return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch(System.ApplicationException)
+            {
+                HttpError err = new HttpError("Account needs to be confirmed before logging in.");
+                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, err);
+            }
         }
         
         [Route("{id:int}"), HttpPut]

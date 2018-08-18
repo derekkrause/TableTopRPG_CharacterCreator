@@ -7,6 +7,7 @@ using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -31,22 +32,30 @@ namespace Sabio.Services
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
             string tokenId= Guid.NewGuid().ToString();
 
-            dataProvider.ExecuteNonQuery(
-                "User_Insert",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName);
-                    parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                    parameters.AddWithValue("@Email", request.Email);
-                    parameters.AddWithValue("@PasswordHash", passHash);
-                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                },
-                (parameters) =>
-                {
-                    newId = (int)parameters["@Id"].Value;
-                });
+            try
+            {
+                dataProvider.ExecuteNonQuery(
+                    "User_Insert",
+                    (parameters) =>
+                    {
+                        parameters.AddWithValue("@FirstName", request.FirstName);
+                        parameters.AddWithValue("@MiddleName", request.MiddleName);
+                        parameters.AddWithValue("@LastName", request.LastName);
+                        parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                        parameters.AddWithValue("@Email", request.Email);
+                        parameters.AddWithValue("@PasswordHash", passHash);
+                        parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    },
+                    (parameters) =>
+                    {
+                        newId = (int)parameters["@Id"].Value;
+                    });
+
+            } 
+            catch (SqlException ex) when (ex.Number == 2627)
+            {
+                throw new DuplicateEmailException();
+            }
 
             dataProvider.ExecuteNonQuery(
                 "EmailConfirmation_Insert",
@@ -173,35 +182,43 @@ namespace Sabio.Services
             bool isAdmin = false;
             bool confirmed = false;
 
-     
-            dataProvider.ExecuteCmd(
-                "User_Login",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@Email", request.Email);
-                },
-                (reader, resultSetIndex) =>
-                {
-                    storedPassword = (string)reader["PasswordHash"];
-                    userId = (int)reader["Id"];
-                    firstName = (string)reader["FirstName"];
-                    lastName = (string)reader["LastName"];
-                    isAdmin = (bool)reader["Admin"];
-                    confirmed = (bool)reader["Confirmed"];
-                });
+            try
+            {
 
-            if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword) && confirmed)
-            {
-                return new UserBase
+                dataProvider.ExecuteCmd(
+                    "User_Login",
+                    (parameters) =>
+                    {
+                        parameters.AddWithValue("@Email", request.Email);
+                    },
+                    (reader, resultSetIndex) =>
+                    {
+                        storedPassword = (string)reader["PasswordHash"];
+                        userId = (int)reader["Id"];
+                        firstName = (string)reader["FirstName"];
+                        lastName = (string)reader["LastName"];
+                        isAdmin = (bool)reader["Admin"];
+                        confirmed = (bool)reader["Confirmed"];
+                    });
+
+                if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword))
                 {
-                    Id = userId,
-                    Name = firstName + " " + lastName,
-                    Roles = isAdmin ? new[] { "Admin" } : new string[0]
-                };
+                    return new UserBase
+                    {
+                        Id = userId,
+                        Name = firstName + " " + lastName,
+                        Roles = isAdmin ? new[] { "Admin" } : new string[0]
+                    };
+                }
+            
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (SqlException ex) when (ex.Number == 50000)
             {
-                return null;
+                throw new ApplicationException();
             }
         }
         

@@ -1,8 +1,8 @@
 import React from "react";
 import "./NavStyle.css";
 import { Button, Collapse, FormGroup, Input, Select } from "reactstrap";
-import { userLogout } from "../../services/registerLogin.service";
-import { currentUser } from "../../services/currentUser.service";
+import { NotificationManager, NotificationContainer } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 import { NavLink, withRouter } from "react-router-dom";
 import AthleteSearchFilter from "./AthleteSearchFilter";
 import EventSearchFilter from "./EventSearchFilter";
@@ -11,6 +11,9 @@ import ArticleSearchFilter from "./ArticleSearchFilter";
 import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
 import { connect } from "react-redux";
+import { userLogout } from "../../services/registerLogin.service";
+import { currentUser } from "../../services/currentUser.service";
+import Logout from "../RegistrationLoginPage/Logout";
 
 class NavBar extends React.Component {
   handleTypeAheadChange = name => values => {
@@ -57,25 +60,24 @@ class NavBar extends React.Component {
     console.log("componentDidMount 1", this.props);
   }
 
-  logout = () => {
-    userLogout().then(currentUser);
-  };
-
   componentDidMount() {
     console.log("componentDidMount 2", this.props);
   }
 
+  logout = () => {
+    userLogout().then(currentUser, NotificationManager.info("Successfully logged out", "", 2000));
+  };
+
   render() {
     return (
       <div>
+        <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="d-flex app-toolbar align-items-center justify-content-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">
               <b>Hub Scout</b>
             </h4>
-            <button className="d-none d-sm-block" onClick={this.logout}>
-              Logout
-            </button>
+            <Logout logout={this.logout} />
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select
                 className="selectpicker"

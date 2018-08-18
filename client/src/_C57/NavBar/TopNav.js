@@ -1,7 +1,7 @@
 import React from "react";
 import UserLogin from "_C57/RegistrationLoginPage/Login.js";
 import { Button, Popover, PopoverBody } from "reactstrap";
-import { NotificationManager } from "react-notifications";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 class TopNav extends React.Component {
@@ -9,13 +9,17 @@ class TopNav extends React.Component {
     isOpen: false
   };
 
-  popdown = e => {
+  loginSuccess = () => NotificationManager.success("Welcome back!", "Login Success", 2000);
+  loginFail = error => NotificationManager.error(error, "Login Error");
+
+  popdown = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
   render() {
     return (
       <div>
+        <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="app-toolbar d-flex justify-content-center justify-content-md-between align-items-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">Hub Scout</h4>
@@ -23,10 +27,7 @@ class TopNav extends React.Component {
               Login/Register
             </a>
             <div className="d-none d-md-block mx-auto">
-              <UserLogin
-                loginSuccess={NotificationManager.success("Welcome back", "Login Success")}
-                loginFail={NotificationManager.error("Check email & password", "Login Error")}
-              />
+              <UserLogin loginSuccess={this.loginSuccess} loginFail={error => this.loginFail(error)} />
             </div>
             <div className="d-none d-md-block mx-auto">
               <Button className="btn btn-link mb-0 ml-auto border-0" id="loginHelpPopover" onClick={this.popdown}>

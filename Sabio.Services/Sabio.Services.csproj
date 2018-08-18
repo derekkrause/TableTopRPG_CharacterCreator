@@ -126,6 +126,7 @@
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="ClassYearService.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
+    <Compile Include="DuplicateEmailException.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />

@@ -157,7 +157,7 @@ class App extends React.Component {
                 />
                 <Route
                   path={`${match.url}/venues`}
-                  component={asyncComponent(() => import("../_C57/venues/AdminVenues"))}
+                  component={asyncComponent(() => import("../_C57/Venues/AdminVenues"))}
                 />
 
                 <Route component={asyncComponent(() => import("components/Error404"))} />

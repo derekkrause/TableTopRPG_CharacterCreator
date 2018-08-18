@@ -6,7 +6,8 @@ import { currentUser } from "../../services/currentUser.service";
 class UserLogin extends React.Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    waiting: false
   };
 
   onChange = e => {
@@ -15,15 +16,19 @@ class UserLogin extends React.Component {
 
   login = e => {
     e.preventDefault();
+    this.setState({ waiting: true });
     userLogin(this.state.email, this.state.password)
       .then(result => {
         console.log("LogIn Success", result);
+        this.setState({ waiting: false });
         currentUser();
-        this.props.loginSuccess;
+        this.props.loginSuccess();
       })
       .catch(error => {
         console.log("LogIn Fail", error);
-        this.props.loginFail;
+        error.response.status === 403
+          ? this.props.loginFail(error.response.data.message)
+          : this.props.loginFail("Incorrect email or password.");
       });
   };
 

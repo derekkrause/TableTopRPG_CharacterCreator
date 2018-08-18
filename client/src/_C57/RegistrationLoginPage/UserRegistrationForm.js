@@ -27,7 +27,8 @@ class UserRegistrationForm extends React.Component {
     regSuccess: false,
     width: window.innerWidth,
     regFail: false,
-    emailUsed: false
+    emailUsed: false,
+    errorMessage: ""
   };
 
   updateWindowSize = () => {
@@ -73,14 +74,14 @@ class UserRegistrationForm extends React.Component {
           .then(result => {
             console.log("ATHLETE REGISTERED", result);
           })
-          .catch(error => console.log("ATHLETE REG ERROR", error));
+          .catch(error => console.log("ATHLETE REG", error));
         break;
       case "Coach":
         registerCoach(userId)
           .then(result => {
             console.log("COACH REGISTERED", result);
           })
-          .catch(error => console.log("COACH REG ERROR", error));
+          .catch(error => console.log("COACH REG", error));
         break;
       case "Advocate":
         //axios call registerAdvocate(userId) <--uncomment after Advocate CRUD is created
@@ -120,15 +121,16 @@ class UserRegistrationForm extends React.Component {
       };
       registerUser(userData)
         .then(result => {
-          console.log("Registration Successful", result);
+          console.log("Registration", result);
           this.registerUserType(this.state.userType, result.data.item);
           this.setState({ regSuccess: true });
-          //SweetAlert directing to check email.
         })
-        .catch(response => {
-          console.log("Registration Error", response);
-          this.setState({ regFail: true });
-          this.setState({ valid: false });
+        .catch(error => {
+          //console.log("Registration3", error.response.data.message); //message
+          //console.log("Registration4", error.response.status); //409
+          error.response.status === 409
+            ? this.setState({ errorMessage: error.response.data.message, emailUsed: true, valid: false })
+            : this.setState({ regFail: true, valid: false });
         });
     } else undefined;
   };
@@ -148,6 +150,7 @@ class UserRegistrationForm extends React.Component {
       loginView,
       regSuccess,
       regFail,
+      errorMessage,
       emailUsed
     } = this.state;
 
@@ -189,15 +192,22 @@ class UserRegistrationForm extends React.Component {
               started!
             </SweetAlert>
             <SweetAlert
+              info
+              show={emailUsed}
+              title="Oops!"
+              timer={2500}
+              onConfirm={() => this.setState({ regFail: false, emailUsed: false })}
+            >
+              {errorMessage}
+            </SweetAlert>
+            <SweetAlert
               error
-              show={!regFail}
+              show={regFail}
               title="Oops!"
               timer={2500}
               onConfirm={() => this.setState({ regFail: false })}
             >
-              {emailUsed
-                ? "Try loggining in. If you've forgotten your password, click here."
-                : "Ensure all fields are filled out correctly and try again."}
+              Something went wrong. Please verify your information and try again.
             </SweetAlert>
             <Form className="row pb-0" autoComplete="on" onSubmit={this.signUp}>
               <FormGroup className="col-12" hidden={loginView}>
