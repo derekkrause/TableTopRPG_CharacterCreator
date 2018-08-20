@@ -4,7 +4,7 @@
 
 .admin-link{
     margin-top: 10px;
-    margin-bottom: 10px;  
+    margin-bottom: 20px;  
     width: 100%
 
 }
@@ -13,7 +13,8 @@
     list-style-type: none
 }
 .link{
-    color: #878787
+    color: #707070;
+    font-size: 15px
     
 }
 .admin-list-links{

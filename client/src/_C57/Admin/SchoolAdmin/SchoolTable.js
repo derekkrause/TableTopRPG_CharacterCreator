@@ -5,7 +5,9 @@ import { NavLink, withRouter } from "react-router-dom";
 import { getSchools, schoolSearch } from "./SchoolAdminServer";
 import "./schoolStyle.css";
 import { NotificationContainer, NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 import Pagination from "./SchoolPagination";
+
 import { CreateButton } from "../../CustomComponents/Button";
 
 class SchoolTable extends Component {
@@ -133,6 +135,7 @@ class SchoolTable extends Component {
 
           <div className="col-md-2 ">
             <NavLink className="float-right pt-3" to={`${this.props.match.url}/create`}>
+              + Add New
               <CreateButton />
             </NavLink>
           </div>

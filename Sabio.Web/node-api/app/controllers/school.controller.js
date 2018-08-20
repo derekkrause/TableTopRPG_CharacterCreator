@@ -29,7 +29,7 @@ const put = (req, res) => {
   schoolsService
     .put(req.body)
     .then(response => {
-      res.status(200).send("User Updated");
+      res.status(200).send(response);
     })
     .catch(err => {
       console.log(err);

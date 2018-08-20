@@ -14,7 +14,7 @@ const SchoolTableCells = props => {
   // console.log(props);
   return (
     <tr key={props.data.Id}>
-      <td>{pascal(props.data.Name)}</td>
+      <td>{props.data.Name}</td>
 
       <td>{pascal(props.data.Street)}</td>
 

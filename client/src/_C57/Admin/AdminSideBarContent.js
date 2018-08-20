@@ -26,6 +26,13 @@ class AdminSideBarContent extends React.Component {
               </NavLink>
             </li>
 
+          
+            <li className="admin-link">
+              <NavLink className="link" to={`${this.props.match.url}/classyear`}>
+                Class Year
+              </NavLink>
+            </li>
+
             <li className="admin-link">
               <NavLink className="link" to={`${this.props.match.url}/sports`}>
                 Sports

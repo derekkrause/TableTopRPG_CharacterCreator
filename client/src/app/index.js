@@ -112,9 +112,22 @@ class App extends React.Component {
                   path={`${match.url}/articles/create`}
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
+
                 <Route
                   path={`${match.url}/coach`}
                   component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
+                />
+
+                <Route
+                  path={`${match.url}/coach-fav`}
+                  render={props => {
+                    const Component = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
+                    return (
+                      <IfLoginStatus loggedIn={true}>
+                        <Component {...props} />
+                      </IfLoginStatus>
+                    );
+                  }}
                 />
                 <Route
                   path={`${match.url}/events`}
@@ -132,6 +145,7 @@ class App extends React.Component {
                   path={`${match.url}/fav-page`}
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
+
                 <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
 
                 <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
