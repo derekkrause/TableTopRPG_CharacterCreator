@@ -3,9 +3,10 @@ import { getSchoolsById } from "./SchoolAdminServer";
 import { StatesOptions } from "../StateOption";
 import SweetAlert from "react-bootstrap-sweetalert";
 import FileUploader from "../../FileUploader/FileUploader";
-import { deleteSchool, updateSchool, addSchool, schoolSearch } from "./SchoolAdminServer";
+import { deleteSchool, updateSchool, addSchool } from "./SchoolAdminServer";
 import { SchoolType } from "./SchoolLevelDropdown";
 import { NotificationContainer, NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 class SchoolForm extends React.Component {
   state = {

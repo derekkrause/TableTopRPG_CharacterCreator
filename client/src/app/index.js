@@ -91,7 +91,6 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                 />
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
-
                 <Route
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
@@ -100,11 +99,13 @@ class App extends React.Component {
                   path={`${match.url}/registration_confirmation`}
                   component={asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"))}
                 />
-
+                path=
+                {`${match.url}/forgot-password`}
+                component=
+                {asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
+                />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
-
                 {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
-
                 <Route
                   path={`${match.url}/admin`}
                   component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
@@ -116,6 +117,17 @@ class App extends React.Component {
                 <Route
                   path={`${match.url}/coach`}
                   component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
+                />
+                <Route
+                  path={`${match.url}/coach-fav`}
+                  render={props => {
+                    const Component = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
+                    return (
+                      <IfLoginStatus loggedIn={true}>
+                        <Component {...props} />
+                      </IfLoginStatus>
+                    );
+                  }}
                 />
                 <Route
                   path={`${match.url}/events`}
@@ -134,11 +146,8 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
                 />
                 <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
-
                 <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
-
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
-
                 <Route
                   path={`${match.url}/profile/:id(\\d+)`}
                   render={props => {
@@ -150,7 +159,6 @@ class App extends React.Component {
                     );
                   }}
                 />
-
                 <Route
                   path={`${match.url}/search`}
                   component={asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"))}
@@ -159,7 +167,6 @@ class App extends React.Component {
                   path={`${match.url}/venues`}
                   component={asyncComponent(() => import("../_C57/Venues/AdminVenues"))}
                 />
-
                 <Route component={asyncComponent(() => import("components/Error404"))} />
                 {/* Please keep Routes alphebetized by URL */}
               </Switch>

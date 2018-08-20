@@ -24,6 +24,11 @@ const athleteRoutes = require("./athlete.routes");
 const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
 const userFromJWT = require("../filters/jwt.user");
+const coachAthleteRoutes = require("./coachAthlete.routes");
+const coachAthleteLogRoutes = require("./coachAthleteLog.routes");
+const coachAthleteTagRoutes = require("./coachAthleteTag.routes");
+const coachTagsRoutes = require("./coachTags.routes");
+const athleteSearchRoutes = require("./athleteSearch.routes");
 
 module.exports = router;
 
@@ -61,6 +66,11 @@ router.use("/coaches", coachesRoutes);
 
 router.use("/api/conferences", conferencesRoutes);
 router.use("/school", schoolsRoutes);
+router.use("/coachAthleteLog", coachAthleteLogRoutes);
+router.use("/coachAthleteTag", coachAthleteTagRoutes);
+router.use("/coachAthlete", coachAthleteRoutes);
+router.use("/coachTags", coachTagsRoutes);
+router.use("/athleteSearch", athleteSearchRoutes);
 
 router.use("/venues", venuesRoutes);
 

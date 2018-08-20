@@ -5,6 +5,8 @@ import { newEmailConfirm } from "../../services/registerLogin.service";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
+import { Link } from "react-router-dom"; // Added by RR
+
 class TopNav extends React.Component {
   state = {
     isOpen: false
@@ -56,9 +58,13 @@ class TopNav extends React.Component {
                   <Button className="btn m-auto px-1 pb-1" color="link">
                     Forgot Username
                   </Button>
-                  <Button className="btn m-auto px-1" color="link">
+                  {/* <Button className="btn m-auto px-1" color="link" >
                     Forgot Password
-                  </Button>
+                  </Button> */}
+                  {/* Modified by RR */}
+                  <Link className="btn m-auto px-1" color="link" to="/app/forgot-password">
+                    <span>Forgot Password</span>
+                  </Link>
                 </PopoverBody>
               </Popover>
             </div>

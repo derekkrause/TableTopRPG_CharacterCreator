@@ -261,6 +261,7 @@
     <Compile Include="Controllers\Api\EventUserTableController.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\FeedHomeController.cs" />
+    <Compile Include="Controllers\Api\ForgotPasswordController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\S3FilesController.cs" />
     <Compile Include="Controllers\Api\SchoolController.cs" />
@@ -300,7 +301,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Sabio.Data\Sabio.Data.csproj">
       <Project>{f696cb27-02f4-4326-a80d-99b070a888ce}</Project>
       <Name>Sabio.Data</Name>

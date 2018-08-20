@@ -62,12 +62,16 @@
     <Compile Include="Domain\ClassYearUpdate.cs" />
     <Compile Include="Domain\DropDownClassYear.cs" />
     <Compile Include="Domain\DropDownSportPosition.cs" />
+    <Compile Include="Domain\Email.cs" />
+    <Compile Include="Domain\EmailConfirmation.cs" />
     <Compile Include="Domain\Event.cs" />
     <Compile Include="Domain\EventType.cs" />
     <Compile Include="Domain\EventUser.cs" />
     <Compile Include="Domain\EventUserAttendee.cs" />
     <Compile Include="Domain\EventUserTable.cs" />
     <Compile Include="Domain\FeedHome.cs" />
+    <Compile Include="Domain\ForgotPasswordEmail.cs" />
+    <Compile Include="Domain\ForgotPasswordEmailConfirmation.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Schools.cs" />
     <Compile Include="Domain\Sport.cs" />
@@ -93,6 +97,8 @@
     <Compile Include="Requests\EventTypeUpdateRequest.cs" />
     <Compile Include="Requests\EventUpdateRequest.cs" />
     <Compile Include="Requests\EventUserTableCreateRequest.cs" />
+    <Compile Include="Requests\ForgotPasswordEmailRequest.cs" />
+    <Compile Include="Requests\ForgotPasswordUpdateRequest.cs" />
     <Compile Include="Requests\PogCreateRequest.cs" />
     <Compile Include="Requests\PogUpdateRequest.cs" />
     <Compile Include="Requests\SportCreateRequest.cs" />

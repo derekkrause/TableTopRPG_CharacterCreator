@@ -94,7 +94,6 @@ namespace Sabio.Services
                     parameters.AddWithValue("@TokenTypeId", 1);
                 });
 
-
             Email email = new Email()
             {
                 FromAddress = "RecruitHubSports@dispostable.com",
@@ -119,44 +118,46 @@ namespace Sabio.Services
                 });
         }
 
+        
+
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {
             PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
             List<User> userList = new List<User>();
 
-            dataProvider.ExecuteCmd(
-                "User_SelectAll",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@pageIndex", pageIndex);
-                    parameters.AddWithValue("@pageSize", pageSize);
-                },
-                (reader, resultSetIndex) =>
-                {
-                    User user = new User
+                dataProvider.ExecuteCmd(
+                    "User_SelectAll",
+                    (parameters) =>
                     {
-                        Id = (int)reader["Id"],
-                        FirstName = (string)reader["FirstName"],
-                        LastName = (string)reader["LastName"],
-                        Gender = reader.GetSafeInt32Nullable("Gender"),
-                        AvatarUrl = (string)reader["AvatarUrl"],
-                        Email = (string)reader["Email"],
-                        DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"]
-                    };
-
-                    object middleNameObj = reader["MiddleName"];
-                    if (middleNameObj != DBNull.Value)
+                        parameters.AddWithValue("@pageIndex", pageIndex);
+                        parameters.AddWithValue("@pageSize", pageSize);
+                    },
+                    (reader, resultSetIndex) =>
                     {
-                        user.MiddleName = (string)middleNameObj;
-                    }
+                        User user = new User
+                        {
+                            Id = (int)reader["Id"],
+                            FirstName = (string)reader["FirstName"],
+                            LastName = (string)reader["LastName"],
+                            Gender = reader.GetSafeInt32Nullable("Gender"),
+                            AvatarUrl = (string)reader["AvatarUrl"],
+                            Email = (string)reader["Email"],
+                            DateCreated = (DateTime)reader["DateCreated"],
+                            DateModified = (DateTime)reader["DateModified"]
+                        };
 
-                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+                        object middleNameObj = reader["MiddleName"];
+                        if (middleNameObj != DBNull.Value)
+                        {
+                            user.MiddleName = (string)middleNameObj;
+                        }
 
-                    userList.Add(user);
-                });
+                        pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+
+                        userList.Add(user);
+                    });
             pagedItemResponse.PagedItems = userList;
-            return pagedItemResponse;
+                return pagedItemResponse;
         }
 
         public User GetById(int id)
@@ -210,7 +211,6 @@ namespace Sabio.Services
 
             try
             {
-
                 dataProvider.ExecuteCmd(
                     "User_Login",
                     (parameters) =>
@@ -236,7 +236,6 @@ namespace Sabio.Services
                         Roles = isAdmin ? new[] { "Admin" } : new string[0]
                     };
                 }
-            
                 else
                 {
                     return null;
@@ -250,21 +249,21 @@ namespace Sabio.Services
         
         public void Update(UserUpdateRequest request)
         {
-            string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+        string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
-            dataProvider.ExecuteNonQuery(
-                "User_Update",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@Id", request.Id);
-                    parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
-                    parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@Gender", request.Gender);
-                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                    parameters.AddWithValue("@Email", request.Email);
-                    parameters.AddWithValue("@PasswordHash", passHash);
-                });
+        dataProvider.ExecuteNonQuery(
+            "User_Update",
+            (parameters) =>
+            {
+                parameters.AddWithValue("@Id", request.Id);
+                parameters.AddWithValue("@FirstName", request.FirstName);
+                parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
+                parameters.AddWithValue("@LastName", request.LastName);
+                parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+                parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                parameters.AddWithValue("@Email", request.Email);
+                parameters.AddWithValue("@PasswordHash", passHash);
+            });
         }
 
         public void Delete(int id)
