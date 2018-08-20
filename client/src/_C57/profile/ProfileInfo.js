@@ -4,16 +4,34 @@ import "./ProfileBanner.css";
 import "./Profile.css";
 import AutoComplete from "../CustomComponents/SchoolAutoComplete/AutoComplete";
 import { schoolSearch } from "../Admin/SchoolAdmin/SchoolAdminServer";
+import {
+  SaveButton,
+  CancelButton,
+  MessageButton,
+  StatsButton,
+  FollowButton,
+  HighlightButton
+} from "../CustomComponents/Button";
+import Popover from "../CustomComponents/Popover";
+import ProfileStatsModal from "./ProfileStatsModal";
 
 class ProfileInfo extends React.Component {
   state = {
     editMode: false,
-    schoolName: ""
+    schoolName: "",
+    statsModal: false
   };
 
   editField = () => {
     const currentState = this.state.editMode;
     this.setState({ editMode: !currentState });
+  };
+
+  saveProfile = () => {
+    this.setState({
+      editMode: false
+    });
+    this.props.handleSaveProfile();
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -42,23 +60,11 @@ class ProfileInfo extends React.Component {
         {this.state.editMode === false && (
           <React.Fragment>
             <div className="row">
-              <div className="col-md-12">
-                <div className="row" style={{ position: "relative", left: "4%" }}>
-                  <button
-                    style={{
-                      position: "relative",
-                      right: "-94%",
-                      transform: "rotate(90deg)",
-                      backgroundColor: "white",
-                      fontSize: "30px",
-                      top: "-20px"
-                    }}
-                    className="profileBannerButtonOpacity float-right"
-                    type="button"
-                    onClick={this.editField}
-                  >
-                    <i className="zmdi zmdi-more-vert zmdi-hc-lg" />
-                  </button>
+              <div className="col-md-12 profileDiv">
+                <div className="row" style={{ position: "relative", left: "4%", float: "right" }}>
+                  <div className="col-md-3">
+                    <Popover handleUpdate={this.editField} />
+                  </div>
                 </div>
                 <div className="row" style={{ position: "relative", left: "4%" }}>
                   <h1 style={{ fontWeight: "1000", marginBottom: "20px" }}>
@@ -98,25 +104,26 @@ class ProfileInfo extends React.Component {
                   )}
                   {this.props.weight && (
                     <h2>
-                      {" "}
                       Weight: {this.props.weight}
                       lbs.
                     </h2>
                   )}
                 </div>
-                <div className="row" style={{ position: "relative", left: "4%" }}>
-                  <div role="group" className="btn-group">
-                    <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Follow</button>
-                    <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Highlight</button>
+                <div className="row">
+                  <div role="group" className="btn-group col-md-4">
+                    {/* <FollowButton />
+                    <HighlightButton /> */}
+                    <button type="button">Follow</button>
+                    <button type="button">Highlight</button>
                   </div>
-                  <div style={{ marginLeft: "7%" }}>
-                    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
-                      <i className="zmdi zmdi-open-in-new zmdi-hc-lg" /> &nbsp;Stats
+                  <div className="col-md-2" />
+                  <div className="text-right col-md-6">
+                    <button type="button" onClick={this.props.toggleStatsModal}>
+                      Stats
                     </button>
-                    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
-                      <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
-                      &nbsp; Message
-                    </button>
+                    <button type="button">Message</button>
+                    {/* <StatsButton />
+                    <MessageButton /> */}
                   </div>
                 </div>
               </div>
@@ -128,21 +135,9 @@ class ProfileInfo extends React.Component {
             <div className="row">
               <div className="col-md-12">
                 <div className="row" style={{ position: "relative", left: "4%" }}>
-                  <button
-                    style={{
-                      position: "relative",
-                      right: "-94%",
-                      transform: "rotate(90deg)",
-                      backgroundColor: "white",
-                      fontSize: "30px",
-                      top: "-20px"
-                    }}
-                    className="profileBannerButtonOpacity float-right"
-                    type="button"
-                    onClick={this.editField}
-                  >
-                    <i className="zmdi zmdi-more-vert zmdi-hc-lg" />
-                  </button>
+                  <div className="col-md-3" style={{ position: "relative", left: "85%" }}>
+                    <Popover handleUpdate={this.editField} />
+                  </div>
                 </div>
                 <form>
                   <div className="row addedHeight col-md-12">
@@ -154,7 +149,7 @@ class ProfileInfo extends React.Component {
                         value={this.props.firstName}
                         name="firstName"
                       />
-                    </div>{" "}
+                    </div>
                     <div className=" form-group col-md-4">
                       <label>Middle Name:</label>
                       <input
@@ -163,7 +158,7 @@ class ProfileInfo extends React.Component {
                         value={this.props.middleName}
                         name="middleName"
                       />
-                    </div>{" "}
+                    </div>
                     <div className="form-group col-md-4">
                       <label>Last Name:</label>
                       <input
@@ -278,17 +273,11 @@ class ProfileInfo extends React.Component {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-12">
-                <button type="button" className="float-right" onClick={this.editField}>
-                  Cancel
-                </button>
-                <button type="button" className="float-right" onClick={this.props.handleSaveProfile}>
-                  Save
-                </button>
+              <div className="col-md-12 text-right">
+                <CancelButton type="button" className="text-right" onClick={this.editField} />
+                <SaveButton type="button" className="text-right" onClick={this.saveProfile} />
               </div>
             </div>
-
-            <hr />
           </React.Fragment>
         )}
       </div>

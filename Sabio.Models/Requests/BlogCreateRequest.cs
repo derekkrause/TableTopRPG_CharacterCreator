@@ -16,7 +16,7 @@ namespace Sabio.Models.Requests
 
         public JRaw ImageUrl { get; set; }
 
-       
+
         public JRaw VideoUrl { get; set; }
 
     }

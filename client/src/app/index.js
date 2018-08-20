@@ -86,10 +86,6 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
-                />
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
                 <Route
                   path={`${match.url}/welcome`}

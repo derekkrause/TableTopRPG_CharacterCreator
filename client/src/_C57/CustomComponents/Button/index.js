@@ -101,6 +101,31 @@ const CloseButtonText = props => {
   );
 };
 
+const MessageButton = props => {
+  return (
+    <button type="button" className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo" onClick={props.onClick}>
+      <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
+      &nbsp;&nbsp; Message
+    </button>
+  );
+};
+
+const StatsButton = props => {
+  return (
+    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
+      <i className="zmdi zmdi-open-in-new zmdi-hc-lg" /> &nbsp;Stats
+    </button>
+  );
+};
+
+const FollowButton = props => {
+  return <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Follow</button>;
+};
+
+const HighlightButton = props => {
+  return <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Highlight</button>;
+};
+
 export {
   SaveButton,
   CancelButton,
@@ -111,5 +136,9 @@ export {
   CloseButtonDark,
   CloseButtonText,
   SubmitButton,
-  SubmitButtonWide
+  SubmitButtonWide,
+  MessageButton,
+  StatsButton,
+  FollowButton,
+  HighlightButton
 };
