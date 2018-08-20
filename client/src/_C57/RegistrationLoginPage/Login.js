@@ -26,9 +26,7 @@ class UserLogin extends React.Component {
       })
       .catch(error => {
         console.log("LogIn Fail", error);
-        error.response.status === 403
-          ? this.props.loginFail(this.state.email)
-          : this.props.loginFail("Incorrect email or password.");
+        error.response.status === 403 ? this.props.loginFail(this.state.email) : this.props.loginFail();
       });
   };
 

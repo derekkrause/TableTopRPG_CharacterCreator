@@ -14,16 +14,24 @@ class TopNav extends React.Component {
 
   loginSuccess = () => NotificationManager.success("Welcome back!", "Login Success", 2000);
   loginFail = email => {
-    const data = { Email: email };
-    NotificationManager.warning(
-      "Click on this notification to request a new confirmation email.",
-      "Account Unconfirmed",
-      15000,
-      () =>
-        newEmailConfirm(data).then(
-          NotificationManager.success(`A confirmation email has been sent to ${email}.`, "Done", 4000)
-        )
-    );
+    if (email) {
+      const data = { Email: email };
+      NotificationManager.warning(
+        "Click on this notification to request a new confirmation email.",
+        "Account Unconfirmed",
+        15000,
+        () =>
+          newEmailConfirm(data).then(
+            NotificationManager.success(`A confirmation email has been sent to ${email}.`, "Done", 4000)
+          )
+      );
+    } else {
+      NotificationManager.error(
+        "Incorrect Email or Password. Please verify your information and try again.",
+        "Error",
+        4000
+      );
+    }
   };
 
   popdown = () => {
