@@ -1,8 +1,8 @@
 import React from "react";
 import "./NavStyle.css";
 import { Button, Collapse, FormGroup, Input, Select } from "reactstrap";
-import { NotificationManager, NotificationContainer } from "react-notifications";
-import "react-notifications/lib/notifications.css";
+import { userLogout } from "../../services/registerLogin.service";
+import { currentUser } from "../../services/currentUser.service";
 import { NavLink, withRouter } from "react-router-dom";
 import AthleteSearchFilter from "./AthleteSearchFilter";
 import EventSearchFilter from "./EventSearchFilter";
@@ -11,9 +11,9 @@ import ArticleSearchFilter from "./ArticleSearchFilter";
 import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
 import { connect } from "react-redux";
-import { userLogout } from "../../services/registerLogin.service";
-import { currentUser } from "../../services/currentUser.service";
 import Logout from "../RegistrationLoginPage/Logout";
+import { NotificationManager, NotificationContainer } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 class NavBar extends React.Component {
   handleTypeAheadChange = name => values => {
