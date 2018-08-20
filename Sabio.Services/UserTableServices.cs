@@ -31,6 +31,10 @@ namespace Sabio.Services
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
             string tokenId= Guid.NewGuid().ToString();
+            UserResendRequest resendRequest = new UserResendRequest()
+            {
+                Email = request.Email
+            };
 
             try
             {
@@ -57,30 +61,52 @@ namespace Sabio.Services
                 throw new DuplicateEmailException();
             }
 
+            return await Resend(resendRequest);
+
+        }
+
+        public async Task<Response> Resend(UserResendRequest request)
+        {
+            string tokenId = Guid.NewGuid().ToString();
+            string FirstName = "";
+            string LastName = "";
+            string Email = request.Email;
+
+            dataProvider.ExecuteCmd(
+                "User_SelectByEmail",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Email", Email);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    FirstName = (string)reader["FirstName"];
+                    LastName = (string)reader["LastName"];
+                });
+
             dataProvider.ExecuteNonQuery(
                 "EmailConfirmation_Insert",
                 (parameters) =>
                 {
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    parameters.AddWithValue("@RegEmail", request.Email);
+                    parameters.AddWithValue("@RegEmail", Email);
                     parameters.AddWithValue("@TokenId", tokenId);
                     parameters.AddWithValue("@TokenTypeId", 1);
                 });
 
-            //3. SEND AN EMAIL WITH CONFIRMATION LINK
+
             Email email = new Email()
             {
                 FromAddress = "RecruitHubSports@dispostable.com",
                 FromName = "RecruitHubSports",
-                ToAddress = request.Email,
-                ToName = request.FirstName + " " + request.LastName,
+                ToAddress = Email,
+                ToName = FirstName + " " + LastName,
                 Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
                 Subject = "Registration Confirmation",
                 Link = domain + "/registration_confirmation/?token=" + tokenId
             };
 
             return await emailService.Execute(email);
-             
         }
 
         public void Confirm(UserConfirmRequest request)
@@ -218,7 +244,7 @@ namespace Sabio.Services
             }
             catch (SqlException ex) when (ex.Number == 50000)
             {
-                throw new ApplicationException();
+                throw new UnconfirmedAccountException();
             }
         }
         

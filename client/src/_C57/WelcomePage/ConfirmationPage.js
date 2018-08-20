@@ -6,7 +6,8 @@ import { withRouter, Route, Switch, PrivateRoute, Redirect } from "react-router-
 class ConfirmationPage extends React.Component {
   state = {
     tokenId: "",
-    confirmSuccess: false
+    confirmSuccess: false,
+    confirmFail: false
   };
 
   getToken = string => {
@@ -21,7 +22,10 @@ class ConfirmationPage extends React.Component {
         console.log(result);
         this.setState({ confirmSuccess: true });
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+        this.setState({ confirmFail: true });
+      });
   };
 
   componentDidMount() {
@@ -45,6 +49,20 @@ class ConfirmationPage extends React.Component {
           }}
         >
           Your account has been confirmed. Click 'OK' to Login and get started!
+        </SweetAlert>
+        <SweetAlert
+          error
+          show={this.state.confirmFail}
+          title="Sorry!"
+          closeOnEsc={true}
+          closeOnClickOutside={true}
+          onConfirm={() => {
+            this.setState({ confirmFail: false });
+            this.props.history.push("/app/home");
+          }}
+        >
+          Something went wrong. Please open your email and click the confirmation link again. If the problem continues,
+          please contact support.
         </SweetAlert>
       </div>
     );

@@ -10,6 +10,11 @@ export function confirmUser(tokenId) {
   return axios.put("/api/users/confirm", tokenId);
 }
 
+//REQUEST NEW CONFIRMATION
+export function newEmailConfirm(email) {
+  return axios.post("/api/users/new_email_request", email);
+}
+
 //COACH TABLE INSERT USER
 export function registerCoach(userId) {
   const data = {

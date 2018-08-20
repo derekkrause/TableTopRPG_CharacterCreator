@@ -154,6 +154,7 @@
     <Compile Include="Security\SecurityStringExtensions.cs" />
     <Compile Include="SportLevelService.cs" />
     <Compile Include="SportServices.cs" />
+    <Compile Include="UnconfirmedAccountException.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="UserTableServices.cs" />
   </ItemGroup>

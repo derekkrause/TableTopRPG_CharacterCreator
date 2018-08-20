@@ -44,10 +44,27 @@ namespace Sabio.Web.Controllers.Api
             }
             catch(DuplicateEmailException)
             {
-                HttpError err = new HttpError("Email already registered. Please try logging in.");
+                HttpError err = new HttpError("Account already registered. Try logging in.");
                 return Request.CreateErrorResponse(HttpStatusCode.Conflict, err); 
             }
 
+        }
+
+        [Route("new_email_request"), HttpPost, AllowAnonymous]
+        public async Task<HttpResponseMessage> Resend(UserResendRequest request)
+        {
+            if (request == null)
+            {
+                ModelState.AddModelError("", "missing email address");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var response = await userTableServices.Resend(request);
+            return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet, Authorize(Roles = "Admin", Users = "")]
@@ -103,10 +120,9 @@ namespace Sabio.Web.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.OK);
             }
-            catch(System.ApplicationException)
+            catch (UnconfirmedAccountException)
             {
-                HttpError err = new HttpError("Account needs to be confirmed before logging in.");
-                return Request.CreateErrorResponse(HttpStatusCode.Forbidden, err);
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "UNCONFIRMED_ACCOUNT");
             }
         }
         

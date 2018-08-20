@@ -1,6 +1,7 @@
 import React from "react";
 import UserLogin from "_C57/RegistrationLoginPage/Login.js";
 import { Button, Popover, PopoverBody } from "reactstrap";
+import { newEmailConfirm } from "../../services/registerLogin.service";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
@@ -10,7 +11,18 @@ class TopNav extends React.Component {
   };
 
   loginSuccess = () => NotificationManager.success("Welcome back!", "Login Success", 2000);
-  loginFail = error => NotificationManager.error(error, "Login Error");
+  loginFail = email => {
+    const data = { Email: email };
+    NotificationManager.warning(
+      "Click on this notification to request a new confirmation email.",
+      "Account Unconfirmed",
+      15000,
+      () =>
+        newEmailConfirm(data).then(
+          NotificationManager.success(`A confirmation email has been sent to ${email}.`, "Done", 4000)
+        )
+    );
+  };
 
   popdown = () => {
     this.setState({ isOpen: !this.state.isOpen });
@@ -27,7 +39,7 @@ class TopNav extends React.Component {
               Login/Register
             </a>
             <div className="d-none d-md-block mx-auto">
-              <UserLogin loginSuccess={this.loginSuccess} loginFail={error => this.loginFail(error)} />
+              <UserLogin loginSuccess={this.loginSuccess} loginFail={email => this.loginFail(email)} />
             </div>
             <div className="d-none d-md-block mx-auto">
               <Button className="btn btn-link mb-0 ml-auto border-0" id="loginHelpPopover" onClick={this.popdown}>
