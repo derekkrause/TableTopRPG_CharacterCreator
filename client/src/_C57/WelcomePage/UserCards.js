@@ -5,7 +5,7 @@ class UserTypeCards extends React.Component {
   render() {
     return (
       <div className="d-flex flex-row flex-wrap p-0 mx-2 card-deck">
-        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-2">
+        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-2" tabIndex={1}>
           <div className="card-flip">
             <Card inverse className="d-flex border-0 front p-0" name="athleteCard">
               <CardImg
@@ -34,9 +34,9 @@ class UserTypeCards extends React.Component {
             </Card>
           </div>
         </div>
-        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-1">
+        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-1" tabIndex={2}>
           <div className="card-flip">
-            <Card inverse className="d-flex border-0 front p-0" name="coachCard">
+            <Card inverse className="d-flex border-0 front p-0" name="coachCard" onClick={void 0}>
               <CardImg
                 height="100%"
                 src="https://c1.staticflickr.com/6/5292/5477733359_102d9c5533_b.jpg"
@@ -63,9 +63,9 @@ class UserTypeCards extends React.Component {
             </Card>
           </div>
         </div>
-        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-3">
+        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-3" tabIndex={3}>
           <div className="card-flip">
-            <Card inverse className="d-flex border-0 front p-0" name="advocateCard">
+            <Card inverse className="d-flex border-0 front p-0" name="advocateCard" onClick={void 0}>
               <CardImg
                 height="100%"
                 src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/c670f692-a624-4567-a42c-2fb835cb95ea"

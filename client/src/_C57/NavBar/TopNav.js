@@ -1,7 +1,8 @@
 import React from "react";
 import UserLogin from "_C57/RegistrationLoginPage/Login.js";
 import { Button, Popover, PopoverBody } from "reactstrap";
-import { NotificationManager } from "react-notifications";
+import { newEmailConfirm } from "../../services/registerLogin.service";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
 import { Link } from "react-router-dom"; // Added by RR
@@ -11,13 +12,36 @@ class TopNav extends React.Component {
     isOpen: false
   };
 
-  popdown = e => {
+  loginSuccess = () => NotificationManager.success("Welcome back!", "Login Success", 2000);
+  loginFail = email => {
+    if (email) {
+      const data = { Email: email };
+      NotificationManager.warning(
+        "Click on this notification to request a new confirmation email.",
+        "Account Unconfirmed",
+        15000,
+        () =>
+          newEmailConfirm(data).then(
+            NotificationManager.success(`A confirmation email has been sent to ${email}.`, "Done", 4000)
+          )
+      );
+    } else {
+      NotificationManager.error(
+        "Incorrect Email or Password. Please verify your information and try again.",
+        "Error",
+        4000
+      );
+    }
+  };
+
+  popdown = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
 
   render() {
     return (
       <div>
+        <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="app-toolbar d-flex justify-content-center justify-content-md-between align-items-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">Hub Scout</h4>
@@ -25,10 +49,7 @@ class TopNav extends React.Component {
               Login/Register
             </a>
             <div className="d-none d-md-block mx-auto">
-              <UserLogin
-                loginSuccess={NotificationManager.success("Welcome back", "Login Success")}
-                loginFail={NotificationManager.error("Check email & password", "Login Error")}
-              />
+              <UserLogin loginSuccess={this.loginSuccess} loginFail={email => this.loginFail(email)} />
             </div>
             <div className="d-none d-md-block mx-auto">
               <Button className="btn btn-link mb-0 ml-auto border-0" id="loginHelpPopover" onClick={this.popdown}>

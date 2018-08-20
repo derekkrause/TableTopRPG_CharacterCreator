@@ -11,6 +11,9 @@ import ArticleSearchFilter from "./ArticleSearchFilter";
 import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
 import { connect } from "react-redux";
+import Logout from "../RegistrationLoginPage/Logout";
+import { NotificationManager, NotificationContainer } from "react-notifications";
+import "react-notifications/lib/notifications.css";
 
 class NavBar extends React.Component {
   handleTypeAheadChange = name => values => {
@@ -57,25 +60,24 @@ class NavBar extends React.Component {
     console.log("componentDidMount 1", this.props);
   }
 
-  logout = () => {
-    userLogout().then(currentUser);
-  };
-
   componentDidMount() {
     console.log("componentDidMount 2", this.props);
   }
 
+  logout = () => {
+    userLogout().then(currentUser, NotificationManager.info("Successfully logged out", "", 2000));
+  };
+
   render() {
     return (
       <div>
+        <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="d-flex app-toolbar align-items-center justify-content-center mx-md-3 m-0">
             <h4 className="mb-0 mr-auto">
               <b>Hub Scout</b>
             </h4>
-            <button className="d-none d-sm-block" onClick={this.logout}>
-              Logout
-            </button>
+            <Logout logout={this.logout} />
             <div className="search-bar d-flex mx-sm-3 mx-1">
               <select
                 className="selectpicker"
@@ -139,6 +141,7 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "all" && <div />}
           {this.props.searchCriteria.searchType === "athletes" && (
             <AthleteSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
@@ -150,6 +153,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "events" && (
             <EventSearchFilter
+              className="bg-white"
               handleDateChange={this.handleDateChange}
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
@@ -162,6 +166,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "coaches" && (
             <CoachSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
@@ -173,6 +178,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "articles" && (
             <ArticleSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
@@ -183,6 +189,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "schools" && (
             <SchoolSearchFilter
+              className="bg-white"
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}

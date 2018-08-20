@@ -7,6 +7,7 @@ using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -30,22 +31,57 @@ namespace Sabio.Services
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
             string tokenId= Guid.NewGuid().ToString();
+            UserResendRequest resendRequest = new UserResendRequest()
+            {
+                Email = request.Email
+            };
 
-            dataProvider.ExecuteNonQuery(
-                "User_Insert",
+            try
+            {
+                dataProvider.ExecuteNonQuery(
+                    "User_Insert",
+                    (parameters) =>
+                    {
+                        parameters.AddWithValue("@FirstName", request.FirstName);
+                        parameters.AddWithValue("@MiddleName", request.MiddleName);
+                        parameters.AddWithValue("@LastName", request.LastName);
+                        parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                        parameters.AddWithValue("@Email", request.Email);
+                        parameters.AddWithValue("@PasswordHash", passHash);
+                        parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    },
+                    (parameters) =>
+                    {
+                        newId = (int)parameters["@Id"].Value;
+                    });
+
+            } 
+            catch (SqlException ex) when (ex.Number == 2627)
+            {
+                throw new DuplicateEmailException();
+            }
+
+            return await Resend(resendRequest);
+
+        }
+
+        public async Task<Response> Resend(UserResendRequest request)
+        {
+            string tokenId = Guid.NewGuid().ToString();
+            string FirstName = "";
+            string LastName = "";
+            string Email = request.Email;
+
+            dataProvider.ExecuteCmd(
+                "User_SelectByEmail",
                 (parameters) =>
                 {
-                    parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName);
-                    parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                    parameters.AddWithValue("@Email", request.Email);
-                    parameters.AddWithValue("@PasswordHash", passHash);
-                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    parameters.AddWithValue("@Email", Email);
                 },
-                (parameters) =>
+                (reader, resultSetIndex) =>
                 {
-                    newId = (int)parameters["@Id"].Value;
+                    FirstName = (string)reader["FirstName"];
+                    LastName = (string)reader["LastName"];
                 });
 
             dataProvider.ExecuteNonQuery(
@@ -53,25 +89,33 @@ namespace Sabio.Services
                 (parameters) =>
                 {
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                    parameters.AddWithValue("@RegEmail", request.Email);
+                    parameters.AddWithValue("@RegEmail", Email);
                     parameters.AddWithValue("@TokenId", tokenId);
                     parameters.AddWithValue("@TokenTypeId", 1);
                 });
 
-            //3. SEND AN EMAIL WITH CONFIRMATION LINK
             Email email = new Email()
             {
                 FromAddress = "RecruitHubSports@dispostable.com",
                 FromName = "RecruitHubSports",
-                ToAddress = request.Email,
-                ToName = request.FirstName + " " + request.LastName,
+                ToAddress = Email,
+                ToName = FirstName + " " + LastName,
                 Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
                 Subject = "Registration Confirmation",
-                Link = domain + "/register_confirmation/" + tokenId
+                Link = domain + "/registration_confirmation/?token=" + tokenId
             };
 
             return await emailService.Execute(email);
-             
+        }
+
+        public void Confirm(UserConfirmRequest request)
+        {
+            dataProvider.ExecuteNonQuery(
+                "EmailConfirmation_UpdateConfirmed",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@TokenId", request.TokenId);
+                });
         }
 
         
@@ -163,54 +207,63 @@ namespace Sabio.Services
             string firstName = "";
             string lastName = "";
             bool isAdmin = false;
-     
-            dataProvider.ExecuteCmd(
-                "User_Login",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@Email", request.Email);
-                },
-                (reader, resultSetIndex) =>
-                {
-                    storedPassword = (string)reader["PasswordHash"];
-                    userId = (int)reader["Id"];
-                    firstName = (string)reader["FirstName"];
-                    lastName = (string)reader["LastName"];
-                    isAdmin = (bool)reader["Admin"];
-                });
+            bool confirmed = false;
 
-            if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword))
+            try
             {
-                return new UserBase
+                dataProvider.ExecuteCmd(
+                    "User_Login",
+                    (parameters) =>
+                    {
+                        parameters.AddWithValue("@Email", request.Email);
+                    },
+                    (reader, resultSetIndex) =>
+                    {
+                        storedPassword = (string)reader["PasswordHash"];
+                        userId = (int)reader["Id"];
+                        firstName = (string)reader["FirstName"];
+                        lastName = (string)reader["LastName"];
+                        isAdmin = (bool)reader["Admin"];
+                        confirmed = (bool)reader["Confirmed"];
+                    });
+
+                if (BCrypt.Net.BCrypt.Verify(request.Password, storedPassword))
                 {
-                    Id = userId,
-                    Name = firstName + " " + lastName,
-                    Roles = isAdmin ? new[] { "Admin" } : new string[0]
-                };
+                    return new UserBase
+                    {
+                        Id = userId,
+                        Name = firstName + " " + lastName,
+                        Roles = isAdmin ? new[] { "Admin" } : new string[0]
+                    };
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (SqlException ex) when (ex.Number == 50000)
             {
-                return null;
+                throw new UnconfirmedAccountException();
             }
         }
         
         public void Update(UserUpdateRequest request)
         {
-            string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+        string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
 
-            dataProvider.ExecuteNonQuery(
-                "User_Update",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@Id", request.Id);
-                    parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
-                    parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
-                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                    parameters.AddWithValue("@Email", request.Email);
-                    parameters.AddWithValue("@PasswordHash", passHash);
-                });
+        dataProvider.ExecuteNonQuery(
+            "User_Update",
+            (parameters) =>
+            {
+                parameters.AddWithValue("@Id", request.Id);
+                parameters.AddWithValue("@FirstName", request.FirstName);
+                parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
+                parameters.AddWithValue("@LastName", request.LastName);
+                parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+                parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
+                parameters.AddWithValue("@Email", request.Email);
+                parameters.AddWithValue("@PasswordHash", passHash);
+            });
         }
 
         public void Delete(int id)

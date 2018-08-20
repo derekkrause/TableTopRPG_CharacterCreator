@@ -37,8 +37,33 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            var response = await userTableServices.Create(userCreateRequest);
+            try
+            {
+                var response = await userTableServices.Create(userCreateRequest);
+                return Request.CreateResponse(HttpStatusCode.Created, response);
+            }
+            catch(DuplicateEmailException)
+            {
+                HttpError err = new HttpError("Account already registered. Try logging in.");
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, err); 
+            }
 
+        }
+
+        [Route("new_email_request"), HttpPost, AllowAnonymous]
+        public async Task<HttpResponseMessage> Resend(UserResendRequest request)
+        {
+            if (request == null)
+            {
+                ModelState.AddModelError("", "missing email address");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var response = await userTableServices.Resend(request);
             return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
@@ -60,7 +85,7 @@ namespace Sabio.Web.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
         }
-
+        
         [Route("current"), HttpGet]
         public HttpResponseMessage GetCurrent()
         {
@@ -83,8 +108,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
+            try
+            {
             UserBase userBase = userTableServices.Login(userLoginRequest);
-
             authenticationService.LogIn(new UserBase
             {
                 Id = userBase.Id,
@@ -93,6 +119,11 @@ namespace Sabio.Web.Controllers.Api
             });
 
             return Request.CreateResponse(HttpStatusCode.OK);
+            }
+            catch (UnconfirmedAccountException)
+            {
+                return Request.CreateResponse(HttpStatusCode.Forbidden, "UNCONFIRMED_ACCOUNT");
+            }
         }
         
         [Route("{id:int}"), HttpPut]
@@ -131,23 +162,23 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
-        //[Route("register_confirmation/{tokenId:string}"), HttpPut, AllowAnonymous]
-        //public HttpResponseMessage Confirm(string tokenId)
-        //{
-        //    if (tokenId.Length == 0)
-        //    {
-        //        ModelState.AddModelError("TokenId", "Invalid or Expired Token");
-        //    }
+        [Route("confirm"), HttpPut, AllowAnonymous]
+        public HttpResponseMessage Confirm(UserConfirmRequest request)
+        {
+            if (request.TokenId == null)
+            {
+                ModelState.AddModelError("TokenId", "Invalid or Expired Token");
+            }
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-        //    }
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
 
-        //    userTableServices.Confirm(tokenId);
+            userTableServices.Confirm(request);
 
-            //return Request.CreateResponse(HttpStatusCode.OK);
-        //}
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
     
 }

@@ -1,8 +1,14 @@
 import React from "react";
 import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
-import { registerUser, registerCoach, registerAthlete, userLogin } from "../../services/registerLogin.service";
+import {
+  registerUser,
+  registerCoach,
+  registerAthlete,
+  userLogin,
+  newEmailConfirm
+} from "../../services/registerLogin.service";
 import { currentUser } from "../../services/currentUser.service";
-import { NotificationManager } from "react-notifications";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import { validateRegistration } from "./RegValidation";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "react-notifications/lib/notifications.css";
@@ -26,7 +32,9 @@ class UserRegistrationForm extends React.Component {
     loginView: false,
     regSuccess: false,
     width: window.innerWidth,
-    regFail: false
+    regFail: false,
+    emailUsed: false,
+    errorMessage: ""
   };
 
   updateWindowSize = () => {
@@ -72,14 +80,14 @@ class UserRegistrationForm extends React.Component {
           .then(result => {
             console.log("ATHLETE REGISTERED", result);
           })
-          .catch(error => console.log("ATHLETE REG ERROR", error));
+          .catch(error => console.log("ATHLETE REG", error));
         break;
       case "Coach":
         registerCoach(userId)
           .then(result => {
             console.log("COACH REGISTERED", result);
           })
-          .catch(error => console.log("COACH REG ERROR", error));
+          .catch(error => console.log("COACH REG", error));
         break;
       case "Advocate":
         //axios call registerAdvocate(userId) <--uncomment after Advocate CRUD is created
@@ -105,6 +113,21 @@ class UserRegistrationForm extends React.Component {
       });
   };
 
+  sendNewConfirmation = () => {
+    if (this.state.formValid) {
+      const data = { Email: this.state.emailInput };
+      newEmailConfirm(data)
+        .then(result => {
+          console.log("Confirmation Email", result);
+          this.setState(
+            { regFail: false, emailUsed: false },
+            NotificationManager.success(`A confirmation email has been sent to ${this.state.emailInput}.`, "Done", 4000)
+          );
+        })
+        .catch(error => console.log("Confirmation Email", error));
+    }
+  };
+
   signUp = e => {
     e.preventDefault();
     if (this.state.formValid) {
@@ -119,14 +142,14 @@ class UserRegistrationForm extends React.Component {
       };
       registerUser(userData)
         .then(result => {
-          console.log("Registration Successful", result);
+          console.log("Registration", result);
           this.registerUserType(this.state.userType, result.data.item);
           this.setState({ regSuccess: true });
         })
-        .catch(response => {
-          console.log("Registration Error", response);
-          this.setState({ regFail: true });
-          this.setState({ valid: false });
+        .catch(error => {
+          error.response.status === 409
+            ? this.setState({ errorMessage: error.response.data.message, emailUsed: true, valid: false })
+            : this.setState({ regFail: true, valid: false });
         });
     } else undefined;
   };
@@ -145,11 +168,14 @@ class UserRegistrationForm extends React.Component {
       formValid,
       loginView,
       regSuccess,
-      regFail
+      regFail,
+      errorMessage,
+      emailUsed
     } = this.state;
 
     return (
       <div className="login-container d-flex animated slideInUpTiny animation-duration-3">
+        <NotificationContainer />
         <div className="login-content">
           <div className="login-header text-center">
             <a className="app-logo" title="RecruitHub" href="#">
@@ -173,7 +199,7 @@ class UserRegistrationForm extends React.Component {
             <SweetAlert
               success
               show={regSuccess}
-              title="Welcome!"
+              title={`Welcome ${firstName}!`}
               closeOnEsc={false}
               closeOnClickOutside={true}
               onConfirm={() => {
@@ -182,7 +208,24 @@ class UserRegistrationForm extends React.Component {
               }}
               onClose={() => this.setState({ regSuccess: false })}
             >
-              Registration Success
+              Almost complete! A Confirmation link has been sent to {emailInput}. Once confirmed, you'll be ready to get
+              started!
+            </SweetAlert>
+            <SweetAlert
+              info
+              showCancel
+              confirmBtnText="Login"
+              cancelBtnText="Email New Confirmation"
+              cancelBtnBsStyle="info"
+              show={emailUsed}
+              title="Oops!"
+              timer={2500}
+              onConfirm={() => this.setState({ regFail: false, emailUsed: false })}
+              onCancel={() => {
+                this.sendNewConfirmation(), this.setState({ regFail: false });
+              }}
+            >
+              {errorMessage}
             </SweetAlert>
             <SweetAlert
               error
@@ -191,7 +234,7 @@ class UserRegistrationForm extends React.Component {
               timer={2500}
               onConfirm={() => this.setState({ regFail: false })}
             >
-              Ensure all fields are filled out correctly and try again.
+              Something went wrong. Please verify your information and try again.
             </SweetAlert>
             <Form className="row pb-0" autoComplete="on" onSubmit={this.signUp}>
               <FormGroup className="col-12" hidden={loginView}>

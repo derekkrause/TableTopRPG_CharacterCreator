@@ -126,6 +126,7 @@
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="ClassYearService.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
+    <Compile Include="DuplicateEmailException.cs" />
     <Compile Include="EmailService.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />
@@ -145,7 +146,7 @@
     <Compile Include="Interfaces\IPogsService.cs" />
     <Compile Include="Interfaces\ISportServices.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
-    <Compile Include="IUserTableService.cs" />
+    <Compile Include="Interfaces\IUserTableService.cs" />
     <Compile Include="PogsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="S3FilesService.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Security\SecurityStringExtensions.cs" />
     <Compile Include="SportLevelService.cs" />
     <Compile Include="SportServices.cs" />
+    <Compile Include="UnconfirmedAccountException.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="UserTableServices.cs" />
   </ItemGroup>

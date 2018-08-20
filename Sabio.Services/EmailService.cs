@@ -1,4 +1,4 @@
-﻿using Sabio.Services.Interfaces;
+using Sabio.Services.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Net;
@@ -8,7 +8,6 @@ namespace Sabio.Services
 {
     public class EmailService : IEmailService
     {
-
         public async Task<Response> Execute(Email email)
         {
             var apiKey = "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";
@@ -37,9 +36,7 @@ namespace Sabio.Services
 
             return response;
             //create a response handler for anything >= 200 < 300
-
         }
-
     }
 
     public class Email
