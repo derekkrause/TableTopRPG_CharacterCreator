@@ -134,6 +134,9 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid, Version=9.8.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sendgrid.9.9.0\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -258,6 +261,7 @@
     <Compile Include="Controllers\Api\EventUserTableController.cs" />
     <Compile Include="Controllers\Api\ExampleController.cs" />
     <Compile Include="Controllers\Api\FeedHomeController.cs" />
+    <Compile Include="Controllers\Api\ForgotPasswordController.cs" />
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\S3FilesController.cs" />
     <Compile Include="Controllers\Api\SchoolController.cs" />
@@ -297,7 +301,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Sabio.Data\Sabio.Data.csproj">
       <Project>{f696cb27-02f4-4326-a80d-99b070a888ce}</Project>
       <Name>Sabio.Data</Name>

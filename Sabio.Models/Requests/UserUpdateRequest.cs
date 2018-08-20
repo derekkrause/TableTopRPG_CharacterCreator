@@ -7,6 +7,6 @@ namespace Sabio.Models.Requests
         [Required]
         public int? Id { get; set; }
 
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
     }
 }

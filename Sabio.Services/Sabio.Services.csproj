@@ -83,7 +83,11 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="SendGrid, Version=9.8.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sendgrid.9.9.0\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -122,16 +126,19 @@
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="ClassYearService.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
+    <Compile Include="EmailService.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />
     <Compile Include="EventUserTableService.cs" />
     <Compile Include="FakePogService.cs" />
     <Compile Include="FeedHomeService.cs" />
+    <Compile Include="ForgotPasswordService.cs" />
     <Compile Include="HardCodedConfiguration.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />
+    <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Interfaces\IEventService.cs" />
     <Compile Include="Interfaces\IEventTypeService.cs" />
     <Compile Include="Interfaces\IEventUserTableService.cs" />
@@ -171,6 +178,10 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.18\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="RegistrationConfirmationEmail_HTML.txt" />
+    <Content Include="ResetPasswordConfirmation_HTML.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

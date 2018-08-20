@@ -1,28 +1,35 @@
-﻿using Sabio.Data.Providers;
+﻿using Sabio.Data;
+using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
+using SendGrid;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Sabio.Data;
-using System.Data.SqlClient;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Sabio.Services
 {
     public class UserTableServices : IUserTableService
     {
         readonly IDataProvider dataProvider;
+        //readonly IEmailService emailService;
+        readonly EmailService emailService;
+        readonly string domain = "http://localhost:3001/#/app";
 
-        public UserTableServices(IDataProvider dataProvider)
+        public UserTableServices(IDataProvider dataProvider, EmailService emailService)
         {
             this.dataProvider = dataProvider;
+            this.emailService = emailService;
         }
 
-        public UserBase Create(UserCreateRequest request)
+        public async Task<Response> Create(UserCreateRequest request)
         {
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
+            string tokenId= Guid.NewGuid().ToString();
 
             dataProvider.ExecuteNonQuery(
                 "User_Insert",
@@ -41,52 +48,72 @@ namespace Sabio.Services
                     newId = (int)parameters["@Id"].Value;
                 });
 
-            return new UserBase
+            dataProvider.ExecuteNonQuery(
+                "EmailConfirmation_Insert",
+                (parameters) =>
+                {
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    parameters.AddWithValue("@RegEmail", request.Email);
+                    parameters.AddWithValue("@TokenId", tokenId);
+                    parameters.AddWithValue("@TokenTypeId", 1);
+                });
+
+            //3. SEND AN EMAIL WITH CONFIRMATION LINK
+            Email email = new Email()
             {
-                Id = newId,
-                Name = "",
-                Roles = new string[0]
+                FromAddress = "RecruitHubSports@dispostable.com",
+                FromName = "RecruitHubSports",
+                ToAddress = request.Email,
+                ToName = request.FirstName + " " + request.LastName,
+                Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
+                Subject = "Registration Confirmation",
+                Link = domain + "/register_confirmation/" + tokenId
             };
+
+            return await emailService.Execute(email);
+             
         }
+
+        
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {
             PagedItemResponse<User> pagedItemResponse = new PagedItemResponse<User>();
             List<User> userList = new List<User>();
 
-            dataProvider.ExecuteCmd(
-                "User_SelectAll",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@pageIndex", pageIndex);
-                    parameters.AddWithValue("@pageSize", pageSize);
-                },
-                (reader, resultSetIndex) =>
-                {
-                    User user = new User
+                dataProvider.ExecuteCmd(
+                    "User_SelectAll",
+                    (parameters) =>
                     {
-                        Id = (int)reader["Id"],
-                        FirstName = (string)reader["FirstName"],
-                        LastName = (string)reader["LastName"],
-                        Gender = reader.GetSafeInt32Nullable("Gender"),
-                        AvatarUrl = (string)reader["AvatarUrl"],
-                        Email = (string)reader["Email"],
-                        DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"]
-                    };
-
-                    object middleNameObj = reader["MiddleName"];
-                    if (middleNameObj != DBNull.Value)
+                        parameters.AddWithValue("@pageIndex", pageIndex);
+                        parameters.AddWithValue("@pageSize", pageSize);
+                    },
+                    (reader, resultSetIndex) =>
                     {
-                        user.MiddleName = (string)middleNameObj;
-                    }
+                        User user = new User
+                        {
+                            Id = (int)reader["Id"],
+                            FirstName = (string)reader["FirstName"],
+                            LastName = (string)reader["LastName"],
+                            Gender = reader.GetSafeInt32Nullable("Gender"),
+                            AvatarUrl = (string)reader["AvatarUrl"],
+                            Email = (string)reader["Email"],
+                            DateCreated = (DateTime)reader["DateCreated"],
+                            DateModified = (DateTime)reader["DateModified"]
+                        };
 
-                    pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+                        object middleNameObj = reader["MiddleName"];
+                        if (middleNameObj != DBNull.Value)
+                        {
+                            user.MiddleName = (string)middleNameObj;
+                        }
 
-                    userList.Add(user);
-                });
+                        pagedItemResponse.TotalCount = (int)reader["TotalRows"];
+
+                        userList.Add(user);
+                    });
             pagedItemResponse.PagedItems = userList;
-            return pagedItemResponse;
+                return pagedItemResponse;
         }
 
         public User GetById(int id)
@@ -136,7 +163,7 @@ namespace Sabio.Services
             string firstName = "";
             string lastName = "";
             bool isAdmin = false;
-
+     
             dataProvider.ExecuteCmd(
                 "User_Login",
                 (parameters) =>
@@ -179,7 +206,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@FirstName", request.FirstName);
                     parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
                     parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@Gender", request.Gender);
+                    parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                     parameters.AddWithValue("@Email", request.Email);
                     parameters.AddWithValue("@PasswordHash", passHash);

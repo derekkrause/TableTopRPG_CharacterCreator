@@ -4,7 +4,6 @@ import { registerUser, registerCoach, registerAthlete, userLogin } from "../../s
 import { currentUser } from "../../services/currentUser.service";
 import { NotificationManager } from "react-notifications";
 import { validateRegistration } from "./RegValidation";
-import { UserLogin } from "./Login";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "react-notifications/lib/notifications.css";
 import "./RegForm.css";

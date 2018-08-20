@@ -96,6 +96,10 @@ class App extends React.Component {
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
+                <Route
+                  path={`${match.url}/forgot-password`}
+                  component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
+                />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
 
                 {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
@@ -133,6 +137,7 @@ class App extends React.Component {
                 <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
 
                 <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+
                 <Route
                   path={`${match.url}/profile/:id(\\d+)`}
                   render={props => {

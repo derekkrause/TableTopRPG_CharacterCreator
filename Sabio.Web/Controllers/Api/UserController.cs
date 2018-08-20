@@ -5,10 +5,13 @@ using Sabio.Services;
 using Sabio.Services.Security;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api
 {
+
+
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {
@@ -22,7 +25,7 @@ namespace Sabio.Web.Controllers.Api
         }
 
         [Route, HttpPost, AllowAnonymous]
-        public HttpResponseMessage Create(UserCreateRequest userCreateRequest)
+        public async Task<HttpResponseMessage> Create(UserCreateRequest userCreateRequest)
         {
             if (userCreateRequest == null)
             {
@@ -34,16 +37,9 @@ namespace Sabio.Web.Controllers.Api
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            UserBase userBase = userTableServices.Create(userCreateRequest);
+            var response = await userTableServices.Create(userCreateRequest);
 
-            authenticationService.LogIn(new UserBase
-            {
-                Id = userBase.Id,
-                Name = userBase.Name,
-                Roles = userBase.Roles
-            });
-
-            return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = userBase.Id });
+            return Request.CreateResponse(HttpStatusCode.Created, response);
         }
 
         [Route("{pageIndex:int}/{pageSize:int}"), HttpGet, Authorize(Roles = "Admin", Users = "")]
@@ -134,5 +130,24 @@ namespace Sabio.Web.Controllers.Api
             authenticationService.LogOut();
             return Request.CreateResponse(HttpStatusCode.OK);
         }
+
+        //[Route("register_confirmation/{tokenId:string}"), HttpPut, AllowAnonymous]
+        //public HttpResponseMessage Confirm(string tokenId)
+        //{
+        //    if (tokenId.Length == 0)
+        //    {
+        //        ModelState.AddModelError("TokenId", "Invalid or Expired Token");
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+        //    }
+
+        //    userTableServices.Confirm(tokenId);
+
+            //return Request.CreateResponse(HttpStatusCode.OK);
+        //}
     }
+    
 }

@@ -16,7 +16,7 @@ namespace Sabio.Models.Requests
 
         public JRaw ImageUrl { get; set; }
 
-        [MaxLength(250)]
+       
         public JRaw VideoUrl { get; set; }
 
     }
