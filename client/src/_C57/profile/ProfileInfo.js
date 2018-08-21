@@ -109,12 +109,43 @@ class ProfileInfo extends React.Component {
                     </h2>
                   )}
                 </div>
-                <div className="row">
-                  <div role="group" className="btn-group col-md-4">
-                    {/* <FollowButton />
-                    <HighlightButton /> */}
-                    <button type="button">Follow</button>
-                    <button type="button">Highlight</button>
+                <div className="row" style={{ position: "relative", left: "4%" }}>
+                  <div role="group" className="btn-group">
+                    {!this.props.following ? (
+                      <button
+                        className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                        onClick={() => this.props.followUser()}
+                      >
+                        Follow
+                      </button>
+                    ) : (
+                      <button
+                        className="jr-btn jr-btn-default btn btn-default profileInfoBtn px-3"
+                        style={{ color: "#81c784" }}
+                        onClick={() => this.props.followUser()}
+                      >
+                        <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
+                        &nbsp; Following
+                      </button>
+                    )}
+
+                    {!this.props.highlighting ? (
+                      <button
+                        className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                        onClick={() => this.props.highlightUser()}
+                      >
+                        Highlight
+                      </button>
+                    ) : (
+                      <button
+                        className="jr-btn jr-btn-default btn btn-default profileInfoBtn  px-3"
+                        style={{ color: "#81c784" }}
+                        onClick={() => this.props.highlightUser()}
+                      >
+                        <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
+                        &nbsp; Highlighted
+                      </button>
+                    )}
                   </div>
                   <div className="col-md-2" />
                   <div className="text-right col-md-6">

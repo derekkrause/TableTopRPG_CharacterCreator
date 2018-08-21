@@ -6,8 +6,8 @@ import { getClassYear } from "./AddSportHistory/AddSportService";
 import "./Profile.css";
 import ProfileBio from "./ProfileBio";
 import { connect } from "react-redux";
-import AthleteAcademics from "./AthleteAcademics";
-import Popover from "../CustomComponents/Popover";
+import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
+import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
 
 class ProfileContainer extends React.Component {
   state = {
@@ -41,7 +41,9 @@ class ProfileContainer extends React.Component {
     title: "",
     classYearOptions: [],
     id: 1,
-    userId: 1
+    userId: 1,
+    following: false,
+    highlighting: false
   };
 
   handleChange = e => {
@@ -60,14 +62,37 @@ class ProfileContainer extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.currentUser, "currentuser");
+    selectFollowingById(this.props.currentUser.id).then(res => {
+      console.log(res, "following call");
+      if (res.data.resultSets) {
+        for (let i = 0; i < res.data.resultSets[0].length; i++) {
+          if (res.data.resultSets[0][i].UserId == this.props.match.params.id) {
+            this.setState({ following: true });
+          }
+        }
+      }
+    });
+
+    selectHighlightById(this.props.match.params.id).then(res => {
+      console.log(res, "hightlights");
+      if (res.data.resultSets) {
+        for (let i = 0; i < res.data.resultSets[0].length; i++) {
+          if (res.data.resultSets[0][i].HighlightId == this.props.currentUser.id) {
+            this.setState({ highlighting: true });
+          }
+        }
+      }
+    });
+
     getAthleteById(this.props.match.params.id).then(response => {
       console.log(response);
+
       const info = response.data.item.athletes[0];
       console.log(info);
       const sportPositions = [];
       const heightFeet = Math.floor(info.Height / 12);
       const heightInches = info.Height % 12;
+
       this.setState({
         firstName: info.FirstName,
         middleName: info.MiddleName,
@@ -96,6 +121,7 @@ class ProfileContainer extends React.Component {
         userId: info.UserId
       });
     });
+
     getClassYear().then(res => this.setState({ classYearOptions: res.data.item.pagedItems }));
   }
 
@@ -133,6 +159,36 @@ class ProfileContainer extends React.Component {
       schoolId: id
     });
   };
+  followUser = () => {
+    const payload = {
+      followerId: this.props.currentUser.id,
+      userId: parseInt(this.props.match.params.id)
+    };
+    if (!this.state.following) {
+      followUser(payload).then(res => {
+        this.setState({ following: true });
+      });
+    } else {
+      unfollowUser(this.props.currentUser.id, this.props.match.params.id).then(res => {
+        this.setState({ following: false });
+      });
+    }
+  };
+  highlightUser = () => {
+    const payload = {
+      highlightId: this.props.currentUser.id,
+      userId: parseInt(this.props.match.params.id)
+    };
+    if (!this.state.highlighting) {
+      highlightUser(payload).then(res => {
+        this.setState({ highlighting: true });
+      });
+    } else {
+      unhighlightUser(this.props.currentUser.id, this.props.match.params.id).then(res => {
+        this.setState({ highlighting: false });
+      });
+    }
+  };
 
   render() {
     return (
@@ -156,6 +212,12 @@ class ProfileContainer extends React.Component {
                 style={{ borderLeft: "solid 15px #2673e2", borderBottomLeftRadius: "8px" }}
               >
                 <ProfileBanner
+                  highlightUser={this.highlightUser}
+                  highlighting={this.state.highlighting}
+                  following={this.state.following}
+                  followUser={this.followUser}
+                  handleChange={this.handleChange}
+                  onChange={this.onChange}
                   firstName={this.state.firstName}
                   middleName={this.state.middleName}
                   lastName={this.state.lastName}

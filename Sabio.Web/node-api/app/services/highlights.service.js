@@ -28,11 +28,11 @@ const post = item => {
     });
 };
 
-const del = item => {
+const del = (highlighterId, userId) => {
   return mssql
     .executeProc("Highlight_Delete", sqlRequest => {
-      sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
-      sqlRequest.addParameter("HighlightId", TYPES.Int, item.highlightId);
+      sqlRequest.addParameter("UserId", TYPES.Int, userId);
+      sqlRequest.addParameter("HighlightId", TYPES.Int, highlighterId);
     })
     .then(res => {
       return res;
@@ -42,8 +42,15 @@ const del = item => {
     });
 };
 
+const getTrendingAthletes = () => {
+  return mssql.executeProc("Select_TrendingAthletesByHighlights").then(res => {
+    return res;
+  });
+};
+
 module.exports = {
   getByUserId,
   post,
-  del
+  del,
+  getTrendingAthletes
 };

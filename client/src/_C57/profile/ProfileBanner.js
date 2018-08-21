@@ -31,6 +31,10 @@ class ProfileBanner extends React.Component {
             </div>
             <div className="col-md-9">
               <ProfileInfo
+                highlighting={this.props.highlighting}
+                highlightUser={this.props.highlightUser}
+                following={this.props.following}
+                followUser={this.props.followUser}
                 handleChange={this.props.handleChange}
                 onChange={this.props.onChange}
                 firstName={this.props.firstName}

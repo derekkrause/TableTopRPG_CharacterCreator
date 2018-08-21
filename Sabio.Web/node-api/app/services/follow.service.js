@@ -33,19 +33,16 @@ const post = item => {
       sqlRequest.addParameter("FollowerId", TYPES.Int, item.followerId);
       sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
     })
-    .then(res => {
-      return res;
-    })
-    .catch(err => {
-      return err;
+    .then(() => {
+      return true;
     });
 };
 
-const del = item => {
+const del = (followerId, userId) => {
   return mssql
     .executeProc("Follow_Delete", sqlRequest => {
-      sqlRequest.addParameter("FollowerId", TYPES.Int, item.followerId);
-      sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
+      sqlRequest.addParameter("FollowerId", TYPES.Int, followerId);
+      sqlRequest.addParameter("UserId", TYPES.Int, userId);
     })
     .then(res => {
       return res;

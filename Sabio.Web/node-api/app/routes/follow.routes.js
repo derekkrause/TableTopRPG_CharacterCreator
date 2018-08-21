@@ -11,4 +11,4 @@ router.get("/followers/:userId", followController.getByUserId);
 //router.get("/:id", followController.getById);
 
 router.post("/", followController.post);
-router.delete("/", followController.del);
+router.delete("/delete/:followerId/:userId", followController.del);
