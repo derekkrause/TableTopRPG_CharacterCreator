@@ -7,6 +7,7 @@ import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploade
 import { DeleteButton } from "../CustomComponents/Button";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Popover from "../CustomComponents/Popover";
+import CommentsContainer from "../Comments/CommentsContainer";
 
 class FeedHomeCard extends React.Component {
   state = {
@@ -224,6 +225,9 @@ class FeedHomeCard extends React.Component {
               </div>
               <p className="card-text text-muted">{data.content}</p>
             </blockquote>
+          </div>
+          <div className="card-footer pl-2 pr-0">
+            <CommentsContainer postId={data.id} />
           </div>
         </React.Fragment>
 

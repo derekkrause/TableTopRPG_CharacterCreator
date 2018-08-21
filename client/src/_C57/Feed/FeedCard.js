@@ -3,6 +3,7 @@ import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerCon
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
 import Popover from "../CustomComponents/Popover";
 import IfLoginStatus from "../CustomComponents/IfLoginStatus";
+import CommentsContainer from "../Comments/CommentsContainer";
 import "./FeedCard.css";
 import ImageModal from "../profile/ImageModal";
 
@@ -362,6 +363,9 @@ class FeedCard extends React.Component {
                 </div>
                 <p className="card-text text-muted">{this.props.feed.content}</p>
               </blockquote>
+            </div>
+            <div className="card-footer pl-2 pr-0">
+              <CommentsContainer postId={this.props.feed.id} />
             </div>
 
             <div className="btn-container text-right">
