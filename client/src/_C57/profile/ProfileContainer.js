@@ -8,6 +8,7 @@ import ProfileBio from "./ProfileBio";
 import { connect } from "react-redux";
 import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
 import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
+import AthleteAcademics from "./AthleteAcademics";
 
 class ProfileContainer extends React.Component {
   state = {
@@ -192,126 +193,121 @@ class ProfileContainer extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <div className="app-wrapper">
-          <div className="row">
-            <div className="jr-card profileJrCard col-md-8 p-0">
-              <img
-                src="http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "170px",
-                  position: "relative",
-                  borderTopLeftRadius: "8px",
-                  borderTopRightRadius: "8px"
-                }}
-                className="img-fluid"
+      <div className="app-wrapper">
+        <div className="row">
+          <div className="jr-card profileJrCard col-md-8 p-0">
+            <img
+              src="http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "170px",
+                position: "relative",
+                borderTopLeftRadius: "8px",
+                borderTopRightRadius: "8px"
+              }}
+              className="img-fluid"
+            />
+            <div className="p-4 col-md-12" style={{ borderLeft: "solid 15px #2673e2", borderBottomLeftRadius: "8px" }}>
+              <ProfileBanner
+                highlightUser={this.highlightUser}
+                highlighting={this.state.highlighting}
+                following={this.state.following}
+                followUser={this.followUser}
+                handleChange={this.handleChange}
+                onChange={this.onChange}
+                firstName={this.state.firstName}
+                middleName={this.state.middleName}
+                lastName={this.state.lastName}
+                title={this.state.title}
+                profilePic={this.state.profilePic}
+                city={this.state.city}
+                state={this.state.state}
+                schoolName={this.state.schoolName}
+                schoolId={this.state.schoolId}
+                classYear={this.state.classYear}
+                classYearId={this.state.classYearId}
+                classYearOptions={this.state.classYearOptions}
+                gradYear={this.state.gradYear}
+                sport={this.state.sport}
+                sportLevel={this.state.sportLevel}
+                sportPosition={this.state.sportPosition}
+                height={this.state.height}
+                heightFeet={this.state.heightFeet}
+                heightInches={this.state.heightInches}
+                weight={this.state.weight}
+                gpa={this.state.gpa}
+                bio={this.state.bio}
+                onChange={this.onChange}
+                handleChange={this.handleChange}
+                handleSaveProfile={this.handleSaveProfile}
+                onHandleSchoolSelect={this.onHandleSchoolSelect}
               />
-              <div
-                className="p-4 col-md-12"
-                style={{ borderLeft: "solid 15px #2673e2", borderBottomLeftRadius: "8px" }}
-              >
-                <ProfileBanner
-                  highlightUser={this.highlightUser}
-                  highlighting={this.state.highlighting}
-                  following={this.state.following}
-                  followUser={this.followUser}
-                  handleChange={this.handleChange}
-                  onChange={this.onChange}
-                  firstName={this.state.firstName}
-                  middleName={this.state.middleName}
-                  lastName={this.state.lastName}
-                  title={this.state.title}
-                  profilePic={this.state.profilePic}
-                  city={this.state.city}
-                  state={this.state.state}
-                  schoolName={this.state.schoolName}
-                  schoolId={this.state.schoolId}
-                  classYear={this.state.classYear}
-                  classYearId={this.state.classYearId}
-                  classYearOptions={this.state.classYearOptions}
-                  gradYear={this.state.gradYear}
-                  sport={this.state.sport}
-                  sportLevel={this.state.sportLevel}
-                  sportPosition={this.state.sportPosition}
-                  height={this.state.height}
-                  heightFeet={this.state.heightFeet}
-                  heightInches={this.state.heightInches}
-                  weight={this.state.weight}
-                  gpa={this.state.gpa}
-                  bio={this.state.bio}
-                  onChange={this.onChange}
-                  handleChange={this.handleChange}
-                  handleSaveProfile={this.handleSaveProfile}
-                  onHandleSchoolSelect={this.onHandleSchoolSelect}
-                />
-              </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-md-8 profileJrCard" style={{ marginTop: "30px" }}>
-              <div className="row">
-                <div className="col-md-12" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-                  <div className="jr-card profileJrCardTwo " id="bio">
-                    <ProfileBio
-                      popover="bio"
-                      handleChange={this.handleChange}
-                      bio={this.state.bio}
-                      handleSaveProfile={this.handleSaveProfile}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-8 profileJrCard">
-              <div className="row">
-                <div className="col-md-7 col-sm-12" style={{ paddingLeft: "0px" }}>
-                  <div className="jr-card profileJrCardTwo">
-                    <h2>history</h2>
-                  </div>
-                </div>
-                <div className="col-md-5 col-sm-12" style={{ paddingRight: "0px" }}>
-                  <div className="jr-card profileJrCardTwo pt-3" id="academics">
-                    <AthleteAcademics
-                      popover="academics"
-                      editAcademics={this.state.editAcademics}
-                      handleEditAcademics={this.handleEditAcademics}
-                      sat={this.state.sat}
-                      act={this.state.act}
-                      gpa={this.state.gpa}
-                      academicNotes={this.state.academicNotes}
-                      handleChange={this.handleChange}
-                      handleSaveProfile={this.handleSaveProfile}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-8 profileJrCard" style={{ marginTop: "40px" }}>
-              <div className="jr-card profileJrCardTwo">
-                <div className="row">
-                  <div className="col-md-12">
-                    <ProfileCard
-                      handleChange={this.handleChange}
-                      gpa={this.state.gpa}
-                      sat={this.state.sat}
-                      act={this.state.act}
-                      desiredMajor={this.state.desiredMajor}
-                      stats={this.state.stats}
-                      handleSaveProfile={this.handleSaveProfile}
-                    />
-                  </div>
+        </div>
+        <div className="row">
+          <div className="col-md-8 profileJrCard" style={{ marginTop: "30px" }}>
+            <div className="row">
+              <div className="col-md-12" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+                <div className="jr-card profileJrCardTwo " id="bio">
+                  <ProfileBio
+                    popover="bio"
+                    handleChange={this.handleChange}
+                    bio={this.state.bio}
+                    handleSaveProfile={this.handleSaveProfile}
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </React.Fragment>
+
+        <div className="row">
+          <div className="col-md-8 profileJrCard">
+            <div className="row">
+              <div className="col-md-7 col-sm-12" style={{ paddingLeft: "0px" }}>
+                <div className="jr-card profileJrCardTwo">
+                  <h2>history</h2>
+                </div>
+              </div>
+              <div className="col-md-5 col-sm-12" style={{ paddingRight: "0px" }}>
+                <div className="jr-card profileJrCardTwo pt-3" id="academics">
+                  <AthleteAcademics
+                    popover="academics"
+                    editAcademics={this.state.editAcademics}
+                    handleEditAcademics={this.handleEditAcademics}
+                    sat={this.state.sat}
+                    act={this.state.act}
+                    gpa={this.state.gpa}
+                    academicNotes={this.state.academicNotes}
+                    handleChange={this.handleChange}
+                    handleSaveProfile={this.handleSaveProfile}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-8 profileJrCard" style={{ marginTop: "40px" }}>
+            <div className="jr-card profileJrCardTwo">
+              <div className="row">
+                <div className="col-md-12">
+                  <ProfileCard
+                    handleChange={this.handleChange}
+                    gpa={this.state.gpa}
+                    sat={this.state.sat}
+                    act={this.state.act}
+                    desiredMajor={this.state.desiredMajor}
+                    stats={this.state.stats}
+                    handleSaveProfile={this.handleSaveProfile}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     );
   }
 }
