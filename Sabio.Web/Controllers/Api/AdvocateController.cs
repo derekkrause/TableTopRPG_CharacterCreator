@@ -33,7 +33,7 @@ namespace Sabio.Web.Controllers
             });
         }
 
-        [Route, HttpPost]
+        [Route, HttpPost, AllowAnonymous]
         public HttpResponseMessage AdvocateInsert(AdvocateInsert advocateInsert)
         {
             if (advocateInsert == null)

@@ -13,6 +13,7 @@ class TopNav extends React.Component {
   };
 
   loginSuccess = () => NotificationManager.success("Welcome back!", "Login Success", 2000);
+
   loginFail = email => {
     if (email) {
       const data = { Email: email };
@@ -63,7 +64,7 @@ class TopNav extends React.Component {
             <a href="#" className="mb-0 ml-auto d-md-none text-white" onClick={this.scrollToRegForm}>
               Login/Register
             </a>
-            <div className="d-none d-md-block ">
+            <div className="d-none d-md-block">
               <UserLogin loginSuccess={this.loginSuccess} loginFail={email => this.loginFail(email)} />
             </div>
             <div className="d-none d-md-block mx-auto">
@@ -86,9 +87,6 @@ class TopNav extends React.Component {
                   <Button className="btn m-auto px-1 pb-2 color-gray " color="link" onClick={this.popdown}>
                     Forgot Username
                   </Button>
-                  {/* <Button className="btn m-auto px-1" color="link" >
-                    Forgot Password
-                  </Button> */}
                   {/* Modified by RR */}
                   <Link
                     className="btn m-auto px-1 color-gray"

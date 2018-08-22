@@ -82,7 +82,7 @@ class FeedHomeCard extends React.Component {
       liked: this.props.data.liked,
       likeCount: this.props.data.itemData.likeCount
     });
-    console.log("data!", this.props.data);
+    // console.log("data!", this.props.data);
     const imageArray = this.props.data.itemData.imageUrl;
 
     const mappedImageArray = imageArray.map(image => ({
@@ -90,7 +90,7 @@ class FeedHomeCard extends React.Component {
       type: "imageSmall"
     }));
     const videoArray = this.props.data.itemData.videoUrl;
-    console.log("VIDEO ARRAY", videoArray);
+    // console.log("VIDEO ARRAY", videoArray);
     const mappedVideoArray = videoArray.map(video => ({
       url: video,
       type: "videoSmall",
@@ -284,6 +284,7 @@ class FeedHomeCard extends React.Component {
                 <LikeButton onClick={this.handleOnClickLike} />
               )}
               {/* <ViewCommentsButton /> */}
+              <CommentsContainer postId={data.id} />
             </div>
           </div>
           <div className="card-footer pl-2 pr-0">

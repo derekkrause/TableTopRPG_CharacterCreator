@@ -74,10 +74,6 @@ namespace Sabio.Data.Services
                 (parameters) =>
             {
                 parameters.AddWithValue("@UserId", advocateInsert.UserId);
-                parameters.AddWithValue("@CollegeId", advocateInsert.CollegeId);
-                parameters.AddWithValue("@HighSchoolId", advocateInsert.HighSchoolId);
-                parameters.AddWithValue("@Title", advocateInsert.Title);
-                parameters.AddWithValue("@ShortBio", advocateInsert.ShortBio);
                 parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
             },

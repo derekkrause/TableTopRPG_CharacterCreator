@@ -14,6 +14,7 @@ import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
 import { Header } from "reactstrap";
 import { NotificationContainer } from "react-notifications";
+import UserTypeSweetAlert from "../_C57/RegistrationLoginPage/UserTypeSweetAlert";
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
 import "../_C57/WelcomePage/WelcomePage.css";
@@ -25,15 +26,17 @@ import "../_C57/NavBar/NavStyle.css";
 
 class App extends React.Component {
   componentDidMount() {
-    axios
-      .get("api/search")
-      .then(res => {
-        console.log("Good Get All!", res.data);
-        this.props.setDropdownValues(res.data);
-      })
-      .catch(() => {
-        console.log("Get All Failed");
-      });
+    if (this.props.currentUser) {
+      axios
+        .get("api/search")
+        .then(res => {
+          console.log("Good Get All!", res.data);
+          this.props.setDropdownValues(res.data);
+        })
+        .catch(() => {
+          console.log("Get All Failed");
+        });
+    }
   }
 
   setDropdownProperties = properties => {
@@ -69,11 +72,8 @@ class App extends React.Component {
 
             <IfLoginStatus loggedIn={true}>
               <NavBar />
+              <UserTypeSweetAlert {...this.props} />
             </IfLoginStatus>
-
-            {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
-            <NavBar />
-            </IfLoginStatus> */}
 
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
@@ -81,18 +81,18 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                {/* This Route must remain above the rest and does not need to be alphebatized */}
+                {/* This Route must remain above the rest but still needs to be alphebatized */}
                 <Route
-                  path={`${match.url}/welcome`}
-                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
+                  path={`${match.url}/forgot-password`}
+                  component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
                 />
                 <Route
                   path={`${match.url}/registration_confirmation`}
                   component={asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"))}
                 />
                 <Route
-                  path={`${match.url}/forgot-password`}
-                  component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
+                  path={`${match.url}/welcome`}
+                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
                 {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}

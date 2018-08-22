@@ -37,15 +37,13 @@ class FeedHome extends React.Component {
   renderFeed = () => {
     getFeedHome()
       .then(response => {
-        console.log("Get All", response);
-        // debugger;
+        // console.log("Get All", response);
         this.setState(
           {
             feeds: response.data.item.pagedItems
-          },
-          () => {
-            console.log("FEED HOME", this.state.feeds);
-          }
+          } /*,
+          () => {console.log("FEED HOME", this.state.feeds);
+          }*/
         );
       })
       .catch(error => console.log(error));
@@ -60,7 +58,7 @@ class FeedHome extends React.Component {
     if (feedId) {
       putUpdateFeed(payload, feedId)
         .then(response => {
-          console.log("UPDATE/PUT", response);
+          // console.log("UPDATE/PUT", response);
           this.setState({
             title: "",
             content: "",
@@ -73,29 +71,21 @@ class FeedHome extends React.Component {
       postFeed(payload)
         .then(response => {
           console.log("CREATE/POST", response);
-          this.setState(
-            {
-              feedForm: false
-            },
-            this.renderFeed()
-          );
+          this.setState({ feedForm: false }, this.renderFeed());
         })
         .catch(error => console.log(error));
     }
   };
 
   handleUpdateFeed = feedId => {
-    console.log("UPDATE", feedId);
+    // console.log("UPDATE", feedId);
   };
 
   handleDeleteFeed = () => {
     const feedId = this.state.feedId;
     deleteFeed(feedId).then(response => {
-      console.log("DELETE", response);
-      this.setState({
-        modal: !this.state.modal,
-        feedId: ""
-      });
+      // console.log("DELETE", response);
+      this.setState({ modal: !this.state.modal, feedId: "" });
       window.location.reload();
     });
   };
@@ -124,10 +114,7 @@ class FeedHome extends React.Component {
   };
 
   handleModalToggle = feedId => {
-    this.setState({
-      modal: !this.state.modal,
-      feedId
-    });
+    this.setState({ modal: !this.state.modal, feedId });
   };
 
   handleDateFormat = date => {
@@ -138,28 +125,24 @@ class FeedHome extends React.Component {
     return month + " " + newDate.getDate() + ", " + newDate.getFullYear();
   };
 
-  likedUserMatch = () => {};
-
   handleSubmitLike = payload => {
     postLike(payload).then(res => {
-      console.log("POST LIKE", res);
+      // console.log("POST LIKE", res);
     }, this.renderFeed());
     // .then(this.renderFeed());
   };
   handleDeleteLike = id => {
     deleteLike(id)
       .then(res => {
-        console.log("UNLIKE", id, res);
+        // console.log("UNLIKE", id, res);
       })
       .then(this.renderFeed());
   };
   handleViewLikedUsers = postId => {
-    console.log("POST ID TO VIEW LIKED USERS", postId);
+    // console.log("POST ID TO VIEW LIKED USERS", postId);
     getLikeByPostId(postId).then(res => {
-      console.log("VIEW LIKED USERS", res);
-      this.setState({
-        likedUser: res.data.resultSets
-      });
+      this.setState({ likedUser: res.data.resultSets });
+      // console.log("VIEW LIKED USERS", res);
     });
   };
   render() {

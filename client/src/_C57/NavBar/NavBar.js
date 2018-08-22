@@ -56,17 +56,20 @@ class NavBar extends React.Component {
     console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
+  /* WHAT DOES THIS DO????? */
+  // componentDidMount() {
+  //   console.log("componentDidMount 1", this.props);
+  // }
 
-  componentDidMount() {
-    console.log("componentDidMount 1", this.props);
-  }
-
-  componentDidMount() {
-    console.log("componentDidMount 2", this.props);
-  }
+  // componentDidMount() {
+  //   console.log("componentDidMount 2", this.props);
+  // }
 
   logout = () => {
-    userLogout().then(currentUser, NotificationManager.info("Successfully logged out", "", 2000));
+    userLogout().then(() => {
+      currentUser().then(() => this.props.history.push(`${this.props.match.url}/welcome`));
+      NotificationManager.info("Successfully logged out", "", 2000);
+    });
   };
 
   render() {
@@ -87,7 +90,6 @@ class NavBar extends React.Component {
                       src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo.png"
                       srcSet="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo@2x.png 2x"
                       alt="..."
-                      // className="img-fluid"
                     />
                   </picture>
                 </Link>
@@ -104,7 +106,7 @@ class NavBar extends React.Component {
                     id="exampleSelect"
                     onChange={this.handleChange}
                   >
-                    {/* <option /> */}
+                    <option /> {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
                     <option value="all">All</option>
                     <option value="athletes">Athletes</option>
                     <option value="coaches">Coaches</option>
@@ -133,7 +135,8 @@ class NavBar extends React.Component {
                   </FormGroup>
                 </div>
               </div>
-              {/* <span
+              {/* //LEAVE THIS SECTION HERE. DO NOT REMOVE IT.
+              <span
                 className="icon-btn jr-menu-icon hamburger-icon-animate"
                 id={"Popover-Search-Filter"}
                 onClick={this.toggle}
