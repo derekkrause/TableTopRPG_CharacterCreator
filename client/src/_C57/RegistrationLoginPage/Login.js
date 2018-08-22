@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Form, FormFeedback, Input, InputGroupAddon, InputGroup } from "reactstrap";
 import { userLogin } from "../../services/registerLogin.service";
 import { currentUser } from "../../services/currentUser.service";
+import "./RegForm.css";
 
 class UserLogin extends React.Component {
   state = {
@@ -34,15 +35,19 @@ class UserLogin extends React.Component {
     return (
       <div>
         <Form inline onSubmit={e => this.login(e)} autoComplete="on">
-          <InputGroup size="sm">
-            <Input type="email" onChange={this.onChange} name="email" placeholder="Email" />
-            <Input type="password" onChange={this.onChange} name="password" placeholder="Password" />
-            <InputGroupAddon addonType="append">
-              <Button className="rounded-right" color="primary" type="submit">
-                Sign-In
-              </Button>
-            </InputGroupAddon>
-          </InputGroup>
+          <Input type="email" onChange={this.onChange} name="email" placeholder="Email" className="border-0 mr-2" />
+          <Input
+            type="password"
+            onChange={this.onChange}
+            name="password"
+            placeholder="Password"
+            className="border-0 mr-2"
+          />
+          <InputGroupAddon addonType="append">
+            <Button className="btn-sign-in" color="primary" type="submit">
+              Sign-In
+            </Button>
+          </InputGroupAddon>
         </Form>
       </div>
     );

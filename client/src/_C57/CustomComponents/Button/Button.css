@@ -1,3 +1,22 @@
 .cus-btn-primary{
     color: #388e3c;
 }
+
+.profileInfoBtn {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgb(154, 152, 152);
+    padding-left: 45px;
+    padding-right: 45px
+}
+
+.profileInfoBtnTwo {
+    font-size: 18px;
+    font-weight: 600;
+    color:white;
+    padding-left: 25px;
+    padding-right: 25px;
+    background-color: #4caf50;
+    margin-bottom: 0px;
+    margin-right:-5%
+}

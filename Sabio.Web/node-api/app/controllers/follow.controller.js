@@ -45,8 +45,7 @@ const post = (req, res) => {
   followService
     .post(req.body)
     .then(response => {
-      console.log(response);
-      res.status(201).send(response);
+      res.status(201).send("You followed someone!");
     })
     .catch(err => {
       console.log(err);
@@ -56,7 +55,7 @@ const post = (req, res) => {
 
 const del = (req, res) => {
   followService
-    .del(req.body)
+    .del(req.params.followerId, req.params.userId)
     .then(response => {
       console.log(response);
       res.status(200).send(response);

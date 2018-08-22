@@ -20,6 +20,7 @@ import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
 import "../_C57/WelcomePage/WelcomePage.css";
 import axios from "axios";
 import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
+import "../_C57/NavBar/NavStyle.css";
 
 //import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
@@ -64,14 +65,8 @@ class App extends React.Component {
       <div className={`app-container ${drawerStyle}`}>
         <NotificationContainer />
         <Route path={`${match.url}/admin`} component={asyncComponent(() => import("../containers/SideNav/index"))} />
-        <div
-          className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch"
-          // style={{
-          //   backgroundImage:
-          //     "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
-          // }}
-        >
-          <div className="app-header">
+        <div className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch">
+          <div>
             <IfLoginStatus loggedIn={false}>
               <TopNav {...this.props} />
             </IfLoginStatus>
@@ -87,10 +82,6 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
-                />
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
                 <Route
                   path={`${match.url}/forgot-password`}
@@ -124,7 +115,7 @@ class App extends React.Component {
                     const Component = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
                     return (
                       <IfLoginStatus loggedIn={true}>
-                        <Component {...props} />
+                        {this.props.currentUser.isCoach === true && <Component {...props} />}
                       </IfLoginStatus>
                     );
                   }}

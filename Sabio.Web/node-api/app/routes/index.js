@@ -19,6 +19,7 @@ const mediaRoutes = require("./media.routes");
 const followRoutes = require("./follow.routes");
 const highlightsRoutes = require("./highlights.routes");
 const likesRoutes = require("./likes.routes");
+const commentsRoutes = require("./comments.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");
 const athleteRoutes = require("./athlete.routes");
 const testRoutes = require("./test.routes");
@@ -44,6 +45,7 @@ router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
 router.use("/highlights", highlightsRoutes);
 router.use("/likes", likesRoutes);
+router.use("/comments", commentsRoutes);
 
 router.use("/api/conferences", conferencesRoutes);
 router.use("/school", schoolsRoutes);

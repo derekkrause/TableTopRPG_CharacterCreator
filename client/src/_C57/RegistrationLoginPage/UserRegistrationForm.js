@@ -152,7 +152,7 @@ class UserRegistrationForm extends React.Component {
           this.setState({ regSuccess: true });
         })
         .catch(error => {
-          error.response.status === 409 && error.response.status
+          error.response.status && error.response.status === 409
             ? this.setState({ errorMessage: error.response.data.message, emailUsed: true, valid: false })
             : this.setState({ regFail: true, valid: false });
         });

@@ -28,7 +28,7 @@ const post = (req, res) => {
 
 const del = (req, res) => {
   highlightsService
-    .del(req.body)
+    .del(req.params.highlighterId, req.params.userId)
     .then(response => {
       console.log(response);
       res.status(200).send(response);
@@ -39,8 +39,15 @@ const del = (req, res) => {
     });
 };
 
+const getTrendingAthletes = (req, res) => {
+  highlightsService.getTrendingAthletes().then(response => {
+    res.status(201).send(response);
+  });
+};
+
 module.exports = {
   getByUserId,
   post,
-  del
+  del,
+  getTrendingAthletes
 };

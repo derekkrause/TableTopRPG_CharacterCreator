@@ -1,10 +1,12 @@
 import React from "react";
 import FeedCard from "./FeedCard";
-import { getFeed, postFeed, putUpdateFeed, deleteFeed } from "../../services/feed.sevice";
+import { getFeed, postFeed, putUpdateFeed, deleteFeed, getFeedByUserId } from "../../services/feed.sevice";
 import FeedForm from "./FeedForm";
 import "./Feed.css";
 import ConfirmModal from "./ConfirmModal";
 import { CreateButton } from "../CustomComponents/Button";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Feed extends React.Component {
   state = {
@@ -28,6 +30,10 @@ class Feed extends React.Component {
   };
 
   componentDidMount() {
+    this.renderFeed();
+  }
+
+  renderFeed = () => {
     getFeed()
       .then(response => {
         console.log("Get All", response);
@@ -36,7 +42,17 @@ class Feed extends React.Component {
         });
       })
       .catch(error => console.log(error));
-  }
+
+    // const userId = this.props.match.params.id;
+    // getFeedByUserId(userId)
+    //   .then(res => {
+    //     console.log("GET FEED BY CURRENT USER ID", res);
+    //     this.setState({
+    //       feeds: res.data.item.pagedItems
+    //     });
+    //   })
+    //   .catch(error => console.log(error));
+  };
 
   handleSubmitFeed = payload => {
     let feedId = payload.id;
@@ -50,8 +66,8 @@ class Feed extends React.Component {
             imageUrl: [],
             videoUrl: []
           });
-          window.location.reload();
         })
+        .then(this.renderFeed())
         .catch(error => console.log(error));
     } else {
       postFeed(payload)
@@ -64,26 +80,24 @@ class Feed extends React.Component {
             videoUrl: "",
             feedForm: false
           });
-          window.location.reload();
         })
+        .then(this.renderFeed())
         .catch(error => console.log(error));
     }
   };
 
-  handleUpdateFeed = feedId => {
+  updateFeed = feedId => {
     console.log("UPDATE", feedId);
   };
 
-  handleDeleteFeed = () => {
-    const feedId = this.state.feedId;
-    deleteFeed(feedId).then(response => {
-      console.log("DELETE", response);
-      this.setState({
-        modal: !this.state.modal,
-        feedId: ""
-      });
-      window.location.reload();
-    });
+  deleteFeed = feedId => {
+    console.log("Delete", feedId);
+    deleteFeed(feedId)
+      .then(response => {
+        console.log("DELETE", response);
+      })
+      .then(this.renderFeed())
+      .catch(error => console.log(error));
   };
 
   handleOnClickFeedForm = () => {
@@ -118,7 +132,7 @@ class Feed extends React.Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row justify-content-center">
         <div className="animation slideInLeft">
           <div className="mb-md-3">
             {this.state.feedForm ? (
@@ -145,28 +159,27 @@ class Feed extends React.Component {
               handleSubmitFeed={this.handleSubmitFeed}
               capitalize={this.capitalize}
               formVideoLinkInput={this.state.formVideoLinkInput}
+              currentUser={this.props.currentUser}
             />
           ) : (
             <div />
           )}
           <div className="cus-card-container">
-            {this.state.feeds
-              .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
-              .reverse()
-              .map(feed => (
-                <FeedCard
-                  borderColor="#009CE0"
-                  popover={feed.id}
-                  key={feed.id}
-                  feed={feed}
-                  editFeed={this.handleOnClickEditFeed}
-                  handleUpdateFeed={() => this.handleUpdateFeed(feed.id)}
-                  handleModalToggle={() => this.handleModalToggle(feed.id)}
-                  handleSubmitFeed={this.handleSubmitFeed}
-                  imageUrl={this.state.imageUrl}
-                  handleOnClickUploader={this.handleOnClickUploader}
-                />
-              ))}
+            {this.state.feeds.map(feed => (
+              <FeedCard
+                borderColor="#009CE0"
+                popover={feed.id}
+                key={feed.id}
+                feed={feed}
+                editFeed={this.handleOnClickEditFeed}
+                updateFeed={this.updateFeed}
+                deleteFeed={this.deleteFeed}
+                handleSubmitFeed={this.handleSubmitFeed}
+                imageUrl={this.state.imageUrl}
+                handleOnClickUploader={this.handleOnClickUploader}
+                currentUser={this.props.currentUser}
+              />
+            ))}
           </div>
           <div>
             <ConfirmModal
@@ -181,4 +194,9 @@ class Feed extends React.Component {
   }
 }
 
-export default Feed;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+export default withRouter(connect(mapStateToProps)(Feed));

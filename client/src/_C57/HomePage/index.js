@@ -1,15 +1,13 @@
 import React from "react";
-import FeedHome from "../Feed/FeedHome";
+import FeedHome from "./FeedHome";
 import CollegeList from "./CollegeList";
 import EventList from "./EventList";
 import ArticleList from "./ArticleList";
 import PeopleList from "./PeopleList";
-import UserProfileCard from "./userProfileCard/UserProfileCard";
 import { getUpcoming } from "../../services/Event.service";
-import { getSchools } from "../Admin/SchoolAdmin/SchoolAdminServer";
+import { getSchoolTrend } from "../../services/school.service";
 import { getAthleteTrend } from "../../services/athlete.service";
 import { getCoachTrend } from "../../services/coach.service";
-import { Route } from "react-router-dom";
 
 class HomePage extends React.Component {
   state = {
@@ -36,7 +34,7 @@ class HomePage extends React.Component {
     getSchools(0).then(res => {
       // console.log("School get all", res);
       this.setState({
-        schools: res.data.resultSets[0]
+        schools: res.data.item.pagedItems
       });
     });
     const sportType = "Baseball";
@@ -57,15 +55,7 @@ class HomePage extends React.Component {
         return newObj;
       });
       // console.log("GET Coaches", res);
-
-      this.setState(
-        {
-          coaches
-        },
-        () => {
-          // console.log("After Coach Set state", this.state.coaches);
-        }
-      );
+      this.setState({ coaches });
     });
   }
 
@@ -77,27 +67,33 @@ class HomePage extends React.Component {
     return (
       <div className="app-wrapper d-flex justify-content-center">
         <div className="animated slideInUpTiny animation-duration home-main">
-          <div className="row">
-            <div className="col-md-1 col-12 animation slideInLeft">
-              <div className="sideBar">{/* <UserProfileCard /> */}</div>
-            </div>
-            {/* <Route exact path={`${this.props.match.url}`} render={props => <EventsListView {...props} />} /> */}
-            <div className="col-md-7 col-sm-7 col-12 animation slideInRight">
-              <FeedHome />
-            </div>
-            <div className="col-md-4 col-sm-5 col-12 animation slideInLeft">
-              <div className="sideBar">
-                <EventList datas={events} cardTitle={eventTitle} />
+          <div className="row justify-content-center">
+            <div className="col-sm-10">
+              <div className="row justify-content-center">
+                {/* <Route exact path={`${this.props.match.url}`} render={props => <EventsListView {...props} />} /> */}
+                <div className="col-md-8 col-sm-7 col-12 animation slideInRight order-md-1 order-2">
+                  <FeedHome />
+                </div>
+                <div className="col-md-4 col-sm-5 col-12 animation slideInLeft order-md-2 order-1">
+                  <div className="sideBar">
+                    <EventList datas={events} cardTitle={eventTitle} />
 
-                <PeopleList
-                  datas={athletes}
-                  cardTitle="Trending Players"
-                  path="athletes"
-                  borderColor="border-primary"
-                />
-                <PeopleList datas={coaches} cardTitle="Trending Coaches" path="coaches" borderColor="border-purple" />
-                <CollegeList datas={schools} cardTitle="Trending Schools" dotColor="bg-orange" />
-                <ArticleList cardTitle={articleTitle} />
+                    <PeopleList
+                      datas={athletes}
+                      cardTitle="Trending Players"
+                      path="profile"
+                      borderColor="border-primary"
+                    />
+                    <PeopleList
+                      datas={coaches}
+                      cardTitle="Trending Coaches"
+                      path="coaches"
+                      borderColor="border-purple"
+                    />
+                    <CollegeList datas={schools} cardTitle="Trending Schools" dotColor="bg-orange" />
+                    <ArticleList cardTitle={articleTitle} />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

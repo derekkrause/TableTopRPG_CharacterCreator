@@ -33,6 +33,7 @@ namespace Sabio.Web
 
             container.RegisterType<IUserTableService, UserTableServices>();
             container.RegisterType<IEventService, EventService>();
+            container.RegisterType<ISchoolTrendService, SchoolTrendService>();
             container.RegisterType<IEmailService, EmailService>();
 
             //this should be per request

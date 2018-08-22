@@ -35,8 +35,8 @@ namespace Sabio.Services
             var response = await client.SendEmailAsync(msg);
 
             return response;
-            //create a response handler for anything >= 200 < 300
-            //create catches for apiKey errors
+            //todo: create a response handler for anything >= 200 < 300
+            //todo: create catches for apiKey errors
         }
     }
 

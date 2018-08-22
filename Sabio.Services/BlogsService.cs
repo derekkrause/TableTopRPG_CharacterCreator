@@ -54,7 +54,6 @@ namespace Sabio.Services
                 {
                     parameters.AddWithValue("@Title", request.Title);
                     parameters.AddWithValue("@Content", request.Content);
-                    parameters.AddWithValue("@Slug", request.Slug);
                     parameters.AddWithValue("@ImageUrl", request.ImageUrl.ToString());
                     parameters.AddWithValue("@VideoUrl", request.VideoUrl.ToString());
                     parameters.AddWithValue("@AuthorId", authorId);
@@ -69,7 +68,39 @@ namespace Sabio.Services
 
             return newId;
         }
+        public PagedItemResponse<Blog>GetByUserId(int userId)
+        {
+            PagedItemResponse<Blog> pagedItemResponse = new PagedItemResponse<Blog>();
+            List<Blog> blogListByUserId = new List<Blog>();
 
+            dataProvider.ExecuteCmd(
+                "Blog_GetByUserId",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@UserId", userId);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    Blog blog = new Blog
+                    {
+                        Id = (int)reader["Id"],
+                        Title = (string)reader["Title"],
+                        Content = (string)reader["Content"],
+                        AuthorId = (int)reader["AuthorId"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        DateModified = reader.GetSafeDateTimeNullable("DateModified"),
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        ImageUrl = new JRaw((string)reader["ImageUrl"]),
+                        VideoUrl = new JRaw((string)reader["VideoUrl"])
+                    };
+
+                    blogListByUserId.Add(blog);
+                });
+            pagedItemResponse.PagedItems = blogListByUserId;
+            return pagedItemResponse;
+        }
         public PagedItemResponse<Blog> GetAll(int pageIndex, int pageSize)
         {
             
@@ -91,10 +122,7 @@ namespace Sabio.Services
                         Id = (int)reader["Id"],
                         Title = (string)reader["Title"],
                         Content = (string)reader["Content"],
-                        Slug = (string)reader["Slug"],
                         AuthorId = (int)reader["AuthorId"],
-                        PublishDate = (DateTime)reader["PublishDate"],
-                        IsPublished = (bool)reader["IsPublished"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = reader.GetSafeDateTimeNullable("DateModified"),
                         FirstName = (string)reader["FirstName"],

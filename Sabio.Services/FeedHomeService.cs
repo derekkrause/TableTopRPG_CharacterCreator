@@ -3,9 +3,7 @@ using Sabio.Models.Domain;
 using Sabio.Models.Responses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Sabio.Data;
 
 namespace Sabio.Services
 {
@@ -17,7 +15,7 @@ namespace Sabio.Services
             this.dataProvider = dataProvider;
         }
 
-        public PagedItemResponse<FeedHome> GetAll(int pageIndex, int pageSize)
+        public PagedItemResponse<FeedHome> GetAll(int pageIndex, int pageSize, int currentUserId)
         {
             PagedItemResponse<FeedHome> pagedItemResponse = new PagedItemResponse<FeedHome>();
             List<FeedHome> feedHomeList = new List<FeedHome>();
@@ -28,6 +26,7 @@ namespace Sabio.Services
                 {
                     parameters.AddWithValue("@PageIndex", pageIndex);
                     parameters.AddWithValue("@PageSize", pageSize);
+                    parameters.AddWithValue("@CurrentUserId", currentUserId);
                 },
                 (reader, resultSetIndex) =>
                 {
@@ -35,7 +34,9 @@ namespace Sabio.Services
                     {
                         DateCreated = (DateTime)reader["DateCreated"],
                         Type = (string)reader["Type"],
-                        ItemData = new Newtonsoft.Json.Linq.JRaw((string)reader["ItemData"])
+                        ItemData = new Newtonsoft.Json.Linq.JRaw((string)reader["ItemData"]),
+                        Liked = (bool)reader["Liked"],
+                        LikedId = reader.GetSafeInt32Nullable("LikedId")
                     };
 
                     feedHomeList.Add(feedHome);

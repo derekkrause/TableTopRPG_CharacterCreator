@@ -14,40 +14,6 @@ const getById = id => {
     });
 };
 
-// const putById = (
-//   id,
-//   userId,
-//   firstName,
-//   middleName,
-//   lastName,
-//   schoolId,
-//   classYearId,
-//   highSchoolGraduationYear,
-//   city,
-//   state,
-//   height,
-//   weight
-// ) => {
-//   return mssql
-//     .executeProc("Athlete_Update", sqlRequest => {
-//       sqlRequest.addParameter("Id", TYPES.int, id);
-//       sqlRequest.addParameter("UserId", TYPES.int, userId);
-//       sqlRequest.addParameter("FirstName", TYPES.NVarChar, firstName);
-//       sqlRequest.addParameter("MiddleName", TYPES.NVarChar, middleName);
-//       sqlRequest.addParameter("LastName", TYPES.NVarChar, lastName);
-//       sqlRequest.addParameter("SchoolId", TYPES.int, schoolId);
-//       sqlRequest.addParameter("ClassYearId", TYPES.int, classYearId);
-//       sqlRequest.addParameter("HighSchoolGraduationYear", TYPES.int, highSchoolGraduationYear);
-//       sqlRequest.addParameter("City", TYPES.NVarChar, city);
-//       sqlRequest.addParameter("State", TYPES.NVarChar, state);
-//       sqlRequest.addParameter("Height", TYPES.int, height);
-//       sqlRequest.addParameter("Weight", TYPES.int, weight);
-//     })
-//     .then(response => {
-//       return response;
-//     });
-// };
-
 const putById = (body, Id) => {
   return mssql
     .executeProc("Athlete_Update", sqlRequest => {
@@ -63,6 +29,11 @@ const putById = (body, Id) => {
       sqlRequest.addParameter("State", TYPES.NVarChar, body.state);
       sqlRequest.addParameter("Height", TYPES.Int, body.height);
       sqlRequest.addParameter("Weight", TYPES.Int, body.weight);
+      sqlRequest.addParameter("SAT", TYPES.Int, body.sat);
+      sqlRequest.addParameter("ACT", TYPES.Int, body.act);
+      sqlRequest.addParameter("GPA", TYPES.Decimal, body.gpa);
+      sqlRequest.addParameter("AcademicNotes", TYPES.NVarChar, body.academicNotes);
+      sqlRequest.addParameter("ShortBio", TYPES.NVarChar, body.shortBio);
     })
     .then(response => {
       return response;

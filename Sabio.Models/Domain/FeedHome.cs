@@ -12,5 +12,7 @@ namespace Sabio.Models.Domain
         public DateTime DateCreated { get; set; }
         public string Type { get; set; }
         public JRaw ItemData { get; set; }
+        public bool Liked { get; set; }
+        public int? LikedId { get; set; }
     }
 }

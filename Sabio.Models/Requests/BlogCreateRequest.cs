@@ -11,12 +11,9 @@ namespace Sabio.Models.Requests
         [Required]
         public string Content { get; set; }
 
-        [Required, MaxLength(450)]
-        public string Slug { get; set; }
-
         public JRaw ImageUrl { get; set; }
 
-       
+
         public JRaw VideoUrl { get; set; }
 
     }

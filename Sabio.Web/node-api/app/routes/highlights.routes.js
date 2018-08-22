@@ -3,6 +3,7 @@ const highlightsController = require("../controllers/highlights.controller");
 
 module.exports = router;
 
-router.get("/:userId", highlightsController.getByUserId);
+router.get("/highlighting/:userId", highlightsController.getByUserId);
 router.post("/", highlightsController.post);
-router.delete("/", highlightsController.del);
+router.delete("/delete/:highlighterId/:userId", highlightsController.del);
+router.get("/trending", highlightsController.getTrendingAthletes);

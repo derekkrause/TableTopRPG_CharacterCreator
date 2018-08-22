@@ -1,6 +1,7 @@
 ﻿using Sabio.Models.Domain;
 using Sabio.Models.Responses;
 using Sabio.Services;
+using Sabio.Services.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,10 @@ namespace Sabio.Web.Controllers.Api
         }
 
         [Route("{pageIndex:int?}/{pageSize:int?}"),HttpGet]
-        public HttpResponseMessage GetAll(int pageIndex = 0, int pageSize = 20)
+        public HttpResponseMessage GetAll(int pageIndex=0, int pageSize=100)
         {
-            PagedItemResponse<FeedHome> pagedItemResponse = feedHomeService.GetAll(pageIndex, pageSize);
+            int currentUserId = User.Identity.GetId().Value;
+            PagedItemResponse<FeedHome> pagedItemResponse = feedHomeService.GetAll(pageIndex, pageSize, currentUserId);
 
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<FeedHome>>
             {

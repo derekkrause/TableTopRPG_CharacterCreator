@@ -202,10 +202,10 @@ class Faqs extends React.Component {
       <React.Fragment>
         <div className="app-wrapper">
           <div className=" animated slideInUpTiny animation-duration-3">
-            <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
-              <h1 className="title mb-3 mb-sm-0">FAQ</h1>
-            </div>
-            <div className="row">
+            <div className="row justify-content-center">
+              <div className="col-md-10 col-sm-12 col-12 justify-content-start p-4">
+                <h1 className="title mb-0">FAQ</h1>
+              </div>
               <div className="col-md-6 col-sm-7 col-12">
                 {this.state.loadingFaqsByCategory && (
                   <h2 className="font-weight-semibold">{this.state.categoryName}</h2>

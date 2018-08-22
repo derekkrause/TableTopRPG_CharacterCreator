@@ -1,13 +1,16 @@
 import React from "react";
-import CardLayout from "components/CardLayout";
 import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerContainer";
-import FileUploader from "../CustomComponents/FileUploader/FileUploader";
-import { utc } from "../../../node_modules/moment";
-import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
-import { DeleteButton } from "../CustomComponents/Button";
-import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import Popover from "../CustomComponents/Popover";
-
+import IfLoginStatus from "../CustomComponents/IfLoginStatus";
+import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
+import {
+  LikeButton,
+  LikedButton,
+  AddCommentsButton,
+  ViewCommentsButton,
+  ViewLikesButton
+} from "../CustomComponents/Button";
+import CommentsContainer from "../Comments/CommentsContainer";
 class FeedHomeCard extends React.Component {
   state = {
     title: this.props.data.title,
@@ -20,9 +23,19 @@ class FeedHomeCard extends React.Component {
     videoHeight: "130px",
     videoWidth: "130px",
     mixedArray: [],
-    popoverOpen: false
+    popoverOpen: false,
+    liked: false,
+    likeCount: 0,
+    likedModal: false,
+    likeUserId: 0
   };
 
+  handleOnClickEditToggle = () => {
+    this.setState({
+      editMode: !this.state.editMode,
+      imageDiv: true
+    });
+  };
   handleImageUrlChange = newImageUrl => {
     let newArr = [];
     for (let i = 0; i < newImageUrl.length; i++) {
@@ -65,13 +78,13 @@ class FeedHomeCard extends React.Component {
   };
 
   componentDidMount() {
+    this.setState({
+      liked: this.props.data.liked,
+      likeCount: this.props.data.itemData.likeCount
+    });
     // console.log("data!", this.props.data);
     const imageArray = this.props.data.itemData.imageUrl;
-    // if (imageArray && imageArray.length) {
-    //   return imageArray;
-    // } else {
-    //   return [];
-    // }
+
     const mappedImageArray = imageArray.map(image => ({
       url: image,
       type: "imageSmall"
@@ -149,8 +162,39 @@ class FeedHomeCard extends React.Component {
     this.setState({ mixedArray });
   }
 
+  likedUserModalToggle = () => {
+    this.setState({
+      likedModal: !this.state.likedModal
+    });
+  };
+  handleOnClickViewLikedUsers = () => {
+    this.props.handleViewLikedUsers(this.props.data.itemData.id);
+    this.setState({
+      likedModal: !this.state.likedModal
+    });
+  };
+
+  handleOnClickLike = () => {
+    this.setState({
+      liked: true,
+      likedCount: this.state.likeCount++
+    });
+    this.props.handleSubmitLike({
+      userId: this.props.currentUser,
+      postId: this.props.data.itemData.id
+    });
+  };
+
+  handleOnClickUnlike = () => {
+    this.setState({
+      liked: false,
+      likeCount: this.state.likeCount - 1
+    });
+    this.props.handleDeleteLike(this.props.data.likedId);
+  };
   render() {
     const data = this.props.data.itemData;
+    const { liked } = this.props.data;
     return (
       <div className="card">
         <div className="cus-card-header" style={{ borderLeft: `8px solid lightblue` }}>
@@ -161,6 +205,14 @@ class FeedHomeCard extends React.Component {
               <p className="user-description">school and sport type</p>
             </div>
             <div className="text-right" />
+            {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
+              <Popover
+                isOpen={this.state.popoverOpen}
+                popover={this.props.popover}
+                handleDelete={() => this.props.handleDelete(feed.id)}
+                handleUpdate={this.handleOnClickEditToggle}
+              />
+            </IfLoginStatus> */}
           </div>
         </div>
         <React.Fragment>
@@ -209,7 +261,7 @@ class FeedHomeCard extends React.Component {
             </div>
           </div>
 
-          <div className="card-body">
+          <div className="card-body pb-2">
             <blockquote className="blockquote mb-0">
               <h3>{data.title.charAt(0).toUpperCase() + data.title.slice(1)}</h3>
 
@@ -224,10 +276,25 @@ class FeedHomeCard extends React.Component {
               </div>
               <p className="card-text text-muted">{data.content}</p>
             </blockquote>
+            <div className="d-flex justify-content-between mt-3 pl-2">
+              <ViewLikesButton count={this.state.likeCount} onClick={this.handleOnClickViewLikedUsers} />
+              {this.state.liked === true ? (
+                <LikedButton onClick={this.handleOnClickUnlike} />
+              ) : (
+                <LikeButton onClick={this.handleOnClickLike} />
+              )}
+              {/* <ViewCommentsButton /> */}
+              <CommentsContainer postId={data.id} />
+            </div>
+          </div>
+          <div className="card-footer pl-2 pr-0">
+            <CommentsContainer postId={data.id} />
           </div>
         </React.Fragment>
 
         {this.state.alert}
+
+        {/* <Modal isOpen={this.state.modal} toggle={this.handleOnClickViewLikedUsers} className={this.props.className} /> */}
       </div>
     );
   }

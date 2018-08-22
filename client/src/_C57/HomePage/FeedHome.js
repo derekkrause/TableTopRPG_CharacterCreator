@@ -1,19 +1,22 @@
 import React from "react";
 import FeedHomeCard from "./FeedHomeCard";
 import { getFeedHome, postFeed, putUpdateFeed, deleteFeed } from "../../services/feed.sevice";
-import FeedForm from "./FeedForm";
-import "./Feed.css";
-import ConfirmModal from "./ConfirmModal";
+import FeedForm from "../Feed/FeedForm";
+import "../Feed/Feed.css";
+import ConfirmModal from "../Feed/ConfirmModal";
 import { CreateButton } from "../CustomComponents/Button";
-import EventCardItem from "../Event/EventCardItem";
 import FeedEventCard from "./FeedEventCard";
-class Feed extends React.Component {
+import { postLike, getLikeByPostId, deleteLike } from "../../services/like.service";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
+class FeedHome extends React.Component {
   state = {
     feeds: [],
     name: "",
     description: "tbd",
     body: "",
-    imageUrl: "",
+    imageUrl: [],
     title: "",
     content: "",
     avatarUrl: "",
@@ -26,52 +29,51 @@ class Feed extends React.Component {
     feedId: 0,
     updateBtn: false,
     modal: false,
-    eventCardsList: []
+    eventCardsList: [],
+    likedUser: [],
+    userLikeMatch: false
+  };
+
+  renderFeed = () => {
+    getFeedHome()
+      .then(response => {
+        // console.log("Get All", response);
+        this.setState(
+          {
+            feeds: response.data.item.pagedItems
+          } /*,
+          () => {console.log("FEED HOME", this.state.feeds);
+          }*/
+        );
+      })
+      .catch(error => console.log(error));
   };
 
   componentDidMount() {
-    getFeedHome().then(response => {
-      // console.log("Get All", response);
-      // debugger;
-      this.setState(
-        {
-          feeds: response.data.item.pagedItems
-        },
-        () => {
-          // console.log("FEED HOME", this.state.feeds);
-        }
-      );
-    });
-    // .catch(error => console.log(error));
+    this.renderFeed();
   }
 
   handleSubmitFeed = payload => {
     let feedId = payload.id;
     if (feedId) {
-      putUpdateFeed(payload, feedId).then(response => {
-        // console.log("UPDATE/PUT", response);
-        this.setState({
-          title: "",
-          content: "",
-          imageUrl: [],
-          videoUrl: []
-        });
-        window.location.reload();
-      });
-      // .catch(error => console.log(error));
+      putUpdateFeed(payload, feedId)
+        .then(response => {
+          // console.log("UPDATE/PUT", response);
+          this.setState({
+            title: "",
+            content: "",
+            imageUrl: [],
+            videoUrl: []
+          });
+        })
+        .catch(error => console.log(error));
     } else {
-      postFeed(payload).then(response => {
-        // console.log("CREATE/POST", response);
-        this.setState({
-          title: "",
-          content: "",
-          imageUrl: "",
-          videoUrl: "",
-          feedForm: false
-        });
-        window.location.reload();
-      });
-      // .catch(error => console.log(error));
+      postFeed(payload)
+        .then(response => {
+          console.log("CREATE/POST", response);
+          this.setState({ feedForm: false }, this.renderFeed());
+        })
+        .catch(error => console.log(error));
     }
   };
 
@@ -83,10 +85,7 @@ class Feed extends React.Component {
     const feedId = this.state.feedId;
     deleteFeed(feedId).then(response => {
       // console.log("DELETE", response);
-      this.setState({
-        modal: !this.state.modal,
-        feedId: ""
-      });
+      this.setState({ modal: !this.state.modal, feedId: "" });
       window.location.reload();
     });
   };
@@ -115,22 +114,49 @@ class Feed extends React.Component {
   };
 
   handleModalToggle = feedId => {
-    this.setState({
-      modal: !this.state.modal,
-      feedId
-    });
+    this.setState({ modal: !this.state.modal, feedId });
   };
 
+  handleDateFormat = date => {
+    var newDate = new Date(date.substring(0, 10));
+    var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][
+      newDate.getMonth()
+    ];
+    return month + " " + newDate.getDate() + ", " + newDate.getFullYear();
+  };
+
+  likedUserMatch = () => {}; //What does this do???
+
+  handleSubmitLike = payload => {
+    postLike(payload).then(res => {
+      // console.log("POST LIKE", res);
+    }, this.renderFeed());
+    // .then(this.renderFeed());
+  };
+  handleDeleteLike = id => {
+    deleteLike(id)
+      .then(res => {
+        // console.log("UNLIKE", id, res);
+      })
+      .then(this.renderFeed());
+  };
+  handleViewLikedUsers = postId => {
+    // console.log("POST ID TO VIEW LIKED USERS", postId);
+    getLikeByPostId(postId).then(res => {
+      this.setState({ likedUser: res.data.resultSets });
+      // console.log("VIEW LIKED USERS", res);
+    });
+  };
   render() {
     return (
-      <div className="row">
+      <div className="row px-sm-0 px-3">
         <div className="animation slideInLeft">
           <div className="mb-md-3">
             {this.state.feedForm ? (
               <div />
             ) : (
               <div className="jr-card" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
-                <div className="row">
+                <div className="row  home-center-text">
                   <div className="col-md-8 col-12">
                     <h3 className="card-text">Share Photos, videos or Tips</h3>
                   </div>
@@ -155,11 +181,20 @@ class Feed extends React.Component {
           <div className="cus-card-container">
             {this.state.feeds
               ? this.state.feeds.map(
-                  feed =>
+                  (feed, index) =>
                     feed.type === "event" ? (
-                      <FeedEventCard data={feed} key={feed.itemData.id} />
+                      <FeedEventCard data={feed} key={index} handleDateFormat={this.handleDateFormat} />
                     ) : feed.type === "blog" ? (
-                      <FeedHomeCard data={feed} key={feed.itemData.id} />
+                      <FeedHomeCard
+                        data={feed}
+                        key={index}
+                        popover={feed.itemData.id}
+                        handleSubmitLike={this.handleSubmitLike}
+                        currentUser={this.props.currentUser.id}
+                        handleViewLikedUsers={this.handleViewLikedUsers}
+                        handleDeleteLike={this.handleDeleteLike}
+                        renderFeed={this.renderFeed}
+                      />
                     ) : null
                 )
               : null}
@@ -178,18 +213,10 @@ class Feed extends React.Component {
   }
 }
 
-export default Feed;
-// .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
-// .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
-// .reverse()
-// <FeedCard
-// borderColor="#009CE0"
-// popover={feed.itemData.id}
-//key={feed.itemData.id}
-//feed={feed.itemData}
-// editFeed={this.handleOnClickEditFeed}
-// handleUpdateFeed={() => this.handleUpdateFeed(feed.itemData.id)}
-// handleDelete={() => this.handleModalToggle(feed.itemData.id)}
-// handleSubmitFeed={this.handleSubmitFeed}
-//imageUrl={this.state.imageUrl}
-//handleOnClickUploader={this.handleOnClickUploader}/>
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+
+export default withRouter(connect(mapStateToProps)(FeedHome));
