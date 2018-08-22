@@ -125,8 +125,6 @@ class FeedHome extends React.Component {
     return month + " " + newDate.getDate() + ", " + newDate.getFullYear();
   };
 
-  likedUserMatch = () => {}; //What does this do???
-
   handleSubmitLike = payload => {
     postLike(payload).then(res => {
       // console.log("POST LIKE", res);

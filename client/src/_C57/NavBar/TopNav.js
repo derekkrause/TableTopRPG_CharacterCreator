@@ -12,9 +12,7 @@ class TopNav extends React.Component {
     isOpen: false
   };
 
-  loginSuccess = () => {
-    NotificationManager.success("Welcome back!", "Login Success", 2000);
-  };
+  loginSuccess = () => NotificationManager.success("Welcome back!", "Login Success", 2000);
 
   loginFail = email => {
     if (email) {

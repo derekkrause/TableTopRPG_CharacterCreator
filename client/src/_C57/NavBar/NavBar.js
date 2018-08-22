@@ -106,6 +106,7 @@ class NavBar extends React.Component {
                     id="exampleSelect"
                     onChange={this.handleChange}
                   >
+                    <option /> {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
                     <option value="all">All</option>
                     <option value="athletes">Athletes</option>
                     <option value="coaches">Coaches</option>
@@ -134,6 +135,14 @@ class NavBar extends React.Component {
                   </FormGroup>
                 </div>
               </div>
+              {/* //LEAVE THIS SECTION HERE. DO NOT REMOVE IT.
+              <span
+                className="icon-btn jr-menu-icon hamburger-icon-animate"
+                id={"Popover-Search-Filter"}
+                onClick={this.toggle}
+              >
+                <span className="menu-icon" />
+              </span> */}
               <div className="col-md-4 order-md-3 order-2 col-6 pr-0">
                 <div className="d-flex justify-content-end align-items-center">
                   <div className="pointer px-2 px-md-3">

@@ -10,6 +10,6 @@ namespace Sabio.Models
     public class AdvocateInsert
     {   
         [Required]
-        public int? UserId { get; set; }
+        public int UserId { get; set; }
     }
 }

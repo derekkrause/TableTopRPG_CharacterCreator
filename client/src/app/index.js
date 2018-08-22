@@ -48,7 +48,6 @@ class App extends React.Component {
 
   render() {
     const { match, drawerType, navigationStyle, horizontalNavPosition, currentUser } = this.props;
-    // const noUserType = !currentUser.isAdvocate && !currentUser.isAthlete && !currentUser.isCoach;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -82,7 +81,7 @@ class App extends React.Component {
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
               <Switch>
-                {/* This Route must remain above the rest and does not need to be alphebatized */}
+                {/* This Route must remain above the rest but still needs to be alphebatized */}
                 <Route
                   path={`${match.url}/forgot-password`}
                   component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}

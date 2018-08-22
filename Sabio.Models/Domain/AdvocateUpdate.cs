@@ -10,7 +10,7 @@ namespace Sabio.Models.Domain
     public class AdvocateUpdate : AdvocateInsert
     {   
         [Required]
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int? CollegeId { get; set; }
         public int? HighSchoolId { get; set; }
         public string Title { get; set; }
