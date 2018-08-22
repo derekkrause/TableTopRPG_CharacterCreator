@@ -20,6 +20,6 @@ export function getFeedHome() {
   return axios.get("api/feedhome");
 }
 
-// export function getFeedByPostId(postId){
-
-// }
+export function getFeedByUserId(userId) {
+  return axios.get("api/blogs/" + userId);
+}

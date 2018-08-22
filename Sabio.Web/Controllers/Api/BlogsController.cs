@@ -77,5 +77,17 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.Created, new ItemResponse<int> { Item = newBlogId });
         }
 
+        [Route("{userId:int}"),HttpGet]
+        public HttpResponseMessage GetByUserId(int userId)
+        {
+            int currentUserId = User.Identity.GetId().Value;
+            PagedItemResponse<Blog> pagedItemResponse = blogsService.GetByUserId(userId);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<Blog>>
+            {
+                Item = pagedItemResponse
+            });
+        }
+
     }
 }

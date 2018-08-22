@@ -6,6 +6,7 @@ import IfLoginStatus from "../CustomComponents/IfLoginStatus";
 import CommentsContainer from "../Comments/CommentsContainer";
 import "./FeedCard.css";
 import ImageModal from "../profile/ImageModal";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 class FeedCard extends React.Component {
   state = {
@@ -23,7 +24,9 @@ class FeedCard extends React.Component {
     //  img carousel
     showImgModal: false,
     images: [],
-    selectedImg: null
+    selectedImg: null,
+    //SweetAlert
+    alert: null
   };
 
   toggle = () => {
@@ -198,36 +201,72 @@ class FeedCard extends React.Component {
     }));
   };
 
+  handleDeleteFeed = () => {
+    this.props.deleteFeed(this.props.feed.id);
+    this.onClickCancel();
+  };
+
+  handleUpdateFeed = () => {
+    this.props.updateFeed(this.props.feed.id);
+  };
+  delete = () => {
+    const getAlert = () => (
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes, delete it!"
+        confirmBtnBsStyle="danger"
+        cancelBtnBsStyle="default"
+        title={`Are you sure you want to delete `}
+        onConfirm={this.handleDeleteFeed} //what function you want on confirm
+        onCancel={this.onClickCancel} //what function you want on cancel
+      />
+    );
+    this.setState({ alert: getAlert() });
+  };
+
+  onClickCancel = () => {
+    this.setState({ alert: null });
+  };
+
   render() {
+    const data = this.props.feed;
     return (
       <div className="card">
-        <div className="cus-card-header" style={{ borderLeft: `7px solid ${this.props.borderColor}` }}>
+        <div className="cus-card-header" style={{ borderLeft: `8px solid lightblue` }}>
           <div className="user-profile d-flex flex-row align-items-center">
-            <img alt="..." src={this.props.feed.avatarUrl} className="user-avatar rounded-circle" />
+            <img alt="..." src={data.avatarUrl} className="user-avatar rounded-circle" />
             <div className="user-detail cus-user-detail">
-              <h4 className="user-name">{this.props.feed.firstName}</h4>
+              <h4 className="user-name">{data.firstName}</h4>
               <p className="user-description">school and sport type</p>
             </div>
             <div className="text-right">
-              <IfLoginStatus loggedIn={true} isAdmin={true}>
+              {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
                 <Popover
                   isOpen={this.state.popoverOpen}
                   popover={this.props.popover}
                   handleDelete={() => this.props.handleDelete(feed.id)}
                   handleUpdate={() => this.props.handleUpdateFeed(feed.id)}
                 />
-              </IfLoginStatus>
+              </IfLoginStatus> */}
+              {data.authorId === this.props.currentUser.id && (
+                <Popover
+                  isOpen={this.state.popoverOpen}
+                  popover={this.props.popover}
+                  handleDelete={this.delete}
+                  handleUpdate={this.handleOnClickEditToggle}
+                />
+              )}
             </div>
           </div>
         </div>
-        <br />
         {this.state.editMode ? (
           <React.Fragment>
             <MultiFileUploader
               onImageUrlChange={this.handleImageUrlChange}
               onVideoUrlChange={this.handleVideoUrlChange}
-              incommingImageArray={this.props.feed.imageUrl}
-              incommingVideoArray={this.props.feed.videoUrl}
+              incommingImageArray={data.imageUrl}
+              incommingVideoArray={data.videoUrl}
             />
             <h4> Title </h4>
             <input
@@ -328,15 +367,15 @@ class FeedCard extends React.Component {
 
             <div className="card-body">
               <blockquote className="blockquote mb-0">
-                <h3>{this.props.feed.title.charAt(0).toUpperCase() + this.props.feed.title.slice(1)}</h3>
+                <h3>{data.title.charAt(0).toUpperCase() + data.title.slice(1)}</h3>
 
                 <div className="meta-wrapper">
-                  {this.props.feed.dateModified == this.props.feed.dateCreated ? (
+                  {data.dateModified == data.dateCreated ? (
                     <React.Fragment>
                       <span className="meta-date">
                         <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
                         &nbsp;
-                        {this.props.feed.dateModified.substring(0, 10)}
+                        {data.dateModified.substring(0, 10)}
                       </span>
                     </React.Fragment>
                   ) : (
@@ -344,16 +383,16 @@ class FeedCard extends React.Component {
                       <span className="meta-date">
                         <i className="zmdi zmdi-calendar-note zmdi-hc-lg" />
                         &nbsp;
-                        {this.props.feed.dateCreated.substring(0, 10)} &nbsp; Updated
+                        {data.dateCreated.substring(0, 10)} &nbsp; Updated
                       </span>
                     </React.Fragment>
                   )}
                 </div>
-                <p className="card-text text-muted">{this.props.feed.content}</p>
+                <p className="card-text text-muted">{data.content}</p>
               </blockquote>
             </div>
             <div className="card-footer pl-2 pr-0">
-              <CommentsContainer postId={this.props.feed.id} />
+              <CommentsContainer postId={data.id} />
             </div>
 
             <div className="btn-container text-right">
