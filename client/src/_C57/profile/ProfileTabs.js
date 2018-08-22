@@ -198,7 +198,7 @@ class ProfileTabs extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="white" style={{ boxShadow: "none" }}>
+        <AppBar position="static" color="inherit" style={{ boxShadow: "none" }}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}

@@ -19,9 +19,11 @@ const mediaRoutes = require("./media.routes");
 const followRoutes = require("./follow.routes");
 const highlightsRoutes = require("./highlights.routes");
 const likesRoutes = require("./likes.routes");
+const iconRoutes = require("./icon.routes");
 const commentsRoutes = require("./comments.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");
 const athleteRoutes = require("./athlete.routes");
+const athleteLinksRoutes = require("./athleteLinks.routes");
 const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
 const userFromJWT = require("../filters/jwt.user");
@@ -45,6 +47,7 @@ router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
 router.use("/highlights", highlightsRoutes);
 router.use("/likes", likesRoutes);
+router.use("/icon", iconRoutes);
 router.use("/comments", commentsRoutes);
 
 router.use("/api/conferences", conferencesRoutes);
@@ -59,6 +62,7 @@ router.use("/faqsCategories", faqsCategoriesRoutes);
 
 router.use("/athleteSchool", athleteSchoolRoutes);
 router.use("/athlete", athleteRoutes);
+router.use("/athleteLinks", athleteLinksRoutes);
 router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
 
 router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);

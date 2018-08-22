@@ -58,6 +58,8 @@ class ProfileBanner extends React.Component {
                 weight={this.props.weight}
                 gpa={this.props.gpa}
                 act={this.props.act}
+                currentProfile={this.props.currentProfile}
+                userId={this.props.userId}
                 handleSaveProfile={this.props.handleSaveProfile}
                 onHandleSchoolSelect={this.props.onHandleSchoolSelect}
               />

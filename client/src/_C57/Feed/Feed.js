@@ -14,7 +14,8 @@ class Feed extends React.Component {
     name: "",
     description: "tbd",
     body: "",
-    imageUrl: "",
+    imageUrl: [],
+    videoUrl: [],
     title: "",
     content: "",
     avatarUrl: "",
@@ -23,7 +24,6 @@ class Feed extends React.Component {
     feedForm: false,
     formVideoLinkInput: false,
     formFileBtn: true,
-    videoUrl: "",
     feedId: 0,
     updateBtn: false,
     modal: false
@@ -76,8 +76,8 @@ class Feed extends React.Component {
           this.setState({
             title: "",
             content: "",
-            imageUrl: "",
-            videoUrl: "",
+            imageUrl: [],
+            videoUrl: [],
             feedForm: false
           });
         })

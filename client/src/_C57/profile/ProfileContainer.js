@@ -6,9 +6,9 @@ import { getClassYear } from "./AddSportHistory/AddSportService";
 import "./Profile.css";
 import ProfileBio from "./ProfileBio";
 import { connect } from "react-redux";
+import AthleteAcademics from "./AthleteAcademics";
 import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
 import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
-import AthleteAcademics from "./AthleteAcademics";
 
 class ProfileContainer extends React.Component {
   state = {
@@ -41,8 +41,8 @@ class ProfileContainer extends React.Component {
     schoolId: 0,
     title: "",
     classYearOptions: [],
-    id: 1,
-    userId: 1,
+    id: null,
+    userId: null,
     following: false,
     highlighting: false
   };
@@ -160,6 +160,7 @@ class ProfileContainer extends React.Component {
       schoolId: id
     });
   };
+
   followUser = () => {
     const payload = {
       followerId: this.props.currentUser.id,
@@ -175,6 +176,7 @@ class ProfileContainer extends React.Component {
       });
     }
   };
+
   highlightUser = () => {
     const payload = {
       highlightId: this.props.currentUser.id,
@@ -237,6 +239,7 @@ class ProfileContainer extends React.Component {
                 weight={this.state.weight}
                 gpa={this.state.gpa}
                 bio={this.state.bio}
+                currentProfile={this.props.match.params.id}
                 onChange={this.onChange}
                 handleChange={this.handleChange}
                 handleSaveProfile={this.handleSaveProfile}

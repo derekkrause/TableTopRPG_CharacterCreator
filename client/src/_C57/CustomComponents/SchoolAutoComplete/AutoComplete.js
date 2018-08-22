@@ -22,9 +22,14 @@ class SchoolAutoComplete extends React.Component {
         console.log(response, "response from ajax");
 
         if (currentAjaxCallNum === this.latestAjaxCallNum) {
-          this.setState({
-            options: response.data.resultSets[0]
-          });
+          this.setState(
+            {
+              options: response.data.resultSets[1]
+            },
+            () => {
+              console.log(this.state.options);
+            }
+          );
         }
       });
     }, this.props.delay || 400);

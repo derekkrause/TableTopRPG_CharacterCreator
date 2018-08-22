@@ -71,10 +71,10 @@ class CommentReplies extends React.Component {
                 handleCommentChange={this.props.handleCommentChange}
               />
             )}
-          {this.props.comments.map(reply => {
+          {this.props.comments.map((reply, index) => {
             if (reply.parentComment === this.props.reply.commentId) {
               return (
-                <ul style={{ listStyle: "none" }} className="pl-3">
+                <ul key={index} style={{ listStyle: "none" }} className="pl-3">
                   <CommentReplies
                     reply={reply}
                     currentUser={this.props.currentUser}

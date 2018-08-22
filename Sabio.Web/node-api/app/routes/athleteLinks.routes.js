@@ -1,0 +1,8 @@
+const athleteLinksController = require("../controllers/athleteLinks.controller");
+const router = require("express").Router();
+
+module.exports = router;
+
+router.post("/", athleteLinksController.post);
+router.get("/", athleteLinksController.getAll);
+router.get("/:id(\\d+)", athleteLinksController.getById);

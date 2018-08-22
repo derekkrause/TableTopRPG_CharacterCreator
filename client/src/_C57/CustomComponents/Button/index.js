@@ -112,8 +112,8 @@ const MessageButton = props => {
 
 const StatsButton = props => {
   return (
-    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
-      <i className="zmdi zmdi-open-in-new zmdi-hc-lg" /> &nbsp;Stats
+    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo" onClick={props.onClick}>
+      <i className="zmdi zmdi-link zmdi-hc-fw" /> &nbsp;Links
     </button>
   );
 };
