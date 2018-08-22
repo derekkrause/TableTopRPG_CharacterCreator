@@ -14,6 +14,7 @@ import asyncComponent from "util/asyncComponent";
 import TopNav from "_C57/NavBar/TopNav.js";
 import { Header } from "reactstrap";
 import { NotificationContainer } from "react-notifications";
+import UserTypeSweetAlert from "../_C57/RegistrationLoginPage/UserTypeSweetAlert";
 import NavBar from "_C57/NavBar/NavBar";
 import IfLoginStatus from "_C57/CustomComponents/IfLoginStatus";
 import "../_C57/WelcomePage/WelcomePage.css";
@@ -24,15 +25,17 @@ import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
 
 class App extends React.Component {
   componentDidMount() {
-    axios
-      .get("api/search")
-      .then(res => {
-        console.log("Good Get All!", res.data);
-        this.props.setDropdownValues(res.data);
-      })
-      .catch(() => {
-        console.log("Get All Failed");
-      });
+    if (this.props.currentUser) {
+      axios
+        .get("api/search")
+        .then(res => {
+          console.log("Good Get All!", res.data);
+          this.props.setDropdownValues(res.data);
+        })
+        .catch(() => {
+          console.log("Get All Failed");
+        });
+    }
   }
 
   setDropdownProperties = properties => {
@@ -44,6 +47,7 @@ class App extends React.Component {
 
   render() {
     const { match, drawerType, navigationStyle, horizontalNavPosition, currentUser } = this.props;
+    // const noUserType = !currentUser.isAdvocate && !currentUser.isAthlete && !currentUser.isCoach;
     const drawerStyle = drawerType.includes(FIXED_DRAWER)
       ? "fixed-drawer"
       : drawerType.includes(COLLAPSED_DRAWER)
@@ -74,11 +78,8 @@ class App extends React.Component {
 
             <IfLoginStatus loggedIn={true}>
               <NavBar />
+              <UserTypeSweetAlert {...this.props} />
             </IfLoginStatus>
-
-            {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
-            <NavBar />
-            </IfLoginStatus> */}
 
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
@@ -92,17 +93,16 @@ class App extends React.Component {
                 />
                 {/* This Route must remain above the rest and does not need to be alphebatized */}
                 <Route
-                  path={`${match.url}/welcome`}
-                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
+                  path={`${match.url}/forgot-password`}
+                  component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
                 />
                 <Route
                   path={`${match.url}/registration_confirmation`}
                   component={asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"))}
                 />
-                path=
-                {`${match.url}/forgot-password`}
-                component=
-                {asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
+                <Route
+                  path={`${match.url}/welcome`}
+                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
                 {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
                 {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}

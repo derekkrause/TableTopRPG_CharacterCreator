@@ -41,6 +41,12 @@ export function registerAthlete(userId) {
   return axios.post("/api/athletes", data);
 }
 
+//ADVOCATE TABLE INSERT USER
+export function registerAdvocate(userId) {
+  const data = { userId: userId };
+  return axios.post("/api/advocates", data);
+}
+
 //USER LOGIN
 export function userLogin(email, password) {
   const data = { email, password };

@@ -3,6 +3,7 @@ import { Button, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap"
 import {
   registerUser,
   registerCoach,
+  registerAdvocate,
   registerAthlete,
   userLogin,
   newEmailConfirm
@@ -21,7 +22,7 @@ class UserRegistrationForm extends React.Component {
     lastName: "",
     emailInput: "",
     password: "",
-    userType: "",
+    userType: this.props.userType,
     //VALIDATION
     firstValid: null,
     lastValid: null,
@@ -90,7 +91,11 @@ class UserRegistrationForm extends React.Component {
           .catch(error => console.log("COACH REG", error));
         break;
       case "Advocate":
-        //axios call registerAdvocate(userId) <--uncomment after Advocate CRUD is created
+        registerAdvocate(userId)
+          .then(result => {
+            console.log("ADVOCATE REGISTERED", result);
+          })
+          .catch(error => console.log("ADVOCATE REG", error));
         break;
       case "Coach4Hire":
         //axios call registerCoach(userId) <--uncomment after Coach4Hire CRUD is created
@@ -147,7 +152,7 @@ class UserRegistrationForm extends React.Component {
           this.setState({ regSuccess: true });
         })
         .catch(error => {
-          error.response.status === 409
+          error.response.status === 409 && error.response.status
             ? this.setState({ errorMessage: error.response.data.message, emailUsed: true, valid: false })
             : this.setState({ regFail: true, valid: false });
         });
@@ -156,21 +161,21 @@ class UserRegistrationForm extends React.Component {
 
   render() {
     const {
-      firstName,
-      lastName,
       emailInput,
-      password,
-      userType,
-      firstValid,
-      lastValid,
+      emailUsed,
       emailValid,
-      passwordValid,
-      formValid,
-      loginView,
-      regSuccess,
-      regFail,
       errorMessage,
-      emailUsed
+      firstName,
+      firstValid,
+      formValid,
+      lastName,
+      lastValid,
+      loginView,
+      password,
+      passwordValid,
+      regFail,
+      regSuccess,
+      userType
     } = this.state;
 
     return (
@@ -225,7 +230,7 @@ class UserRegistrationForm extends React.Component {
                 this.sendNewConfirmation(), this.setState({ regFail: false });
               }}
             >
-              {errorMessage}
+              "Looks like you've already registered. Try logging in, or request a new account confirmation email."
             </SweetAlert>
             <SweetAlert
               error
@@ -318,9 +323,9 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Athlete"
                       id="athleteRadio"
-                      checked={userType == "Athlete" || this.props.userType == "Athlete" ? true : false}
+                      defaultChecked={userType == "Athlete" ? true : false}
                     />
-                    <Label className="custom-control-label" htmlFor="athleteRadio">
+                    <Label className="custom-control-label" active="true" htmlFor="athleteRadio">
                       Athlete
                     </Label>
                   </div>
@@ -331,7 +336,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Coach"
                       id="coachRadio"
-                      checked={userType == "Coach" || this.props.userType == "Coach" ? true : false}
+                      defaultChecked={userType == "Coach" ? true : false}
                     />
                     <Label className="custom-control-label" htmlFor="coachRadio">
                       Coach
@@ -344,8 +349,7 @@ class UserRegistrationForm extends React.Component {
                       className="custom-control-input"
                       value="Advocate"
                       id="advocateRadio"
-                      // checked={userType == "Advocate" || this.props.userType == "Advocate" ? true : false}
-                      disabled
+                      defaultChecked={userType == "Advocate" ? true : false}
                     />
                     <Label className="custom-control-label" htmlFor="advocateRadio">
                       Advocate

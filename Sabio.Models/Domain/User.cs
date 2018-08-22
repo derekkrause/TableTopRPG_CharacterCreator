@@ -16,6 +16,7 @@ namespace Sabio.Models.Domain
         public bool IsCoach { get; set; }
         public bool IsAdvocate { get; set; }
         public bool IsAdmin { get; set; }
+        public int? CurrentSportId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
     }

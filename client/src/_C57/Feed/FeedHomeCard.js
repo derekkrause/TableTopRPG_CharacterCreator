@@ -65,7 +65,7 @@ class FeedHomeCard extends React.Component {
   };
 
   componentDidMount() {
-    console.log("data!", this.props.data);
+    // console.log("data!", this.props.data);
     const imageArray = this.props.data.itemData.imageUrl;
     // if (imageArray && imageArray.length) {
     //   return imageArray;
@@ -77,7 +77,7 @@ class FeedHomeCard extends React.Component {
       type: "imageSmall"
     }));
     const videoArray = this.props.data.itemData.videoUrl;
-    console.log("VIDEO ARRAY", videoArray);
+    // console.log("VIDEO ARRAY", videoArray);
     const mappedVideoArray = videoArray.map(video => ({
       url: video,
       type: "videoSmall",

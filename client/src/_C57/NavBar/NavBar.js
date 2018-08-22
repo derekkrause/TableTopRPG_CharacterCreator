@@ -55,17 +55,20 @@ class NavBar extends React.Component {
     console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
+  /* WHAT DOES THIS DO????? */
+  // componentDidMount() {
+  //   console.log("componentDidMount 1", this.props);
+  // }
 
-  componentDidMount() {
-    console.log("componentDidMount 1", this.props);
-  }
-
-  componentDidMount() {
-    console.log("componentDidMount 2", this.props);
-  }
+  // componentDidMount() {
+  //   console.log("componentDidMount 2", this.props);
+  // }
 
   logout = () => {
-    userLogout().then(currentUser, NotificationManager.info("Successfully logged out", "", 2000));
+    userLogout().then(() => {
+      currentUser().then(() => this.props.history.push(`${this.props.match.url}/welcome`));
+      NotificationManager.info("Successfully logged out", "", 2000);
+    });
   };
 
   render() {

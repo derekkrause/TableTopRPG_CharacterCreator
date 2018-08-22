@@ -30,62 +30,59 @@ class Feed extends React.Component {
   };
 
   componentDidMount() {
-    getFeedHome()
-      .then(response => {
-        console.log("Get All", response);
-        // debugger;
-        this.setState(
-          {
-            feeds: response.data.item.pagedItems
-          },
-          () => {
-            console.log("FEED HOME", this.state.feeds);
-          }
-        );
-      })
-      .catch(error => console.log(error));
+    getFeedHome().then(response => {
+      // console.log("Get All", response);
+      // debugger;
+      this.setState(
+        {
+          feeds: response.data.item.pagedItems
+        },
+        () => {
+          // console.log("FEED HOME", this.state.feeds);
+        }
+      );
+    });
+    // .catch(error => console.log(error));
   }
 
   handleSubmitFeed = payload => {
     let feedId = payload.id;
     if (feedId) {
-      putUpdateFeed(payload, feedId)
-        .then(response => {
-          console.log("UPDATE/PUT", response);
-          this.setState({
-            title: "",
-            content: "",
-            imageUrl: [],
-            videoUrl: []
-          });
-          window.location.reload();
-        })
-        .catch(error => console.log(error));
+      putUpdateFeed(payload, feedId).then(response => {
+        // console.log("UPDATE/PUT", response);
+        this.setState({
+          title: "",
+          content: "",
+          imageUrl: [],
+          videoUrl: []
+        });
+        window.location.reload();
+      });
+      // .catch(error => console.log(error));
     } else {
-      postFeed(payload)
-        .then(response => {
-          console.log("CREATE/POST", response);
-          this.setState({
-            title: "",
-            content: "",
-            imageUrl: "",
-            videoUrl: "",
-            feedForm: false
-          });
-          window.location.reload();
-        })
-        .catch(error => console.log(error));
+      postFeed(payload).then(response => {
+        // console.log("CREATE/POST", response);
+        this.setState({
+          title: "",
+          content: "",
+          imageUrl: "",
+          videoUrl: "",
+          feedForm: false
+        });
+        window.location.reload();
+      });
+      // .catch(error => console.log(error));
     }
   };
 
   handleUpdateFeed = feedId => {
-    console.log("UPDATE", feedId);
+    // console.log("UPDATE", feedId);
   };
 
   handleDeleteFeed = () => {
     const feedId = this.state.feedId;
     deleteFeed(feedId).then(response => {
-      console.log("DELETE", response);
+      // console.log("DELETE", response);
       this.setState({
         modal: !this.state.modal,
         feedId: ""

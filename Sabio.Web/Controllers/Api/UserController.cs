@@ -39,12 +39,12 @@ namespace Sabio.Web.Controllers.Api
 
             try
             {
-                var response = await userTableServices.Create(userCreateRequest);
+                ItemResponse<int> response = new ItemResponse<int> { Item = await userTableServices.Create(userCreateRequest) };
                 return Request.CreateResponse(HttpStatusCode.Created, response);
             }
-            catch(DuplicateEmailException)
+            catch (DuplicateEmailException)
             {
-                HttpError err = new HttpError("Account already registered. Try logging in.");
+                HttpError err = new HttpError("UNCONFIRMED_ACCOUNT");
                 return Request.CreateErrorResponse(HttpStatusCode.Conflict, err); 
             }
 

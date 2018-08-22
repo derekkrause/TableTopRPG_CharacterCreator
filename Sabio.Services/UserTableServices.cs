@@ -26,7 +26,7 @@ namespace Sabio.Services
             this.emailService = emailService;
         }
 
-        public async Task<Response> Create(UserCreateRequest request)
+        public async Task<int> Create(UserCreateRequest request)
         {
             int newId = 0;
             string passHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash);
@@ -48,6 +48,7 @@ namespace Sabio.Services
                         parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                         parameters.AddWithValue("@Email", request.Email);
                         parameters.AddWithValue("@PasswordHash", passHash);
+                        parameters.AddWithValue("@CurrentSportId", 1);
                         parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     },
                     (parameters) =>
@@ -61,7 +62,8 @@ namespace Sabio.Services
                 throw new DuplicateEmailException();
             }
 
-            return await Resend(resendRequest);
+            await Resend(resendRequest);
+            return newId;
 
         }
 
@@ -117,8 +119,6 @@ namespace Sabio.Services
                     parameters.AddWithValue("@TokenId", request.TokenId);
                 });
         }
-
-        
 
         public PagedItemResponse<User> GetAll(int pageIndex, int pageSize)
         {

@@ -11,12 +11,5 @@ namespace Sabio.Models
     {   
         [Required]
         public int? UserId { get; set; }
-        public int? CollegeId { get; set; }
-        public int? HighSchoolId { get; set; }
-        [Required, MaxLength(250)]
-        public string Title { get; set; }
-        [Required, MaxLength(500)]
-        public string ShortBio { get; set; }
-   
     }
 }
