@@ -150,23 +150,20 @@ class Feed extends React.Component {
             <div />
           )}
           <div className="cus-card-container">
-            {this.state.feeds
-              .sort((a, b) => Date.parse(new Date(a.dateModified)) - Date.parse(new Date(b.dateModified)))
-              .reverse()
-              .map(feed => (
-                <FeedCard
-                  borderColor="#009CE0"
-                  popover={feed.id}
-                  key={feed.id}
-                  feed={feed}
-                  editFeed={this.handleOnClickEditFeed}
-                  handleUpdateFeed={() => this.handleUpdateFeed(feed.id)}
-                  handleModalToggle={() => this.handleModalToggle(feed.id)}
-                  handleSubmitFeed={this.handleSubmitFeed}
-                  imageUrl={this.state.imageUrl}
-                  handleOnClickUploader={this.handleOnClickUploader}
-                />
-              ))}
+            {this.state.feeds.map(feed => (
+              <FeedCard
+                borderColor="#009CE0"
+                popover={feed.id}
+                key={feed.id}
+                feed={feed}
+                editFeed={this.handleOnClickEditFeed}
+                handleUpdateFeed={() => this.handleUpdateFeed(feed.id)}
+                handleModalToggle={() => this.handleModalToggle(feed.id)}
+                handleSubmitFeed={this.handleSubmitFeed}
+                imageUrl={this.state.imageUrl}
+                handleOnClickUploader={this.handleOnClickUploader}
+              />
+            ))}
           </div>
           <div>
             <ConfirmModal

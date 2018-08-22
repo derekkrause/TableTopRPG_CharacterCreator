@@ -44,15 +44,34 @@ class TopNav extends React.Component {
         <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="app-toolbar d-flex justify-content-center justify-content-md-between align-items-center mx-md-3 m-0">
-            <h4 className="mb-0 mr-auto">Hub Scout</h4>
-            <a href="#" className="mb-0 ml-auto d-md-none" onClick={this.scrollToRegForm}>
+            <div className="mx-0 mx-md-auto">
+              <Link to={`${this.props.match.url}/welcome`}>
+                <picture>
+                  <source
+                    media="(min-width: 80px)"
+                    srcSet="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo.png, https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo@2x.png 2x"
+                  />
+                  <img
+                    src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo.png"
+                    srcSet="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo@2x.png 2x"
+                    alt="..."
+                    // className="img-fluid"
+                  />
+                </picture>
+              </Link>
+            </div>
+            <a href="#" className="mb-0 ml-auto d-md-none text-white" onClick={this.scrollToRegForm}>
               Login/Register
             </a>
-            <div className="d-none d-md-block mx-auto">
+            <div className="d-none d-md-block ">
               <UserLogin loginSuccess={this.loginSuccess} loginFail={email => this.loginFail(email)} />
             </div>
             <div className="d-none d-md-block mx-auto">
-              <Button className="btn btn-link mb-0 ml-auto border-0" id="loginHelpPopover" onClick={this.popdown}>
+              <Button
+                className="btn btn-link mb-0 ml-auto border-0 text-white"
+                id="loginHelpPopover"
+                onClick={this.popdown}
+              >
                 Login Help
               </Button>
               <Popover
@@ -61,16 +80,22 @@ class TopNav extends React.Component {
                 isOpen={this.state.isOpen}
                 target={"loginHelpPopover"}
                 toggle={this.toggle}
+                className="border-0 p-2"
               >
                 <PopoverBody className="d-flex flex-wrap justify-content-center p-1">
-                  <Button className="btn m-auto px-1 pb-1" color="link">
+                  <Button className="btn m-auto px-1 pb-2 color-gray " color="link" onClick={this.popdown}>
                     Forgot Username
                   </Button>
                   {/* <Button className="btn m-auto px-1" color="link" >
                     Forgot Password
                   </Button> */}
                   {/* Modified by RR */}
-                  <Link className="btn m-auto px-1" color="link" to="/app/forgot-password">
+                  <Link
+                    className="btn m-auto px-1 color-gray"
+                    color="link"
+                    to="/app/forgot-password"
+                    onClick={this.popdown}
+                  >
                     <span>Forgot Password</span>
                   </Link>
                 </PopoverBody>

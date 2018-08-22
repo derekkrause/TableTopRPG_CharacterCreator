@@ -217,18 +217,6 @@ class FeedCard extends React.Component {
                   handleUpdate={() => this.props.handleUpdateFeed(feed.id)}
                 />
               </IfLoginStatus>
-              {/* <UncontrolledDropdown>
-                <DropdownToggle className="zmdi zmdi-more zmdi-hc-lg ash" />
-                <DropdownMenu right>
-                  <DropdownItem>Edit</DropdownItem>
-                  <DropdownItem onClick={() => this.delete()}>Delete</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown> */}
-              {/* <DeleteButton
-                type="button"
-                // onClick={this.props.handleModalToggle}
-                onClick={() => this.delete()}
-              /> */}
             </div>
           </div>
         </div>

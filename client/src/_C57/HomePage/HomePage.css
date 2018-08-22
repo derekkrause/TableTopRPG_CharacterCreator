@@ -39,3 +39,37 @@ border-radius: 100%;
     text-decoration: none;
     color: black;
 }
+
+.home-side-card{
+    max-width: 300px;
+}
+
+.mini-card{
+    max-height: 200px;
+}
+
+.event-mini-card-img{
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+  }
+
+.newsFooter {
+	vertical-align: bottom;
+}
+
+.home-center-text{
+    display: flex;
+    align-items: center;
+}
+
+.card-footer{
+    background-color: white;
+}

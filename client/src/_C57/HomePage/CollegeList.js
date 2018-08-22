@@ -1,6 +1,6 @@
 import React from "react";
 import CardHeader from "./Cells/CardHeader";
-import DotListCell from "./Cells/DotListCell";
+import CollegeCell from "./Cells/CollegeCell";
 
 const CollegeList = props => {
   const size = 3;
@@ -10,8 +10,8 @@ const CollegeList = props => {
   return (
     <div className="jr-card jr-card-full-height">
       <CardHeader cardTitle={props.cardTitle} cardSubTitle={props.cardSubTitle} icon={props.icon} />
-      {props.datas.slice(0, size).map(data => {
-        return <DotListCell key={data.Id} data={data} dotColor={props.dotColor} />;
+      {props.datas.map(data => {
+        return <CollegeCell key={data.schoolId} data={data} dotColor={props.dotColor} />;
       })}
     </div>
   );

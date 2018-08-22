@@ -270,6 +270,7 @@
     <Compile Include="Controllers\Api\SportsController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
+    <Compile Include="Controllers\SchoolTrendController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
