@@ -59,9 +59,6 @@ class HomePage extends React.Component {
     });
   }
 
-  //WHAT IS THIS???????
-  component;
-
   render() {
     const { articleTitle, eventTitle, events, schools, athletes, coaches } = this.state;
     return (
