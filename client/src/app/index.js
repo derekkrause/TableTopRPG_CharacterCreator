@@ -27,16 +27,18 @@ import "../_C57/NavBar/NavStyle.css";
 class App extends React.Component {
   componentDidMount() {
     if (this.props.currentUser) {
-      axios
-        .get("api/search")
-        .then(res => {
-          console.log("Good Get All!", res.data);
-          this.props.setDropdownValues(res.data);
-        })
-        .catch(() => {
-          console.log("Get All Failed");
-        });
-    }
+    axios
+      .get("api/search")
+      .then(res => {
+        console.log("Good Get All!", res.data);
+        this.props.setDropdownValues(res.data);
+        this.props;
+        this.checkSportFilter();
+      })
+      .catch(() => {
+        console.log("Get All Failed");
+      });
+  }
   }
 
   setDropdownProperties = properties => {
@@ -44,6 +46,21 @@ class App extends React.Component {
       ...this.props.dropDownOptions,
       ...properties
     });
+  };
+
+  setCriteriaProperties = properties => {
+    this.props.setSearchCriteria({
+      ...this.props.searchCriteria,
+      ...properties
+    });
+  };
+
+  checkSportFilter = () => {
+    if (this.props.searchCriteria.sportFilter == null) {
+      this.setCriteriaProperties({
+        sportFilter: this.props.currentUser.currentSportId
+      });
+    }
   };
 
   render() {
@@ -170,14 +187,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ currentUser, settings, dropDownOptions }) => {
+const mapStateToProps = ({ currentUser, settings, dropDownOptions, searchCriteria }) => {
   const { drawerType, navigationStyle, horizontalNavPosition } = settings;
-  return { drawerType, navigationStyle, horizontalNavPosition, currentUser, dropDownOptions };
+  return { drawerType, navigationStyle, horizontalNavPosition, currentUser, dropDownOptions, searchCriteria };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    setDropdownValues: dropdownOptions => dispatch({ type: SET_DROPDOWN_VALUES, dropdownOptions })
+    setDropdownValues: dropdownOptions => dispatch({ type: SET_DROPDOWN_VALUES, dropdownOptions }),
+    setSearchCriteria: searchCriteria => dispatch({ type: "SET_SEARCH_CRITERIA", searchCriteria })
   };
 }
 

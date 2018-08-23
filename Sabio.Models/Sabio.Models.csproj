@@ -55,12 +55,14 @@
     <Compile Include="Domain\AthleteFilterOptions.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
     <Compile Include="Domain\AthleteSearchInfo.cs" />
+    <Compile Include="Domain\AthleteSearchInfo2.cs" />
     <Compile Include="Domain\AthleteSportTeam.cs" />
     <Compile Include="Domain\AthleteTrend.cs" />
     <Compile Include="Domain\Blog.cs" />
     <Compile Include="Domain\ClassYear.cs" />
     <Compile Include="Domain\ClassYearUpdate.cs" />
     <Compile Include="Domain\DropDownClassYear.cs" />
+    <Compile Include="Domain\DropDownSport.cs" />
     <Compile Include="Domain\DropDownSportPosition.cs" />
     <Compile Include="Domain\Email.cs" />
     <Compile Include="Domain\EmailConfirmation.cs" />

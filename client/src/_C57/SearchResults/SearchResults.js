@@ -11,6 +11,9 @@ import AllSearchResults from "./AllSearchResults";
 class SearchResults extends React.Component {
   render() {
     return (
+      // <div className="container-fluid app-wrapper">
+      //   <div className="row px-4">
+      //     <div className="col-xs-12 col-md-12">
       <div className="container">
         <div className="row mt-3 ml-1">
           <div className="col-12">

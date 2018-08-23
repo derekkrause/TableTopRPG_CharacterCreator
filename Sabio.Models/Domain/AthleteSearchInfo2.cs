@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sabio.Models.Domain
 {
-    public class AthleteSearchInfo
-    {   
+    public class AthleteSearchInfo2
+    { 
         public int? UserId { get; set; }
         public int? AthleteId { get; set; }
         public string ShortBio { get; set; }

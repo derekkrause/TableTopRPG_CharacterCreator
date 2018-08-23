@@ -29,6 +29,12 @@ class NavBar extends React.Component {
     });
   };
 
+  handleCurrentSportChange = e => {
+    this.setCriteriaProperties({
+      sportFilter: e.target.value
+    });
+  };
+
   setCriteriaProperties = properties => {
     this.props.setSearchCriteria({
       ...this.props.searchCriteria,
@@ -122,7 +128,7 @@ class NavBar extends React.Component {
                       type="search"
                       name="searchString"
                       placeholder="Search here..."
-                      onFocus={this.toggle}
+                      // onFocus={this.toggle}
                       onChange={this.handleChange}
                       onKeyPress={this.handleKeyPress}
                       value={this.props.searchCriteria.searchString}
@@ -177,6 +183,7 @@ class NavBar extends React.Component {
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
+              handleCurrentSportChange={this.handleCurrentSportChange}
               locationFilter={this.props.searchCriteria.locationFilter}
               gradYearFilter={this.props.searchCriteria.gradYearFilter}
               sportLevelFilter={this.props.searchCriteria.sportLevelFilter}

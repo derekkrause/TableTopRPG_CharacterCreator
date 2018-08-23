@@ -4,7 +4,6 @@ import { Button, Popover, PopoverBody } from "reactstrap";
 import { newEmailConfirm } from "../../services/registerLogin.service";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-
 import { Link } from "react-router-dom"; // Added by RR
 
 class TopNav extends React.Component {
