@@ -62,6 +62,10 @@ class NavBar extends React.Component {
     console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
+
+  componentDidMount() {
+    console.log("componentDidMount 1", this.props);
+  }
   /* WHAT DOES THIS DO????? */
   // componentDidMount() {
   //   console.log("componentDidMount 1", this.props);

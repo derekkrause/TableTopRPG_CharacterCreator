@@ -58,6 +58,14 @@ const CreateButton = props => {
   );
 };
 
+const DeleteButtonBorder = props => {
+  return (
+    <button type="button" className="jr-btn jr-btn-default btn btn-default" onClick={props.onClick}>
+      <i className="zmdi zmdi-delete zmdi-hc-lg" />
+      &nbsp;&nbsp;Delete {props.name}
+    </button>
+  );
+};
 const DeleteButton = props => {
   return (
     <button type="button" className="jr-btn jr-flat-btn btn btn-default mb-0" onClick={props.onClick}>
@@ -183,6 +191,7 @@ export {
   CloseButtonText,
   SubmitButton,
   SubmitButtonWide,
+  DeleteButtonBorder,
   LikeButton,
   LikedButton,
   AddCommentsButton,

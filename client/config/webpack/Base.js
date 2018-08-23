@@ -87,7 +87,7 @@ class WebpackBaseConfig {
         port: 3001,
         proxy: {
           "/api/": "http://localhost:54810",
-          "/node-api/": "http://localhost:54810",
+          "/node-api/": "http://localhost:8080",
           "/socket.io/": {
             target: "http://localhost:54810",
             ws: true
@@ -116,11 +116,7 @@ class WebpackBaseConfig {
           },
           {
             test: /^.((?!cssmodule).)*\.styl$/,
-            loaders: [
-              { loader: "style-loader" },
-              { loader: "css-loader" },
-              { loader: "stylus-loader" }
-            ]
+            loaders: [{ loader: "style-loader" }, { loader: "css-loader" }, { loader: "stylus-loader" }]
           },
           {
             test: /\.json$/,

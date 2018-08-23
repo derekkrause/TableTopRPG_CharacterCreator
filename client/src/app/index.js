@@ -24,6 +24,8 @@ import "../_C57/NavBar/NavStyle.css";
 
 //import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
+//import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
+
 class App extends React.Component {
   componentDidMount() {
     //-- Leave this if statement here for now. I need it to test filter later. -Ricky
@@ -109,6 +111,16 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"))}
                 />
                 <Route
+                  path={`${match.url}/admin`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
+                <Route
+                  path={`${match.url}/sample-page`}
+                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                />
+                <Route
+                  path={`${match.url}/profile`}
+                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
                   path={`${match.url}/welcome`}
                   component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
                 />
@@ -142,10 +154,6 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
                 />
                 <Route
-                  path={`${match.url}/examples`}
-                  component={asyncComponent(() => import("../_C57/CustomComponents/_Examples"))}
-                />
-                <Route
                   path={`${match.url}/faqs-page`}
                   component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
                 />
@@ -173,8 +181,9 @@ class App extends React.Component {
                 />
                 <Route
                   path={`${match.url}/venues`}
-                  component={asyncComponent(() => import("../_C57/Venues/AdminVenues"))}
+                  component={asyncComponent(() => import("../_C57/Admin/Venues/AdminVenues"))}
                 />
+
                 <Route component={asyncComponent(() => import("components/Error404"))} />
                 {/* Please keep Routes alphebetized by URL */}
               </Switch>

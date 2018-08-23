@@ -1,12 +1,10 @@
 const router = require("express").Router();
-const venuesService = require("../services/venues.service");
+const configService = require("../services/config.service");
 const responses = require("../models/responses/index");
 
 const getAll = (req, res) => {
-  const pageIndex = req.params.pageIndex || req.query.pageIndex || 0;
-  const pageSize = req.params.pageSize || req.query.pageSize || 24;
-  venuesService
-    .getAll(pageIndex, pageSize)
+  configService
+    .getAll()
     .then(item => {
       const r = new responses.ItemResponse(item);
       res.json(r);
@@ -17,8 +15,19 @@ const getAll = (req, res) => {
 };
 
 const getById = (req, res) => {
-  venuesService
+  configService
     .getById(req.params.id)
+    .then(item => {
+      res.json(new responses.ItemResponse(item));
+    })
+    .catch(err => {
+      res.status(500).sent(err);
+    });
+};
+
+const getByKey = (req, res) => {
+  configService
+    .getByKey(req.params.key)
     .then(item => {
       res.json(new responses.ItemResponse(item));
     })
@@ -27,27 +36,8 @@ const getById = (req, res) => {
     });
 };
 
-const search = (req, res) => {
-  const searchString = req.query.q || "";
-  const pageIndex = req.query.pageIndex || 0;
-  const pageSize = req.query.pageSize || 10;
-  const radius = req.query.radius || null;
-  const lat = req.query.lat || null;
-  const lon = req.query.lon || null;
-
-  venuesService
-    .search(searchString, pageIndex, pageSize, radius, lat, lon)
-    .then(item => {
-      const r = new responses.ItemResponse(item);
-      res.json(r);
-    })
-    .catch(err => {
-      res.status(500).send(err);
-    });
-};
-
 const post = (req, res) => {
-  venuesService
+  configService
     .post(req.model)
     .then(outputParams => {
       res.status(201).json(outputParams);
@@ -55,7 +45,7 @@ const post = (req, res) => {
     .catch(err => {
       console.log(err);
       if (err.number == 2601) {
-        res.status(400).json(new responses.ErrorResponse("Duplicate name"));
+        res.status(400).json(new responses.ErrorResponse("Duplicate item"));
       } else {
         res.status(500).send(err);
       }
@@ -63,7 +53,7 @@ const post = (req, res) => {
 };
 
 const put = (req, res) => {
-  venuesService
+  configService
     .put(req.model)
     .then(response => {
       res.status(200).end();
@@ -71,7 +61,7 @@ const put = (req, res) => {
     .catch(err => {
       console.log(err);
       if (err.number == 2601) {
-        res.status(400).json(new responses.ErrorResponse("Duplicate name"));
+        res.status(400).json(new responses.ErrorResponse("Duplicate item"));
       } else {
         res.status(500).send(err);
       }
@@ -79,10 +69,10 @@ const put = (req, res) => {
 };
 
 const del = (req, res) => {
-  venuesService
+  configService
     .del(req.params.id)
-    .then(res => {
-      res.sendStatus(200);
+    .then(response => {
+      res.status(200);
     })
     .catch(err => {
       res.status(500).send(err);
@@ -92,7 +82,7 @@ const del = (req, res) => {
 module.exports = {
   getAll,
   getById,
-  search,
+  getByKey,
   post,
   put,
   del
