@@ -26,7 +26,8 @@ import "../_C57/NavBar/NavStyle.css";
 
 class App extends React.Component {
   componentDidMount() {
-    if (this.props.currentUser) {
+    //-- Leave this if statement here for now. I need it to test filter later. -Ricky
+    // if (this.props.currentUser) {
     axios
       .get("api/search")
       .then(res => {
@@ -38,7 +39,7 @@ class App extends React.Component {
       .catch(() => {
         console.log("Get All Failed");
       });
-  }
+    // }
   }
 
   setDropdownProperties = properties => {
