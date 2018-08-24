@@ -40,7 +40,7 @@ class TopNav extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="shadow">
         <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="app-toolbar d-flex justify-content-center justify-content-md-between align-items-center mx-md-3 m-0">

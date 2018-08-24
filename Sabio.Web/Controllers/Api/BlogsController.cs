@@ -50,6 +50,7 @@ namespace Sabio.Web.Controllers.Api
         [Route("{pageIndex:int?}/{pageSize:int?}"), HttpGet]
         public HttpResponseMessage GetAll(int pageIndex=0, int pageSize=20)
         {
+
             PagedItemResponse<Blog> pagedItemResponse = blogsService.GetAll(pageIndex, pageSize);
 
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<Blog>>
@@ -81,7 +82,7 @@ namespace Sabio.Web.Controllers.Api
         public HttpResponseMessage GetByUserId(int userId)
         {
             int currentUserId = User.Identity.GetId().Value;
-            PagedItemResponse<Blog> pagedItemResponse = blogsService.GetByUserId(userId);
+            PagedItemResponse<Blog> pagedItemResponse = blogsService.GetByUserId(userId, currentUserId);
 
             return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<Blog>>
             {

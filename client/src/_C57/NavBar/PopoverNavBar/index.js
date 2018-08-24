@@ -41,53 +41,55 @@ class PopoverNavBar extends React.Component {
             <IfLoginStatus loggedIn={true} isAdmin={true}>
               <div className="p-1">
                 <Link to={`${this.props.url}/admin`}>
-                  <Button className="btn m-auto px-1 ash text-red" onClick={this.toggle}>
+                  <div className="btn m-auto px-1 ash text-red" onClick={this.toggle}>
                     <i className="zmdi zmdi-flag zmdi-hc-fw mr-1" />
                     Admin
-                  </Button>
+                  </div>
                 </Link>
               </div>
             </IfLoginStatus>
             {this.props.currentUser.isCoach === true && (
               <div className="p-1">
                 <Link to={`${this.props.url}/coach-fav`}>
-                  <Button className="btn m-auto px-1 ash" onClick={this.toggle}>
+                  <div className="btn m-auto px-1 ash" onClick={this.toggle}>
                     <i className="zmdi zmdi-label-alt-outline zmdi-hc-fw mr-1" />
                     Favorite Athletes
-                  </Button>
+                  </div>
                 </Link>
               </div>
             )}
-            <div className="p-1">
-              <Link to={`${this.props.url}/fav-page`}>
-                <Button className="btn m-auto px-1 ash" onClick={this.toggle}>
-                  <i className="zmdi zmdi-label-alt-outline zmdi-hc-fw mr-1" />
-                  Favorite Schools
-                </Button>
-              </Link>
-            </div>
+            {this.props.currentUser.isAthlete === true && (
+              <div className="p-1">
+                <Link to={`${this.props.url}/fav-page`}>
+                  <div className="btn m-auto px-1 ash" onClick={this.toggle}>
+                    <i className="zmdi zmdi-label-alt-outline zmdi-hc-fw mr-1" />
+                    Favorite Schools
+                  </div>
+                </Link>
+              </div>
+            )}
             <div className=" p-1">
               <Link to="faqs-page">
-                <Button className="btn m-auto px-1 ash" onClick={this.toggle}>
+                <div className="btn m-auto px-1 ash" onClick={this.toggle}>
                   <i className="zmdi zmdi-help-outline zmdi-hc-fw mr-1" />
                   FAQ
-                </Button>
+                </div>
               </Link>
             </div>
             <div className=" p-1">
               <Link to="settings">
-                <Button className="btn m-auto px-1 ash" onClick={this.toggle}>
+                <div className="btn m-auto px-1 ash" onClick={this.toggle}>
                   <i className="zmdi zmdi-settings zmdi-hc-fw mr-1" />
                   Settings
-                </Button>
+                </div>
               </Link>
             </div>
             <div className="dropdown-divider" />
             <div className="mt-2 p-1">
-              <Button className="btn m-auto px-1 ash text-muted" onClick={this.props.logout}>
+              <div className="btn m-auto px-1 ash text-muted" onClick={this.props.logout}>
                 <i className="zmdi zmdi-sign-in zmdi-hc-fw mr-1" />
                 LogOut
-              </Button>
+              </div>
             </div>
           </PopoverBody>
         </Popover>

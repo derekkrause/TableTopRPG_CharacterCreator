@@ -52,21 +52,18 @@ class NavBar extends React.Component {
   };
 
   handleKeyPress = e => {
-    console.log("key pressed", e.which);
+    //console.log("key pressed", e.which);
     if (e.charCode === 13 || e.which === 13) {
       this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
     }
   };
 
   toggle = () => {
-    console.log("Refine Search Filter: clicked");
+    //console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
 
-  componentDidMount() {
-    console.log("componentDidMount 1", this.props);
-  }
-  /* WHAT DOES THIS DO????? */
+  /* UNCOMMENT THIS IF YOU NEED TO CHECK THIS.PROPS */
   // componentDidMount() {
   //   console.log("componentDidMount 1", this.props);
   // }
@@ -84,7 +81,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="shadow">
         <NotificationContainer />
         <div className="app-main-header appNav navigation justify-content-center">
           <div className="centre">
@@ -105,54 +102,52 @@ class NavBar extends React.Component {
                 </Link>
               </div>
               <div className="col-md-7 pl-2 pr-2 pl-md-4 order-md-2 order-3 col-12 mb-1 mt-2 mb-md-2 ">
-                <div className="search-bar d-flex mx-sm-3 mx-0">
-                  <select
-                    className="selectpicker rounded-left border-right border-bottom-0 border-top-0 border-left-0 pl-1"
-                    type="select"
-                    data-width="fit"
-                    data-style="btn-primary"
-                    name="searchType"
-                    value={this.props.searchCriteria.searchType}
-                    id="exampleSelect"
-                    onChange={this.handleChange}
-                  >
-                    <option /> {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
-                    <option value="all">All</option>
-                    <option value="athletes">Athletes</option>
-                    <option value="coaches">Coaches</option>
-                    <option value="schools">Schools</option>
-                    <option value="events">Events</option>
-                    <option value="venues">Venues</option>
-                    <option value="articles">Articles</option>
-                  </select>
-
-                  <FormGroup>
-                    <Input
-                      className="form-control border-0 searchInput search-input-flash"
-                      type="search"
-                      name="searchString"
-                      placeholder="Search here..."
-                      // onFocus={this.toggle}
+                <div className="d-flex align-items-center">
+                  <div className="search-bar d-flex mx-sm-3 mx-0">
+                    <select
+                      className="selectpicker rounded-left border-right border-bottom-0 border-top-0 border-left-0 pl-1"
+                      type="select"
+                      data-width="fit"
+                      data-style="btn-primary"
+                      name="searchType"
+                      value={this.props.searchCriteria.searchType}
+                      id="exampleSelect"
                       onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
-                      value={this.props.searchCriteria.searchString}
-                    />
-                    <NavLink to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}>
-                      <Button className="search-icon pb-3">
-                        <i className="zmdi zmdi-search zmdi-hc-lg" />
-                      </Button>
-                    </NavLink>
-                  </FormGroup>
+                    >
+                      <option /> {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
+                      <option value="all">All</option>
+                      <option value="athletes">Athletes</option>
+                      <option value="coaches">Coaches</option>
+                      <option value="schools">Schools</option>
+                      <option value="events">Events</option>
+                      <option value="venues">Venues</option>
+                      <option value="articles">Articles</option>
+                    </select>
+
+                    <FormGroup>
+                      <Input
+                        className="form-control border-0 searchInput search-input-flash"
+                        type="search"
+                        name="searchString"
+                        placeholder="Search here..."
+                        // onFocus={this.toggle}
+                        onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
+                        value={this.props.searchCriteria.searchString}
+                      />
+                      <NavLink to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}>
+                        <Button className="search-icon pb-3">
+                          <i className="zmdi zmdi-search zmdi-hc-lg" />
+                        </Button>
+                      </NavLink>
+                    </FormGroup>
+                  </div>
+                  <div id={"Popover-Search-Filter"} onClick={this.toggle} className="pl-2 pl-md-0 pointer">
+                    <i className="zmdi zmdi-filter-list zmdi-hc-2x text-white" title="Filter" />
+                  </div>
                 </div>
               </div>
-              {/* //LEAVE THIS SECTION HERE. DO NOT REMOVE IT.
-              <span
-                className="icon-btn jr-menu-icon hamburger-icon-animate"
-                id={"Popover-Search-Filter"}
-                onClick={this.toggle}
-              >
-                <span className="menu-icon" />
-              </span> */}
+
               <div className="col-md-4 order-md-3 order-2 col-6 pr-0">
                 <div className="d-flex justify-content-end align-items-center">
                   <div className="pointer px-2 px-md-3">
@@ -164,10 +159,7 @@ class NavBar extends React.Component {
 
                   <div className="px-2 ">
                     <Link to={`${this.props.match.url}/profile/${this.props.currentUser.id}`}>
-                      <img
-                        className="avatar-sm rounded-circle pointer border "
-                        src={this.props.currentUser.avatarUrl}
-                      />
+                      <img className="rs-user-pic-sm border-white" src={this.props.currentUser.avatarUrl} />
                     </Link>
                   </div>
                   <div>

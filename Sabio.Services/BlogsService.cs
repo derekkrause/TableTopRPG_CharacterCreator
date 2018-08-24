@@ -68,7 +68,7 @@ namespace Sabio.Services
 
             return newId;
         }
-        public PagedItemResponse<Blog>GetByUserId(int userId)
+        public PagedItemResponse<Blog>GetByUserId(int userId, int currentUserId)
         {
             PagedItemResponse<Blog> pagedItemResponse = new PagedItemResponse<Blog>();
             List<Blog> blogListByUserId = new List<Blog>();
@@ -78,6 +78,7 @@ namespace Sabio.Services
                 (parameters) =>
                 {
                     parameters.AddWithValue("@UserId", userId);
+                    parameters.AddWithValue("@CurrentUserId", currentUserId);
                 },
                 (reader, resultSetIndex) =>
                 {
@@ -93,7 +94,11 @@ namespace Sabio.Services
                         LastName = (string)reader["LastName"],
                         AvatarUrl = (string)reader["AvatarUrl"],
                         ImageUrl = new JRaw((string)reader["ImageUrl"]),
-                        VideoUrl = new JRaw((string)reader["VideoUrl"])
+                        VideoUrl = new JRaw((string)reader["VideoUrl"]),
+                        SportInfo = new JRaw((string)reader["sportInfo"]),
+                        Liked = (bool)reader["Liked"],
+                        LikeCount = reader.GetSafeInt32Nullable("LikeCount"),
+                        LikedId = reader.GetSafeInt32Nullable("LikedId")
                     };
 
                     blogListByUserId.Add(blog);
@@ -114,6 +119,7 @@ namespace Sabio.Services
                 {
                     parameters.AddWithValue("@PageIndex", pageIndex);
                     parameters.AddWithValue("@PageSize", pageSize);
+
                 },
                 (reader, resultSetIndex) =>
                 {

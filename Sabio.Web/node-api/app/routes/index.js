@@ -1,6 +1,5 @@
 const router = require("express").Router();
 
-const venuesRoutes = require("./venues.routes");
 const sportsPositionsController = require("../controllers/sportPositions.controller");
 const FaqsController = require("../controllers/faqs.controller");
 const FaqsCategoriesController = require("../controllers/faqsCategories.controller");

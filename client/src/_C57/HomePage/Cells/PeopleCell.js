@@ -13,7 +13,7 @@ const PeopleCell = props => {
             alt="..."
           />
         ) : (
-          <img src={props.data.avatarUrl} className={`user-avatar rounded-circle ${props.borderColor}`} alt="..." />
+          <img src={props.data.avatarUrl} className={`rs-user-pic ${props.borderColor}`} alt="..." />
         )}
       </div>
       <NavLink to={`${props.path}/${props.data.userId}`} className="link-text">

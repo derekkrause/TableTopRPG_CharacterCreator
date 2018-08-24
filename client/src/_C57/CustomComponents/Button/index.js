@@ -1,8 +1,9 @@
 import React from "react";
+import "./Button.css";
 
 const SaveButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary mb-0" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-upload zmdi-hc-lg" />
       &nbsp;&nbsp;Save
     </button>
@@ -11,7 +12,7 @@ const SaveButton = props => {
 
 const SubmitButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary" onClick={props.onClick}>
       {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
       {props.name}
     </button>
@@ -22,7 +23,7 @@ const SubmitButtonWide = props => {
   return (
     <button
       type="button"
-      className="jr-btn jr-btn-primary text-uppercase btn-block btn btn-primary"
+      className="jr-btn jr-btn-primary text-uppercase btn-block btn rs-btn-primary"
       onClick={props.onClick}
     >
       {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
@@ -50,7 +51,7 @@ const EditButton = props => {
 
 const CreateButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary mb-0" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-plus zmdi-hc-lg" />
       &nbsp;&nbsp;Add&nbsp;
       {props.name}

@@ -100,93 +100,98 @@ class App extends React.Component {
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
-              <Switch>
-                {/* This Route must remain above the rest but still needs to be alphebatized */}
-                <Route
-                  path={`${match.url}/forgot-password`}
-                  component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
-                />
-                <Route
-                  path={`${match.url}/registration_confirmation`}
-                  component={asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"))}
-                />
-                <Route
-                  path={`${match.url}/admin`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
-                  path={`${match.url}/sample-page`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
-                  path={`${match.url}/profile`}
-                  component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
-                  path={`${match.url}/welcome`}
-                  component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
-                />
-                {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
-                {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
-                <Route
-                  path={`${match.url}/admin`}
-                  component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
-                />
-                <Route
-                  path={`${match.url}/articles/create`}
-                  component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
-                />
-                <Route
-                  path={`${match.url}/coach`}
-                  component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
-                />
-                <Route
-                  path={`${match.url}/coach-fav`}
-                  render={props => {
-                    const Component = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
-                    return (
-                      <IfLoginStatus loggedIn={true}>
-                        {this.props.currentUser.isCoach === true && <Component {...props} />}
-                      </IfLoginStatus>
-                    );
-                  }}
-                />
-                <Route
-                  path={`${match.url}/events`}
-                  component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
-                />
-                <Route
-                  path={`${match.url}/faqs-page`}
-                  component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
-                />
-                <Route
-                  path={`${match.url}/fav-page`}
-                  component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
-                />
-                <Route path={`${match.url}/feed-page`} component={asyncComponent(() => import("../_C57/Feed/Feed"))} />
-                <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
-                <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
-                <Route
-                  path={`${match.url}/profile/:id(\\d+)`}
-                  render={props => {
-                    const Component = asyncComponent(() => import("../_C57/profile/ProfileContainer"));
-                    return (
-                      <IfLoginStatus loggedIn={true}>
-                        <Component {...props} />
-                      </IfLoginStatus>
-                    );
-                  }}
-                />
-                <Route
-                  path={`${match.url}/search`}
-                  component={asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"))}
-                />
-                <Route
-                  path={`${match.url}/venues`}
-                  component={asyncComponent(() => import("../_C57/Admin/Venues/AdminVenues"))}
-                />
+              {currentUser !== null && (
+                <Switch>
+                  {/* This Route must remain above the rest but still needs to be alphebatized */}
+                  <Route
+                    path={`${match.url}/forgot-password`}
+                    component={asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"))}
+                  />
+                  <Route
+                    path={`${match.url}/registration_confirmation`}
+                    component={asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"))}
+                  />
+                  <Route
+                    path={`${match.url}/admin`}
+                    component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                  />
+                  <Route
+                    path={`${match.url}/sample-page`}
+                    component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                  />
+                  <Route
+                    path={`${match.url}/profile`}
+                    component={asyncComponent(() => import("../_C57/profile/ProfileContainer"))}
+                    path={`${match.url}/welcome`}
+                    component={asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"))}
+                  />
+                  {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
+                  {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
+                  <Route
+                    path={`${match.url}/admin`}
+                    component={asyncComponent(() => import("../_C57/Admin/AdminPage"))}
+                  />
+                  <Route
+                    path={`${match.url}/articles/create`}
+                    component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
+                  />
+                  <Route
+                    path={`${match.url}/coach`}
+                    component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
+                  />
+                  <Route
+                    path={`${match.url}/coach-fav`}
+                    render={props => {
+                      const Component = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
+                      return (
+                        <IfLoginStatus loggedIn={true}>
+                          {currentUser.isCoach === true && <Component {...props} />}
+                        </IfLoginStatus>
+                      );
+                    }}
+                  />
+                  <Route
+                    path={`${match.url}/events`}
+                    component={asyncComponent(() => import("../_C57/Event/EventContainer"))}
+                  />
+                  <Route
+                    path={`${match.url}/faqs-page`}
+                    component={asyncComponent(() => import("../_C57/FaqPage/Faqs"))}
+                  />
+                  <Route
+                    path={`${match.url}/fav-page`}
+                    component={asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"))}
+                  />
+                  <Route
+                    path={`${match.url}/feed-page`}
+                    component={asyncComponent(() => import("../_C57/Feed/Feed"))}
+                  />
+                  <Route path={`${match.url}/home`} component={asyncComponent(() => import("../_C57/HomePage"))} />
+                  <Route path={`${match.url}/pogs`} component={asyncComponent(() => import("../_C57/PogAdmin"))} />
+                  <Route
+                    path={`${match.url}/profile/:id(\\d+)`}
+                    render={props => {
+                      const Component = asyncComponent(() => import("../_C57/profile/ProfileContainer"));
+                      return (
+                        <IfLoginStatus loggedIn={true}>
+                          <Component {...props} />
+                        </IfLoginStatus>
+                      );
+                    }}
+                  />
+                  <Route
+                    path={`${match.url}/search`}
+                    component={asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"))}
+                  />
+                  <Route
+                    path={`${match.url}/venues`}
+                    component={asyncComponent(() => import("../_C57/Admin/Venues/AdminVenues"))}
+                  />
 
-                <Route component={asyncComponent(() => import("components/Error404"))} />
-                {/* Please keep Routes alphebetized by URL */}
-              </Switch>
+                  <Route component={asyncComponent(() => import("components/Error404"))} />
+                  {/* Please keep Routes alphebetized by URL */}
+                </Switch>
+              )}
             </div>
 
             <Footer />

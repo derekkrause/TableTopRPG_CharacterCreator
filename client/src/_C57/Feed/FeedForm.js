@@ -61,15 +61,15 @@ class FeedForm extends React.Component {
   render() {
     return (
       <div className="FeedForm">
-        <div className="undifined card cus-card-container">
-          <div className="bg-primary text-white card-header">
+        <div className="undifined card cus-card-container shadow">
+          <div className="rs-bg-primary text-white card-header">
             <div className="row">
               <div className="col-md-8 col-8">Add Your Story</div>
               <div className="col-md-4 col-4 text-right">
                 <button
                   type="button"
                   onClick={this.props.closeFeedForm}
-                  className="btn btn-sm  btn-primary text-white btn btn-default"
+                  className="btn btn-sm rs-btn-primary text-white btn btn-default"
                 >
                   <i className="zmdi zmdi-close zmdi-hc-lg" />
                   &nbsp;Close

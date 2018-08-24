@@ -4,7 +4,7 @@ import EventCell from "./Cells/EventCell";
 
 const EventList = props => {
   return (
-    <div className="jr-card jr-card-full-height">
+    <div className="jr-card jr-card-full-height shadow">
       <CardHeader cardTitle={props.cardTitle} cardSubTitle={props.cardSubTitle} link="events" icon={props.icon} />
       {props.datas.map(data => {
         return <EventCell key={data.id} data={data} />;

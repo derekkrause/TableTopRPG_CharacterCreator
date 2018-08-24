@@ -4,7 +4,7 @@ import ArticleCell from "./Cells/ArticleCell";
 
 const ArticleList = props => {
   return (
-    <div className="jr-card jr-card-full-height">
+    <div className="jr-card jr-card-full-height shadow">
       <CardHeader cardTitle={props.cardTitle} cardSubTitle={props.cardSubTitle} />
       <ArticleCell />
       <ArticleCell />

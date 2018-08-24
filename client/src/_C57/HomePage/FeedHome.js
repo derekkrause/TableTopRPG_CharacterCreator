@@ -34,6 +34,12 @@ class FeedHome extends React.Component {
     userLikeMatch: false
   };
 
+  componentDidMount() {
+    if (this.props.currentUser) {
+      this.renderFeed();
+    }
+  }
+
   renderFeed = () => {
     getFeedHome()
       .then(response => {
@@ -42,16 +48,13 @@ class FeedHome extends React.Component {
           {
             feeds: response.data.item.pagedItems
           } /*,
-          () => {console.log("FEED HOME", this.state.feeds);
+          () => {
+            console.log("FEED HOME", this.state.feeds);
           }*/
         );
       })
       .catch(error => console.log(error));
   };
-
-  componentDidMount() {
-    this.renderFeed();
-  }
 
   handleSubmitFeed = payload => {
     let feedId = payload.id;
@@ -59,45 +62,50 @@ class FeedHome extends React.Component {
       putUpdateFeed(payload, feedId)
         .then(response => {
           // console.log("UPDATE/PUT", response);
-          this.setState({
-            title: "",
-            content: "",
-            imageUrl: [],
-            videoUrl: []
-          });
+          this.setState(
+            {
+              title: "",
+              content: "",
+              imageUrl: [],
+              videoUrl: []
+            },
+            this.renderFeed()
+          );
         })
         .catch(error => console.log(error));
     } else {
       postFeed(payload)
         .then(response => {
-          console.log("CREATE/POST", response);
+          //console.log("CREATE/POST", response);
           this.setState({ feedForm: false }, this.renderFeed());
         })
         .catch(error => console.log(error));
     }
   };
 
-  handleUpdateFeed = feedId => {
-    // console.log("UPDATE", feedId);
-  };
-
-  handleDeleteFeed = () => {
-    const feedId = this.state.feedId;
+  handleDeleteFeed = feedId => {
+    //const feedId = this.state.feedId;
     deleteFeed(feedId).then(response => {
-      // console.log("DELETE", response);
-      this.setState({ modal: !this.state.modal, feedId: "" });
-      window.location.reload();
+      //console.log("DELETE", response);
+      this.renderFeed();
     });
   };
 
   handleOnClickFeedForm = () => {
-    if (this.state.feedForm === false) {
-      this.setState({ feedForm: true });
+    if (!this.state.feedForm) {
+      document.addEventListener("click", this.handleOutsideClick, false);
     } else {
-      this.setState({ feedForm: false });
+      document.removeEventListener("click", this.handleOutsideClick, false);
     }
+    this.setState({ feedForm: !this.state.feedForm });
   };
 
+  handleOutsideClick = e => {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+    this.handleOnClickFeedForm();
+  };
   handleOnclickVideoLink = () => {
     if (this.state.formVideoLinkInput) {
       this.setState({
@@ -111,10 +119,6 @@ class FeedHome extends React.Component {
         formFileBtn: false
       });
     }
-  };
-
-  handleModalToggle = feedId => {
-    this.setState({ modal: !this.state.modal, feedId });
   };
 
   handleDateFormat = date => {
@@ -145,15 +149,21 @@ class FeedHome extends React.Component {
       // console.log("VIEW LIKED USERS", res);
     });
   };
+
   render() {
     return (
-      <div className="row px-sm-0 px-3">
-        <div className="animation slideInLeft">
-          <div className="mb-md-3">
+      <div
+        className="row px-sm-0 px-3"
+        ref={node => {
+          this.node = node;
+        }}
+      >
+        <div className="animation slideInLeft pt-0">
+          <div>
             {this.state.feedForm ? (
               <div />
             ) : (
-              <div className="jr-card" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
+              <div className="jr-card shadow" style={{ cursor: "pointer" }}>
                 <div className="row  home-center-text">
                   <div className="col-md-8 col-12">
                     <h3 className="card-text">Share Photos, videos or Tips</h3>
@@ -179,19 +189,24 @@ class FeedHome extends React.Component {
           <div className="cus-card-container">
             {this.state.feeds
               ? this.state.feeds.map(
-                  (feed, index) =>
+                  feed =>
                     feed.type === "event" ? (
-                      <FeedEventCard data={feed} key={index} handleDateFormat={this.handleDateFormat} />
+                      <FeedEventCard
+                        data={feed}
+                        key={feed.type + feed.itemData.id}
+                        handleDateFormat={this.handleDateFormat}
+                      />
                     ) : feed.type === "blog" ? (
                       <FeedHomeCard
                         data={feed}
-                        key={index}
+                        key={feed.type + feed.itemData.id}
                         popover={feed.itemData.id}
                         handleSubmitLike={this.handleSubmitLike}
-                        currentUser={this.props.currentUser.id}
                         handleViewLikedUsers={this.handleViewLikedUsers}
                         handleDeleteLike={this.handleDeleteLike}
-                        renderFeed={this.renderFeed}
+                        currentUser={this.props.currentUser}
+                        handleSubmitFeed={this.handleSubmitFeed}
+                        handleDeleteFeed={this.handleDeleteFeed}
                       />
                     ) : null
                 )

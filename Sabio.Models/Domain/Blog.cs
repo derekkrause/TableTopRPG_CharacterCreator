@@ -16,5 +16,9 @@ namespace Sabio.Models.Domain
         public string LastName { get; set; }
         public string AvatarUrl { get; set; }
         public JRaw VideoUrl { get; set; }
+        public JRaw SportInfo { get; set; }
+        public bool Liked { get; set; }
+        public int? LikeCount { get; set; }
+        public int? LikedId { get; set; }
     }
 }

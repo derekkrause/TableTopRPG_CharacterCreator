@@ -22,6 +22,8 @@ import {
   deleteActivity,
   updateActivity
 } from "./server";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class MainPage extends React.Component {
   state = {
@@ -415,7 +417,7 @@ class MainPage extends React.Component {
   };
 
   loadAthleteTagsBySchool = () => {
-    const athleteUserId = 5;
+    const athleteUserId = this.props.currentUser.id;
     getAthleteTagsById(athleteUserId).then(response => {
       this.setState({
         tags: response.data.items.tags
@@ -424,7 +426,7 @@ class MainPage extends React.Component {
   };
 
   loadSchoolsByAthlete = () => {
-    const athleteUserId = 5;
+    const athleteUserId = this.props.currentUser.id;
     getAthleteSchoolsById(athleteUserId).then(response => {
       this.setState({
         schools: response.data.items.schools
@@ -579,4 +581,9 @@ class MainPage extends React.Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(MainPage);
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+export default withRouter(connect(mapStateToProps)(DragDropContext(HTML5Backend)(MainPage)));
