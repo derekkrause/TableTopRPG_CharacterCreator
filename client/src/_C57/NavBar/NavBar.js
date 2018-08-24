@@ -94,7 +94,7 @@ class NavBar extends React.Component {
                   </picture>
                 </Link>
               </div>
-              <div className="col-md-7 pl-2 pr-2 pl-md-4 order-md-2 order-3 col-12 mb-1 mt-2 mb-md-2 ">
+              <div className="col-md-7 pl-2 pr-2 pl-md-4 order-md-2 order-3 col-12 mb-1 mt-2 mb-md-2">
                 <div className="search-bar d-flex mx-sm-3 mx-0">
                   <select
                     className="selectpicker rounded-left border-right border-bottom-0 border-top-0 border-left-0 pl-1"
@@ -154,10 +154,7 @@ class NavBar extends React.Component {
 
                   <div className="px-2 ">
                     <Link to={`${this.props.match.url}/profile/${this.props.currentUser.id}`}>
-                      <img
-                        className="avatar-sm rounded-circle pointer border "
-                        src={this.props.currentUser.avatarUrl}
-                      />
+                      <img className="avatar-sm rounded-circle pointer border" src={this.props.currentUser.avatarUrl} />
                     </Link>
                   </div>
                   <div>

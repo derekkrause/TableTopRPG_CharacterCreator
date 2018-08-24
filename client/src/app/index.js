@@ -25,19 +25,19 @@ import "../_C57/NavBar/NavStyle.css";
 //import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
 class App extends React.Component {
-  componentDidMount() {
-    if (this.props.currentUser) {
-      axios
-        .get("api/search")
-        .then(res => {
-          console.log("Good Get All!", res.data);
-          this.props.setDropdownValues(res.data);
-        })
-        .catch(() => {
-          console.log("Get All Failed");
-        });
-    }
-  }
+  // componentDidMount() {
+  //   if (this.props.currentUser) {
+  //     axios
+  //       .get("api/search")
+  //       .then(res => {
+  //         console.log("Good Get All!", res.data);
+  //         this.props.setDropdownValues(res.data);
+  //       })
+  //       .catch(() => {
+  //         console.log("Get All Failed");
+  //       });
+  //   }
+  // }
 
   setDropdownProperties = properties => {
     this.props.setDropdownValues({
@@ -105,8 +105,15 @@ class App extends React.Component {
                   component={asyncComponent(() => import("../_C57/Articles/ArticleCreate"))}
                 />
                 <Route
-                  path={`${match.url}/coach`}
-                  component={asyncComponent(() => import("../_C57/Coach/CoachInfo"))}
+                  path={`${match.url}/coach/:id(\\d+)`}
+                  render={props => {
+                    const Component = asyncComponent(() => import("../_C57/Coach/CoachProfile"));
+                    return (
+                      <IfLoginStatus loggedIn={true}>
+                        <Component {...props} />
+                      </IfLoginStatus>
+                    );
+                  }}
                 />
                 <Route
                   path={`${match.url}/coach-fav`}
