@@ -2,17 +2,13 @@
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
 using Sabio.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api
 {
-    [RoutePrefix("api/athletesport")]
+    [RoutePrefix("api/athleteTeam")]
     public class AthleteSportController : ApiController
     {
         readonly AthleteSportService athleteSportService;
@@ -38,17 +34,41 @@ namespace Sabio.Web.Controllers.Api
 
             return Request.CreateResponse(HttpStatusCode.Created, new SuccessResponse());
         }
-        [Route("{pageIndex:int}/{pageSize:int}/{userId:int}"), HttpGet]
-        public HttpResponseMessage GetAllByUserId(int pageIndex, int pageSize, int userId)
+
+        [Route ("{id:int}"), HttpPut]
+        public HttpResponseMessage Update(AthleteSportUpdateRequest athleteSportUpdateRequest, int id)
+        {
+            if (athleteSportUpdateRequest == null)
+            {
+                ModelState.AddModelError("", "missing body data");
+            }
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            athleteSportService.Update(athleteSportUpdateRequest, id);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new SuccessResponse());
+        }
+
+        [Route("{userId:int}"), HttpGet]
+        public HttpResponseMessage GetAllByUserId(int userId)
         {
             if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }
 
-            PagedItemResponse<AthleteSportTeam> pagedItemResponse = athleteSportService.GetAllByUserId(pageIndex, pageSize, userId);
+            ItemsResponse<AthleteSportTeam> itemsResponse = athleteSportService.GetAllByUserId(userId);
 
-            return Request.CreateResponse(HttpStatusCode.OK, pagedItemResponse);
+            return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
+        }
+        [Route("{athleteTeamId:int}"), HttpDelete]
+        public HttpResponseMessage Delete(int athleteTeamId)
+        {
+            athleteSportService.Delete(athleteTeamId);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

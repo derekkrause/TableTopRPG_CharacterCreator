@@ -20,8 +20,9 @@ namespace Sabio.Models.Domain
         public int SelectedSchoolClubOrTeam { get; set; }
         public int SportLevelId { get; set; }
         public string Comments { get; set; }
-        public int? SchoolNameId { get; set; }
+        public int? SchoolId { get; set; }
         public string ClubName { get; set; }
         public string TeamName { get; set; }
+        //public int AthleteSportTeamId { get; set; }
     }
 }

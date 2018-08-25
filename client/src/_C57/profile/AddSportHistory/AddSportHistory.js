@@ -10,7 +10,7 @@ class AddSportHistory extends React.Component {
     classYearId: "",
     sportPositionId: [],
     clubName: "",
-    schoolNameId: "",
+    schoolId: "",
     teamName: "",
     comments: "",
     selectedOption: "",
@@ -41,7 +41,21 @@ class AddSportHistory extends React.Component {
   };
 
   onHandleSchoolSelect = id => {
-    this.setState({ schoolNameId: id });
+    this.setState({ schoolId: id });
+  };
+
+  resetInitialState = () => {
+    this.setState({
+      sportId: "",
+      classYearId: "",
+      sportPositionId: [],
+      clubName: "",
+      schoolId: "",
+      teamName: "",
+      comments: "",
+      selectedOption: "",
+      sportLevelId: ""
+    });
   };
 
   onSubmitSport = () => {
@@ -58,12 +72,22 @@ class AddSportHistory extends React.Component {
       comments: this.state.comments,
       sportLevelId: this.state.sportLevelId,
       selectedSchoolClubOrTeam: this.state.selectedOption,
-      schoolNameId: this.state.selectedOption == 1 ? this.state.schoolNameId : null,
+      schoolId: this.state.selectedOption == 1 ? this.state.schoolId : null,
       clubName: this.state.selectedOption == 2 ? this.state.clubName : null,
       teamName: this.state.selectedOption == 3 ? this.state.teamName : null
     };
-    console.log(sportInfo);
-    postAthleteSport(sportInfo);
+    postAthleteSport(sportInfo)
+      .then(res => {
+        console.log(res, "create success");
+        this.props.createAthleteTeamNotification();
+        this.props.onAddNewToggle();
+        this.props.getAthleteSportInfo();
+        this.resetInitialState();
+      })
+      .catch(res => {
+        console.log(res, "create error");
+        this.props.createAthleteTeamNotificationError();
+      });
   };
 
   render() {
@@ -77,7 +101,7 @@ class AddSportHistory extends React.Component {
                 classYearId={this.state.classYearId}
                 sportPositionId={this.state.sportPositionId}
                 clubName={this.state.clubName}
-                schoolNameId={this.state.schoolNameId}
+                schoolId={this.state.schoolId}
                 teamName={this.state.teamName}
                 comments={this.state.comments}
                 selectedOption={this.state.selectedOption}
@@ -87,6 +111,8 @@ class AddSportHistory extends React.Component {
                 onSportPositionIdChange={this.onSportPositionIdChange}
                 onSubmitSport={this.onSubmitSport}
                 onHandleSchoolSelect={this.onHandleSchoolSelect}
+                modal={this.props.modal}
+                onAddNewToggle={this.props.onAddNewToggle}
               />
             </form>
           </div>

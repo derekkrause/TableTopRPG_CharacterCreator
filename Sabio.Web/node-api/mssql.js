@@ -77,7 +77,7 @@ function executeProc(procName, paramsCallback) {
         response.outputParameters[paramName] = value;
       });
 
-      request.on("done", function(rowCount, more, rows) {
+      request.on("doneInProc", function(rowCount, more, rows) {
         // End of result set, advance to next result set.
         setIndex++;
       });

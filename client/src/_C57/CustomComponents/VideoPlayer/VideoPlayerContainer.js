@@ -19,7 +19,6 @@ class VideoPlayerContainer extends React.Component {
   };
 
   onDuration = duration => {
-    console.log("onDuration", duration);
     this.setState({ duration });
   };
 
@@ -27,7 +26,6 @@ class VideoPlayerContainer extends React.Component {
     const endTime = new Date();
     const watched = (endTime.getTime() - this.state.startTime) / 1000 + this.state.timeWatched;
     const watchPercent = (watched / this.state.duration) * 100;
-    console.log("onEnded", watchPercent);
     this.setState({
       playing: this.state.loop,
       percentageWatched: watchPercent,
@@ -39,7 +37,6 @@ class VideoPlayerContainer extends React.Component {
   onPause = () => {
     const pauseTime = new Date();
     const watched = (pauseTime.getTime() - this.state.startTime) / 1000 + this.state.timeWatched;
-    console.log("Paused", watched);
     this.setState({
       playing: false,
       timeWatched: watched
@@ -48,7 +45,6 @@ class VideoPlayerContainer extends React.Component {
 
   onPlay = () => {
     const startTime = new Date();
-    console.log("onPlay", startTime.getTime());
     this.setState({
       playing: true,
       startTime: startTime.getTime()
@@ -56,7 +52,6 @@ class VideoPlayerContainer extends React.Component {
   };
 
   onProgress = state => {
-    console.log("onProgress", state);
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state);
@@ -64,7 +59,6 @@ class VideoPlayerContainer extends React.Component {
   };
 
   onStart = () => {
-    console.log("onStart");
     this.setState({ timeWatched: 0 });
   };
 

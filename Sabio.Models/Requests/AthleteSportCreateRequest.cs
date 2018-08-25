@@ -18,13 +18,13 @@ namespace Sabio.Models.Requests
             public JRaw SportPositionId { get; set; }
             
             [Required]
-            public string SelectedSchoolClubOrTeam { get; set; }
+            public int SelectedSchoolClubOrTeam { get; set; }
 
             public int SportLevelId { get; set; }
 
             public string Comments { get; set; }
 
-            public int? SchoolNameId { get; set; }
+            public int? SchoolId { get; set; }
 
             public string ClubName { get; set; }
         

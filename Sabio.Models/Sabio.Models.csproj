@@ -91,6 +91,7 @@
     <Compile Include="Requests\AdvocateInsert.cs" />
     <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Requests\AthleteSportCreateRequest.cs" />
+    <Compile Include="Requests\AthleteSportUpdateRequest.cs" />
     <Compile Include="Requests\AthleteUpdateRequest.cs" />
     <Compile Include="Requests\BlogCreateRequest.cs" />
     <Compile Include="Requests\BlogUpdateRequest.cs" />
