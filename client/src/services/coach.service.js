@@ -11,3 +11,7 @@ export function getCoachTrend() {
 export function getCoachById(userId) {
   return axios.get("api/coach/" + userId);
 }
+
+export function updateCoachProfile(userData) {
+  return axios.put("api/coach/" + userData.id);
+}

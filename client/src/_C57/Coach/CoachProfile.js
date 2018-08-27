@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import ProfileCard from "../profile/ProfileCard";
 import { FormGroup, Input, Label } from "reactstrap";
-import { getCoachById } from "../../services/coach.service";
+import { getCoachById, updateCoachProfile } from "../../services/coach.service";
 import "./CoachProfile.css";
 
 const defaultBio =
@@ -10,6 +10,7 @@ const defaultBio =
 const defaultProfileImage = "https://sabio-training.s3.us-west-2.amazonaws.com/C57/default-profile.png";
 const defaultBackgroundImage =
   "http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg";
+
 class CoachProfile extends React.Component {
   state = {
     //USER PROFILE
@@ -41,7 +42,7 @@ class CoachProfile extends React.Component {
     bioEdit: ""
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.setState({ viewedProfileId: this.props.match.params.id, viewingUser: this.props.currentUser });
     this.getProfileInfo(this.props.match.params.id);
   };
@@ -75,6 +76,62 @@ class CoachProfile extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  onBioSave = () => {
+    this.setState({ bio: this.state.bioEdit, bioEdit: "", editingBio: false }, this.updateDatabase());
+  };
+
+  onProfileSave = () => {
+    this.setState(
+      {
+        firstName: this.state.firstNameEdit,
+        middleName: this.state.middleNameEdit,
+        lastName: this.state.lastNameEdit,
+        profileImage: this.state.profileImageEdit,
+        title: this.state.titleEdit,
+        city: this.state.cityEdit,
+        state: this.state.stateEdit,
+        schoolName: this.state.schoolNameEdit
+      },
+      this.UpdateDatabase()
+    );
+  };
+
+  updateDatabase = () => {
+    if (this.state.viewingUser == this.state.viewedProfileId) {
+      const userData = {
+        id: this.state.viewingUser,
+        firstName: this.state.firstName,
+        middleName: this.state.middleName,
+        lastName: this.state.lastName,
+        avatarUrl: this.state.profileImage,
+        city: this.state.city,
+        state: this.state.state,
+        title: this.state.title,
+        bio: this.state.bio,
+        schoolName: this.state.schoolName
+      };
+      updateCoachProfile(userData)
+        .then(result => console.log("UPDATE", result))
+        .catch(error => console.log("UPDATE", error));
+    }
+  };
+
+  cancelEdit = () => {
+    this.setState({
+      editingBio: false,
+      editingProfile: false,
+      firstNameEdit: "",
+      middleNameEdit: "",
+      lastNameEdit: "",
+      titleEdit: "",
+      profileImageEdit: "",
+      schoolNameEdit: "",
+      cityEdit: "",
+      stateEdit: "",
+      bioEdit: ""
+    });
+  };
+
   render() {
     const {
       firstName,
@@ -90,7 +147,16 @@ class CoachProfile extends React.Component {
       viewedProfileId,
       viewingUser,
       editingProfile,
-      editingBio
+      editingBio,
+      firstNameEdit,
+      middleNameEdit,
+      lastNameEdit,
+      titleEdit,
+      profileImageEdit,
+      schoolNameEdit,
+      cityEdit,
+      stateEdit,
+      bioEdit
     } = this.state;
 
     return (
@@ -129,10 +195,23 @@ class CoachProfile extends React.Component {
                       boxShadow: "initial"
                     }}
                   />
-                  <h2 className="my-2">
-                    {/* ---TITLE--- */}
-                    <strong style={{ color: "black" }}>{title}</strong>
-                  </h2>
+                  {editingProfile ? (
+                    <label for="titleEdit" className="text-left">
+                      Title
+                      <input
+                        className="form-control"
+                        name="titleEdit"
+                        defaultValue={titleEdit || title}
+                        placeholder="Title"
+                        onChange={this.onChange}
+                      />
+                    </label>
+                  ) : (
+                    <h2 className="my-2">
+                      {/* ---TITLE--- */}
+                      <strong style={{ color: "black" }}>{title}</strong>
+                    </h2>
+                  )}
                 </div>
                 {/* ---SPACER COLUMN--- */}
                 <div className="col-9" />
@@ -142,37 +221,101 @@ class CoachProfile extends React.Component {
               <div className="col-3 px-3 text-center" style={{ width: "120px" }} />
               <div className="col-6 text-md-left text-center my-3 mt-5 pt-5 pt-md-0 mt-md-2 p-0">
                 {/* ---NAME--- */}
-                <h1 style={{ fontWeight: "800", color: "black" }}>
-                  {firstName} {middleName} {lastName}
-                </h1>
+                {editingProfile ? (
+                  <div className="input-group">
+                    <input
+                      className="form-control"
+                      name="firstNameEdit"
+                      placeholder="First Name"
+                      defaultValue={firstNameEdit || firstName}
+                      onChange={this.onChange}
+                    />
+                    <input
+                      className="form-control"
+                      name="middleNameEdit"
+                      placeholder="Middle Name"
+                      defaultValue={middleNameEdit || middleName}
+                      onChange={this.onChange}
+                    />
+                    <input
+                      className="form-control"
+                      name="lastNameEdit"
+                      placeholder="Last Name"
+                      defaultValue={lastNameEdit || lastName}
+                      onChange={this.onChange}
+                    />
+                  </div>
+                ) : (
+                  <h1 style={{ fontWeight: "800", color: "black" }}>
+                    {firstName} {middleName} {lastName}
+                  </h1>
+                )}
                 {/* ---SCHOOL , CITY , STATE--- */}
-                <h2 style={{ color: "black", marginBottom: "6px" }}>{schoolName}</h2>
-                <h2 style={{ color: "black", marginBottom: "6px" }}>
-                  {city}
-                  {!city || !state ? "" : ","} {state}
-                </h2>
+                {editingProfile ? (
+                  <div className="form-group">
+                    <input
+                      className="form-control"
+                      name="schoolNameEdit"
+                      defaultValue={schoolNameEdit || schoolName}
+                      placeholder="School Name"
+                    />
+                    <div className="input-group">
+                      <input
+                        className="form-control"
+                        name="cityEdit"
+                        defaultValue={cityEdit || city}
+                        placeholder="City"
+                      />
+                      <input
+                        className="form-control"
+                        name="stateEdit"
+                        defaultValue={stateEdit || state}
+                        placeholder="State"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h2 style={{ color: "black", marginBottom: "6px" }}>{schoolName}</h2>
+                    <h2 style={{ color: "black", marginBottom: "6px" }}>
+                      {city}
+                      {!city || !state ? "" : ","} {state}
+                    </h2>
+                  </div>
+                )}
                 {/* ---FOLLOW HIGHLIGHT MESSAGE BUTTONS--- */}
-                <div className="row mt-4 justify-content-md-start justify-content-center">
-                  {/* ---BUTTONS FOR SMALL SCREENS--- */}
-                  <div className="btn-group mb-md-0 d-none d-md-block ml-3">
-                    <div className="jr-btn jr-btn-default btn btn-default">Follow</div>
-                    <div className="jr-btn jr-btn-default btn btn-default">Highlight</div>
-                    <div className="jr-btn jr-btn-success btn btn-success d-md-none">
-                      <i className="zmdi zmdi-email zmdi-hc-fw" />
-                      Message
+                {editingProfile ? (
+                  <div className="d-flex justify-content-end mt-3">
+                    <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
+                      Cancel
+                    </button>
+                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.onBioSave}>
+                      Save
+                    </button>
+                  </div>
+                ) : (
+                  <div className="row mt-4 justify-content-md-start justify-content-center">
+                    {/* ---BUTTONS FOR SMALL SCREENS--- */}
+                    <div className="btn-group mb-md-0 d-none d-md-block ml-3">
+                      <div className="jr-btn jr-btn-default btn btn-default">Follow</div>
+                      <div className="jr-btn jr-btn-default btn btn-default">Highlight</div>
+                      <div className="jr-btn jr-btn-success btn btn-success d-md-none">
+                        <i className="zmdi zmdi-email zmdi-hc-fw" />
+                        Message
+                      </div>
+                    </div>
+                    {/* ---BUTTONS FOR MD SCREENS AND LARGER--- */}
+                    <div className="btn-group mb-md-0 d-md-none">
+                      <div className="jr-btn jr-btn-sm jr-btn-default btn btn-default">Follow</div>
+                      <div className="jr-btn jr-btn-sm jr-btn-default btn btn-default">Highlight</div>
+                      {/* ---MESSAGE BUTTON ONLY VISIBLE ON SMALL SCREENS-- */}
+                      <div className="jr-btn jr-btn-sm jr-btn-success btn btn-success d-md-none">
+                        <i className="zmdi zmdi-email zmdi-hc-fw" />
+                        Message
+                      </div>
                     </div>
                   </div>
-                  {/* ---BUTTONS FOR MD SCREENS AND LARGER--- */}
-                  <div className="btn-group mb-md-0 d-md-none">
-                    <div className="jr-btn jr-btn-sm jr-btn-default btn btn-default">Follow</div>
-                    <div className="jr-btn jr-btn-sm jr-btn-default btn btn-default">Highlight</div>
-                    {/* ---MESSAGE BUTTON ONLY VISIBLE ON SMALL SCREENS-- */}
-                    <div className="jr-btn jr-btn-sm jr-btn-success btn btn-success d-md-none">
-                      <i className="zmdi zmdi-email zmdi-hc-fw" />
-                      Message
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
               <div className="d-flex flex-column col-3 align-items-end mb-3 pr-0">
                 {/* ---EDIT BUTTON--- */}
@@ -185,10 +328,14 @@ class CoachProfile extends React.Component {
                   </button>
                 )}
                 {/* ---MESSAGE BUTTON FOR LAPTOPS AND LARGER--- */}
-                <div className="d-none d-md-block jr-btn jr-btn-success btn btn-success mt-auto mb-0 mr-3">
-                  <i className="zmdi zmdi-email zmdi-hc-fw" />
-                  Message
-                </div>
+                {editingProfile ? (
+                  <div />
+                ) : (
+                  <div className="d-none d-md-block jr-btn jr-btn-success btn btn-success mt-auto mb-0 mr-3">
+                    <i className="zmdi zmdi-email zmdi-hc-fw" />
+                    Message
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -213,10 +360,21 @@ class CoachProfile extends React.Component {
               {/* ---BIO--- */}
               {editingBio ? (
                 <FormGroup className="m-3 mt-5">
-                  <Input type="textarea" class="form-control" id="bioText" rows="5" defaultValue={bio || defaultBio} />
+                  <Input
+                    type="textarea"
+                    className="form-control"
+                    name="bioEdit"
+                    rows="5"
+                    defaultValue={bioEdit || bio || defaultBio}
+                    onChange={this.onChange}
+                  />
                   <div className="d-flex justify-content-end mt-3">
-                    <button className="jr-btn jr-btn-sm btn btn-default mb-0">Cancel</button>
-                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0">Save</button>
+                    <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
+                      Cancel
+                    </button>
+                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.onBioSave}>
+                      Save
+                    </button>
                   </div>
                 </FormGroup>
               ) : (

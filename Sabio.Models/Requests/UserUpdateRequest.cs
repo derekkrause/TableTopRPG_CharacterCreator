@@ -8,5 +8,7 @@ namespace Sabio.Models.Requests
         public int? Id { get; set; }
 
         public int? Gender { get; set; }
+
+        public string AvatarUrl { get; set; }
     }
 }

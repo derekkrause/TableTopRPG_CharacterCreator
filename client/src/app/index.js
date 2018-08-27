@@ -39,7 +39,6 @@ const RegistrationAsyncComponent = asyncComponent(() => import("../_C57/Welcomep
 const WelcomeAsyncComponent = asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"));
 
 const ArticlesAsyncComponent = asyncComponent(() => import("../_C57/Articles/ArticleCreate"));
-const CoachAsyncComponent = asyncComponent(() => import("../_C57/Coach/CoachInfo"));
 const CoachFavAsyncComponent = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
 const EventsAsyncComponent = asyncComponent(() => import("../_C57/Event/EventContainer"));
 const FaqsPageAsyncComponent = asyncComponent(() => import("../_C57/FaqPage/Faqs"));
@@ -134,7 +133,6 @@ class App extends React.Component {
                   {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
                   <Route path={`${match.url}/admin`} component={AdminAsyncComponent} />
                   <Route path={`${match.url}/articles/create`} component={ArticlesAsyncComponent} />
-                  <Route path={`${match.url}/coach`} component={CoachAsyncComponent} />
                   <Route
                     path={`${match.url}/coach/:id(\\d+)`}
                     render={props => {
