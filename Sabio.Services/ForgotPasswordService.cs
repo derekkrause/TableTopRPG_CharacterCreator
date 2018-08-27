@@ -176,7 +176,7 @@ namespace Sabio.Services
                 FromName = "RecruitHubSports",
                 ToAddress = eMail,
                 ToName = firstName + " " + lastName,
-                Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\ResetPasswordConfirmation_HTML.txt"),
+                Message = EmbeddedResource.Get("ResetPasswordConfirmation_HTML.txt"),
                 Subject = "Reset Password",
                 Link = domain + webRoute + tokenId
             };

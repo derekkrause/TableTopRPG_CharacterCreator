@@ -39,7 +39,6 @@ const RegistrationAsyncComponent = asyncComponent(() => import("../_C57/Welcomep
 const WelcomeAsyncComponent = asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"));
 
 const ArticlesAsyncComponent = asyncComponent(() => import("../_C57/Articles/ArticleCreate"));
-const CoachAsyncComponent = asyncComponent(() => import("../_C57/Coach/CoachInfo"));
 const CoachFavAsyncComponent = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
 const EventsAsyncComponent = asyncComponent(() => import("../_C57/Event/EventContainer"));
 const FaqsPageAsyncComponent = asyncComponent(() => import("../_C57/FaqPage/Faqs"));
@@ -51,19 +50,19 @@ const VenuesAsyncComponent = asyncComponent(() => import("../_C57/Admin/Venues/A
 class App extends React.Component {
   componentDidMount() {
     //-- Leave this if statement here for now. I need it to test filter later. -Ricky
-    // if (this.props.currentUser) {
-    axios
-      .get("api/search")
-      .then(res => {
-        // console.log("Good Get All!", res.data);
-        this.props.setDropdownValues(res.data);
-        this.props;
-        this.checkSportFilter();
-      })
-      .catch(() => {
-        console.log("Get All Failed");
-      });
-    // }
+    if (this.props.currentUser) {
+      axios
+        .get("api/search")
+        .then(res => {
+          // console.log("Good Get All!", res.data);
+          this.props.setDropdownValues(res.data);
+          this.props;
+          this.checkSportFilter();
+        })
+        .catch(() => {
+          console.log("Get All Failed");
+        });
+    }
   }
 
   setDropdownProperties = properties => {
@@ -134,7 +133,17 @@ class App extends React.Component {
                   {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
                   <Route path={`${match.url}/admin`} component={AdminAsyncComponent} />
                   <Route path={`${match.url}/articles/create`} component={ArticlesAsyncComponent} />
-                  <Route path={`${match.url}/coach`} component={CoachAsyncComponent} />
+                  <Route
+                    path={`${match.url}/coach/:id(\\d+)`}
+                    render={props => {
+                      const Component = asyncComponent(() => import("../_C57/Coach/CoachProfile"));
+                      return (
+                        <IfLoginStatus loggedIn={true}>
+                          <Component {...props} />
+                        </IfLoginStatus>
+                      );
+                    }}
+                  />
                   <Route
                     path={`${match.url}/coach-fav`}
                     render={props => {

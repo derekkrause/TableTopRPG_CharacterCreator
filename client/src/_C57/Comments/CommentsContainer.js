@@ -37,7 +37,6 @@ class CommentsContainer extends React.Component {
     let commentArray = [];
     let rootCommentCount = 0;
     getCommentsByPostId(this.props.postId).then(response => {
-      //console.log("GET Comments", response);
       if (response.data.length > 0) {
         response.data.map(post => {
           let elapsedTime = Math.round((new Date() - new Date(post.dateCreated)) / 1000 / 60);
@@ -104,7 +103,6 @@ class CommentsContainer extends React.Component {
         comment: this.state.newComment
       };
       postComment(commentPayload).then(response => {
-        console.log(response);
         this.setState(
           {
             showReplyInput: false,
@@ -148,7 +146,6 @@ class CommentsContainer extends React.Component {
   removeComment = e => {
     e.preventDefault();
     let commentKeys = e.target.name.split(" ");
-    console.log("keys", commentKeys);
     let commentId = parseInt(commentKeys[0]);
     let parentCommentId = parseInt(commentKeys[1]) || null;
     let hasReplies = false;
@@ -171,8 +168,7 @@ class CommentsContainer extends React.Component {
       }
     }
     if (!hasReplies) {
-      deleteComment(commentId).then(response => {
-        console.log("DELETE", response);
+      deleteComment(commentId).then(() => {
         this.renderComments();
       });
     }
@@ -180,7 +176,6 @@ class CommentsContainer extends React.Component {
 
   showReply = e => {
     e.preventDefault();
-    console.log(e.target.name);
 
     let replyKey = parseInt(e.target.name);
     if (!this.state.showReplyInput) {

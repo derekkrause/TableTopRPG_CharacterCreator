@@ -47,10 +47,7 @@ class FeedHome extends React.Component {
         this.setState(
           {
             feeds: response.data.item.pagedItems
-          } /*,
-          () => {
-            console.log("FEED HOME", this.state.feeds);
-          }*/
+          } /*, () => console.log("FEED HOME", this.state.feeds); */
         );
       })
       .catch(error => console.log(error));

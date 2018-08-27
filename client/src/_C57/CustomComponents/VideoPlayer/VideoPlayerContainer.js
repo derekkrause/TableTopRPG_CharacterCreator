@@ -59,12 +59,8 @@ class VideoPlayerContainer extends React.Component {
   };
 
   onStart = () => {
-    this.setState({ timeWatched: 0 });
-  };
-
-  componentWillUnmount() {
     this.onEnded();
-  }
+  };
   render() {
     let videoHeight = null;
     let videoWidth = null;

@@ -44,7 +44,7 @@ class UserTypeCards extends React.Component {
                 style={{ objectFit: "cover" }}
               />
               <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
-                <CardTitle className="mb-0 w-100 bg-purple rounded-left">
+                <CardTitle className="mb-0 w-100 bg-danger rounded-left">
                   <p className="text-white m-0 pl-3 p-2">COACH</p>
                 </CardTitle>
               </CardImgOverlay>
@@ -57,7 +57,7 @@ class UserTypeCards extends React.Component {
                 <ListGroupItem>Access on the go!</ListGroupItem>
                 <ListGroupItem>Get the latest news</ListGroupItem>
               </ListGroup>
-              <Button color="purple" className="btn mx-auto my-auto" onClick={this.props.regScrollCoach}>
+              <Button color="danger" className="btn mx-auto my-auto" onClick={this.props.regScrollCoach}>
                 Get Started
               </Button>
             </Card>
@@ -73,7 +73,7 @@ class UserTypeCards extends React.Component {
                 alt="Advocate"
               />
               <CardImgOverlay className="d-flex wrap justify-content-center align-items-end pr-0">
-                <CardTitle className="mb-0 w-100 bg-grey rounded-left">
+                <CardTitle className="mb-0 w-100 bg-warning rounded-left">
                   <p className="text-white m-0 pl-3 p-2">ADVOCATE</p>
                 </CardTitle>
               </CardImgOverlay>
@@ -86,7 +86,7 @@ class UserTypeCards extends React.Component {
                 <ListGroupItem>Access on the go!</ListGroupItem>
                 <ListGroupItem>Get the latest news</ListGroupItem>
               </ListGroup>
-              <Button color="grey" className="btn mx-auto my-auto" onClick={this.props.regScrollAdvocate}>
+              <Button color="warning" className="btn mx-auto my-auto" onClick={this.props.regScrollAdvocate}>
                 Get Started
               </Button>
             </Card>

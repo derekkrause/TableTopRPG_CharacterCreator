@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Sabio.Services
@@ -16,7 +15,6 @@ namespace Sabio.Services
     public class UserTableServices : IUserTableService
     {
         readonly IDataProvider dataProvider;
-        //readonly IEmailService emailService;
         readonly EmailService emailService;
         readonly string domain = "http://localhost:3001/#/app";
 
@@ -38,23 +36,22 @@ namespace Sabio.Services
 
             try
             {
-            dataProvider.ExecuteNonQuery(
-                "User_Insert",
-                (parameters) =>
-                {
-                    parameters.AddWithValue("@FirstName", request.FirstName);
-                    parameters.AddWithValue("@MiddleName", request.MiddleName);
-                    parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
-                    parameters.AddWithValue("@Email", request.Email);
-                    parameters.AddWithValue("@PasswordHash", passHash);
+                dataProvider.ExecuteNonQuery(
+                    "User_Insert",
+                    (parameters) =>
+                    {
+                        parameters.AddWithValue("@FirstName", request.FirstName);
+                        parameters.AddWithValue("@MiddleName", request.MiddleName);
+                        parameters.AddWithValue("@LastName", request.LastName);
+                        parameters.AddWithValue("@Email", request.Email);
+                        parameters.AddWithValue("@PasswordHash", passHash);
                         parameters.AddWithValue("@CurrentSportId", 1);
-                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
-                },
-                (parameters) =>
-                {
-                    newId = (int)parameters["@Id"].Value;
-                });
+                        parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                    },
+                    (parameters) =>
+                    {
+                        newId = (int)parameters["@Id"].Value;
+                    });
 
             } 
             catch (SqlException ex) when (ex.Number == 2627)
@@ -102,7 +99,7 @@ namespace Sabio.Services
                 FromName = "RecruitHubSports",
                 ToAddress = Email,
                 ToName = FirstName + " " + LastName,
-                Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
+                Message = EmbeddedResource.Get("RegistrationConfirmationEmail_HTML.txt"),
                 Subject = "Registration Confirmation",
                 Link = domain + "/registration_confirmation/?token=" + tokenId
             };
@@ -195,9 +192,7 @@ namespace Sabio.Services
                         user.MiddleName = (string)MiddleNameValue;
                     };
 
-                }
-                
-                );
+                });
                     return user;
         }
 

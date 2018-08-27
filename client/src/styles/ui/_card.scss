@@ -32,7 +32,10 @@
     position: relative;
     width: 100%;
     min-height: 100%;
-    @include background('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTzwAucViLXX0KFFcTnluYZltJqc5z3DAYQuR6RTul5VtobJnaIg', center center);
+    @include background(
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTzwAucViLXX0KFFcTnluYZltJqc5z3DAYQuR6RTul5VtobJnaIg",
+      center center
+    );
   }
   & .pi-content {
     padding: 70px 40px 24px;

@@ -311,7 +311,7 @@ class UserRegistrationForm extends React.Component {
               <FormGroup className="col-12" hidden={loginView}>
                 <Label htmlFor="userTypeGroup">Select User Type</Label>
                 <div
-                  className="d-flex flex-wrap form-group justify-content-center mx-auto"
+                  className="d-flex flex-wrap form-group justify-content-between"
                   name="userTypeGroup"
                   onChange={this.onChange}
                   id="userTypeGroup"
@@ -355,7 +355,7 @@ class UserRegistrationForm extends React.Component {
                       Advocate
                     </Label>
                   </div>
-                  <div className="custom-control custom-radio my-1 mx-auto col-5">
+                  <div className="custom-control custom-radio my-1 mx-auto col-5 pr-0">
                     <input
                       type="radio"
                       name="userType"
@@ -365,7 +365,7 @@ class UserRegistrationForm extends React.Component {
                       disabled
                     />
                     <Label className="custom-control-label" htmlFor="coach4hireRadio">
-                      Coach4Hire
+                      Trainer <span class="badge badge-info badge-pill">Soon</span>
                     </Label>
                   </div>
                 </div>

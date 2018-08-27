@@ -12,7 +12,6 @@ import SchoolSearchFilter from "./SchoolSearchFilter";
 import VenueSearchFilter from "./VenueSearchFilter";
 import { connect } from "react-redux";
 import PopoverNavBar from "./PopoverNavBar";
-import Logout from "../RegistrationLoginPage/Logout";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 
@@ -66,10 +65,6 @@ class NavBar extends React.Component {
   /* UNCOMMENT THIS IF YOU NEED TO CHECK THIS.PROPS */
   // componentDidMount() {
   //   console.log("componentDidMount 1", this.props);
-  // }
-
-  // componentDidMount() {
-  //   console.log("componentDidMount 2", this.props);
   // }
 
   logout = () => {
@@ -147,7 +142,6 @@ class NavBar extends React.Component {
                   </div>
                 </div>
               </div>
-
               <div className="col-md-4 order-md-3 order-2 col-6 pr-0">
                 <div className="d-flex justify-content-end align-items-center">
                   <div className="pointer px-2 px-md-3">
