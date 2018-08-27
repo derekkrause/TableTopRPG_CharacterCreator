@@ -183,10 +183,10 @@ class ProfileTabs extends React.Component {
     });
 
     //   getMediaByUserId().then(response => {
-    // console.log("GET", response);
+    //     console.log("GET", response);
     //   });
     //   getPostsByUserId().then(response => {
-    // console.log("GET", response);
+    //     console.log("GET", response);
     //   });
   }
 
