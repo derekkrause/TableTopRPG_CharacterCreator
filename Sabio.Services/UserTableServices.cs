@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Sabio.Services
@@ -16,7 +15,6 @@ namespace Sabio.Services
     public class UserTableServices : IUserTableService
     {
         readonly IDataProvider dataProvider;
-        //readonly IEmailService emailService;
         readonly EmailService emailService;
         readonly string domain = "http://localhost:3001/#/app";
 
@@ -102,7 +100,7 @@ namespace Sabio.Services
                 FromName = "RecruitHubSports",
                 ToAddress = Email,
                 ToName = FirstName + " " + LastName,
-                Message = File.ReadAllText(@"C:\SF.Code\C57\ProspectScout\Sabio.Services\RegistrationConfirmationEmail_HTML.txt"),
+                Message = EmbeddedResource.Get("RegistrationConfirmationEmail_HTML.txt"),
                 Subject = "Registration Confirmation",
                 Link = domain + "/registration_confirmation/?token=" + tokenId
             };
@@ -194,9 +192,7 @@ namespace Sabio.Services
                         user.MiddleName = (string)MiddleNameValue;
                     };
 
-                }
-                
-                );
+                });
                     return user;
         }
 

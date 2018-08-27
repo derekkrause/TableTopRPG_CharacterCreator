@@ -34,14 +34,13 @@ class Feed extends React.Component {
   }
 
   renderFeed = () => {
-    getFeed()
-      .then(response => {
-        console.log("Get All", response);
-        this.setState({
-          feeds: response.data.item.pagedItems
-        });
-      })
-      .catch(error => console.log(error));
+    getFeed().then(response => {
+      // console.log("Get All", response);
+      this.setState({
+        feeds: response.data.item.pagedItems
+      });
+    });
+    // .catch(error => {console.log(error));
 
     // const userId = this.props.match.params.id;
     // getFeedByUserId(userId)
@@ -59,7 +58,7 @@ class Feed extends React.Component {
     if (feedId) {
       putUpdateFeed(payload, feedId)
         .then(response => {
-          console.log("UPDATE/PUT", response);
+          // console.log("UPDATE/PUT", response);
           this.setState({
             title: "",
             content: "",
@@ -72,7 +71,7 @@ class Feed extends React.Component {
     } else {
       postFeed(payload)
         .then(response => {
-          console.log("CREATE/POST", response);
+          // console.log("CREATE/POST", response);
           this.setState({
             title: "",
             content: "",
@@ -87,14 +86,14 @@ class Feed extends React.Component {
   };
 
   updateFeed = feedId => {
-    console.log("UPDATE", feedId);
+    // console.log("UPDATE", feedId);
   };
 
   deleteFeed = feedId => {
     console.log("Delete", feedId);
     deleteFeed(feedId)
       .then(response => {
-        console.log("DELETE", response);
+        // console.log("DELETE", response);
       })
       .then(this.renderFeed())
       .catch(error => console.log(error));

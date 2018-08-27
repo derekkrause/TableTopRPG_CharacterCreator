@@ -11,7 +11,6 @@ using System.Web.Http;
 namespace Sabio.Web.Controllers.Api
 {
 
-
     [RoutePrefix("api/users")]
     public class UserController : ApiController
     {

@@ -125,9 +125,11 @@
     <Compile Include="BlogsService.cs" />
     <Compile Include="Cache\MemoryCacheDefault.cs" />
     <Compile Include="ClassYearService.cs" />
+    <Compile Include="CoachProfileService.cs" />
     <Compile Include="Cryptography\Base64StringCryptographyService.cs" />
     <Compile Include="DuplicateEmailException.cs" />
     <Compile Include="EmailService.cs" />
+    <Compile Include="EmbeddedResource.cs" />
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />
     <Compile Include="EventUserTableService.cs" />
@@ -184,7 +186,7 @@
     <Analyzer Include="..\packages\AWSSDK.S3.3.3.18\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="RegistrationConfirmationEmail_HTML.txt" />
+    <EmbeddedResource Include="RegistrationConfirmationEmail_HTML.txt" />
     <Content Include="ResetPasswordConfirmation_HTML.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

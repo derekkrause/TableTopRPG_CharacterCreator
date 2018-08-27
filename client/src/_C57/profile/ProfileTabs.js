@@ -109,7 +109,7 @@ class ProfileTabs extends React.Component {
 
   handleDoubleClickEvent = event => {
     getEventById(event.id).then(response => {
-      console.log("GET", response);
+      // console.log("GET", response);
       this.setState({
         name: response.data.item.name,
         shortName: response.data.item.shortName,
@@ -136,7 +136,7 @@ class ProfileTabs extends React.Component {
   componentDidMount() {
     getEventsByUserId(45).then(response => {
       //------change to current user from Redux
-      console.log("GET events", response);
+      // console.log("GET events", response);
       let calEventArray = [];
       response.data.resultSets[0].map(event => {
         let calEvent = {
@@ -154,7 +154,7 @@ class ProfileTabs extends React.Component {
     });
 
     getFeed().then(response => {
-      console.log("GET media", response);
+      // console.log("GET media", response);
       let imageTileArray = [];
       response.data.item.pagedItems.map(image => {
         if (image.imageUrl.length > 0) {
@@ -176,7 +176,7 @@ class ProfileTabs extends React.Component {
             author: image.firstName + " " + image.lastName,
             id: image.id
           };
-          console.log(imageTile);
+          // console.log(imageTile);
           imageTileArray.push(imageTile);
         }
       });
@@ -187,10 +187,10 @@ class ProfileTabs extends React.Component {
     });
 
     //   getMediaByUserId().then(response => {
-    //     console.log("GET", response);
+    // console.log("GET", response);
     //   });
     //   getPostsByUserId().then(response => {
-    //     console.log("GET", response);
+    // console.log("GET", response);
     //   });
   }
 

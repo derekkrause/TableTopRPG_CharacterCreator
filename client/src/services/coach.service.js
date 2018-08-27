@@ -7,3 +7,7 @@ export function getCoach() {
 export function getCoachTrend() {
   return axios.get("node-api/server.js/coaches/trend");
 }
+
+export function getCoachById(userId) {
+  return axios.get("api/coach/" + userId);
+}
