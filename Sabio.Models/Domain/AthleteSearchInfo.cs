@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace Sabio.Models.Domain
 {
     public class AthleteSearchInfo
     {   
-        public int? Id { get; set; }
+        public int? UserId { get; set; }
+        public int? AthleteId { get; set; }
         public string ShortBio { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
@@ -17,8 +19,7 @@ namespace Sabio.Models.Domain
         public string City { get; set; }
         public string State { get; set; }
         public string ClassYear { get; set; }
-        public string SportName { get; set; }
-        public string SportPosition { get; set; }
+        public JRaw sportInfo { get; set; }
         public int? HighSchoolGraduationYear { get; set; }
         public string School { get; set; }
     }

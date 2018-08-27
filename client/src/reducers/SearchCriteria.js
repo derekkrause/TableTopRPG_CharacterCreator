@@ -9,6 +9,7 @@ export default function SearchCriteria(state, action) {
       searchType: "all",
       locationFilter: "",
       gradYearFilter: "",
+      sportFilter: null,
       sportLevelFilter: "",
       sportPositionFilter: "",
       schoolFilter: "",

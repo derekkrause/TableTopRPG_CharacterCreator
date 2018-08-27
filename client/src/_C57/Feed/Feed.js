@@ -1,12 +1,13 @@
 import React from "react";
 import FeedCard from "./FeedCard";
-import { getFeed, postFeed, putUpdateFeed, deleteFeed, getFeedByUserId } from "../../services/feed.sevice";
+import { postFeed, putUpdateFeed, deleteFeed, getFeedByUserId } from "../../services/feed.sevice";
 import FeedForm from "./FeedForm";
 import "./Feed.css";
 import ConfirmModal from "./ConfirmModal";
 import { CreateButton } from "../CustomComponents/Button";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { postLike, getLikeByPostId, deleteLike } from "../../services/like.service";
 
 class Feed extends React.Component {
   state = {
@@ -14,7 +15,8 @@ class Feed extends React.Component {
     name: "",
     description: "tbd",
     body: "",
-    imageUrl: "",
+    imageUrl: [],
+    videoUrl: [],
     title: "",
     content: "",
     avatarUrl: "",
@@ -23,7 +25,6 @@ class Feed extends React.Component {
     feedForm: false,
     formVideoLinkInput: false,
     formFileBtn: true,
-    videoUrl: "",
     feedId: 0,
     updateBtn: false,
     modal: false
@@ -34,68 +35,61 @@ class Feed extends React.Component {
   }
 
   renderFeed = () => {
-    getFeed().then(response => {
-      // console.log("Get All", response);
-      this.setState({
-        feeds: response.data.item.pagedItems
-      });
-    });
-    // .catch(error => {console.log(error));
-
-    // const userId = this.props.match.params.id;
-    // getFeedByUserId(userId)
-    //   .then(res => {
-    //     console.log("GET FEED BY CURRENT USER ID", res);
-    //     this.setState({
-    //       feeds: res.data.item.pagedItems
-    //     });
-    //   })
-    //   .catch(error => console.log(error));
+    const userId = this.props.match.params.id;
+    getFeedByUserId(userId)
+      .then(res => {
+        //console.log("GET FEED BY CURRENT USER ID", res);
+        this.setState({
+          feeds: res.data.item.pagedItems
+        });
+      })
+      .catch(error => console.log(error));
   };
 
   handleSubmitFeed = payload => {
     let feedId = payload.id;
+    //console.log("UPDATE TEST", payload);
     if (feedId) {
       putUpdateFeed(payload, feedId)
         .then(response => {
-          // console.log("UPDATE/PUT", response);
-          this.setState({
-            title: "",
-            content: "",
-            imageUrl: [],
-            videoUrl: []
-          });
+          //console.log("UPDATE/PUT", response);
+          this.setState(
+            {
+              title: "",
+              content: "",
+              imageUrl: [],
+              videoUrl: []
+            },
+            this.renderFeed()
+          );
         })
-        .then(this.renderFeed())
         .catch(error => console.log(error));
     } else {
       postFeed(payload)
         .then(response => {
-          // console.log("CREATE/POST", response);
-          this.setState({
-            title: "",
-            content: "",
-            imageUrl: "",
-            videoUrl: "",
-            feedForm: false
-          });
+          //console.log("CREATE/POST", response);
+          this.setState(
+            {
+              title: "",
+              content: "",
+              imageUrl: [],
+              videoUrl: [],
+              feedForm: false
+            },
+            this.renderFeed()
+          );
         })
-        .then(this.renderFeed())
         .catch(error => console.log(error));
     }
   };
 
-  updateFeed = feedId => {
-    // console.log("UPDATE", feedId);
-  };
-
   deleteFeed = feedId => {
-    console.log("Delete", feedId);
+    //console.log("Delete", feedId);
     deleteFeed(feedId)
       .then(response => {
-        // console.log("DELETE", response);
+        //console.log("DELETE", response);
+        this.renderFeed();
       })
-      .then(this.renderFeed())
       .catch(error => console.log(error));
   };
 
@@ -129,7 +123,30 @@ class Feed extends React.Component {
     });
   };
 
+  handleSubmitLike = payload => {
+    postLike(payload).then(res => {
+      // console.log("POST LIKE", res);
+    }, this.renderFeed());
+    // .then(this.renderFeed());
+  };
+  handleDeleteLike = id => {
+    deleteLike(id)
+      .then(res => {
+        // console.log("UNLIKE", id, res);
+      })
+      .then(this.renderFeed());
+  };
+  handleViewLikedUsers = postId => {
+    // console.log("POST ID TO VIEW LIKED USERS", postId);
+    getLikeByPostId(postId).then(res => {
+      this.setState({ likedUser: res.data.resultSets });
+      // console.log("VIEW LIKED USERS", res);
+    });
+  };
+
   render() {
+    const userId = this.props.match.params.id;
+    //console.log("USER ID", userId, this.props.currentUser.id);
     return (
       <div className="row justify-content-center">
         <div className="animation slideInLeft">
@@ -137,18 +154,23 @@ class Feed extends React.Component {
             {this.state.feedForm ? (
               <div />
             ) : (
-              <div className="jr-card" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
-                <div className="row">
-                  <div className="col-md-8 col-12">
-                    <h3 className="card-text">Share Photos, videos or Tips</h3>
+              <React.Fragment>
+                {this.props.currentUser.id == userId && (
+                  <div className="jr-card shadow" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
+                    <div className="row">
+                      <div className="col-md-8 col-12">
+                        <h3 className="card-text">Share Photos, videos or Tips</h3>
+                      </div>
+                      <div className="col-md-4 col-12 text-right">
+                        <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-md-4 col-12 text-right">
-                    <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
-                  </div>
-                </div>
-              </div>
+                )}
+              </React.Fragment>
             )}
           </div>
+
           {this.state.feedForm ? (
             <FeedForm
               closeFeedForm={this.handleOnClickFeedForm}
@@ -177,6 +199,9 @@ class Feed extends React.Component {
                 imageUrl={this.state.imageUrl}
                 handleOnClickUploader={this.handleOnClickUploader}
                 currentUser={this.props.currentUser}
+                handleSubmitLike={this.handleSubmitLike}
+                handleViewLikedUsers={this.handleViewLikedUsers}
+                handleDeleteLike={this.handleDeleteLike}
               />
             ))}
           </div>

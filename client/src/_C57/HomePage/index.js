@@ -8,6 +8,9 @@ import { getUpcoming } from "../../services/Event.service";
 import { getSchoolTrend } from "../../services/school.service";
 import { getAthleteTrend } from "../../services/athlete.service";
 import { getCoachTrend } from "../../services/coach.service";
+import "./HomePage.css";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class HomePage extends React.Component {
   state = {
@@ -24,40 +27,42 @@ class HomePage extends React.Component {
   };
 
   componentDidMount() {
-    getUpcoming().then(res => {
-      // console.log("events get all", res);
-      this.setState({
-        events: res.data.items
+    if (this.props.currentUser) {
+      getUpcoming().then(res => {
+        // console.log("events get all", res);
+        this.setState({
+          events: res.data.items
+        });
       });
-    });
 
-    getSchoolTrend().then(res => {
-      // console.log("School get all", res);
-      this.setState({
-        schools: res.data.item.pagedItems
+      getSchoolTrend().then(res => {
+        // console.log("School get all", res);
+        this.setState({
+          schools: res.data.item.pagedItems
+        });
       });
-    });
 
-    const sportType = "Baseball";
-    getAthleteTrend(sportType).then(res => {
-      // console.log("GET TREND ATHLETE", res);
-      this.setState({
-        athletes: res.data.item.pagedItems
+      const sportType = "Baseball";
+      getAthleteTrend(sportType).then(res => {
+        // console.log("GET TREND ATHLETE", res);
+        this.setState({
+          athletes: res.data.item.pagedItems
+        });
       });
-    });
 
-    getCoachTrend().then(res => {
-      const coaches = res.data.resultSets[0].map(o => {
-        var newObj = {};
-        for (const key of Object.keys(o)) {
-          const newKey = key[0].toLowerCase() + key.slice(1);
-          newObj[newKey] = o[key];
-        }
-        return newObj;
+      getCoachTrend().then(res => {
+        const coaches = res.data.resultSets[0].map(o => {
+          var newObj = {};
+          for (const key of Object.keys(o)) {
+            const newKey = key[0].toLowerCase() + key.slice(1);
+            newObj[newKey] = o[key];
+          }
+          return newObj;
+        });
+        // console.log("GET Coaches", res);
+        this.setState({ coaches });
       });
-      // console.log("GET Coaches", res);
-      this.setState({ coaches });
-    });
+    }
   }
 
   render() {
@@ -100,5 +105,10 @@ class HomePage extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
 
-export default HomePage;
+export default withRouter(connect(mapStateToProps)(HomePage));

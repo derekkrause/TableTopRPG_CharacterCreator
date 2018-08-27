@@ -4,7 +4,7 @@ import PeopleCell from "./Cells/PeopleCell";
 
 const PeopleList = props => {
   return (
-    <div className="jr-card jr-card-full-height">
+    <div className="jr-card jr-card-full-height shadow">
       <CardHeader cardTitle={props.cardTitle} cardSubTitle={props.cardSubTitle} icon={props.icon} />
       {props.datas.map(data => {
         return (

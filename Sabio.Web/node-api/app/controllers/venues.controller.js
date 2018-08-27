@@ -46,19 +46,6 @@ const search = (req, res) => {
     });
 };
 
-// const searchByUser = (req, res) => {
-//   const searchString = req.query.q || "";
-//   venuesService
-//     .searchByUser(searchString)
-//     .then(item => {
-//       const r = new responses.ItemResponse(item);
-//       res.json(r);
-//     })
-//     .catch(err => {
-//       res.status(500).send(err);
-//     });
-// };
-
 const post = (req, res) => {
   venuesService
     .post(req.model)
@@ -66,7 +53,12 @@ const post = (req, res) => {
       res.status(201).json(outputParams);
     })
     .catch(err => {
-      res.status(500).send(err);
+      console.log(err);
+      if (err.number == 2601) {
+        res.status(400).json(new responses.ErrorResponse("Duplicate name"));
+      } else {
+        res.status(500).send(err);
+      }
     });
 };
 
@@ -74,7 +66,7 @@ const put = (req, res) => {
   venuesService
     .put(req.model)
     .then(response => {
-      res.sendStatus(200);
+      res.status(200).end();
     })
     .catch(err => {
       console.log(err);
@@ -89,7 +81,7 @@ const put = (req, res) => {
 const del = (req, res) => {
   venuesService
     .del(req.params.id)
-    .then(response => {
+    .then(res => {
       res.sendStatus(200);
     })
     .catch(err => {

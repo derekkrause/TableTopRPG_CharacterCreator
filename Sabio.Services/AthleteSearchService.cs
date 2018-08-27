@@ -1,4 +1,5 @@
-﻿using Sabio.Data;
+﻿using Newtonsoft.Json.Linq;
+using Sabio.Data;
 using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using System;
@@ -33,28 +34,66 @@ namespace Sabio.Services
                 {
                     AthleteSearchInfo athleteSearchInfo = new AthleteSearchInfo
                     {
-                        Id = reader.GetSafeInt32Nullable("AthleteId"),
-                        ShortBio = (string)reader["ShortBio"],
+                        UserId = reader.GetSafeInt32Nullable("UserId"),
+                        AthleteId = reader.GetSafeInt32Nullable("AthleteId"),
+                        ShortBio = reader.GetSafeString("ShortBio"),
                         FirstName = (string)reader["FirstName"],
                         LastName = (string)reader["LastName"],
-                        MiddleName = (string)reader["MiddleName"],
-                        AvatarUrl = (string)reader["AvatarURL"],
-                        ClassYear = (string)reader["ClassYear"],
+                        MiddleName = reader.GetSafeString("MiddleName"),
+                        AvatarUrl = reader.GetSafeString("AvatarURL"),
+                        ClassYear = reader.GetSafeString("ClassYear"),
                         HighSchoolGraduationYear = reader.GetSafeInt32Nullable("HighSchoolGraduationYear"),
-                        City = (string)reader["City"],
-                        State = (string)reader["State"],
-                        SportName = (string)reader["Sport"],
-                        SportPosition = (string)reader["SportPosition"],
-                        School = (string)reader["School"],
+                        City = reader.GetSafeString("City"),
+                        State = reader.GetSafeString("State"),
+                        sportInfo = new JRaw((string)reader["sportInfo"]),
+                        School = reader.GetSafeString("SchoolName"),
 
-                };
+                    };
                     listOfAthletes.Add(athleteSearchInfo);
                 });
             return listOfAthletes;
         }
+
+        public List<AthleteSearchInfo2> Search2(string q, string classYear, string state, string school, string sportPosition)
+        {
+            List<AthleteSearchInfo2> listOfAthletes = new List<AthleteSearchInfo2>();
+            dataProvider.ExecuteCmd(
+                "Athlete_hunt2",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@SearchString", q);
+                    parameters.AddWithValue("@ClassYear", classYear);
+                    parameters.AddWithValue("@School", school);
+                    parameters.AddWithValue("@State", state);
+                    parameters.AddWithValue("@SportPosition", sportPosition);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    AthleteSearchInfo2 athleteSearchInfo = new AthleteSearchInfo2
+                    {
+                        UserId = reader.GetSafeInt32Nullable("UserId"),
+                        AthleteId = reader.GetSafeInt32Nullable("AthleteId"),
+                        ShortBio = reader.GetSafeString("ShortBio"),
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        MiddleName = reader.GetSafeString("MiddleName"),
+                        AvatarUrl = reader.GetSafeString("AvatarURL"),
+                        ClassYear = reader.GetSafeString("ClassYear"),
+                        HighSchoolGraduationYear = reader.GetSafeInt32Nullable("HighSchoolGraduationYear"),
+                        City = reader.GetSafeString("City"),
+                        State = reader.GetSafeString("State"),
+                        sportInfo = new JRaw((string)reader["sportInfo"]),
+                        School = reader.GetSafeString("School"),
+                        
+                    };
+                    listOfAthletes.Add(athleteSearchInfo);
+                });
+            return listOfAthletes;
+        }
+
         public AthleteFilterOptions GetAllOptions()
         {
-            AthleteFilterOptions Options = new AthleteFilterOptions();
+            AthleteFilterOptions options = new AthleteFilterOptions();
 
             dataProvider.ExecuteCmd(
                 "Athlete_Search_Options",
@@ -69,7 +108,7 @@ namespace Sabio.Services
                                 Id = reader.GetSafeInt32Nullable("ClassYearId"),
                                 Name = (string)reader["ClassYear"]
                             };
-                            Options.ClassYear.Add(classYear);
+                            options.ClassYear.Add(classYear);
                             break;
                         case 1:
                             DropDownSportPosition sportPosition = new DropDownSportPosition
@@ -77,7 +116,7 @@ namespace Sabio.Services
                                 Id = reader.GetSafeInt32Nullable("SportPositionId"),
                                 Name = (string)reader["SportPosition"]
                             };
-                            Options.SportPosition.Add(sportPosition);
+                            options.SportPosition.Add(sportPosition);
                             break;
                         case 2:
                             State state = new State
@@ -85,11 +124,19 @@ namespace Sabio.Services
                                 Id = reader.GetSafeInt32Nullable("StateId"),
                                 Name = (string)reader["State"]
                             };
-                            Options.State.Add(state);
-                            break; 
+                            options.State.Add(state);
+                            break;
+                        case 3:
+                            DropDownSport sport = new DropDownSport
+                            {
+                                Id = reader.GetSafeInt32Nullable("SportId"),
+                                Name = (string)reader["Sport"]
+                            };
+                            options.Sport.Add(sport);
+                            break;
                 }
                 });
-            return Options;
+            return options;
         }
     }
 }

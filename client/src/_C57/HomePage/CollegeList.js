@@ -8,7 +8,7 @@ const CollegeList = props => {
   //   return <DotListCell key={data.id} data={data} />;
   // });
   return (
-    <div className="jr-card jr-card-full-height">
+    <div className="jr-card jr-card-full-height shadow">
       <CardHeader cardTitle={props.cardTitle} cardSubTitle={props.cardSubTitle} icon={props.icon} />
       {props.datas.map(data => {
         return <CollegeCell key={data.schoolId} data={data} dotColor={props.dotColor} />;

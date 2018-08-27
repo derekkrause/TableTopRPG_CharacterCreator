@@ -6,7 +6,7 @@ using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api
 {
-    [RoutePrefix("api/search")]
+    [RoutePrefix("api/searches")]
     public class SearchesController : ApiController
     {
         readonly SearchesService searchesService;

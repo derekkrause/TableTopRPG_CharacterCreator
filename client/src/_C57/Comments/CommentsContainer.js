@@ -37,7 +37,7 @@ class CommentsContainer extends React.Component {
     let commentArray = [];
     let rootCommentCount = 0;
     getCommentsByPostId(this.props.postId).then(response => {
-      // console.log("GET Comments", response);
+      //console.log("GET Comments", response);
       if (response.data.length > 0) {
         response.data.map(post => {
           let elapsedTime = Math.round((new Date() - new Date(post.dateCreated)) / 1000 / 60);

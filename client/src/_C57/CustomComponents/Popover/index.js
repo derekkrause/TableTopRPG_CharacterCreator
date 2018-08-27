@@ -30,9 +30,10 @@ export default class Example extends React.Component {
     });
     this.props.handleUpdate();
   };
+
   render() {
     return (
-      <div>
+      <div ref={this.feedRef}>
         <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash">
           <i className="zmdi zmdi-more zmdi-hc-2x" />
         </Button>

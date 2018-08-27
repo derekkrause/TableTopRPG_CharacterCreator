@@ -20,10 +20,10 @@ class CommentThread extends React.Component {
                       </div>
                     </div>
                   )}
-                {this.props.comments.map(comments => {
+                {this.props.comments.map((comments, index) => {
                   if (comments.parentComment === null) {
                     return (
-                      <React.Fragment>
+                      <React.Fragment key={index}>
                         {this.props.comments.length > 2 &&
                           !this.props.showAll &&
                           comments.commentKey === 2 && (
@@ -97,10 +97,11 @@ class CommentThread extends React.Component {
                             <div className="row justify-content-end">
                               <div className="col-md-12">
                                 <ul style={{ listStyle: "none" }} className="pl-3">
-                                  {this.props.comments.map(reply => {
+                                  {this.props.comments.map((reply, index) => {
                                     if (reply.parentComment === comments.commentId) {
                                       return (
                                         <CommentReplies
+                                          key={index}
                                           reply={reply}
                                           currentUser={this.props.currentUser}
                                           addComment={this.props.addComment}

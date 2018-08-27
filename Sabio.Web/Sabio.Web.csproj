@@ -266,12 +266,12 @@
     <Compile Include="Controllers\Api\PogsController.cs" />
     <Compile Include="Controllers\Api\S3FilesController.cs" />
     <Compile Include="Controllers\Api\SchoolController.cs" />
+    <Compile Include="Controllers\Api\SchoolTrendController.cs" />
     <Compile Include="Controllers\Api\SearchesController.cs" />
     <Compile Include="Controllers\Api\SportLevelController.cs" />
     <Compile Include="Controllers\Api\SportsController.cs" />
     <Compile Include="Controllers\Api\Tests\TestAuthController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
-    <Compile Include="Controllers\Api\SchoolTrendController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

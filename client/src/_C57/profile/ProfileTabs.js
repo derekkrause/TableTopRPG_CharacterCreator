@@ -109,7 +109,6 @@ class ProfileTabs extends React.Component {
 
   handleDoubleClickEvent = event => {
     getEventById(event.id).then(response => {
-      // console.log("GET", response);
       this.setState({
         name: response.data.item.name,
         shortName: response.data.item.shortName,
@@ -136,7 +135,6 @@ class ProfileTabs extends React.Component {
   componentDidMount() {
     getEventsByUserId(45).then(response => {
       //------change to current user from Redux
-      // console.log("GET events", response);
       let calEventArray = [];
       response.data.resultSets[0].map(event => {
         let calEvent = {
@@ -154,7 +152,6 @@ class ProfileTabs extends React.Component {
     });
 
     getFeed().then(response => {
-      // console.log("GET media", response);
       let imageTileArray = [];
       response.data.item.pagedItems.map(image => {
         if (image.imageUrl.length > 0) {
@@ -176,7 +173,6 @@ class ProfileTabs extends React.Component {
             author: image.firstName + " " + image.lastName,
             id: image.id
           };
-          // console.log(imageTile);
           imageTileArray.push(imageTile);
         }
       });
@@ -198,7 +194,7 @@ class ProfileTabs extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="white" style={{ boxShadow: "none" }}>
+        <AppBar position="static" color="inherit" style={{ boxShadow: "none" }}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}

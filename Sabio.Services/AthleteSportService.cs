@@ -24,7 +24,7 @@ namespace Sabio.Services
                 (parameters) =>
                 {
                     parameters.AddWithValue("@UserId", request.UserId);
-                    parameters.AddWithValue("@SchoolNameId", request.SchoolNameId);
+                    parameters.AddWithValue("@SchoolId", request.SchoolId);
                     parameters.AddWithValue("@ClubName", request.ClubName ?? (object)DBNull.Value);
                     parameters.AddWithValue("@TeamName", request.TeamName ?? (object)DBNull.Value);
                     parameters.AddWithValue("@SelectedSchoolClubOrTeam", request.SelectedSchoolClubOrTeam);
@@ -35,17 +35,34 @@ namespace Sabio.Services
                     parameters.AddWithValue("@SportLevelId", request.SportLevelId);
                 });
         }
-        public PagedItemResponse<AthleteSportTeam> GetAllByUserId(int pageIndex, int pageSize, int userId)
+        public void Update(AthleteSportUpdateRequest request, int id)
         {
-            PagedItemResponse<AthleteSportTeam> pagedItemResponse = new PagedItemResponse<AthleteSportTeam>();
+            dataProvider.ExecuteNonQuery(
+                "AthleteSportTeam_Update",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Id", request.Id);
+                    parameters.AddWithValue("@UserId", request.UserId);
+                    parameters.AddWithValue("@SchoolId", request.SchoolId);
+                    parameters.AddWithValue("@ClubName", request.ClubName ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@TeamName", request.TeamName ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@SelectedSchoolClubOrTeam", request.SelectedSchoolClubOrTeam);
+                    parameters.AddWithValue("@SportId", request.SportId);
+                    parameters.AddWithValue("@ClassYearId", request.ClassYearId);
+                    parameters.AddWithValue("@SportPositionIdsJson", request.SportPositionId.ToString());
+                    parameters.AddWithValue("@Comments", request.Comments);
+                    parameters.AddWithValue("@SportLevelId", request.SportLevelId);
+                });
+        }
+        public ItemsResponse<AthleteSportTeam> GetAllByUserId(int userId)
+        {
+            ItemsResponse<AthleteSportTeam> itemsResponse = new ItemsResponse<AthleteSportTeam>();
             Dictionary<int, AthleteSportTeam> athleteSportTeamById = new Dictionary<int, AthleteSportTeam>();
             dataProvider.ExecuteCmd(
                 "AthleteSportTeam_GetByUserId",
                 (parameters) =>
                 {
                     parameters.AddWithValue("@UserId", userId);
-                    parameters.AddWithValue("@PageIndex", pageIndex);
-                    parameters.AddWithValue("@PageSize", pageSize);
                 },
                 (reader, resultSetIndex) =>
                 {
@@ -57,15 +74,15 @@ namespace Sabio.Services
                                 {
                                     Id = (int)reader["Id"],
                                     UserId = (int)reader["UserId"],
-                                    SportId = (int)reader["SportNameId"],
+                                    SportId = (int)reader["SportId"],
                                     SportLevelId = (int)reader["SportLevelId"],
                                     ClassYearId = (int)reader["ClassYearId"],
                                     SportName = (string)reader["SportName"],
                                     ClassYear = (string)reader["ClassYear"],
-                                    SchoolName = (string)reader["SchoolName"],
+                                    SchoolName = reader.GetSafeString("SchoolName"),
                                     SportLevel = (string)reader["SportLevel"],
                                     SelectedSchoolClubOrTeam = (int)reader["SelectedSchoolClubOrTeam"],
-                                    SchoolNameId = reader.GetSafeInt32Nullable("SchoolNameId"),
+                                    SchoolId = reader.GetSafeInt32Nullable("SchoolId"),
                                     ClubName = reader.GetSafeString("ClubName"),
                                     TeamName = reader.GetSafeString("TeamName"),
                                     Comments = reader.GetSafeString("Comments")
@@ -88,8 +105,17 @@ namespace Sabio.Services
                             }
                     }
                 });
-            pagedItemResponse.PagedItems = new List<AthleteSportTeam>(athleteSportTeamById.Values);
-            return pagedItemResponse;
+            itemsResponse.Items = new List<AthleteSportTeam>(athleteSportTeamById.Values);
+            return itemsResponse;
+        }
+        public void Delete(int AthleteTeamId)
+        {
+            dataProvider.ExecuteNonQuery(
+            "AthleteTeam_Delete",
+            (parameters) =>
+            {
+                parameters.AddWithValue("@AthleteTeamId", AthleteTeamId);
+            });
         }
     }
 }

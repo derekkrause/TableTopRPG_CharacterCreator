@@ -16,8 +16,16 @@ export function createVenue(data) {
 
 // ------------- :: GET :: SEARCH VENUE BY ADMIN ------------- //
 
-export function getVenueBySearch(pageIndex, filterText) {
-  return axios.get(nodeBaseUrl + "/venues/search/" + pageIndex + "/5/?q=" + filterText);
+export function getVenueBySearch(searchString, pageIndex, pageSize) {
+  return axios.get(
+    nodeBaseUrl +
+      "/venues/search/?q=" +
+      encodeURIComponent(searchString) +
+      "&pageIndex=" +
+      pageIndex +
+      "&pageSize=" +
+      pageSize
+  );
 }
 
 // ------------- :: GET :: SEARCH VENUE BY USER -------------- //

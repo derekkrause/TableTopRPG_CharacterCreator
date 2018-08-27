@@ -167,6 +167,15 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
     );
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.incommingImageArray !== prevProps.incommingImageArray) {
+      this.dividePreviewArray();
+    }
+    if (this.props.incommingVideoArray !== prevProps.incommingVideoArray) {
+      this.dividePreviewArray();
+    }
+  }
+
   componentWillMount() {
     let newPreviewArray = [...this.state.previewUrls];
     if (this.props.incommingImageArray || this.props.incommingVideoArray) {

@@ -116,3 +116,15 @@ background-color: red;
 .card{
     border: none;
 }
+
+.rs-bg-primary{
+    background-color:#388e3c;
+}
+
+.color-athlete{
+    color: #1976d2;
+}
+
+.color-coach{
+    color: #512da8;
+}

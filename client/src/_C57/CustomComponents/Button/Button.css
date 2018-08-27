@@ -1,7 +1,15 @@
-.cus-btn-primary{
-    color: #388e3c;
-}
+.rs-btn-primary{
+    background-color: #388e3c;
+    color: white;
+    border-color:#388e3c;
 
+}
+.rs-btn-primary:hover{
+    background-color: #4caf50;
+    color: white;
+    border-color:#4caf50;
+
+}
 .profileInfoBtn {
     font-size: 18px;
     font-weight: 600;

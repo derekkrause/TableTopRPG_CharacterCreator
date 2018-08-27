@@ -116,11 +116,7 @@ class WebpackBaseConfig {
           },
           {
             test: /^.((?!cssmodule).)*\.styl$/,
-            loaders: [
-              { loader: "style-loader" },
-              { loader: "css-loader" },
-              { loader: "stylus-loader" }
-            ]
+            loaders: [{ loader: "style-loader" }, { loader: "css-loader" }, { loader: "stylus-loader" }]
           },
           {
             test: /\.json$/,

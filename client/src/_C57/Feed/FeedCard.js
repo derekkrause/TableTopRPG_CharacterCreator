@@ -2,18 +2,18 @@ import React from "react";
 import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerContainer";
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
 import Popover from "../CustomComponents/Popover";
-import IfLoginStatus from "../CustomComponents/IfLoginStatus";
 import CommentsContainer from "../Comments/CommentsContainer";
 import "./FeedCard.css";
 import ImageModal from "../profile/ImageModal";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { LikeButton, LikedButton, ViewCommentsButton, ViewLikesButton } from "../CustomComponents/Button";
 
 class FeedCard extends React.Component {
   state = {
     title: this.props.feed.title,
     content: this.props.feed.content,
-    imageUrl: [],
-    videoUrl: [],
+    imageUrl: this.props.feed.imageUrl,
+    videoUrl: this.props.feed.videoUrl,
     editMode: false,
     filePreview: "",
     imageDiv: true,
@@ -26,8 +26,101 @@ class FeedCard extends React.Component {
     images: [],
     selectedImg: null,
     //SweetAlert
-    alert: null
+    alert: null,
+    //popoverBtn
+    popover: true,
+    //Likes
+    liked: false,
+    likeCount: 0,
+    likedModal: false,
+    likeUserId: 0
   };
+
+  componentDidMount() {
+    if (this.props.currentUser) {
+      //SETTING LIKE COUNTS
+      this.setState({
+        liked: this.props.feed.liked,
+        likeCount: this.props.feed.likeCount
+      });
+
+      const imageArray = this.props.feed.imageUrl;
+      const mappedImageArray = imageArray.map(image => ({
+        img: image,
+        type: "image"
+      }));
+      const videoArray = this.props.feed.videoUrl;
+      const mappedVideoArray = videoArray.map(video => ({
+        img: video,
+        type: "video",
+        col: null
+      }));
+      if (mappedImageArray.length == 1 && mappedVideoArray.length == 0) {
+        mappedImageArray[0].type = "imageLarge";
+      }
+      if (mappedImageArray.length == 0 && mappedVideoArray.length == 1) {
+        mappedVideoArray[0].type = "videoLarge";
+      }
+      const mixedArray = mappedImageArray.concat(mappedVideoArray);
+      switch (mixedArray.length) {
+        case 8:
+          mixedArray[7].col = 8;
+          mixedArray[6].col = 4;
+          mixedArray[5].col = 4;
+          mixedArray[4].col = 8;
+          mixedArray[3].col = 8;
+          mixedArray[2].col = 4;
+          mixedArray[1].col = 4;
+          mixedArray[0].col = 8;
+          break;
+        case 7:
+          mixedArray[6].col = 8;
+          mixedArray[5].col = 4;
+          mixedArray[4].col = 4;
+          mixedArray[3].col = 8;
+          mixedArray[2].col = 4;
+          mixedArray[1].col = 4;
+          mixedArray[0].col = 4;
+          break;
+        case 6:
+          mixedArray[5].col = 8;
+          mixedArray[4].col = 4;
+          mixedArray[3].col = 4;
+          mixedArray[2].col = 8;
+          mixedArray[1].col = 8;
+          mixedArray[0].col = 4;
+          break;
+        case 5:
+          mixedArray[4].col = 8;
+          mixedArray[3].col = 4;
+          mixedArray[2].col = 4;
+          mixedArray[1].col = 4;
+          mixedArray[0].col = 4;
+          break;
+        case 4:
+          mixedArray[3].col = 8;
+          mixedArray[2].col = 4;
+          mixedArray[1].col = 4;
+          mixedArray[0].col = 8;
+          break;
+        case 3:
+          mixedArray[2].col = 4;
+          mixedArray[1].col = 4;
+          mixedArray[0].col = 4;
+          break;
+        case 2:
+          mixedArray[0].col = 8;
+          mixedArray[1].col = 4;
+          break;
+        case 1:
+          mixedArray[0].col = 12;
+          break;
+      }
+      // this.shuffle(mixedArray);
+
+      this.setState({ mixedArray });
+    }
+  }
 
   toggle = () => {
     this.setState({
@@ -37,7 +130,8 @@ class FeedCard extends React.Component {
   handleOnClickEditToggle = () => {
     this.setState({
       editMode: !this.state.editMode,
-      imageDiv: true
+      imageDiv: true,
+      popover: !this.state.popover
     });
   };
 
@@ -84,104 +178,6 @@ class FeedCard extends React.Component {
     });
   };
 
-  shuffle = array => {
-    let currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  };
-
-  componentWillMount() {
-    const imageArray = this.props.feed.imageUrl;
-    const mappedImageArray = imageArray.map(image => ({
-      img: image,
-      type: "image"
-    }));
-    const videoArray = this.props.feed.videoUrl;
-    const mappedVideoArray = videoArray.map(video => ({
-      img: video,
-      type: "video",
-      col: null
-    }));
-    if (mappedImageArray.length == 1 && mappedVideoArray.length == 0) {
-      mappedImageArray[0].type = "imageLarge";
-    }
-    if (mappedImageArray.length == 0 && mappedVideoArray.length == 1) {
-      mappedVideoArray[0].type = "videoLarge";
-    }
-    const mixedArray = mappedImageArray.concat(mappedVideoArray);
-    switch (mixedArray.length) {
-      case 8:
-        mixedArray[7].col = 8;
-        mixedArray[6].col = 4;
-        mixedArray[5].col = 4;
-        mixedArray[4].col = 8;
-        mixedArray[3].col = 8;
-        mixedArray[2].col = 4;
-        mixedArray[1].col = 4;
-        mixedArray[0].col = 8;
-        break;
-      case 7:
-        mixedArray[6].col = 8;
-        mixedArray[5].col = 4;
-        mixedArray[4].col = 4;
-        mixedArray[3].col = 8;
-        mixedArray[2].col = 4;
-        mixedArray[1].col = 4;
-        mixedArray[0].col = 4;
-        break;
-      case 6:
-        mixedArray[5].col = 8;
-        mixedArray[4].col = 4;
-        mixedArray[3].col = 4;
-        mixedArray[2].col = 8;
-        mixedArray[1].col = 8;
-        mixedArray[0].col = 4;
-        break;
-      case 5:
-        mixedArray[4].col = 8;
-        mixedArray[3].col = 4;
-        mixedArray[2].col = 4;
-        mixedArray[1].col = 4;
-        mixedArray[0].col = 4;
-        break;
-      case 4:
-        mixedArray[3].col = 8;
-        mixedArray[2].col = 4;
-        mixedArray[1].col = 4;
-        mixedArray[0].col = 8;
-        break;
-      case 3:
-        mixedArray[2].col = 4;
-        mixedArray[1].col = 4;
-        mixedArray[0].col = 4;
-        break;
-      case 2:
-        mixedArray[0].col = 8;
-        mixedArray[1].col = 4;
-        break;
-      case 1:
-        mixedArray[0].col = 12;
-        break;
-    }
-    // this.shuffle(mixedArray);
-
-    this.setState({ mixedArray });
-  }
-
   toggleImgModal = imgIndex => {
     this.setState({
       selectedImg: imgIndex,
@@ -206,99 +202,127 @@ class FeedCard extends React.Component {
     this.onClickCancel();
   };
 
-  handleUpdateFeed = () => {
-    this.props.updateFeed(this.props.feed.id);
-  };
   delete = () => {
     const getAlert = () => (
-      <SweetAlert
-        warning
-        showCancel
-        confirmBtnText="Yes, delete it!"
-        confirmBtnBsStyle="danger"
-        cancelBtnBsStyle="default"
-        title={`Are you sure you want to delete `}
-        onConfirm={this.handleDeleteFeed} //what function you want on confirm
-        onCancel={this.onClickCancel} //what function you want on cancel
-      />
+      this.feedRef.current.scrollIntoView({ block: "start", behavior: "smooth" }),
+      (
+        <SweetAlert
+          warning
+          showCancel
+          confirmBtnText="Yes, delete it!"
+          confirmBtnBsStyle="danger"
+          cancelBtnBsStyle="default"
+          title={`Are you sure you want to delete `}
+          onConfirm={this.handleDeleteFeed} //what function you want on confirm
+          onCancel={this.onClickCancel} //what function you want on cancel
+          //focusConfirmBtn={false}
+        />
+      )
     );
     this.setState({ alert: getAlert() });
   };
 
   onClickCancel = () => {
     this.setState({ alert: null });
+    this.feedRef.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+
+  feedRef = React.createRef();
+
+  handleOnClickViewLikedUsers = () => {
+    this.props.handleViewLikedUsers(this.props.feed.id);
+    this.setState({
+      likedModal: !this.state.likedModal
+    });
+  };
+
+  handleOnClickLike = () => {
+    this.setState({
+      liked: true,
+      likedCount: this.state.likeCount++
+    });
+    this.props.handleSubmitLike({
+      userId: this.props.currentUser.id,
+      postId: this.props.feed.id
+    });
+  };
+
+  handleOnClickUnlike = () => {
+    this.setState({
+      liked: false,
+      likeCount: this.state.likeCount - 1
+    });
+    this.props.handleDeleteLike(this.props.feed.likedId);
   };
 
   render() {
     const data = this.props.feed;
     return (
-      <div className="card">
+      <div className="card shadow" ref={this.feedRef}>
         <div className="cus-card-header" style={{ borderLeft: `8px solid lightblue` }}>
           <div className="user-profile d-flex flex-row align-items-center">
             <img alt="..." src={data.avatarUrl} className="user-avatar rounded-circle" />
             <div className="user-detail cus-user-detail">
               <h4 className="user-name">{data.firstName}</h4>
-              <p className="user-description">school and sport type</p>
+              {data.SportPosition ? <p className="user-description">{data.sportInfo[0].SportPosition}</p> : <p />}
             </div>
-            <div className="text-right">
-              {/* <IfLoginStatus loggedIn={true} isAdmin={true}>
-                <Popover
-                  isOpen={this.state.popoverOpen}
-                  popover={this.props.popover}
-                  handleDelete={() => this.props.handleDelete(feed.id)}
-                  handleUpdate={() => this.props.handleUpdateFeed(feed.id)}
-                />
-              </IfLoginStatus> */}
-              {data.authorId === this.props.currentUser.id && (
-                <Popover
-                  isOpen={this.state.popoverOpen}
-                  popover={this.props.popover}
-                  handleDelete={this.delete}
-                  handleUpdate={this.handleOnClickEditToggle}
-                />
-              )}
-            </div>
+            {this.state.popover ? (
+              <div className="text-right">
+                {data.authorId === this.props.currentUser.id && (
+                  <Popover
+                    isOpen={this.state.popoverOpen}
+                    popover={this.props.popover}
+                    handleDelete={this.delete}
+                    handleUpdate={this.handleOnClickEditToggle}
+                  />
+                )}
+              </div>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
         {this.state.editMode ? (
           <React.Fragment>
-            <MultiFileUploader
-              onImageUrlChange={this.handleImageUrlChange}
-              onVideoUrlChange={this.handleVideoUrlChange}
-              incommingImageArray={data.imageUrl}
-              incommingVideoArray={data.videoUrl}
-            />
-            <h4> Title </h4>
-            <input
-              className="form-control"
-              type="text"
-              value={this.state.title}
-              onChange={e => this.setState({ title: e.target.value })}
-            />
-
-            <div className="mt-4">
-              <h4> Content</h4>
-              <textarea
-                className="form-control"
-                rows="8"
-                placeholder="Share your thoughts, moments and tips "
-                value={this.state.content}
-                onChange={e => this.setState({ content: e.target.value })}
+            <div className="p-4">
+              <MultiFileUploader
+                onImageUrlChange={this.handleImageUrlChange}
+                onVideoUrlChange={this.handleVideoUrlChange}
+                incommingImageArray={data.imageUrl}
+                incommingVideoArray={data.videoUrl}
               />
-              <br />
-            </div>
-            <div className="btn-container text-right">
-              <button
-                type="button"
-                className="jr-btn jr-btn-default btn btn-default"
-                onClick={this.handleOnClickEditToggle}
-              >
-                Cancel
-              </button>
-              <button type="button" className="jr-btn bg-success btn btn-success" onClick={this.handleOnClickUpdate}>
-                <i className="zmdi zmdi-edit zmdi-hc-fw" />
-                <span className="btn-name card-text">Update</span>
-              </button>
+              <h4> Title </h4>
+              <input
+                className="form-control"
+                type="text"
+                value={this.state.title}
+                onChange={e => this.setState({ title: e.target.value })}
+              />
+
+              <div className="mt-4">
+                <h4> Content</h4>
+                <textarea
+                  className="form-control"
+                  rows="8"
+                  placeholder="Share your thoughts, moments and tips "
+                  value={this.state.content}
+                  onChange={e => this.setState({ content: e.target.value })}
+                />
+                <br />
+              </div>
+              <div className="btn-container text-right">
+                <button
+                  type="button"
+                  className="jr-btn jr-btn-default btn btn-default"
+                  onClick={this.handleOnClickEditToggle}
+                >
+                  Cancel
+                </button>
+                <button type="button" className="jr-btn bg-success btn btn-success" onClick={this.handleOnClickUpdate}>
+                  <i className="zmdi zmdi-edit zmdi-hc-fw" />
+                  <span className="btn-name card-text">Update</span>
+                </button>
+              </div>
             </div>
           </React.Fragment>
         ) : (
@@ -390,20 +414,17 @@ class FeedCard extends React.Component {
                 </div>
                 <p className="card-text text-muted">{data.content}</p>
               </blockquote>
+              <div className="d-flex justify-content-between mt-3 pl-2">
+                <ViewLikesButton count={this.state.likeCount} onClick={this.handleOnClickViewLikedUsers} />
+                {this.state.liked === true ? (
+                  <LikedButton onClick={this.handleOnClickUnlike} />
+                ) : (
+                  <LikeButton onClick={this.handleOnClickLike} />
+                )}
+              </div>
             </div>
             <div className="card-footer pl-2 pr-0">
               <CommentsContainer postId={data.id} />
-            </div>
-
-            <div className="btn-container text-right">
-              <button
-                type="button"
-                className="jr-btn jr-btn-default btn btn-default"
-                onClick={this.handleOnClickEditToggle}
-              >
-                <i className="zmdi zmdi-edit zmdi-hc-fw" />
-                <span className="btn-name card-text">Edit</span>
-              </button>
             </div>
           </React.Fragment>
         )}

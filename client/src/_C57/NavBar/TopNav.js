@@ -4,7 +4,6 @@ import { Button, Popover, PopoverBody } from "reactstrap";
 import { newEmailConfirm } from "../../services/registerLogin.service";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-
 import { Link } from "react-router-dom"; // Added by RR
 
 class TopNav extends React.Component {
@@ -41,7 +40,7 @@ class TopNav extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="shadow">
         <NotificationContainer />
         <div className="app-main-header appNav">
           <div className="app-toolbar d-flex justify-content-center justify-content-md-between align-items-center mx-md-3 m-0">

@@ -1,8 +1,9 @@
 import React from "react";
+import "./Button.css";
 
 const SaveButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary mb-0" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-upload zmdi-hc-lg" />
       &nbsp;&nbsp;Save
     </button>
@@ -11,7 +12,7 @@ const SaveButton = props => {
 
 const SubmitButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary" onClick={props.onClick}>
       {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
       {props.name}
     </button>
@@ -22,7 +23,7 @@ const SubmitButtonWide = props => {
   return (
     <button
       type="button"
-      className="jr-btn jr-btn-primary text-uppercase btn-block btn btn-primary"
+      className="jr-btn jr-btn-primary text-uppercase btn-block btn rs-btn-primary"
       onClick={props.onClick}
     >
       {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
@@ -50,7 +51,7 @@ const EditButton = props => {
 
 const CreateButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary mb-0" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-plus zmdi-hc-lg" />
       &nbsp;&nbsp;Add&nbsp;
       {props.name}
@@ -58,6 +59,14 @@ const CreateButton = props => {
   );
 };
 
+const DeleteButtonBorder = props => {
+  return (
+    <button type="button" className="jr-btn jr-btn-default btn btn-default" onClick={props.onClick}>
+      <i className="zmdi zmdi-delete zmdi-hc-lg" />
+      &nbsp;&nbsp;Delete {props.name}
+    </button>
+  );
+};
 const DeleteButton = props => {
   return (
     <button type="button" className="jr-btn jr-flat-btn btn btn-default mb-0" onClick={props.onClick}>
@@ -112,8 +121,8 @@ const MessageButton = props => {
 
 const StatsButton = props => {
   return (
-    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo">
-      <i className="zmdi zmdi-open-in-new zmdi-hc-lg" /> &nbsp;Stats
+    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo" onClick={props.onClick}>
+      <i className="zmdi zmdi-link zmdi-hc-fw" /> &nbsp;Links
     </button>
   );
 };
@@ -183,6 +192,7 @@ export {
   CloseButtonText,
   SubmitButton,
   SubmitButtonWide,
+  DeleteButtonBorder,
   LikeButton,
   LikedButton,
   AddCommentsButton,

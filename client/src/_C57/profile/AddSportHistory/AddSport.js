@@ -1,9 +1,9 @@
 import React from "react";
 import { getAllSports, getClassYear, getSportLevels } from "./AddSportService";
-import AutoComplete from "../../CustomComponents/SchoolAutoComplete/AutoComplete";
 import AddSportName from "./AddSportName";
 import { Button } from "reactstrap";
 import { schoolSearch } from "../../Admin/SchoolAdmin/SchoolAdminServer";
+import SchoolAutoComplete from "../../CustomComponents/SchoolAutoComplete/AutoComplete";
 
 class AddSport extends React.Component {
   state = {
@@ -17,7 +17,8 @@ class AddSport extends React.Component {
     test: "",
     sportChoice: "",
     selectedOption: "",
-    schoolNameId: ""
+    schoolId: "",
+    schoolName: ""
   };
 
   componentDidMount() {
@@ -27,7 +28,6 @@ class AddSport extends React.Component {
         getClassYear().then(
           res => this.setState({ classYearOptions: res.data.item.pagedItems }),
           getSportLevels().then(res => {
-            console.log(res.data);
             this.setState({ sportLevelOptions: res.data });
           })
         );
@@ -43,12 +43,6 @@ class AddSport extends React.Component {
     });
   };
 
-  onSchoolSelect = e => {
-    this.setState({
-      schoolName: e
-    });
-  };
-
   handleChangeSport = e => {
     this.props.onHandleChange(e);
     const key = e.target.name;
@@ -57,25 +51,18 @@ class AddSport extends React.Component {
       [key]: val
     });
     const array = this.state.sportOptions;
-    let something = array.filter(sport => {
+    let sportFilter = array.filter(sport => {
       return sport.id == val;
     });
-    this.setState({ sportPositionOptions: something[0].positions });
+    this.setState({ sportPositionOptions: sportFilter[0].positions });
   };
 
   handleChangeSportPosition = e => {
     if (!this.state.newSportPositionList) {
       const val = e.target.value;
-      /* let sportPositionIdArray = [...this.props.sportPositionId, val]; */
-      console.log(val, "zzzzzzzzz");
       const newSportPositionId = this.state.sportPositionOptions.filter(position => {
         return position.id == val;
       });
-      /* let sportPositionIdArray = [];
-      sportPositionIdArray.push(newSportPositionId[0]); */
-      /* let sportPositionIdToParent = [];
-      sportPositionIdToParent.push(val); */
-      /* this.props.onSportPositionIdChange(sportPositionIdToParent); */
       this.props.onSportPositionIdChange(newSportPositionId);
       this.setState({ sportPositionId: newSportPositionId });
       this.state.sportPositionId.push(newSportPositionId[0]);
@@ -89,12 +76,9 @@ class AddSport extends React.Component {
       const newSportPositionId = this.state.sportPositionOptions.filter(position => {
         return position.id == val;
       });
-      console.log(...this.props.sportPositionId, this.props.sportPositionId);
       let sportPositionIdArray = [...this.props.sportPositionId, newSportPositionId[0]];
-      console.log(this.props.onSportPositionIdChange(sportPositionIdArray), "MOST IMPORTANT THING RIGHT NOW");
       let sportPositionIdArrayCopy = sportPositionIdArray.splice();
       sportPositionIdArrayCopy.push(newSportPositionId[0]);
-      console.log(sportPositionIdArray, "WHAT IS HAPPENING???");
       this.setState({ sportPositionId: sportPositionIdArray });
       this.props.onSportPositionIdChange(sportPositionIdArray);
       this.state.sportPositionId.push(newSportPositionId[0]);
@@ -106,12 +90,12 @@ class AddSport extends React.Component {
   };
 
   callback = () => {
-    return schoolSearch(0, this.state.schoolNameId);
+    return schoolSearch(0, this.state.schoolName);
   };
 
   onChange = value => {
     this.setState({
-      schoolNameId: value
+      schoolName: value
     });
   };
 
@@ -134,21 +118,26 @@ class AddSport extends React.Component {
     return (
       <React.Fragment>
         <div className="row">
-          <div className="col-md-12 mb-3">
+          <div className="col-md-12 mb-1">
             <div className="form-group">
               <label>Sport Name</label>
               <select
                 className="form-control form-control-md"
                 type="text"
                 value={this.state.sportId}
-                placeholder="Type Category Id Here"
                 name="sportId"
                 onChange={this.handleChangeSport}
               >
-                <option>Select Sport</option>
-                {this.state.sportOptions.map(sport => (
-                  <AddSportName sport={sport} key={sport.id} />
-                ))}
+                {this.state.sportOptions != "" ? (
+                  <React.Fragment>
+                    <option>Select Sport</option>
+                    {this.state.sportOptions.map(sport => (
+                      <AddSportName sport={sport} key={sport.id} />
+                    ))}
+                  </React.Fragment>
+                ) : (
+                  <option>Loading Options...</option>
+                )}
               </select>
             </div>
           </div>
@@ -156,7 +145,7 @@ class AddSport extends React.Component {
         {this.state.sportPositionOptions && (
           <React.Fragment>
             <div className="row">
-              <div className="col-md-12 mb-3">
+              <div className="col-md-12 mb-1">
                 <div className="form-group">
                   <label>Sport Position</label>
                   <select
@@ -179,20 +168,30 @@ class AddSport extends React.Component {
                           </option>
                         ))}
                   </select>
-                  {this.state.sportPositionId &&
-                    this.props.sportPositionId.map(position => (
-                      <div name={position.id} key={position.id}>
-                        {position.code}
-                        <Button onClick={() => this.deletePosition(position)} color="red">
-                          X
-                        </Button>
-                      </div>
-                    ))}
+                  {this.state.sportPositionId ? (
+                    <div className="row justify-content-center pt-2">
+                      {" "}
+                      Selected Positions:
+                      {this.state.sportPositionId.map(position => (
+                        <div name={position.id} key={position.id} className="px-2">
+                          <a
+                            href="javascript:void(0)"
+                            onClick={() => this.deletePosition(position)}
+                            style={{ color: "red" }}
+                            className="float-right pl-1"
+                          >
+                            <p style={{ fontSize: "xx-small" }}>x</p>
+                          </a>
+                          {position.code}
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>
             <div className="row">
-              <div className="col-md-12 mb-3">
+              <div className="col-md-12 mb-1">
                 <div className="form-group">
                   <label>Competition Level</label>
                   <select
@@ -212,9 +211,8 @@ class AddSport extends React.Component {
                 </div>
               </div>
             </div>
-            <br />
             <div className="row">
-              <div className="col-md-12 mb-3">
+              <div className="col-md-12 mb-1">
                 <div className="form-group">
                   <label>Class Year</label>
                   <select
@@ -234,57 +232,61 @@ class AddSport extends React.Component {
                 </div>
               </div>
             </div>
-            <br />
-            <label>What team did you play for?</label>
-            <div className="radio">
-              <label>
-                <input
-                  type="radio"
-                  value="1"
-                  name="playedAt"
-                  checked={this.props.selectedOption === "1"}
-                  onChange={this.props.handleOptionChange}
-                />
-                School
-              </label>
+            <div className="text-center">
+              <label>What team did you play for?</label>
             </div>
-            <div className="radio">
-              <label>
-                <input
-                  type="radio"
-                  value="2"
-                  name="playedAt"
-                  checked={this.props.selectedOption === "2"}
-                  onChange={this.props.handleOptionChange}
-                />
-                Club
-              </label>
-            </div>
-            <div className="radio">
-              <label>
-                <input
-                  type="radio"
-                  value="3"
-                  name="playedAt"
-                  checked={this.props.selectedOption === "3"}
-                  onChange={this.props.handleOptionChange}
-                />
-                Other
-              </label>
+            <div className="row justify-content-center">
+              <div className="radio">
+                <label>
+                  <input
+                    type="radio"
+                    value="1"
+                    name="playedAt"
+                    checked={this.props.selectedOption === "1"}
+                    onChange={this.props.handleOptionChange}
+                  />
+                  School
+                </label>
+              </div>
+              <div className="radio px-3">
+                <label>
+                  <input
+                    type="radio"
+                    value="2"
+                    name="playedAt"
+                    checked={this.props.selectedOption === "2"}
+                    onChange={this.props.handleOptionChange}
+                  />
+                  Club
+                </label>
+              </div>
+              <div className="radio">
+                <label>
+                  <input
+                    type="radio"
+                    value="3"
+                    name="playedAt"
+                    checked={this.props.selectedOption === "3"}
+                    onChange={this.props.handleOptionChange}
+                  />
+                  Other
+                </label>
+              </div>
             </div>
           </React.Fragment>
         )}
         {this.props.selectedOption == 1 && (
           <React.Fragment>
-            <br />
             <label>School</label>
-            <AutoComplete
+
+            <SchoolAutoComplete
+              includeCityState={true}
               onHandleSchoolSelect={this.props.onHandleSchoolSelect}
               numberOfCharacters={5} // when you want callback function to fire
               callBack={this.callback} // the call back function in the parent you want called
-              value={this.state.schoolNameId} // value you want changed
+              value={this.state.schoolName} // value you want changed
               onChange={this.onChange} // onChange function in the parent
-              name={this.state.schoolNameId} // name
+              name="schoolName" // name
               limit={10} // limit the results on the dropdown, recommend 10
               className={"form-control"} // any classnames you want to include in the input
               resultSetNumber={1} // res.data.resultSets[*] * = the number your resultsets come back on
@@ -292,55 +294,43 @@ class AddSport extends React.Component {
           </React.Fragment>
         )}
         {this.props.selectedOption == 2 && (
-          <React.Fragment>
-            <div className="col-md-4 col-12">
-              <div className="form-group">
-                <label htmlFor="clubName">Club Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="clubName"
-                  placeholder="Club Name"
-                  value={this.props.clubName}
-                  onChange={this.props.onHandleChange}
-                />
-              </div>
-            </div>
-          </React.Fragment>
+          <div className="form-group">
+            <label htmlFor="clubName">Club Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="clubName"
+              placeholder="Club Name"
+              value={this.props.clubName}
+              onChange={this.props.onHandleChange}
+            />
+          </div>
         )}
         {this.props.selectedOption == 3 && (
-          <React.Fragment>
-            <div className="col-md-8 col-12">
-              <div className="form-group">
-                <label htmlFor="teamName">Team Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="teamName"
-                  value={this.props.teamName}
-                  onChange={this.props.onHandleChange}
-                />
-              </div>
-            </div>
-          </React.Fragment>
+          <div>
+            <label htmlFor="teamName">Team Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="teamName"
+              value={this.props.teamName}
+              onChange={this.props.onHandleChange}
+            />
+          </div>
         )}
         {/* needs to take into account the different selection of club/school/other and reset */}
-        {(this.props.schoolNameId || this.props.clubName || this.props.teamName) && (
-          <React.Fragment>
-            <br />
-            <div className="col-md-8 col-12">
-              <div className="form-group">
-                <label htmlFor="commments">Comments</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="comments"
-                  value={this.props.comments}
-                  onChange={this.props.onHandleChange}
-                />
-              </div>
-            </div>
-          </React.Fragment>
+        {(this.props.schoolId || this.props.clubName || this.props.teamName) && (
+          <div>
+            <label htmlFor="commments">Comments</label>
+            <textarea
+              type="text"
+              className="form-control"
+              name="comments"
+              placeholder="Enter comment here"
+              value={this.props.comments}
+              onChange={this.props.onHandleChange}
+            />
+          </div>
         )}
       </React.Fragment>
     );

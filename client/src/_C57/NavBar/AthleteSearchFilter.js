@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Button, Form, Input, InputGroup, FormGroup, Label } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import options from "../profile/data";
+import { FormGroup, Label, Input } from "reactstrap";
 import { connect } from "react-redux";
 import AutoComplete from "../CustomComponents/SchoolAutoComplete/AutoComplete";
 import { schoolSearch } from "../Admin/SchoolAdmin/SchoolAdminServer";
@@ -19,6 +19,7 @@ class AthleteSearchFilter extends React.Component {
     states: [],
     classYear: [],
     sportPosition: [],
+    sport: [],
     school: ""
   };
 
@@ -32,12 +33,29 @@ class AthleteSearchFilter extends React.Component {
     });
   };
 
+  handleChange = e => {
+    let key = e.target.name;
+    let val = e.target.value;
+
+    this.setCriteriaProperties({
+      [key]: val
+    });
+  };
+
+  setCriteriaProperties = properties => {
+    this.props.setSearchCriteria({
+      ...this.props.searchCriteria,
+      ...properties
+    });
+  };
+
   componentDidMount() {
     const statesArray = [];
     const classYearArray = [];
+    const sportArray = [];
     const sportPositionArray = [];
 
-    this.props.dropdownOptions.states.map(data => {
+    this.props.dropdownOptions.state.map(data => {
       statesArray.push(data.name);
     });
     this.props.dropdownOptions.classYear.map(data => {
@@ -45,6 +63,9 @@ class AthleteSearchFilter extends React.Component {
     });
     this.props.dropdownOptions.sportPosition.map(data => {
       sportPositionArray.push(data.name);
+    });
+    this.props.dropdownOptions.sport.map(data => {
+      sportArray.push(data.sport);
     });
     this.setState({
       states: statesArray,
@@ -56,13 +77,27 @@ class AthleteSearchFilter extends React.Component {
   render() {
     return (
       //---------------------Athlete Search Filter-------------------------
-
       <div className="row">
         <div className="col-md-12">
           <h3 className="ml-2 pr-4 mt-2">
             <b>Refine Your Search</b>
           </h3>
           <div className="d-flex flex-row mt-2 justify-content-center mb-2">
+            <h4>Sport</h4>
+            <FormGroup>
+              <Input
+                type="select"
+                name="sportFilter"
+                value={this.props.searchCriteria.sportFilter}
+                onChange={this.handleChange}
+              >
+                <option />
+                {this.props.dropdownOptions.sport.map(sport => {
+                  return <option value={sport.id}>{sport.name}</option>;
+                })}
+              </Input>
+            </FormGroup>
+            &nbsp;
             <h4>Location&nbsp;</h4>
             <Typeahead
               className="pr-3"

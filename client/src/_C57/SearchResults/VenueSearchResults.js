@@ -2,8 +2,7 @@ import React from "react";
 import Axios from "../../../node_modules/axios";
 import { getVenueBySearchByUser } from "services/venuesService";
 import { connect } from "react-redux";
-import VenueMap from "../Venues/VenueMap";
-import Geocode from "react-geocode";
+import VenueMap from "../Admin/Venues/VenueMap";
 
 class VenueSearchResults extends React.Component {
   state = {
@@ -28,15 +27,6 @@ class VenueSearchResults extends React.Component {
 
     const address = searchCriteria.data;
 
-    // Geocode.fromAddress(address)
-    //   .then(response => {
-    //     const { lat, lng } = response.results[0].geometry.location;
-    //     data.lat = lat;
-    //     data.lon = lng;
-    //     console.log("City: " + address);
-    //     console.log("Lat: " + data.lat);
-    //     console.log("Lng: " + data.lon);
-
     getVenueBySearchByUser(
       searchCriteria.searchString,
       searchCriteria.radius ? searchCriteria.radius : null,
@@ -54,10 +44,6 @@ class VenueSearchResults extends React.Component {
       .catch(() => {
         console.log("Ajax error");
       });
-    // })
-    // .catch(err => {
-    //   console.log(err);
-    // });
   };
 
   render() {
@@ -76,15 +62,6 @@ class VenueSearchResults extends React.Component {
           venues.map(venue => {
             return (
               <div className="jr-card user-list row venuetag">
-                {/* <div className="col-lg-1">
-                  <img
-                    // src={this.props.venue.Logo}
-
-                    className="size-100 user-avatar"
-                    src="assets/images/error.png"
-                  />
-                </div> */}
-
                 <div className="user-list  col-lg-6">
                   <h4>
                     <strong>{venue.Name} </strong>

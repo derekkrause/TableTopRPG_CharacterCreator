@@ -13,7 +13,7 @@ import {
   HighlightButton
 } from "../CustomComponents/Button";
 import Popover from "../CustomComponents/Popover";
-import ProfileStatsModal from "./ProfileStatsModal";
+import ProfileLinksModal from "./ProfileLinksModal";
 
 class ProfileInfo extends React.Component {
   state = {
@@ -46,6 +46,13 @@ class ProfileInfo extends React.Component {
   onChange = value => {
     this.setState({
       schoolName: value
+    });
+  };
+
+  toggle = () => {
+    console.log("clicked");
+    this.setState({
+      statsModal: !this.state.statsModal
     });
   };
 
@@ -149,12 +156,14 @@ class ProfileInfo extends React.Component {
                   </div>
                   <div className="col-md-2" />
                   <div className="text-right col-md-6">
-                    <button type="button" onClick={this.props.toggleStatsModal}>
-                      Stats
-                    </button>
-                    <button type="button">Message</button>
-                    {/* <StatsButton />
-                    <MessageButton /> */}
+                    <StatsButton onClick={this.toggle} />
+                    <MessageButton />
+                    <ProfileLinksModal
+                      statsModal={this.state.statsModal}
+                      userId={this.props.userId}
+                      toggle={this.toggle}
+                      currentProfile={this.props.currentProfile}
+                    />
                   </div>
                 </div>
               </div>

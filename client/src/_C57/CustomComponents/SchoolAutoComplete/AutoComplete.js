@@ -22,9 +22,14 @@ class SchoolAutoComplete extends React.Component {
         console.log(response, "response from ajax");
 
         if (currentAjaxCallNum === this.latestAjaxCallNum) {
-          this.setState({
-            options: response.data.resultSets[0]
-          });
+          this.setState(
+            {
+              options: response.data.resultSets[1]
+            },
+            () => {
+              console.log(this.state.options);
+            }
+          );
         }
       });
     }, this.props.delay || 400);
@@ -40,7 +45,6 @@ class SchoolAutoComplete extends React.Component {
   };
 
   handleDropdownSelect = e => {
-    console.log("test", e.target.id);
     this.props.onChange(e.target.innerHTML);
     this.setState({ options: null });
     {
@@ -59,7 +63,6 @@ class SchoolAutoComplete extends React.Component {
           width={this.props.width || null}
           height={this.props.height || null}
           name={this.props.name}
-          list="schools"
           className={this.props.className}
           placeholder={this.props.placeholder || null}
           onKeyPress={this.props.onKeyPress || null}
@@ -78,7 +81,7 @@ class SchoolAutoComplete extends React.Component {
                     {options.Name}
                     {this.state.needCityState ? (
                       <React.Fragment>
-                        ,{options.City}, {options.State}
+                        , {options.City}, {options.State}
                       </React.Fragment>
                     ) : null}
                   </div>

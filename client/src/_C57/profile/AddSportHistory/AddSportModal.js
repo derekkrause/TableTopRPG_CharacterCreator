@@ -3,27 +3,20 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import AddSport from "./AddSport";
 
 class AddSportModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false
-    };
+  state = {
+    modal: false
+  };
 
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
+  static getDerivedStateFromProps(props, state) {
+    if (props.modal !== state.modal) {
+      return { modal: props.modal };
+    }
+    return null;
   }
 
   render() {
     return (
       <div className="text-center" style={{ width: "400px" }}>
-        <Button className="jr-btn btn-primary text-white" color="primary" onClick={this.toggle}>
-          Add Sport
-        </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader>Add Sport</ModalHeader>
           <ModalBody>
@@ -32,7 +25,7 @@ class AddSportModal extends React.Component {
               classYearId={this.props.classYearId}
               sportPositionId={this.props.sportPositionId}
               clubName={this.props.clubName}
-              schoolNameId={this.props.schoolNameId}
+              schoolId={this.props.schoolId}
               teamName={this.props.teamName}
               comments={this.props.comments}
               selectedOption={this.props.selectedOption}
@@ -44,11 +37,11 @@ class AddSportModal extends React.Component {
             />
           </ModalBody>
           <ModalFooter>
+            <Button color="secondary" onClick={this.props.onAddNewToggle}>
+              Cancel
+            </Button>
             <Button color="primary" onClick={this.props.onSubmitSport}>
               Add Sport Record
-            </Button>{" "}
-            <Button color="secondary" onClick={this.toggle}>
-              Cancel
             </Button>
           </ModalFooter>
         </Modal>

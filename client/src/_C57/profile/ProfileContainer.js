@@ -5,10 +5,11 @@ import { getAthleteById, putAthleteById } from "../../services/athlete.service";
 import { getClassYear } from "./AddSportHistory/AddSportService";
 import "./Profile.css";
 import ProfileBio from "./ProfileBio";
+import AthleteHistoryCarouselFinal from "./AthleteHistoryCarouselFinal";
 import { connect } from "react-redux";
+import AthleteAcademics from "./AthleteAcademics";
 import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
 import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
-import AthleteAcademics from "./AthleteAcademics";
 
 class ProfileContainer extends React.Component {
   state = {
@@ -41,8 +42,8 @@ class ProfileContainer extends React.Component {
     schoolId: 0,
     title: "",
     classYearOptions: [],
-    id: 1,
-    userId: 1,
+    id: null,
+    userId: null,
     following: false,
     highlighting: false
   };
@@ -64,7 +65,6 @@ class ProfileContainer extends React.Component {
 
   componentDidMount() {
     selectFollowingById(this.props.currentUser.id).then(res => {
-      console.log(res, "following call");
       if (res.data.resultSets) {
         for (let i = 0; i < res.data.resultSets[0].length; i++) {
           if (res.data.resultSets[0][i].UserId == this.props.match.params.id) {
@@ -75,7 +75,6 @@ class ProfileContainer extends React.Component {
     });
 
     selectHighlightById(this.props.match.params.id).then(res => {
-      console.log(res, "hightlights");
       if (res.data.resultSets) {
         for (let i = 0; i < res.data.resultSets[0].length; i++) {
           if (res.data.resultSets[0][i].HighlightId == this.props.currentUser.id) {
@@ -86,10 +85,7 @@ class ProfileContainer extends React.Component {
     });
 
     getAthleteById(this.props.match.params.id).then(response => {
-      console.log(response);
-
       const info = response.data.item.athletes[0];
-      console.log(info);
       const sportPositions = [];
       const heightFeet = Math.floor(info.Height / 12);
       const heightInches = info.Height % 12;
@@ -149,10 +145,7 @@ class ProfileContainer extends React.Component {
       academicNotes: this.state.academicNotes,
       shortBio: this.state.bio
     };
-    console.log(payload);
-    putAthleteById(payload).then(res => {
-      console.log(res);
-    });
+    putAthleteById(payload).then(res => {});
   };
 
   onHandleSchoolSelect = id => {
@@ -160,6 +153,7 @@ class ProfileContainer extends React.Component {
       schoolId: id
     });
   };
+
   followUser = () => {
     const payload = {
       followerId: this.props.currentUser.id,
@@ -175,6 +169,7 @@ class ProfileContainer extends React.Component {
       });
     }
   };
+
   highlightUser = () => {
     const payload = {
       highlightId: this.props.currentUser.id,
@@ -237,6 +232,7 @@ class ProfileContainer extends React.Component {
                 weight={this.state.weight}
                 gpa={this.state.gpa}
                 bio={this.state.bio}
+                currentProfile={this.props.match.params.id}
                 onChange={this.onChange}
                 handleChange={this.handleChange}
                 handleSaveProfile={this.handleSaveProfile}
@@ -267,7 +263,7 @@ class ProfileContainer extends React.Component {
             <div className="row">
               <div className="col-md-7 col-sm-12" style={{ paddingLeft: "0px" }}>
                 <div className="jr-card profileJrCardTwo">
-                  <h2>history</h2>
+                  <AthleteHistoryCarouselFinal />
                 </div>
               </div>
               <div className="col-md-5 col-sm-12" style={{ paddingRight: "0px" }}>
