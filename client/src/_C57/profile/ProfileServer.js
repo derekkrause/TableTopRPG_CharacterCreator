@@ -89,9 +89,9 @@ export function deleteMedia(mediaId) {
 //   return axios.post("");
 // }
 
-// export function postMedia(payload) {
-//   return axios.post("");
-// }
+export function postMedia(payload) {
+  return axios.post(nodeBaseUrl + "/media/", payload);
+}
 
 // export function postPost(payload) {
 //   return axios.post("");

@@ -98,7 +98,8 @@ namespace Sabio.Services
                         SportInfo = new JRaw((string)reader["sportInfo"]),
                         Liked = (bool)reader["Liked"],
                         LikeCount = reader.GetSafeInt32Nullable("LikeCount"),
-                        LikedId = reader.GetSafeInt32Nullable("LikedId")
+                        LikedId = reader.GetSafeInt32Nullable("LikedId"),
+                        CommentData = new JRaw((string)reader["CommentData"])
                     };
 
                     blogListByUserId.Add(blog);

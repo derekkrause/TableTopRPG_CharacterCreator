@@ -181,6 +181,7 @@ class FeedHome extends React.Component {
               handleSubmitFeed={this.handleSubmitFeed}
               capitalize={this.capitalize}
               formVideoLinkInput={this.state.formVideoLinkInput}
+              currentUser={this.props.currentUser}
             />
           )}
           <div className="cus-card-container">

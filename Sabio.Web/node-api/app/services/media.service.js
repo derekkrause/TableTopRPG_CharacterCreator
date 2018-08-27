@@ -68,8 +68,12 @@ const post = item => {
     .executeProc("Media_Insert", sqlRequest => {
       sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
       sqlRequest.addParameter("Type", TYPES.NVarChar, item.type, { length: 50 });
-      sqlRequest.addParameter("Url", TYPES.NVarChar, item.url, { length: 250 });
+      sqlRequest.addParameter("Url", TYPES.NVarChar, item.url);
       sqlRequest.addParameter("DisplayOrder", TYPES.Int, item.displayOrder);
+      sqlRequest.addParameter("Width", TYPES.Int, item.width);
+      sqlRequest.addParameter("Height", TYPES.Int, item.height);
+      sqlRequest.addParameter("Title", TYPES.NVarChar, item.title, { length: 100 });
+      sqlRequest.addParameter("Caption", TYPES.NVarChar, item.caption);
       sqlRequest.addOutputParameter("Id", TYPES.Int, null);
     })
     .then(res => {
@@ -85,8 +89,12 @@ const put = body => {
     .executeProc("Media_Update", sqlRequest => {
       sqlRequest.addParameter("UserId", TYPES.Int, body.userId);
       sqlRequest.addParameter("Type", TYPES.NVarChar, body.type, { length: 50 });
-      sqlRequest.addParameter("Url", TYPES.NVarChar, body.url, { length: 250 });
+      sqlRequest.addParameter("Url", TYPES.NVarChar, body.url);
       sqlRequest.addParameter("DisplayOrder", TYPES.Int, body.displayOrder);
+      sqlRequest.addParameter("Width", TYPES.Int, body.width);
+      sqlRequest.addParameter("Height", TYPES.Int, body.height);
+      sqlRequest.addParameter("Title", TYPES.NVarChar, body.title, { length: 100 });
+      sqlRequest.addParameter("Caption", TYPES.NVarChar, body.caption);
       sqlRequest.addParameter("Id", TYPES.Int, body.id);
     })
     .then(res => {

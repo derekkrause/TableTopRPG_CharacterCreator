@@ -14,5 +14,6 @@ namespace Sabio.Models.Domain
         public JRaw ItemData { get; set; }
         public bool Liked { get; set; }
         public int? LikedId { get; set; }
+        public JRaw CommentData { get; set; }
     }
 }

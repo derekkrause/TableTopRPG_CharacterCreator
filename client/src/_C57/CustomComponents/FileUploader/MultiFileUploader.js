@@ -65,38 +65,93 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
 */
 
   handleOnClickUploader = e => {
-    var file = e.target.files[0];
+    this.props.toggleLoader();
+    let newBlob;
+    let file = e.target.files[0];
 
-    putPresigedUrl().then(res => {
-      console.log("PresignedURL", res);
-      var presignedUrl = res.data.item;
+    if (file.type.match(/image.*/)) {
+      console.log("An image has been loaded");
 
-      var options = {
-        headers: {
-          "Content-Type": file.type
-        },
-        withCredentials: false,
-        onUploadProgress: progressEvent => {
-          console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
-        }
-      };
-      putUploadFile(presignedUrl, file, options).then(s3res => {
-        console.log("Uploaded", s3res);
-        var imageUrl = presignedUrl.split("?", 2)[0];
-        let newImagePreview = [...this.state.previewUrls];
-        let imagePreviewObject = {
-          type: "image",
-          url: imageUrl
+      let reader = new FileReader();
+      reader.onload = function(readerEvent) {
+        let image = new Image();
+        image.onload = function() {
+          let canvas = document.createElement("canvas"),
+            max_size = 800,
+            width = image.width,
+            height = image.height;
+          if (width > height) {
+            if (width > max_size) {
+              height *= max_size / width;
+              width = max_size;
+            }
+          } else {
+            if (height > max_size) {
+              width *= max_size / height;
+              height = max_size;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext("2d").drawImage(image, 0, 0, width, height);
+          let dataUrl = canvas.toDataURL("image/jpeg");
+          //console.log(dataUrl);
+          const dataURLtoBlob = function(dataUrl) {
+            var arr = dataUrl.split(","),
+              mime = arr[0].match(/:(.*?);/)[1],
+              bstr = atob(arr[1]),
+              n = bstr.length,
+              u8arr = new Uint8Array(n);
+            while (n--) {
+              u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+          };
+
+          newBlob = dataURLtoBlob(dataUrl);
+          //console.log(newBlob);
         };
-        newImagePreview.push(imagePreviewObject);
-        this.setState(
-          {
-            previewUrls: newImagePreview
+        image.src = readerEvent.target.result;
+      };
+      reader.readAsDataURL(file);
+
+      putPresigedUrl().then(res => {
+        //console.log("PresignedURL", res);
+        var presignedUrl = res.data.item;
+
+        var options = {
+          headers: {
+            "Content-Type": file.type
           },
-          () => this.dividePreviewArray()
-        );
+          withCredentials: false,
+          onUploadProgress: progressEvent => {
+            //console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
+          }
+        };
+        putUploadFile(presignedUrl, newBlob, options).then(s3res => {
+          //console.log("Uploaded", s3res);
+          var imageUrl = presignedUrl.split("?", 2)[0];
+
+          //console.log(imageUrl);
+          let newImagePreview = [...this.state.previewUrls];
+          let imagePreviewObject = {
+            type: "image",
+            url: imageUrl
+          };
+          newImagePreview.push(imagePreviewObject);
+          this.setState(
+            {
+              previewUrls: newImagePreview
+            },
+            () => this.dividePreviewArray()
+          );
+          this.props.toggleLoader();
+        });
       });
-    });
+    } else {
+      console.log("Selected file is not an image");
+      alert("Selected file is not an image.");
+    }
   };
 
   handleOnClickDelete = (event, index) => {
@@ -186,7 +241,7 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
           url: image,
           type: "image"
         }));
-        console.log(incommingNewImageArray);
+        //console.log(incommingNewImageArray);
         // return incommingNewImageArray;
       }
 
@@ -195,7 +250,7 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
           url: video,
           type: "video"
         }));
-        console.log(incommingNewVideoArray);
+        //console.log(incommingNewVideoArray);
         // return incommingNewVideoArray;
       }
       let imageobjectArray = newPreviewArray.concat(incommingNewImageArray);
@@ -229,6 +284,7 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
                     {imagePreview.type == "image" ? (
                       <React.Fragment>
                         <img src={imagePreview.url} className="img" />
+
                         <button type="button" className="btn" onClick={() => this.handleOnClickDelete(event, index)}>
                           <i className="zmdi zmdi-close zmdi-hc-lg" />
                         </button>
@@ -279,6 +335,7 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
             <br />
             {this.state.mediaLimit < 8 && (
               <button
+                disabled={this.props.pLoader && "true"}
                 type="button"
                 id="UploadButton"
                 className="jr-btn jr-btn-default btn btn-default"
