@@ -18,6 +18,7 @@ class ProfileCard extends React.Component {
           sat={this.props.sat}
           act={this.props.act}
           desiredMajor={this.props.desiredMajor}
+          userProfile={this.props.userProfile}
         />
         <div className="pi-footer">
           <div className="icons-wrapper">

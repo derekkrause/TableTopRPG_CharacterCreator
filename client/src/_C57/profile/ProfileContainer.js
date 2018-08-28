@@ -297,6 +297,7 @@ class ProfileContainer extends React.Component {
                     desiredMajor={this.state.desiredMajor}
                     stats={this.state.stats}
                     handleSaveProfile={this.handleSaveProfile}
+                    userProfile={this.props.match.params.id}
                   />
                 </div>
               </div>

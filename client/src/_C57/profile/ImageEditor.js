@@ -8,19 +8,18 @@ import { putPresigedUrl, putUploadFile } from "../../services/s3.service";
 
 class ImageEditor extends React.Component {
   // Things to fix:
-  //                when making aspect crop drag and drop resets,
-  //                images should be scaled or resized before upload
 
   state = {
     imageUrl: "",
     imagePreview: "",
-    editImgStyles: false,
+    //editImgStyles: false,
     //------Crop States------------
     src: null,
     prevPropsSendImage: this.props.sendImage,
     //newImgSrc: null,
     croppedImgSrc: null,
     naturalDimensions: {},
+    cropDimensions: {},
     cropped: false,
     crop: {
       x: 10,
@@ -32,11 +31,13 @@ class ImageEditor extends React.Component {
       x: 10,
       y: 10,
       aspect: 1 / 1,
-      width: 80
+      width: 10,
+      height: 10
     },
     //----------Image Style States----------
     contrast: { name: "contrast", setValue: 100, defaultValue: 100, min: 0, max: 200 },
-    hue: { name: "hue", setValue: 0, defaultValue: 0, min: -360, max: 360 },
+    //hue: { name: "hue", setValue: 0, defaultValue: 0, min: -360, max: 360 },
+    invert: { name: "invert", setValue: 0, defaultValue: 0, min: 0, max: 100 },
     brightness: { name: "brightness", setValue: 100, defaultValue: 100, min: 0, max: 200 },
     saturate: { name: "saturate", setValue: 100, defaultValue: 100, min: 0, max: 100 },
     sepia: { name: "sepia", setValue: 0, defaultValue: 0, min: 0, max: 100 },
@@ -44,6 +45,14 @@ class ImageEditor extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
+    if (this.props.editImgStyles !== prevProps.editImgStyles) {
+      if (!this.props.editImageStyles && !this.props.profileCropMode) {
+        this.onCropComplete(this.state.crop);
+      } else if (!this.props.editImageStyles && this.props.profileCropMode) {
+        this.onCropComplete(this.state.profileCrop);
+      }
+    }
+
     if (this.props.sendImage !== prevProps.sendImage) {
       this.uploadToAws().then(imageUrl => {
         if (this.props.profileCropMode) {
@@ -52,20 +61,38 @@ class ImageEditor extends React.Component {
             id: this.props.currentUser.id
           };
           updateAvatarById(this.props.currentUser.id, imgPayload).then(response => {
-            console.log(response);
+            //console.log(response);
           });
         } else {
           let imgPayload = {
             userId: this.props.currentUser.id,
             type: "image",
             url: imageUrl,
-            id: this.props.images[parseInt(this.props.selectedImg)].id
+            title: this.props.images[this.props.selectedImg].title,
+            caption: this.props.images[this.props.selectedImg].caption,
+            id: this.props.images[this.props.selectedImg].alt,
+            width: this.state.cropDimensions.width,
+            height: this.state.cropDimensions.height
           };
+          let replacedImg = {
+            userId: this.props.currentUser.id,
+            type: "image",
+            src: imageUrl,
+            thumbnail: imageUrl,
+            title: this.props.images[this.props.selectedImg].title,
+            caption: this.props.images[this.props.selectedImg].caption,
+            id: this.props.images[this.props.selectedImg].alt,
+            thumbnailWidth: this.state.cropDimensions.width,
+            thumbnailHeight: this.state.cropDimensions.height
+          };
+          this.props.replaceCroppedImg(replacedImg);
           // postCroppedImage(imgPayload).then(response => {
           //   console.log(response);
           // });
           updateMedia(this.props.currentUser.id, imgPayload).then(response => {
-            console.log(response);
+            //console.log(response);
+            this.props.toggleLoader();
+            this.props.toggleImgModal();
           });
         }
       });
@@ -76,7 +103,7 @@ class ImageEditor extends React.Component {
 
   uploadToAws = () => {
     return putPresigedUrl().then(res => {
-      console.log("PresignedURL", res);
+      //console.log("PresignedURL", res);
       var presignedUrl = res.data.item;
       var options = {
         headers: {
@@ -86,7 +113,7 @@ class ImageEditor extends React.Component {
       };
 
       return putUploadFile(presignedUrl, this.blob, options).then(s3res => {
-        console.log("Uploaded", s3res);
+        //console.log("Uploaded", s3res);
         var imageUrl = presignedUrl.split("?", 2)[0];
         this.setState(
           {
@@ -102,10 +129,10 @@ class ImageEditor extends React.Component {
 
   //---------Image Styling Change Handlers-------------
   handleRestoreDefault = e => {
-    console.log("yo");
     this.setState(prevState => ({
       contrast: { ...prevState.contrast, setValue: this.state.contrast.defaultValue },
-      hue: { ...prevState.hue, setValue: this.state.hue.defaultValue },
+      //hue: { ...prevState.hue, setValue: this.state.hue.defaultValue },
+      invert: { ...prevState.invert, setValue: this.state.invert.defaultValue },
       brightness: { ...prevState.brightness, setValue: this.state.brightness.defaultValue },
       saturate: { ...prevState.saturate, setValue: this.state.saturate.defaultValue },
       sepia: { ...prevState.sepia, setValue: this.state.sepia.defaultValue },
@@ -119,10 +146,16 @@ class ImageEditor extends React.Component {
       contrast: { ...prevState.contrast, setValue: newValue }
     }));
   };
-  handleHueChange = e => {
+  // handleHueChange = e => {
+  //   let newValue = e.target.value;
+  //   this.setState(prevState => ({
+  //     hue: { ...prevState.hue, setValue: newValue }
+  //   }));
+  // };
+  handleInvertChange = e => {
     let newValue = e.target.value;
     this.setState(prevState => ({
-      hue: { ...prevState.hue, setValue: newValue }
+      invert: { ...prevState.invert, setValue: newValue }
     }));
   };
   handleBrightnessChange = e => {
@@ -154,16 +187,13 @@ class ImageEditor extends React.Component {
   //-------Image Crop Functions-----------------
 
   getCroppedImg = (srcImg, croppedImg) => {
-    console.log(srcImg, croppedImg);
-    if (!this.state.cropped) {
-      this.setState({
-        cropped: true
-      });
-    }
+    //console.log(srcImg, croppedImg);
+
     let img = new Image();
+
     img.src = this.props.newImgSrc;
 
-    console.log(img);
+    //console.log(img);
     const newImgX = (srcImg.width * croppedImg.x) / 100;
     const newImgY = (srcImg.height * croppedImg.y) / 100;
     const newImgWidth = (srcImg.width * croppedImg.width) / 100;
@@ -175,7 +205,7 @@ class ImageEditor extends React.Component {
 
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.filter = `contrast(${this.state.contrast.setValue}%) hue-rotate(${this.state.hue.setValue}deg) brightness(${
+    ctx.filter = `contrast(${this.state.contrast.setValue}%) invert(${this.state.invert.setValue}%) brightness(${
       this.state.brightness.setValue
     }%) saturate(${this.state.saturate.setValue}%) sepia(${this.state.sepia.setValue}%) grayscale(${
       this.state.grayscale.setValue
@@ -183,11 +213,17 @@ class ImageEditor extends React.Component {
 
     ctx.drawImage(img, newImgX, newImgY, newImgWidth, newImgHeight, 0, 0, newImgWidth, newImgHeight);
 
+    // ctx.filter = `contrast(${this.state.contrast.setValue}%) invert(${this.state.invert.setValue}%) brightness(${
+    //   this.state.brightness.setValue
+    // }%) saturate(${this.state.saturate.setValue}%) sepia(${this.state.sepia.setValue}%) grayscale(${
+    //   this.state.grayscale.setValue
+    // }%)`;
+
     canvas.toBlob(blob => {
       let img = document.createElement("img");
       img.src = window.URL.createObjectURL(blob);
       this.blob = blob;
-      console.log("new", img.src);
+      //console.log("new", img.src);
 
       img.onload = function() {
         URL.revokeObjectURL(img.src);
@@ -197,7 +233,13 @@ class ImageEditor extends React.Component {
       });
     });
 
-    console.log(this.state.croppedImgSrc);
+    if (!this.state.cropped) {
+      this.setState({
+        cropped: true
+      });
+    }
+
+    //console.log(this.state.croppedImgSrc);
   };
 
   onCropChange = crop => {
@@ -213,6 +255,15 @@ class ImageEditor extends React.Component {
   onImgLoad = ({ target: img }) => {
     this.setState({
       naturalDimensions: {
+        height: img.offsetHeight,
+        width: img.offsetWidth
+      }
+    });
+  };
+
+  getImageDimensions = ({ target: img }) => {
+    this.setState({
+      cropDimensions: {
         height: img.offsetHeight,
         width: img.offsetWidth
       }
@@ -237,7 +288,7 @@ class ImageEditor extends React.Component {
         this.getCroppedImg(this.state.naturalDimensions, this.state.crop)
       );
 
-      console.log("onCropComplete", crop);
+      //console.log("onCropComplete", crop);
     } else {
       this.setState(
         {
@@ -245,12 +296,13 @@ class ImageEditor extends React.Component {
             x: crop.x,
             y: crop.y,
             aspect: 1 / 1,
-            width: crop.width
+            width: crop.width,
+            height: crop.height
           }
         },
         this.getCroppedImg(this.state.naturalDimensions, this.state.profileCrop)
       );
-      console.log("onCropComplete", crop);
+      //console.log("onCropComplete", crop);
     }
   };
 
@@ -264,7 +316,8 @@ class ImageEditor extends React.Component {
             <div className="col-md-12">
               <ImageSettings
                 contrast={this.state.contrast}
-                hue={this.state.hue}
+                //hue={this.state.hue}
+                invert={this.state.invert}
                 brightness={this.state.brightness}
                 saturate={this.state.saturate}
                 sepia={this.state.sepia}
@@ -272,7 +325,8 @@ class ImageEditor extends React.Component {
                 newImgSrc={this.props.newImgSrc}
                 handleRestoreDefault={this.handleRestoreDefault}
                 handleContrastChange={this.handleContrastChange}
-                handleHueChange={this.handleHueChange}
+                //handleHueChange={this.handleHueChange}
+                handleInvertChange={this.handleInvertChange}
                 handleBrightnessChange={this.handleBrightnessChange}
                 handleSaturateChange={this.handleSaturateChange}
                 handleSepiaChange={this.handleSepiaChange}
@@ -286,7 +340,7 @@ class ImageEditor extends React.Component {
           <div className="row">
             <div className="col-md-6">
               {!this.props.profileCropMode ? (
-                <h2 className="text-center font-weight-bold">Crop Image</h2>
+                <h2 className="text-center font-weight-bold">Set Crop</h2>
               ) : (
                 <h2 className="text-center font-weight-bold">Set Profile Photo Crop</h2>
               )}
@@ -311,13 +365,13 @@ class ImageEditor extends React.Component {
                 <img
                   className="mw-100"
                   style={{
-                    filter: `contrast(${this.state.contrast.setValue}%) hue-rotate(${
-                      this.state.hue.setValue
-                    }deg) brightness(${this.state.brightness.setValue}%) saturate(${
-                      this.state.saturate.setValue
-                    }%) sepia(${this.state.sepia.setValue}%) grayscale(${this.state.grayscale.setValue}%)`
+                    filter: `contrast(${this.state.contrast.setValue}%) invert(${this.state.invert.setValue}%)
+ brightness(${this.state.brightness.setValue}%) saturate(${this.state.saturate.setValue}%) sepia(${
+                      this.state.sepia.setValue
+                    }%) grayscale(${this.state.grayscale.setValue}%)`
                   }}
-                  src={this.state.croppedImgSrc ? this.state.croppedImgSrc : this.props.newImgSrc}
+                  src={this.state.croppedImgSrc}
+                  onLoad={this.getImageDimensions}
                 />
               )}
             </div>

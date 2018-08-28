@@ -4,6 +4,7 @@ using Sabio.Models.Responses;
 using System;
 using System.Collections.Generic;
 using Sabio.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Sabio.Services
 {
@@ -36,7 +37,8 @@ namespace Sabio.Services
                         Type = (string)reader["Type"],
                         ItemData = new Newtonsoft.Json.Linq.JRaw((string)reader["ItemData"]),
                         Liked = (bool)reader["Liked"],
-                        LikedId = reader.GetSafeInt32Nullable("LikedId")
+                        LikedId = reader.GetSafeInt32Nullable("LikedId"),
+                        CommentData = new JRaw((string)reader["CommentData"])
                     };
 
                     feedHomeList.Add(feedHome);

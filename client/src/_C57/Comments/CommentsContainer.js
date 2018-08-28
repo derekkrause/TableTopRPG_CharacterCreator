@@ -36,10 +36,12 @@ class CommentsContainer extends React.Component {
   renderComments = () => {
     let commentArray = [];
     let rootCommentCount = 0;
-    getCommentsByPostId(this.props.postId).then(response => {
-      if (response.data.length > 0) {
+    getCommentsByPostId(parseInt(this.props.postId)).then(response => {
+      //console.log("GET Comments", response);
+      if (response && response.data.length > 0) {
         response.data.map(post => {
           let elapsedTime = Math.round((new Date() - new Date(post.dateCreated)) / 1000 / 60);
+
           let timeStamp;
           if (elapsedTime < 1) {
             timeStamp = "1min";
@@ -160,15 +162,17 @@ class CommentsContainer extends React.Component {
           removed: true
         };
         editComment(comment).then(response => {
-          console.log("Content Removed", response);
+          //console.log("Content Removed", response);
           this.renderComments();
         });
         hasReplies = true;
         break;
       }
     }
-    if (!hasReplies) {
-      deleteComment(commentId).then(() => {
+
+    if (hasReplies === false) {
+      deleteComment(commentId).then(response => {
+        //console.log("DELETE", response);
         this.renderComments();
       });
     }
@@ -176,6 +180,7 @@ class CommentsContainer extends React.Component {
 
   showReply = e => {
     e.preventDefault();
+    //console.log(e.target.name);
 
     let replyKey = parseInt(e.target.name);
     if (!this.state.showReplyInput) {
@@ -192,7 +197,63 @@ class CommentsContainer extends React.Component {
   };
 
   componentDidMount() {
-    this.renderComments();
+    let commentArray = [];
+    let rootCommentCount = 0;
+    //console.log("GET Comments", response);
+    if (this.props.data && this.props.data.length > 0) {
+      this.props.data.map(post => {
+        let elapsedTime = Math.round((new Date() - new Date(post.DateCreated)) / 1000 / 60);
+        let timeStamp;
+        if (elapsedTime < 1) {
+          timeStamp = "1min";
+        } else if (elapsedTime < 60) {
+          timeStamp = `${elapsedTime}mins`;
+        } else if (elapsedTime < 90) {
+          timeStamp = "1hr";
+        } else if (elapsedTime < 1440) {
+          let hrsTime = Math.round(elapsedTime / 60);
+          timeStamp = `${hrsTime}hrs`;
+        } else if (elapsedTime < 2160) {
+          timeStamp = "1day";
+        } else if (elapsedTime < 43200) {
+          let daysTime = Math.round(elapsedTime / 1440);
+          timeStamp = `${daysTime}days`;
+        } else if (elapsedTime < 64800) {
+          timeStamp = "1mon";
+        } else if (elapsedTime < 518400) {
+          let monsTime = Math.round(elapsedTime / 43200);
+          timeStamp = `${monsTime}mons`;
+        } else if (elapsedTime < 1036800) {
+          timeStamp = "1yr";
+        } else {
+          let yrsTime = Math.round(elapsedTime / 518400);
+          timeStamp = `${yrsTime}yrs`;
+        }
+        let comment = {
+          postId: post.ParentPost,
+          commentId: post.Id,
+          parentComment: post.ParentComment,
+          user: post.UserId,
+          username: post.FirstName + " " + post.LastName,
+          userAvatar: post.AvatarUrl,
+          dateCreated: timeStamp,
+          comment: post.Comment
+        };
+        if (comment.parentComment === null) {
+          rootCommentCount++;
+        }
+        commentArray.push(comment);
+      });
+      for (let i = 0; i < commentArray.length; i++) {
+        if (commentArray[i].parentComment === null) {
+          commentArray[i].commentKey = rootCommentCount;
+          rootCommentCount--;
+        }
+      }
+      this.setState({
+        comments: commentArray
+      });
+    }
   }
 
   render() {

@@ -20,6 +20,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import SwipeableViews from "react-swipeable-views";
 import AppBar from "@material-ui/core/AppBar";
+import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
 
 function TabContainer({ children, dir }) {
   return (
@@ -42,13 +43,19 @@ const styles = {
 
 class ProfileTabs extends React.Component {
   state = {
+    uploadMode: false,
     value: 0,
+    imageUrl: "",
+    videoUrl: "",
 
     events: [],
     images: [],
+    videos: [],
     showModal: false,
     showImgModal: false,
     selectedImg: null,
+    selectedVideo: null,
+    showPhotos: true,
 
     //-----Calendar States-----------
     name: "",
@@ -74,6 +81,52 @@ class ProfileTabs extends React.Component {
     eventTypeItem: {}
   };
 
+  handleImageUrlChange = newImageUrl => {
+    let newArr = [];
+    for (let i = 0; i < newImageUrl.length; i++) {
+      newArr.push(newImageUrl[i].url);
+    }
+    this.setState({
+      imageUrl: newArr
+    });
+  };
+
+  handleVideoUrlChange = newVideoUrl => {
+    let newArr = [];
+    // for (let i = 0; i < newVideoUrl.length; i++) {
+    //   newArr.push(newVideoUrl[i].url);
+    // }
+    newVideoUrl.map(video => newArr.push(video.url));
+    this.setState({
+      videoUrl: newArr
+    });
+  };
+
+  toggleUploadMode = () => {
+    if (!this.state.uploadMode) {
+      this.setState({
+        uploadMode: true,
+        showImgModal: true
+      });
+    } else {
+      this.setState({
+        uploadMode: false,
+        showImgModal: false
+      });
+    }
+  };
+
+  videoView = () => {
+    this.setState({
+      showPhotos: false
+    });
+  };
+  photoView = () => {
+    this.setState({
+      showPhotos: true
+    });
+  };
+
   handleChange = (event, value) => {
     this.setState({ value });
   };
@@ -82,11 +135,21 @@ class ProfileTabs extends React.Component {
     this.setState({ value: index });
   };
 
-  toggleImgModal = imgIndex => {
-    this.setState({
-      selectedImg: imgIndex,
-      showImgModal: !this.state.showImgModal
-    });
+  toggleImgModal = index => {
+    if (this.state.showImgModal) {
+      this.setState({
+        selectedImg: index,
+        selectedVideo: index,
+        showImgModal: !this.state.showImgModal,
+        uploadMode: false
+      });
+    } else {
+      this.setState({
+        selectedImg: index,
+        selectedVideo: index,
+        showImgModal: !this.state.showImgModal
+      });
+    }
   };
 
   toggle = () => {
@@ -97,14 +160,56 @@ class ProfileTabs extends React.Component {
 
   nextImg = () => {
     this.setState(prevState => ({
-      selectedImg: parseInt(prevState.selectedImg) + 1
+      selectedImg: parseInt(prevState.selectedImg) + 1,
+      selectedVideo: parseInt(prevState.selectedVideo) + 1
     }));
   };
 
   prevImg = () => {
     this.setState(prevState => ({
-      selectedImg: parseInt(prevState.selectedImg) - 1
+      selectedImg: parseInt(prevState.selectedImg) - 1,
+      selectedVideo: parseInt(prevState.selectedVideo) - 1
     }));
+  };
+
+  removeDeletedMedia = index => {
+    if (this.state.showPhotos) {
+      let imgArray = [...this.state.images];
+      imgArray.splice(index, 1);
+      this.setState({
+        images: imgArray
+      });
+    } else {
+      let videoArray = [...this.state.videos];
+      videoArray.splice(index, 1);
+      this.setState({
+        videos: videoArray
+      });
+    }
+  };
+
+  replaceCroppedImg = imgPayload => {
+    let imgArray = [...this.state.images];
+    imgArray.splice(this.state.selectedImg, 1, imgPayload);
+    this.setState({
+      images: imgArray
+    });
+  };
+
+  addNewMediaToState = payload => {
+    if (payload.type === "image") {
+      let imgArray = [...this.state.images];
+      imgArray.push(payload);
+      this.setState({
+        images: imgArray
+      });
+    } else if (payload.type === "video") {
+      let videoArray = [...this.state.videos];
+      videoArray.push(payload);
+      this.setState({
+        videos: videoArray
+      });
+    }
   };
 
   handleDoubleClickEvent = event => {
@@ -133,61 +238,66 @@ class ProfileTabs extends React.Component {
   };
 
   componentDidMount() {
-    getEventsByUserId(45).then(response => {
-      //------change to current user from Redux
-      let calEventArray = [];
-      response.data.resultSets[0].map(event => {
-        let calEvent = {
-          title: event.name,
-          start: new Date(event.startDate),
-          end: new Date(event.endDate),
-          desc: event.description,
-          id: event.eventId
-        };
-        calEventArray.push(calEvent);
-      });
-      this.setState({
-        events: calEventArray
-      });
+    getEventsByUserId(parseInt(this.props.userProfile)).then(response => {
+      //console.log("GET events", response);
+      if (response.data.resultSets) {
+        let calEventArray = [];
+        response.data.resultSets[0].map(event => {
+          let calEvent = {
+            title: event.name,
+            start: new Date(event.startDate),
+            end: new Date(event.endDate),
+            desc: event.description,
+            id: event.eventId
+          };
+          calEventArray.push(calEvent);
+        });
+        this.setState({
+          events: calEventArray
+        });
+      }
     });
 
-    getFeed().then(response => {
+    getMediaByUserId(parseInt(this.props.userProfile)).then(response => {
+      //console.log("GET Media by user Id", response);
       let imageTileArray = [];
-      response.data.item.pagedItems.map(image => {
-        if (image.imageUrl.length > 0) {
-          let imageTile = {
-            type: "image",
-            img: image.imageUrl[0],
-            title: image.title,
-            content: image.content,
-            author: image.firstName + " " + image.lastName,
-            id: image.id
-          };
-          imageTileArray.push(imageTile);
-        } else if (image.videoUrl.length > 0) {
-          let imageTile = {
-            type: "video",
-            img: image.videoUrl[0],
-            title: image.title,
-            content: image.content,
-            author: image.firstName + " " + image.lastName,
-            id: image.id
-          };
-          imageTileArray.push(imageTile);
+      let videoTileArray = [];
+      response.data.resultSets[0].map(thumbnail => {
+        if (thumbnail.Url.length > 3) {
+          if (thumbnail.Type === "image") {
+            let tile = {
+              id: thumbnail.id,
+              type: thumbnail.Type,
+              alt: thumbnail.Id,
+              src: thumbnail.Url,
+              thumbnail: thumbnail.Url,
+              thumbnailWidth: thumbnail.Width,
+              thumbnailHeight: thumbnail.Height,
+              title: thumbnail.Title,
+              caption: thumbnail.Caption
+            };
+            imageTileArray.push(tile);
+          } else if (thumbnail.Type === "video") {
+            let tile = {
+              id: thumbnail.id,
+              type: thumbnail.Type,
+              alt: thumbnail.Id,
+              src: thumbnail.Url,
+              thumbnail: thumbnail.Url,
+              thumbnailWidth: thumbnail.Width,
+              thumbnailHeight: thumbnail.Height,
+              title: thumbnail.Title,
+              caption: thumbnail.Caption
+            };
+            videoTileArray.push(tile);
+          }
         }
       });
-
       this.setState({
-        images: imageTileArray
+        images: imageTileArray,
+        videos: videoTileArray
       });
     });
-
-    //   getMediaByUserId().then(response => {
-    //     console.log("GET", response);
-    //   });
-    //   getPostsByUserId().then(response => {
-    //     console.log("GET", response);
-    //   });
   }
 
   render() {
@@ -206,7 +316,7 @@ class ProfileTabs extends React.Component {
 
             <Tab label="Schedule" />
 
-            <Tab label="Photos/Videos" />
+            <Tab label="Gallery" />
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -215,7 +325,6 @@ class ProfileTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
         >
           <TabContainer dir={theme.direction}>
-            {" "}
             <CardBody>
               <div className="row">
                 <div className="col-md-2" />
@@ -232,13 +341,14 @@ class ProfileTabs extends React.Component {
               </CardBody>
           </TabContainer> */}
           <TabContainer dir={theme.direction}>
-            {" "}
             <CardBody>
-              <div className="row">
-                <div className="col-md-1">
-                  <EventModal />
+              {this.props.currentUser.id == this.props.userProfile && (
+                <div className="row">
+                  <div className="col-md-1">
+                    <EventModal />
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="row mt-4">
                 <div className="col-md-12">
                   <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
@@ -261,31 +371,46 @@ class ProfileTabs extends React.Component {
               </CardBody>
           </TabContainer> */}
           <TabContainer dir={theme.direction}>
-            {" "}
             <CardBody>
-              <div className="row">
-                <div className="col-md-1">
-                  <FileUploader />
+              {this.props.currentUser.id == this.props.userProfile && (
+                <div className="row">
+                  <div className="col-md-3">
+                    <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
+                      + Add New Photo/Video
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
               <div className="row">
                 <div className="col-md-12">
                   <ProfileImages
+                    videos={this.state.videos}
                     images={this.state.images}
                     togglePopover={this.togglePopover}
                     showPopover={this.state.showPopover}
                     toggleImgModal={this.toggleImgModal}
+                    photoView={this.photoView}
+                    videoView={this.videoView}
+                    showPhotos={this.state.showPhotos}
                   />
                   {this.state.showImgModal && (
                     <ImageModal
+                      replaceCroppedImg={this.replaceCroppedImg}
+                      userProfile={this.props.userProfile}
+                      uploadMode={this.state.uploadMode}
                       showImgModal={this.state.showImgModal}
                       toggleImgModal={this.toggleImgModal}
                       className={this.props.className}
                       images={this.state.images}
+                      videos={this.state.videos}
+                      showPhotos={this.state.showPhotos}
                       selectedImg={this.state.selectedImg}
+                      selectedVideo={this.state.selectedVideo}
                       nextImg={this.nextImg}
                       prevImg={this.prevImg}
+                      removeDeletedMedia={this.removeDeletedMedia}
                       changeProfilePic={this.props.changeProfilePic}
+                      addNewMediaToState={this.addNewMediaToState}
                     />
                   )}
                 </div>
@@ -310,115 +435,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(ProfileTabs));
-
-// {/* <CardHeader className="bg-primary">
-// <Nav className="nav-fill card-header-tabs" tabs>
-//   <NavItem>
-//     <NavLink
-//       className={this.state.activeTab === "1" ? "active" : ""}
-//       onClick={() => {
-//         this.setState({ activeTab: "1" });
-//       }}
-//     >
-//       Feed
-//     </NavLink>
-//   </NavItem>
-//   <NavItem>
-//     <NavLink
-//       className={this.state.activeTab === "2" ? "active" : ""}
-//       onClick={() => {
-//         this.setState({ activeTab: "2" });
-//       }}
-//     >
-//       Stats/Record
-//     </NavLink>
-//   </NavItem>
-//   <NavItem>
-//     <NavLink
-//       className={this.state.activeTab === "3" ? "active" : ""}
-//       onClick={() => {
-//         this.setState({ activeTab: "3" });
-//       }}
-//     >
-//       Schedule
-//     </NavLink>
-//   </NavItem>
-//   <NavItem>
-//     <NavLink
-//       className={this.state.activeTab === "4" ? "active" : ""}
-//       onClick={() => {
-//         this.setState({ activeTab: "4" });
-//       }}
-//     >
-//       Academics
-//     </NavLink>
-//   </NavItem>
-//   <NavItem>
-//     <NavLink
-//       className={this.state.activeTab === "5" ? "active" : ""}
-//       onClick={() => {
-//         this.setState({ activeTab: "5" });
-//       }}
-//     >
-//       Photos/Videos
-//     </NavLink>
-//   </NavItem>
-// </Nav>
-// </CardHeader>
-
-// <TabContent activeTab={this.state.activeTab}>
-// <TabPane tabId="1">
-//   <CardBody>
-//     <Feed />
-//   </CardBody>
-// </TabPane>
-
-// <TabPane tabId="2">
-//   <CardBody>
-//     <StatsRecord handleChange={this.props.handleChange} stats={this.props.stats} />
-//   </CardBody>
-// </TabPane>
-
-// <TabPane tabId="3">
-//   <CardBody>
-//     {/* <button
-//       type="button"
-//       className="btn btn-primary float-left"
-//       id=""
-//     >
-//       + Add New Event
-//     </button> */}
-//     <div className="row">
-//       <div className="col-md-1">
-//         <EventModal />
-//       </div>
-//     </div>
-//     <div className="row mt-4">
-//       <div className="col-md-12">
-//         <ProfileCalendar />
-//       </div>
-//     </div>
-//   </CardBody>
-// </TabPane>
-// <TabPane tabId="4">
-//   <CardBody>
-//     <AcademicTable
-//       handleChange={this.props.handleChange}
-//       gpa={this.props.gpa}
-//       sat={this.props.sat}
-//       act={this.props.act}
-//       desiredMajor={this.props.desiredMajor}
-//     />
-//   </CardBody>
-// </TabPane>
-// <TabPane tabId="5">
-//   <CardBody>
-//     <h3 className="card-title">This is where your media stuff goes</h3>
-//     <div className="row">
-//       <div className="col-md-12">
-//         <ProfileImages />
-//       </div>
-//     </div>
-//   </CardBody>
-// </TabPane>
-// </TabContent> */}

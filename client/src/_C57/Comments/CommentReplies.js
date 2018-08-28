@@ -94,7 +94,6 @@ class CommentReplies extends React.Component {
             }
           })}
         </li>
-        {/* )} */}
       </React.Fragment>
     );
   }

@@ -20,5 +20,6 @@ namespace Sabio.Models.Domain
         public bool Liked { get; set; }
         public int? LikeCount { get; set; }
         public int? LikedId { get; set; }
+        public JRaw CommentData { get; set; }
     }
 }

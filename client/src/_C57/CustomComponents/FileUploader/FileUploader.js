@@ -39,35 +39,123 @@ handleImageUrlChange = imageUrl => {
 
 */
 
+  // handleOnClickUploader = e => {
+  //   var file = e.target.files[0];
+  //   console.log(file);
+
+  //   putPresigedUrl().then(res => {
+  //     console.log("PresignedURL", res);
+  //     var presignedUrl = res.data.item;
+
+  //     var options = {
+  //       headers: {
+  //         "Content-Type": file.type
+  //       },
+  //       onUploadProgress: progressEvent => {
+  //         console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
+  //       }
+  //     };
+
+  //     putUploadFile(presignedUrl, file, options).then(s3res => {
+  //       console.log("Uploaded", s3res);
+  //       var imageUrl = presignedUrl.split("?", 2)[0];
+  //       this.setState(
+  //         {
+  //           imageUrl: presignedUrl.split("?", 2)[0],
+  //           imagePreview: presignedUrl.split("?", 2)[0]
+  //         },
+  //         this.props.onImageUrlChange(imageUrl),
+  //         () => console.log("finalURL", this.state.imageUrl)
+  //       );
+  //     });
+  //   });
+  // };
+
   handleOnClickUploader = e => {
-    var file = e.target.files[0];
+    let newBlob;
+    let file = e.target.files[0];
 
-    putPresigedUrl().then(res => {
-      console.log("PresignedURL", res);
-      var presignedUrl = res.data.item;
+    if (file.type.match(/image.*/)) {
+      console.log("An image has been loaded");
 
-      var options = {
-        headers: {
-          "Content-Type": file.type
-        },
-        onUploadProgress: progressEvent => {
-          console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
-        }
+      let reader = new FileReader();
+      reader.onload = function(readerEvent) {
+        let image = new Image();
+        image.onload = function() {
+          let canvas = document.createElement("canvas"),
+            max_size = 800,
+            width = image.width,
+            height = image.height;
+          if (width > height) {
+            if (width > max_size) {
+              height *= max_size / width;
+              width = max_size;
+            }
+          } else {
+            if (height > max_size) {
+              width *= max_size / height;
+              height = max_size;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          canvas.getContext("2d").drawImage(image, 0, 0, width, height);
+          let dataUrl = canvas.toDataURL("image/jpeg");
+          //console.log(dataUrl);
+          const dataURLtoBlob = function(dataUrl) {
+            var arr = dataUrl.split(","),
+              mime = arr[0].match(/:(.*?);/)[1],
+              bstr = atob(arr[1]),
+              n = bstr.length,
+              u8arr = new Uint8Array(n);
+            while (n--) {
+              u8arr[n] = bstr.charCodeAt(n);
+            }
+            return new Blob([u8arr], { type: mime });
+          };
+
+          newBlob = dataURLtoBlob(dataUrl);
+          //console.log(newBlob);
+        };
+        image.src = readerEvent.target.result;
       };
+      reader.readAsDataURL(file);
 
-      putUploadFile(presignedUrl, file, options).then(s3res => {
-        console.log("Uploaded", s3res);
-        var imageUrl = presignedUrl.split("?", 2)[0];
-        this.setState(
-          {
-            imageUrl: presignedUrl.split("?", 2)[0],
-            imagePreview: presignedUrl.split("?", 2)[0]
+      putPresigedUrl().then(res => {
+        //console.log("PresignedURL", res);
+        var presignedUrl = res.data.item;
+
+        var options = {
+          headers: {
+            "Content-Type": file.type
           },
-          this.props.onImageUrlChange(imageUrl),
-          () => console.log("finalURL", this.state.imageUrl)
-        );
+          withCredentials: false,
+          onUploadProgress: progressEvent => {
+            //console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
+          }
+        };
+        putUploadFile(presignedUrl, newBlob, options).then(s3res => {
+          //console.log("Uploaded", s3res);
+          var imageUrl = presignedUrl.split("?", 2)[0];
+          //console.log(imageUrl);
+          let newImagePreview = [...this.state.previewUrls];
+          let imagePreviewObject = {
+            type: "image",
+            url: imageUrl
+          };
+          newImagePreview.push(imagePreviewObject);
+          this.setState(
+            {
+              previewUrls: newImagePreview
+            },
+            () => this.dividePreviewArray()
+          );
+        });
       });
-    });
+    } else {
+      console.log("Selected file is not an image");
+      alert("Selected file is not an image.");
+    }
   };
 
   handleOnClickDelete = () => {

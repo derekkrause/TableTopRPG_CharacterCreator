@@ -6,6 +6,7 @@ import { LikeButton, LikedButton, ViewCommentsButton, ViewLikesButton } from "..
 import CommentsContainer from "../Comments/CommentsContainer";
 import { NavLink } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
+import { postMedia } from "../profile/ProfileServer";
 
 class FeedHomeCard extends React.Component {
   state = {
@@ -136,6 +137,51 @@ class FeedHomeCard extends React.Component {
     this.setState({
       videoUrl: newArr
     });
+  };
+
+  onImgLoad = ({ target: img }) => {
+    let year = new Date().getUTCFullYear();
+    let month = new Date().getUTCMonth();
+    let day = new Date().getUTCDate();
+    let hours = new Date().getUTCHours();
+    let minutes = new Date().getUTCMinutes();
+    let seconds = new Date().getUTCSeconds();
+    let milliseconds = new Date().getUTCMilliseconds();
+
+    // let utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds));
+    let nowElapsed = Date.UTC(year, month, day, hours, minutes, seconds, milliseconds);
+    // let currentUTCDateTime = utcDate.toUTCString();
+    // let timeNow = currentUTCDateTime.replace(/,/g, "") + "-0700 (Pacific Daylight Time)";
+    let pTime = this.props.data.dateCreated;
+    let pYear = pTime.substring(0, 4);
+    let pMonth = pTime.substring(5, 7) - 1;
+
+    let pDay = pTime.substring(8, 10);
+    let pHours = pTime.substring(11, 13);
+
+    let pMinutes = pTime.substring(14, 16);
+
+    let pSeconds = pTime.substring(17, 19);
+
+    let pMilliseconds = pTime.substring(20, 21) * 100;
+    let postElapsed = Date.UTC(pYear, pMonth, pDay, pHours, pMinutes, pSeconds, pMilliseconds);
+    let elapsedTime = (nowElapsed - postElapsed) / 1000;
+
+    if (elapsedTime < 5 && this.props.data.itemData.authorId == this.props.currentUser.id) {
+      let mediaObject = {
+        userId: this.props.currentUser.id,
+        type: "image",
+        url: img.src,
+        displayOrder: null,
+        width: img.offsetWidth,
+        height: img.offsetHeight,
+        title: this.props.data.itemData.title,
+        caption: this.props.data.itemData.content
+      };
+      postMedia(mediaObject).then(response => {
+        //console.log("Post to Media Table", response);
+      });
+    }
   };
 
   likedUserModalToggle = () => {
@@ -308,6 +354,7 @@ class FeedHomeCard extends React.Component {
                             src={tile.url}
                             alt={tile.title}
                             style={{ objectFit: "cover", width: "100%", padding: 0 }}
+                            onLoad={this.onImgLoad}
                           />
                         </div>
                       </div>
@@ -319,6 +366,7 @@ class FeedHomeCard extends React.Component {
                             src={tile.url}
                             alt={tile.title}
                             style={{ objectFit: "cover", width: "100%", padding: 0 }}
+                            onLoad={this.onImgLoad}
                           />
                         </div>
                       </div>
@@ -367,7 +415,7 @@ class FeedHomeCard extends React.Component {
               </div>
             </div>
             <div className="card-footer pl-2 pr-0">
-              <CommentsContainer postId={data.id} />
+              <CommentsContainer postId={data.id} data={this.props.data.commentData} />
             </div>
           </React.Fragment>
         )}

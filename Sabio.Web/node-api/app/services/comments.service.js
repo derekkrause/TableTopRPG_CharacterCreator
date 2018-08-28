@@ -37,7 +37,7 @@ const getByPostId = postId => {
       for (let i = 0; i < res.resultSets[0].length; i++) {
         if (res.resultSets[0][i].removed === true) {
           let resultObject = {
-            id: 14,
+            id: res.resultSets[0][i].id,
             firstName: "Unknown",
             lastName: "User",
             avatarUrl: "https://d6ps3lgai2qok.cloudfront.net/img/profile/default-profile-img.png",

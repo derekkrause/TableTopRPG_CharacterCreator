@@ -5,13 +5,14 @@ import axios from "axios";
 import FileUploader from "../FileUploader/FileUploader";
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
 import { SubmitButtonWide } from "../CustomComponents/Button";
+import { postMedia } from "../profile/ProfileServer";
 
 class FeedForm extends React.Component {
   state = {
     title: "",
     content: "",
     imageUrl: [],
-    authorId: 13,
+    authorId: 93,
     isPublished: 1,
     videoUrl: [],
     presignedUrl: "",
@@ -28,6 +29,20 @@ class FeedForm extends React.Component {
       isPublished: this.state.isPublished,
       videoUrl: this.state.videoUrl
     });
+    for (let i = 0; i < this.state.videoUrl.length; i++) {
+      let videoObject = {
+        userId: this.props.currentUser.id,
+        type: "video",
+        url: this.state.videoUrl[i],
+        width: 320,
+        height: 180,
+        title: this.state.title,
+        caption: this.state.content
+      };
+      postMedia(videoObject).then(res => {
+        //console.log(res);
+      });
+    }
   };
 
   handleImageUrlChange = newImageUrl => {
