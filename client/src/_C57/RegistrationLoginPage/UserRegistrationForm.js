@@ -365,7 +365,7 @@ class UserRegistrationForm extends React.Component {
                       disabled
                     />
                     <Label className="custom-control-label" htmlFor="coach4hireRadio">
-                      Trainer <span class="badge badge-info badge-pill">Soon</span>
+                      Trainer <span className="badge badge-info badge-pill">Soon</span>
                     </Label>
                   </div>
                 </div>

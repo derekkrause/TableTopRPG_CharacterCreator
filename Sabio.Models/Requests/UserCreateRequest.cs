@@ -7,8 +7,6 @@ namespace Sabio.Models.Requests
         [Required, MaxLength(50)]
         public string FirstName { get; set; }
 
-        public string MiddleName { get; set; }
-
         [Required, MaxLength(50)]
         public string LastName { get; set; }
 
@@ -17,5 +15,7 @@ namespace Sabio.Models.Requests
 
         [Required, MaxLength(100)]
         public string PasswordHash { get; set; }
+
+        public int? CurrentSportId { get; set; }
     }
 }

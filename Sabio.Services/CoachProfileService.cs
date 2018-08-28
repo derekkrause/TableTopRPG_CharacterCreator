@@ -1,5 +1,6 @@
 ﻿using Sabio.Data.Providers;
 using Sabio.Models.Domain;
+using Sabio.Models.Requests;
 using System;
 
 namespace Sabio.Services
@@ -78,6 +79,27 @@ namespace Sabio.Services
                 });
 
             return coach;
+        }
+
+        public CoachProfile UpdateCoachProfile(CoachUpdateRequest request)
+        {
+            dataProvider.ExecuteNonQuery(
+                "Coach_UpdateProfile",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@UserId", request.UserId);
+                    parameters.AddWithValue("@FirstName", request.FirstName);
+                    parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@LastName", request.LastName);
+                    parameters.AddWithValue("@AvatarUrl", request.AvatarUrl ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@City", request.City);
+                    parameters.AddWithValue("@State", request.State);
+                    parameters.AddWithValue("@Title", request.Title);
+                    parameters.AddWithValue("@Bio", request.Bio ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@SchoolName", request.SchoolName);
+                });
+
+            return GetByUserId(request.UserId);
         }
     }
 }

@@ -26,8 +26,8 @@ class CoachProfile extends React.Component {
     //BACKGROUND IMAGES
     backgroundImage: defaultBackgroundImage,
     //DATA
-    viewingUser: "",
-    viewedProfileId: 0,
+    viewingUserId: this.props.currentUser.id,
+    viewedProfileId: parseInt(this.props.match.params.id),
     editingProfile: false,
     editingBio: false,
     //EDITS
@@ -42,26 +42,10 @@ class CoachProfile extends React.Component {
     bioEdit: ""
   };
 
-  componentDidMount = () => {
-    this.setState({ viewedProfileId: this.props.match.params.id, viewingUser: this.props.currentUser });
-    this.getProfileInfo(this.props.match.params.id);
-  };
+  componentDidMount = () => this.getProfileInfo(this.props.match.params.id);
 
   getProfileInfo = userId => {
-    getCoachById(userId).then(result => {
-      const res = result.data.item;
-      this.setState({
-        firstName: res.firstName,
-        middleName: res.middleName,
-        lastName: res.lastName,
-        profileImage: res.avatarUrl,
-        bio: res.bio,
-        city: res.city,
-        state: res.state,
-        schoolName: res.schoolName,
-        title: res.title
-      });
-    });
+    getCoachById(userId).then(result => this.updateVariables(result.data.item));
   };
 
   editingProfile = () => {
@@ -76,11 +60,7 @@ class CoachProfile extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  onBioSave = () => {
-    this.setState({ bio: this.state.bioEdit, bioEdit: "", editingBio: false }, this.updateDatabase());
-  };
-
-  onProfileSave = () => {
+  submitUpdates = () => {
     this.setState(
       {
         firstName: this.state.firstNameEdit,
@@ -90,16 +70,19 @@ class CoachProfile extends React.Component {
         title: this.state.titleEdit,
         city: this.state.cityEdit,
         state: this.state.stateEdit,
-        schoolName: this.state.schoolNameEdit
+        schoolName: this.state.schoolNameEdit,
+        bio: this.state.bioEdit,
+        editingBio: false,
+        editingProfile: false
       },
-      this.UpdateDatabase()
+      this.updateDatabase
     );
   };
 
   updateDatabase = () => {
-    if (this.state.viewingUser == this.state.viewedProfileId) {
+    if (this.state.viewingUserId === this.state.viewedProfileId) {
       const userData = {
-        id: this.state.viewingUser,
+        userId: this.state.viewingUserId,
         firstName: this.state.firstName,
         middleName: this.state.middleName,
         lastName: this.state.lastName,
@@ -111,24 +94,46 @@ class CoachProfile extends React.Component {
         schoolName: this.state.schoolName
       };
       updateCoachProfile(userData)
-        .then(result => console.log("UPDATE", result))
+        .then(result => this.updateVariables(result.data.item))
         .catch(error => console.log("UPDATE", error));
     }
   };
+
+  updateVariables = userInfo =>
+    this.setState({
+      firstName: userInfo.firstName,
+      firstNameEdit: userInfo.firstName,
+      middleName: userInfo.middleName,
+      middleNameEdit: userInfo.middleName,
+      lastName: userInfo.lastName,
+      lastNameEdit: userInfo.lastName,
+      profileImage: userInfo.avatarUrl,
+      profileImageEdit: userInfo.avatarUrl,
+      bio: userInfo.bio,
+      bioEdit: userInfo.bio,
+      city: userInfo.city,
+      cityEdit: userInfo.city,
+      state: userInfo.state,
+      stateEdit: userInfo.state,
+      schoolName: userInfo.schoolName,
+      schoolNameEdit: userInfo.schoolName,
+      title: userInfo.title,
+      titleEdit: userInfo.title
+    });
 
   cancelEdit = () => {
     this.setState({
       editingBio: false,
       editingProfile: false,
-      firstNameEdit: "",
-      middleNameEdit: "",
-      lastNameEdit: "",
-      titleEdit: "",
-      profileImageEdit: "",
-      schoolNameEdit: "",
-      cityEdit: "",
-      stateEdit: "",
-      bioEdit: ""
+      firstNameEdit: this.state.firstName,
+      middleNameEdit: this.state.middleName,
+      lastNameEdit: this.state.lastName,
+      titleEdit: this.state.title,
+      profileImageEdit: this.state.profileImage,
+      schoolNameEdit: this.state.schoolName,
+      cityEdit: this.state.city,
+      stateEdit: this.state.state,
+      bioEdit: this.state.bio
     });
   };
 
@@ -145,7 +150,7 @@ class CoachProfile extends React.Component {
       backgroundImage,
       bio,
       viewedProfileId,
-      viewingUser,
+      viewingUserId,
       editingProfile,
       editingBio,
       firstNameEdit,
@@ -196,16 +201,16 @@ class CoachProfile extends React.Component {
                     }}
                   />
                   {editingProfile ? (
-                    <label for="titleEdit" className="text-left">
-                      Title
+                    <div className="form-group text-left d-none d-md-block">
+                      <label htmlFor="titleEdit">Title</label>
                       <input
                         className="form-control"
                         name="titleEdit"
-                        defaultValue={titleEdit || title}
+                        defaultValue={titleEdit}
                         placeholder="Title"
                         onChange={this.onChange}
                       />
-                    </label>
+                    </div>
                   ) : (
                     <h2 className="my-2">
                       {/* ---TITLE--- */}
@@ -213,37 +218,54 @@ class CoachProfile extends React.Component {
                     </h2>
                   )}
                 </div>
-                {/* ---SPACER COLUMN--- */}
+                {/* ---SPACER COLUMN--- //this column helps with background layering// */}
                 <div className="col-9" />
               </div>
             </div>
             <div className="pi-content d-flex p-0 ml-2 bg-white">
-              <div className="col-3 px-3 text-center" style={{ width: "120px" }} />
-              <div className="col-6 text-md-left text-center my-3 mt-5 pt-5 pt-md-0 mt-md-2 p-0">
+              {/* <div className="col-3 px-3 text-center" style={{ width: "120px" }} /> */}
+              <div
+                className={
+                  "col-6 offset-3 text-md-left text-center my-3 pt-5 pt-md-0 mt-md-2 p-0 " + (!editingProfile && "mt-5")
+                }
+              >
                 {/* ---NAME--- */}
                 {editingProfile ? (
-                  <div className="input-group">
-                    <input
-                      className="form-control"
-                      name="firstNameEdit"
-                      placeholder="First Name"
-                      defaultValue={firstNameEdit || firstName}
-                      onChange={this.onChange}
-                    />
-                    <input
-                      className="form-control"
-                      name="middleNameEdit"
-                      placeholder="Middle Name"
-                      defaultValue={middleNameEdit || middleName}
-                      onChange={this.onChange}
-                    />
-                    <input
-                      className="form-control"
-                      name="lastNameEdit"
-                      placeholder="Last Name"
-                      defaultValue={lastNameEdit || lastName}
-                      onChange={this.onChange}
-                    />
+                  <div className="form-group text-left">
+                    <div className="form-group text-left d-block d-md-none">
+                      <label htmlFor="titleEdit">Title</label>
+                      <input
+                        className="form-control"
+                        name="titleEdit"
+                        defaultValue={titleEdit}
+                        placeholder="Title"
+                        onChange={this.onChange}
+                      />
+                    </div>
+                    <label htmlFor="userName">Name</label>
+                    <div className="input-group" name="userName">
+                      <input
+                        className="form-control"
+                        name="firstNameEdit"
+                        placeholder="First Name"
+                        defaultValue={firstNameEdit}
+                        onChange={this.onChange}
+                      />
+                      <input
+                        className="form-control"
+                        name="middleNameEdit"
+                        placeholder="Middle Name"
+                        defaultValue={middleNameEdit}
+                        onChange={this.onChange}
+                      />
+                      <input
+                        className="form-control"
+                        name="lastNameEdit"
+                        placeholder="Last Name"
+                        defaultValue={lastNameEdit}
+                        onChange={this.onChange}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <h1 style={{ fontWeight: "800", color: "black" }}>
@@ -252,26 +274,37 @@ class CoachProfile extends React.Component {
                 )}
                 {/* ---SCHOOL , CITY , STATE--- */}
                 {editingProfile ? (
-                  <div className="form-group">
-                    <input
-                      className="form-control"
-                      name="schoolNameEdit"
-                      defaultValue={schoolNameEdit || schoolName}
-                      placeholder="School Name"
-                    />
-                    <div className="input-group">
+                  <div>
+                    <div className="form-group text-left">
+                      <label htmlFor="schoolNameEdit">School</label>
                       <input
                         className="form-control"
-                        name="cityEdit"
-                        defaultValue={cityEdit || city}
-                        placeholder="City"
+                        name="schoolNameEdit"
+                        defaultValue={schoolNameEdit}
+                        placeholder="School Name"
                       />
-                      <input
-                        className="form-control"
-                        name="stateEdit"
-                        defaultValue={stateEdit || state}
-                        placeholder="State"
-                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-group text-left col">
+                        <label htmlFor="cityEdit">City</label>
+                        <input
+                          className="form-control"
+                          name="cityEdit"
+                          defaultValue={cityEdit || city}
+                          placeholder="City"
+                          onChange={this.onChange}
+                        />
+                      </div>
+                      <div className="form-group text-left col">
+                        <label htmlFor="stateEdit">State</label>
+                        <input
+                          className="form-control"
+                          name="stateEdit"
+                          defaultValue={stateEdit || state}
+                          placeholder="State"
+                          onChange={this.onChange}
+                        />
+                      </div>
                     </div>
                   </div>
                 ) : (
@@ -289,7 +322,7 @@ class CoachProfile extends React.Component {
                     <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
                       Cancel
                     </button>
-                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.onBioSave}>
+                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.submitUpdates}>
                       Save
                     </button>
                   </div>
@@ -298,7 +331,7 @@ class CoachProfile extends React.Component {
                     {/* ---BUTTONS FOR SMALL SCREENS--- */}
                     <div className="btn-group mb-md-0 d-none d-md-block ml-3">
                       <div className="jr-btn jr-btn-default btn btn-default">Follow</div>
-                      <div className="jr-btn jr-btn-default btn btn-default">Highlight</div>
+                      <div className="jr-btn jr-btn-default btn btn-default rounded-right">Highlight</div>
                       <div className="jr-btn jr-btn-success btn btn-success d-md-none">
                         <i className="zmdi zmdi-email zmdi-hc-fw" />
                         Message
@@ -319,7 +352,7 @@ class CoachProfile extends React.Component {
               </div>
               <div className="d-flex flex-column col-3 align-items-end mb-3 pr-0">
                 {/* ---EDIT BUTTON--- */}
-                {viewingUser.id == viewedProfileId && (
+                {viewingUserId == viewedProfileId && (
                   <button
                     className={"ash btn btn-secondary pt-2 m-0 " + (editingProfile && "editing")}
                     onClick={this.editingProfile}
@@ -348,7 +381,7 @@ class CoachProfile extends React.Component {
               style={{ borderTopRightRadius: "inherit", borderBottomRightRadius: "inherit" }}
             >
               {/* ---UPDATE BIO BUTTON--- */}
-              {viewingUser.id == viewedProfileId && (
+              {viewingUserId == viewedProfileId && (
                 <button
                   className={"ash btn btn-secondary float-right pt-2 mr-1 " + (editingBio && "editing")}
                   style={{ borderTopRightRadius: "inherit" }}
@@ -365,14 +398,14 @@ class CoachProfile extends React.Component {
                     className="form-control"
                     name="bioEdit"
                     rows="5"
-                    defaultValue={bioEdit || bio || defaultBio}
+                    defaultValue={bioEdit || defaultBio}
                     onChange={this.onChange}
                   />
                   <div className="d-flex justify-content-end mt-3">
                     <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
                       Cancel
                     </button>
-                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.onBioSave}>
+                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.submitUpdates}>
                       Save
                     </button>
                   </div>
