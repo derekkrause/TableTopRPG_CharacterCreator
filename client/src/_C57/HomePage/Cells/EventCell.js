@@ -8,7 +8,7 @@ const UpcomingEventCell = props => {
   return (
     <div className="list-line-item">
       <div className="list-line-badge bg-red" />
-      <NavLink to={`events/${props.data.id}`} className="link-text" target="_blank">
+      <NavLink to={`events/${props.data.id}`} className="link-text">
         <div className="media-body">
           <h4 className="mb-1">{props.data.name}</h4>
           <p className="meta-date"> {newStartDate}</p>

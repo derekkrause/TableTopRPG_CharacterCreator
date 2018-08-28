@@ -234,8 +234,10 @@ class FeedHomeCard extends React.Component {
       isPublished: this.state.isPublished,
       videoUrl: this.state.videoUrl
     });
+    // Should this call handleOnClickEditToggle? what about imageDiv to false?
     this.setState({
-      editMode: false
+      editMode: false,
+      popover: true
     });
   };
 

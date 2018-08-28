@@ -25,37 +25,30 @@ class AdminSideBarContent extends React.Component {
                 Configuration
               </NavLink>
             </li>
-            <li>
-              <NavLink className="link" to={`${this.props.match.url}/school`}>
-                Schools
-              </NavLink>
-            </li>
-
             <li className="admin-link">
               <NavLink className="link" to={`${this.props.match.url}/classyear`}>
                 Class Year
               </NavLink>
             </li>
-
+            <li className="admin-link">
+              <NavLink className="link" to={`${this.props.match.url}/eventadmin`}>
+                Events
+              </NavLink>
+            </li>
+            <li className="admin-link">
+              <NavLink className="link" to={`${this.props.match.url}/eventtypes`}>
+                Event Types
+              </NavLink>
+            </li>
+            <li className="admin-link">
+              <NavLink className="link" to={`${this.props.match.url}/school`}>
+                Schools
+              </NavLink>
+            </li>
             <li className="admin-link">
               <NavLink className="link" to={`${this.props.match.url}/sports`}>
                 Sports
               </NavLink>
-            </li>
-            <li>
-              <button className="btn btn-link">
-                <NavLink to={`${this.props.match.url}/classyear`}>Class Year</NavLink>
-              </button>
-            </li>
-            <li>
-              <button className="btn btn-link">
-                <NavLink to={`${this.props.match.url}/eventadmin`}>Events</NavLink>
-              </button>
-            </li>
-            <li>
-              <button className="btn btn-link">
-                <NavLink to={`${this.props.match.url}/eventtypes`}>Event Types</NavLink>
-              </button>
             </li>
             <li>
               <NavLink className="link" to={`${this.props.match.url}/venues`}>

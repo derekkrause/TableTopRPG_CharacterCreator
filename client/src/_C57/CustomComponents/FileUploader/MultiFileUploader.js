@@ -65,7 +65,9 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
 */
 
   handleOnClickUploader = e => {
-    this.props.toggleLoader();
+    if (this.props.toggleLoader) {
+      this.props.toggleLoader();
+    }
     let newBlob;
     let file = e.target.files[0];
 

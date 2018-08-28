@@ -182,7 +182,10 @@ namespace Sabio.Services
                         IsAdmin = (bool)reader["Admin"],
                         CurrentSportId = reader.GetSafeInt32Nullable("CurrentSportId"),
                         DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"]
+                        DateModified = (DateTime)reader["DateModified"],
+                        StripeUserId = reader.GetSafeString("StripeUserId"),
+                        StripeSubId = reader.GetSafeString("StripeSubId"),
+                        SubNeeded = (bool)reader["SubNeeded"]
                     };
 
                     object MiddleNameValue = reader["MiddleName"];
@@ -191,6 +194,11 @@ namespace Sabio.Services
                         user.MiddleName = (string)MiddleNameValue;
                     };
 
+                    object SubscriptionExpiration = reader["SubscriptionExpiration"];
+                    if (SubscriptionExpiration != DBNull.Value)
+                    {
+                        user.SubscriptionExpiration = (DateTime)SubscriptionExpiration;
+                    };
                 });
                     return user;
         }
@@ -254,7 +262,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@FirstName", request.FirstName);
                     parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
                     parameters.AddWithValue("@LastName", request.LastName);
-                    parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+                parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                     parameters.AddWithValue("@Email", request.Email);
                     parameters.AddWithValue("@PasswordHash", passHash);

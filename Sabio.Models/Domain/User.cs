@@ -19,5 +19,9 @@ namespace Sabio.Models.Domain
         public int? CurrentSportId { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateModified { get; set; }
+        public string StripeUserId { get; set; }
+        public string StripeSubId { get; set; }
+        public DateTime? SubscriptionExpiration { get; set; }
+        public bool SubNeeded { get; set; }
     }
 }

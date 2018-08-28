@@ -118,7 +118,6 @@ class ProfileContainer extends React.Component {
         userId: info.UserId
       });
     });
-
     getClassYear().then(res => this.setState({ classYearOptions: res.data.item.pagedItems }));
   }
 
@@ -187,6 +186,7 @@ class ProfileContainer extends React.Component {
   };
 
   render() {
+    const currentPageId = this.props.match.params.id;
     return (
       <div className="app-wrapper">
         <div className="row">
@@ -237,6 +237,7 @@ class ProfileContainer extends React.Component {
                 handleChange={this.handleChange}
                 handleSaveProfile={this.handleSaveProfile}
                 onHandleSchoolSelect={this.onHandleSchoolSelect}
+                currentPageId={currentPageId}
               />
             </div>
           </div>
@@ -263,7 +264,7 @@ class ProfileContainer extends React.Component {
             <div className="row">
               <div className="col-md-7 col-sm-12" style={{ paddingLeft: "0px" }}>
                 <div className="jr-card profileJrCardTwo">
-                  <AthleteHistoryCarouselFinal />
+                  <AthleteHistoryCarouselFinal currentPageId={currentPageId} />
                 </div>
               </div>
               <div className="col-md-5 col-sm-12" style={{ paddingRight: "0px" }}>
