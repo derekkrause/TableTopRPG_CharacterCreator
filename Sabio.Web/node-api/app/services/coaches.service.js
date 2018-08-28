@@ -85,23 +85,16 @@ const getById = id => {
     });
 };
 
-const post = item => {
-  return mssql
-    .executeProc("Coach_Insert", sqlRequest => {
-      sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
-      sqlRequest.addParameter("Title", TYPES.NVarChar, item.title, {
-        length: 250
-      });
-      sqlRequest.addParameter("SchoolId", TYPES.Int, item.schoolId);
-      sqlRequest.addParameter("ShortBio", TYPES.NVarChar, item.shortBio, {
-        length: 500
-      });
-      sqlRequest.addOutputParameter("Id", TYPES.Int, null);
-    })
-    .then(response => {
-      return response.outputParameters;
-    });
-};
+// const post = item => {
+//   return mssql
+//     .executeProc("Coach_Insert", sqlRequest => {
+//       sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
+//       sqlRequest.addOutputParameter("Id", TYPES.Int, null);
+//     })
+//     .then(response => {
+//       return response.outputParameters;
+//     });
+// };
 
 const put = item => {
   return mssql

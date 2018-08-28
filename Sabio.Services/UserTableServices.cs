@@ -41,11 +41,10 @@ namespace Sabio.Services
                     (parameters) =>
                     {
                         parameters.AddWithValue("@FirstName", request.FirstName);
-                        parameters.AddWithValue("@MiddleName", request.MiddleName);
                         parameters.AddWithValue("@LastName", request.LastName);
                         parameters.AddWithValue("@Email", request.Email);
                         parameters.AddWithValue("@PasswordHash", passHash);
-                        parameters.AddWithValue("@CurrentSportId", 1);
+                        parameters.AddWithValue("@CurrentSportId", request.CurrentSportId ?? (object)DBNull.Value);
                         parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     },
                     (parameters) =>
@@ -255,10 +254,11 @@ namespace Sabio.Services
                     parameters.AddWithValue("@FirstName", request.FirstName);
                     parameters.AddWithValue("@MiddleName", request.MiddleName ?? (object)DBNull.Value);
                     parameters.AddWithValue("@LastName", request.LastName);
-                parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@Gender", request.Gender ?? (object)DBNull.Value);
                     parameters.AddWithValue("@AvatarUrl", request.AvatarUrl);
                     parameters.AddWithValue("@Email", request.Email);
                     parameters.AddWithValue("@PasswordHash", passHash);
+                    parameters.AddWithValue("@CurrentSportId", request.CurrentSportId);
                 });
         }
 

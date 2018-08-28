@@ -15,6 +15,6 @@ router.get("/trend", coachesController.getTrend);
 //router.get("/:pageIndex/:pageSize", coachesController.getAll);
 //router.get("/search/:pageIndex/:pageSize/", coachesController.search);
 
-router.post("/", validateBody(Coach), coachesController.post);
+// router.post("/", validateBody(Coach), coachesController.post);
 router.put("/:id", validateBody(Coach), coachesController.put);
 router.delete("/:id", coachesController.del);

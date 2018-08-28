@@ -13,5 +13,5 @@ export function getCoachById(userId) {
 }
 
 export function updateCoachProfile(userData) {
-  return axios.put("api/coach/" + userData.id);
+  return axios.put("api/coach/" + userData.userId, userData);
 }

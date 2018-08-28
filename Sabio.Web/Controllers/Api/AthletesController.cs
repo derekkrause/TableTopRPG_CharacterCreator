@@ -31,22 +31,15 @@ namespace Sabio.Web.Controllers.Api
 
         }
         [Route, HttpPost, AllowAnonymous]
-        public HttpResponseMessage Insert(AthleteInsertRequest athleteInsertRequest)
+        public HttpResponseMessage Insert(AthleteInsertRequest request)
         {
-            if (athleteInsertRequest == null)
+            if (request.UserId == 0)
             {
-                ModelState.AddModelError("", "Missing body data");
+                ModelState.AddModelError("", "Missing userId");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-            }
-            athleteInsertRequest.UserId = User.Identity.GetId().Value;
-
-            int id = athletesService.Insert(athleteInsertRequest);
-
-            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<int> { Item = id });
+            int response = athletesService.Insert(request.UserId);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
         [Route("{userId:int}"), HttpGet]
         public HttpResponseMessage GetById(int userId)
