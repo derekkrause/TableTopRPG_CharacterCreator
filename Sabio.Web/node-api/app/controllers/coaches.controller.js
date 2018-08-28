@@ -17,20 +17,6 @@ const getTrend = (req, res) => {
   });
 };
 
-// const getAll = (req, res) => {
-//   const pageIndex = req.params.pageIndex || req.query.pageIndex || 0;
-//   const pageSize = req.params.pageSize || req.query.pageSize || 4;
-//   coachesService
-//     .getAll(pageIndex, pageSize)
-//     .then(item => {
-//       const r = new responses.ItemResponse(item);
-//       res.json(r);
-//     })
-//     .catch(err => {
-//       res.set(500).send(err);
-//     });
-// };
-
 const search = (req, res) => {
   const searchString = req.query.searchString || "";
   const state = req.params.state || null;

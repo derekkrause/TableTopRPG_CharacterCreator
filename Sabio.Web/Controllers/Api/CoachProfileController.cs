@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api
 {
-    [RoutePrefix("api/coach")]
+    [RoutePrefix("api/coaches")]
     public class CoachProfileController : ApiController
     {
         readonly IAuthenticationService authenticationService;
@@ -19,6 +19,18 @@ namespace Sabio.Web.Controllers.Api
         {
             this.authenticationService = authenticationService;
             this.coachProfileService = coachProfileService;
+        }
+
+        [Route, HttpPost, AllowAnonymous]
+        public HttpResponseMessage Create(CoachInsertRequest request)
+        {
+            if (request.UserId == 0)
+            {
+                ModelState.AddModelError("", "Missing userId");
+            }
+
+            int response = coachProfileService.Create(request.UserId);
+            return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
         [Route("{id:int}"), HttpGet]

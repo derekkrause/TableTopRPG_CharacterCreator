@@ -97,6 +97,7 @@
     <Compile Include="Requests\BlogCreateRequest.cs" />
     <Compile Include="Requests\BlogUpdateRequest.cs" />
     <Compile Include="Requests\ClassYearInsert.cs" />
+    <Compile Include="Requests\CoachInsertRequest.cs" />
     <Compile Include="Requests\CoachUpdateRequest.cs" />
     <Compile Include="Requests\EventCreateRequest.cs" />
     <Compile Include="Requests\EventTypeCreateRequest.cs" />

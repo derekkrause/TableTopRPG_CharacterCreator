@@ -17,27 +17,13 @@ export function newEmailConfirm(email) {
 
 //COACH TABLE INSERT USER
 export function registerCoach(userId) {
-  const data = {
-    userId: userId,
-    title: null,
-    schoolId: null,
-    shortBio: null
-  };
-  return axios.post("/node-api/server.js/api/coaches", data);
+  const data = { userId: userId };
+  return axios.post("/api/coaches", data);
 }
 
 //ATHLETE TABLE INSERT USER
 export function registerAthlete(userId) {
-  const data = {
-    userId: userId,
-    dob: null,
-    birthPlace: "",
-    schoolId: null,
-    classYearId: null,
-    highSChoolGraduationYear: null,
-    shortBio: "",
-    residencyState: ""
-  };
+  const data = { userId: userId };
   return axios.post("/api/athletes", data);
 }
 

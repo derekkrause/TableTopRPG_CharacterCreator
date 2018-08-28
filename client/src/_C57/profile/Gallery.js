@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
-import Lightbox from "react-images";
+// import Lightbox from "react-images";
 import Image from "./Image";
 
 class Gallery extends React.Component {

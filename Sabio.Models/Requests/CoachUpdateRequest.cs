@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sabio.Models.Requests
 {
-    public class CoachUpdateRequest
+    public class CoachUpdateRequest : CoachInsertRequest
     {
-        [Required]
-        public int UserId { get; set; }
         [Required, MaxLength(50)]
         public string FirstName { get; set; }
         [MaxLength(50)]

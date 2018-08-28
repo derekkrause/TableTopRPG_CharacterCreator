@@ -18,7 +18,7 @@ namespace Sabio.Services
         {
             this.dataProvider = dataProvider;
         }
-        public int Insert(AthleteInsertRequest request)
+        public int Insert(int userId)
         {
             int newId = 0;
 
@@ -26,15 +26,7 @@ namespace Sabio.Services
                 "Athlete_Insert",
                 (parameters) =>
                 {
-                    parameters.AddWithValue("@UserId", request.UserId);
-                    parameters.AddWithValue("@DOB", request.DOB);
-                    parameters.AddWithValue("@BirthPlace", request.BirthPlace);
-                    parameters.AddWithValue("@SchoolId", request.SchoolId ?? (object)DBNull.Value);
-                    parameters.AddWithValue("@ClassYearId", request.ClassYearId ?? (object)DBNull.Value);
-                    parameters.AddWithValue("@HighSchoolGraduationYear", request.HighSchoolGraduationYear ?? (object)DBNull.Value);
-                    parameters.AddWithValue("@ShortBio", request.ShortBio);
-                    parameters.AddWithValue("@ResidencyState", request.ResidencyState);
-
+                    parameters.AddWithValue("@UserId", userId);
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                 },
                 (parameters) =>

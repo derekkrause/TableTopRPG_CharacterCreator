@@ -2,6 +2,7 @@
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using System;
+using System.Data;
 
 namespace Sabio.Services
 {
@@ -13,6 +14,24 @@ namespace Sabio.Services
         public CoachProfileService(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
+        }
+
+        public int Create(int userId)
+        {
+            int newId = 0;
+
+            dataProvider.ExecuteNonQuery(
+                "Coach_Insert",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@UserId", userId);
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                },
+                (parameters) =>
+                {
+                    newId = (int)parameters["@Id"].Value;
+                });
+            return newId;
         }
 
         public CoachProfile GetByUserId(int id)
