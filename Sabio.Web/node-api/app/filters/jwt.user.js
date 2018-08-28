@@ -10,20 +10,29 @@ const jwt = require("jsonwebtoken");
 
 const SABIO_JWT_KEY = Buffer.from("e02ad8a626b84d298fa1a0d4e5df8bce", "utf-8"); // TODO: remove before delivery to client.
 
-module.exports = function userFromJWT(req, res, next) {
+module.exports = {
+  userFromJWT,
+  userFromJWTFilter
+};
+
+function userFromJWT(authCookie) {
+  const payload = jwt.verify(authCookie, SABIO_JWT_KEY);
+
+  return {
+    id: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
+    name: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+    roles: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || []
+  };
+}
+
+function userFromJWTFilter(req, res, next) {
   try {
     const authCookie = req.cookies.authentication;
     if (authCookie) {
-      const payload = jwt.verify(authCookie, SABIO_JWT_KEY);
-
-      req.user = {
-        id: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"],
-        name: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
-        roles: payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || []
-      };
+      req.user = userFromJWT(authCookie);
     }
   } catch (e) {
     req.user = null;
   }
   next();
-};
+}

@@ -235,17 +235,18 @@ class Card extends React.Component {
                       </DropdownToggle>
 
                       <DropdownMenu>
-                        {tags.map(tag => (
-                          <DropdownItem
-                            key={tag.id}
-                            onClick={e => {
-                              this.props.handleTagsChange(index, e.target.value, id);
-                            }}
-                            value={tag.text}
-                          >
-                            {tag.text}
-                          </DropdownItem>
-                        ))}
+                        {tags &&
+                          tags.map(tag => (
+                            <DropdownItem
+                              key={tag.id}
+                              onClick={e => {
+                                this.props.handleTagsChange(index, e.target.value, id);
+                              }}
+                              value={tag.text}
+                            >
+                              {tag.text}
+                            </DropdownItem>
+                          ))}
                       </DropdownMenu>
                     </Dropdown>
                   </div>

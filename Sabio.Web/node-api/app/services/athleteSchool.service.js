@@ -7,24 +7,33 @@ const getById = req => {
       request.addParameter("AthleteUserId", TYPES.Int, req.params.id);
     })
     .then(response => {
-      const item = {
-        schools: response.resultSets[0]
-      };
-      console.log(response.resultSets[1]);
+      if (response.resultSets[0]) {
+        const item = {
+          schools: response.resultSets[0]
+        };
+        console.log(response.resultSets[1]);
 
-      for (const school of item.schools) {
-        school.tags = [];
-        if (response.resultSets[1] != undefined) {
-          for (let i = 0; i < response.resultSets[1].length; i++) {
-            if (response.resultSets[1][i].AthleteSchoolId == school.Id) {
-              var obj = {};
-              obj.athleteSchoolId = response.resultSets[1][i].AthleteSchoolId;
-              obj.name = response.resultSets[1][i].Tag;
-              school.tags.push(obj);
+        for (const school of item.schools) {
+          school.tags = [];
+          if (response.resultSets[1] != undefined) {
+            for (let i = 0; i < response.resultSets[1].length; i++) {
+              if (response.resultSets[1][i].AthleteSchoolId == school.Id) {
+                var obj = {};
+                obj.athleteSchoolId = response.resultSets[1][i].AthleteSchoolId;
+                obj.name = response.resultSets[1][i].Tag;
+                school.tags.push(obj);
+              }
             }
           }
         }
+        return item;
+      } else {
+        const item = "";
+        return item;
       }
+    })
+    .catch(() => {
+      const item = "";
       return item;
     });
 };

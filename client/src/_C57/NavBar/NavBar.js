@@ -237,7 +237,9 @@ class NavBar extends React.Component {
                     <i className="zmdi zmdi-notifications-active zmdi-hc-lg zmdi-hc-2x text-white" />
                   </div>
                   <div className="pointer px-3 px-md-3 mr-md-2">
-                    <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-2x text-white" />
+                    <Link to={`${this.props.match.url}/messaging`}>
+                      <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-2x text-white" />
+                    </Link>
                   </div>
 
                   <div className="px-2 ">

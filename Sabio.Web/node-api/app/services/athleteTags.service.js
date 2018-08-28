@@ -7,13 +7,22 @@ const getById = req => {
       request.addParameter("AthleteUserId", TYPES.Int, req.params.id);
     })
     .then(response => {
-      const item = {
-        tags: response.resultSets[0]
-      };
-      for (i = 0; i < response.resultSets[0].length; i++) {
-        let id = response.resultSets[0][i].id.toString();
-        item.tags[i].id = id;
+      if (response.resultSets[0]) {
+        const item = {
+          tags: response.resultSets[0]
+        };
+        for (i = 0; i < response.resultSets[0].length; i++) {
+          let id = response.resultSets[0][i].id.toString();
+          item.tags[i].id = id;
+        }
+        return item;
+      } else {
+        const item = "";
+        return item;
       }
+    })
+    .catch(() => {
+      const item = "";
       return item;
     });
 };

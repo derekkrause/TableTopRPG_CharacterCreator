@@ -8,6 +8,7 @@ module.exports = router;
 
 router.get("/following/:followerId", followController.getByFollowerId);
 router.get("/followers/:userId", followController.getByUserId);
+router.get("/mutual/:id", followController.getMessageContacts);
 //router.get("/:id", followController.getById);
 
 router.post("/", followController.post);

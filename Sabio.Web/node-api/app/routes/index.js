@@ -26,6 +26,8 @@ const athleteRoutes = require("./athlete.routes");
 const athleteLinksRoutes = require("./athleteLinks.routes");
 const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
+const { userFromJWTFilter } = require("../filters/jwt.user");
+const messagesRoutes = require("./messages.routes");
 const venuesRoutes = require("./venues.routes");
 const userFromJWT = require("../filters/jwt.user");
 const coachAthleteRoutes = require("./coachAthlete.routes");
@@ -91,7 +93,7 @@ router.use("/venues", venuesRoutes);
 // Authenticated routes go below this:
 // -----------------------------------
 
-router.use(userFromJWT);
+router.use(userFromJWTFilter);
 router.use(validateUser);
-
+router.use("/messages", messagesRoutes);
 router.use("/api/test", testRoutes); // TODO: remove this before delivery to the client

@@ -374,10 +374,11 @@ class MainPage extends React.Component {
   }
 
   handleAddition(tag) {
+    const { currentUser } = this.props;
     this.setState(state => ({ tags: [...state.tags, tag] }), () => console.log(this.state.tags));
     var payload = {
       tagName: tag.text,
-      athleteUserId: 5
+      athleteUserId: currentUser.id
     };
     postAthleteTags(payload).then(() => {
       console.log("tag has been added to database");
@@ -419,9 +420,11 @@ class MainPage extends React.Component {
   loadAthleteTagsBySchool = () => {
     const athleteUserId = this.props.currentUser.id;
     getAthleteTagsById(athleteUserId).then(response => {
-      this.setState({
-        tags: response.data.items.tags
-      });
+      if (response.data.items != "") {
+        this.setState({
+          tags: response.data.items.tags
+        });
+      }
     });
   };
 
@@ -511,34 +514,36 @@ class MainPage extends React.Component {
                     </div>
                   </div>
                   <div className="row mb-3">
-                    {this.state.schools.map((school, i) => (
-                      <Card
-                        key={school.Id}
-                        index={i}
-                        id={school.Id}
-                        name={school.Name}
-                        rank={school.Rank}
-                        //division={school.division}
-                        notes={school.Notes}
-                        tags={this.state.tags}
-                        schoolTags={school.tags}
-                        //activityLog={school.activityLog}
-                        moveCard={this.moveCard}
-                        logo={school.Logo}
-                        handleNewChange={this.handleNewChange}
-                        handleTagsChange={this.handleTagsChange}
-                        handleRemoveTag={this.handleRemoveTag}
-                        toggleActivity={this.toggleActivity}
-                        loadSchoolsByAthlete={this.loadSchoolsByAthlete}
-                        listEditMode={this.state.listEditMode}
-                        handleDeleteSchool={this.handleDeleteSchool}
-                        showDeleteAlert={this.showDeleteAlert}
-                        handleActivityLogData={this.handleActivityLogData}
-                        handleLogData={this.handleLogData}
-                      />
-                    ))}
+                    {this.state.schools &&
+                      this.state.schools.map((school, i) => (
+                        <Card
+                          key={school.Id}
+                          index={i}
+                          id={school.Id}
+                          name={school.Name}
+                          rank={school.Rank}
+                          //division={school.division}
+                          notes={school.Notes}
+                          tags={this.state.tags}
+                          schoolTags={school.tags}
+                          //activityLog={school.activityLog}
+                          moveCard={this.moveCard}
+                          logo={school.Logo}
+                          handleNewChange={this.handleNewChange}
+                          handleTagsChange={this.handleTagsChange}
+                          handleRemoveTag={this.handleRemoveTag}
+                          toggleActivity={this.toggleActivity}
+                          loadSchoolsByAthlete={this.loadSchoolsByAthlete}
+                          listEditMode={this.state.listEditMode}
+                          handleDeleteSchool={this.handleDeleteSchool}
+                          showDeleteAlert={this.showDeleteAlert}
+                          handleActivityLogData={this.handleActivityLogData}
+                          handleLogData={this.handleLogData}
+                        />
+                      ))}
                   </div>
                 </div>
+
                 <Tags tags={this.state.tags} handleDelete={this.handleDelete} handleAddition={this.handleAddition} />
               </div>
             </div>
@@ -580,7 +585,6 @@ class MainPage extends React.Component {
     this.loadAthleteTagsBySchool();
   }
 }
-
 function mapStateToProps(state) {
   return {
     currentUser: state.currentUser

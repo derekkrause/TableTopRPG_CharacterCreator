@@ -5,7 +5,9 @@ const routes = require("./app/routes");
 const dotenv = require("dotenv");
 const app = express();
 const fs = require("fs");
-
+const http = require("http").Server(app);
+const io = (module.exports.io = require("socket.io")(http));
+const socketManager = require("./socketManager");
 
 dotenv.config();
 const port = process.env.PORT || 8080; // DO NOT REMOVE THIS LINE!!!
@@ -45,10 +47,12 @@ app.use("/node-api/server.js/schedule", (req, res, next) => {
 
 app.use("/node-api/server.js/", routes);
 
+io.on("connection", socketManager);
+
 app.use((req, res) => {
   res.status(404).send("<h2>The path is not valid</h2>");
 });
 
-app.listen(port, () => {
-  console.log(`Magic happens on port ${port}`);
+http.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });

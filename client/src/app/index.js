@@ -45,6 +45,7 @@ const FavPageAsyncComponent = asyncComponent(() => import("../_C57/FavSchoolsAnd
 const FeedPageAsyncComponent = asyncComponent(() => import("../_C57/Feed/Feed"));
 const SearchAsyncComponent = asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"));
 const VenuesAsyncComponent = asyncComponent(() => import("../_C57/Admin/Venues/AdminVenues"));
+const MessageAsyncComponent = asyncComponent(() => import("../_C57/Messaging/Message"));
 
 class App extends React.Component {
   componentDidMount() {
@@ -158,6 +159,7 @@ class App extends React.Component {
                   <Route path={`${match.url}/fav-page`} component={FavPageAsyncComponent} />
                   <Route path={`${match.url}/feed-page`} component={FeedPageAsyncComponent} />
                   <Route path={`${match.url}/home`} component={HomeAsyncComponent} />
+                  <Route path={`${match.url}/messaging`} component={MessageAsyncComponent} />
                   <Route path={`${match.url}/pogs`} component={PogsAsyncComponent} />
                   <Route
                     path={`${match.url}/profile/:id(\\d+)`}
