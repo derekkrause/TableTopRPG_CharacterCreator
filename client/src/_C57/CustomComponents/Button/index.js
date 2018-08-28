@@ -181,6 +181,15 @@ const HighlightButton = props => {
   return <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Highlight</button>;
 };
 
+const SaveProfileButton = props => {
+  return (
+    <button type="submit" className="jr-btn btn btn-primary mb-0">
+      <i className="zmdi zmdi-upload zmdi-hc-lg" />
+      &nbsp;&nbsp;Save
+    </button>
+  );
+};
+
 export {
   SaveButton,
   CancelButton,
@@ -201,5 +210,6 @@ export {
   MessageButton,
   StatsButton,
   FollowButton,
-  HighlightButton
+  HighlightButton,
+  SaveProfileButton
 };

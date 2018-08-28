@@ -34,6 +34,10 @@ class Feed extends React.Component {
     this.renderFeed();
   }
 
+  triggerChildFunction() {
+    this.refs.child.dividePreviewArray();
+  }
+
   renderFeed = () => {
     const userId = this.props.match.params.id;
     getFeedByUserId(userId)
@@ -55,10 +59,10 @@ class Feed extends React.Component {
           //console.log("UPDATE/PUT", response);
           this.setState(
             {
-              title: "",
-              content: "",
-              imageUrl: [],
-              videoUrl: []
+            title: "",
+            content: "",
+            imageUrl: [],
+            videoUrl: []
             },
             this.renderFeed()
           );
@@ -70,11 +74,11 @@ class Feed extends React.Component {
           //console.log("CREATE/POST", response);
           this.setState(
             {
-              title: "",
-              content: "",
-              imageUrl: [],
-              videoUrl: [],
-              feedForm: false
+            title: "",
+            content: "",
+            imageUrl: [],
+            videoUrl: [],
+            feedForm: false
             },
             this.renderFeed()
           );
@@ -157,16 +161,16 @@ class Feed extends React.Component {
               <React.Fragment>
                 {this.props.currentUser.id == userId && (
                   <div className="jr-card shadow" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
-                    <div className="row">
-                      <div className="col-md-8 col-12">
-                        <h3 className="card-text">Share Photos, videos or Tips</h3>
-                      </div>
-                      <div className="col-md-4 col-12 text-right">
-                        <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
-                      </div>
-                    </div>
+                <div className="row">
+                  <div className="col-md-8 col-12">
+                    <h3 className="card-text">Share Photos, videos or Tips</h3>
                   </div>
-                )}
+                  <div className="col-md-4 col-12 text-right">
+                    <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
+                  </div>
+                </div>
+              </div>
+            )}
               </React.Fragment>
             )}
           </div>
@@ -197,6 +201,7 @@ class Feed extends React.Component {
                 deleteFeed={this.deleteFeed}
                 handleSubmitFeed={this.handleSubmitFeed}
                 imageUrl={this.state.imageUrl}
+                videoUrl={this.state.videoUrl}
                 handleOnClickUploader={this.handleOnClickUploader}
                 currentUser={this.props.currentUser}
                 handleSubmitLike={this.handleSubmitLike}

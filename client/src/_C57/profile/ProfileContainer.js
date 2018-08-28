@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import AthleteAcademics from "./AthleteAcademics";
 import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
 import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
+import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
 
 class ProfileContainer extends React.Component {
   state = {
@@ -45,7 +46,9 @@ class ProfileContainer extends React.Component {
     id: null,
     userId: null,
     following: false,
-    highlighting: false
+    highlighting: false,
+    everyThing: {},
+    pLoader: null
   };
 
   handleChange = e => {
@@ -57,13 +60,45 @@ class ProfileContainer extends React.Component {
     });
   };
 
-  onChange = value => {
-    this.setState({
-      schoolName: value
-    });
+  grabAcademicInfo = (gpa, sat, act, academicNotes) => {
+    this.setState(
+      {
+        gpa,
+        sat,
+        act,
+        academicNotes
+      },
+      () => this.handleSaveProfile()
+    );
+  };
+
+  handleProfileInfoSubmit = profInfo => {
+    this.setState(
+      {
+        firstName: profInfo.FirstName,
+        middleName: profInfo.MiddleName,
+        lastName: profInfo.LastName,
+        schoolName: profInfo.SchoolName,
+        schoolId: parseInt(profInfo.SchoolId),
+        city: profInfo.City,
+        state: profInfo.State,
+        classYearId: profInfo.ClassYearId,
+        gradYear: profInfo.HighSchoolGraduationYear,
+        height: profInfo.Height,
+        heightFeet: profInfo.heightFeet,
+        heightInches: profInfo.heightInches,
+        weight: profInfo.Weight
+      },
+      () => this.handleSaveProfile()
+    );
+    console.log("submit", profInfo);
   };
 
   componentDidMount() {
+    this.setState({
+      pLoader: true
+    });
+
     selectFollowingById(this.props.currentUser.id).then(res => {
       if (res.data.resultSets) {
         for (let i = 0; i < res.data.resultSets[0].length; i++) {
@@ -84,42 +119,56 @@ class ProfileContainer extends React.Component {
       }
     });
 
+    getClassYear().then(res => this.setState({ classYearOptions: res.data.item.pagedItems }));
+    this.getAthleteCall();
+  }
+
+  getAthleteCall = () => {
     getAthleteById(this.props.match.params.id).then(response => {
       const info = response.data.item.athletes[0];
       const sportPositions = [];
       const heightFeet = Math.floor(info.Height / 12);
       const heightInches = info.Height % 12;
+      info.heightFeet = heightFeet;
+      info.heightInches = heightInches;
 
-      this.setState({
-        firstName: info.FirstName,
-        middleName: info.MiddleName,
-        lastName: info.LastName,
-        city: info.City,
-        state: info.State,
-        bio: info.ShortBio,
-        profilePic: info.AvatarUrl,
-        gradYear: info.HighSchoolGraduationYear,
-        sportLevel: info.CompetitionLevel,
-        sportPosition: sportPositions,
-        sport: info.SportName,
-        classYear: info.ClassYearName,
-        classYearId: info.ClassYearId,
-        schoolName: info.SchoolName,
-        schoolId: info.SchoolId,
-        height: info.Height,
-        heightFeet: heightFeet,
-        heightInches: heightInches,
-        weight: info.Weight,
-        sat: info.SAT,
-        gpa: info.GPA,
-        act: info.ACT,
-        academicNotes: info.AcademicNotes,
-        id: info.Id,
-        userId: info.UserId
-      });
+      this.setState(
+        {
+          everyThing: info,
+          firstName: info.FirstName,
+          middleName: info.MiddleName,
+          lastName: info.LastName,
+          city: info.City,
+          state: info.State,
+          bio: info.ShortBio,
+          profilePic: info.AvatarUrl,
+          gradYear: info.HighSchoolGraduationYear,
+          sportLevel: info.CompetitionLevel,
+          sportPosition: sportPositions,
+          sport: info.SportName,
+          classYear: info.ClassYearName,
+          classYearId: info.ClassYearId,
+          schoolName: info.SchoolName,
+          schoolId: info.SchoolId,
+          height: info.Height,
+          heightFeet: heightFeet,
+          heightInches: heightInches,
+          weight: info.Weight,
+          sat: info.SAT,
+          gpa: info.GPA,
+          act: info.ACT,
+          academicNotes: info.AcademicNotes,
+          id: info.Id,
+          userId: info.UserId
+        },
+        () => {
+          this.setState({
+            pLoader: false
+          });
+        }
+      );
     });
-    getClassYear().then(res => this.setState({ classYearOptions: res.data.item.pagedItems }));
-  }
+  };
 
   handleSaveProfile = () => {
     let height = Number(this.state.heightFeet) * 12;
@@ -144,12 +193,10 @@ class ProfileContainer extends React.Component {
       academicNotes: this.state.academicNotes,
       shortBio: this.state.bio
     };
-    putAthleteById(payload).then(res => {});
-  };
-
-  onHandleSchoolSelect = id => {
-    this.setState({
-      schoolId: id
+    console.log(payload, "--------------------------------");
+    putAthleteById(payload).then(res => {
+      console.log(res);
+      this.getAthleteCall();
     });
   };
 
@@ -203,40 +250,19 @@ class ProfileContainer extends React.Component {
               className="img-fluid"
             />
             <div className="p-4 col-md-12" style={{ borderLeft: "solid 15px #2673e2", borderBottomLeftRadius: "8px" }}>
+              <ProgressIndicator loader={this.state.pLoader} />
               <ProfileBanner
+                everyThing={this.state.everyThing}
                 highlightUser={this.highlightUser}
                 highlighting={this.state.highlighting}
                 following={this.state.following}
                 followUser={this.followUser}
                 handleChange={this.handleChange}
-                onChange={this.onChange}
-                firstName={this.state.firstName}
-                middleName={this.state.middleName}
-                lastName={this.state.lastName}
-                title={this.state.title}
-                profilePic={this.state.profilePic}
-                city={this.state.city}
-                state={this.state.state}
-                schoolName={this.state.schoolName}
-                schoolId={this.state.schoolId}
-                classYear={this.state.classYear}
-                classYearId={this.state.classYearId}
-                classYearOptions={this.state.classYearOptions}
-                gradYear={this.state.gradYear}
-                sport={this.state.sport}
-                sportLevel={this.state.sportLevel}
-                sportPosition={this.state.sportPosition}
-                height={this.state.height}
-                heightFeet={this.state.heightFeet}
-                heightInches={this.state.heightInches}
-                weight={this.state.weight}
-                gpa={this.state.gpa}
-                bio={this.state.bio}
                 currentProfile={this.props.match.params.id}
-                onChange={this.onChange}
-                handleChange={this.handleChange}
-                handleSaveProfile={this.handleSaveProfile}
                 onHandleSchoolSelect={this.onHandleSchoolSelect}
+                handleProfileInfoSubmit={this.handleProfileInfoSubmit}
+                profilePic={this.state.profilePic}
+                classYearOptions={this.state.classYearOptions}
                 currentPageId={currentPageId}
               />
             </div>
@@ -246,12 +272,19 @@ class ProfileContainer extends React.Component {
           <div className="col-md-8 profileJrCard" style={{ marginTop: "30px" }}>
             <div className="row">
               <div className="col-md-12" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-                <div className="jr-card profileJrCardTwo " id="bio">
+                <div
+                  className="jr-card profileJrCardTwo "
+                  style={{
+                    borderLeft: "15px solid rgb(38,115,226)"
+                  }}
+                  id="bio"
+                >
                   <ProfileBio
                     popover="bio"
                     handleChange={this.handleChange}
                     bio={this.state.bio}
                     handleSaveProfile={this.handleSaveProfile}
+                    currentPageId={currentPageId}
                   />
                 </div>
               </div>
@@ -271,14 +304,14 @@ class ProfileContainer extends React.Component {
                 <div className="jr-card profileJrCardTwo pt-3" id="academics">
                   <AthleteAcademics
                     popover="academics"
-                    editAcademics={this.state.editAcademics}
-                    handleEditAcademics={this.handleEditAcademics}
+                    grabAcademicInfo={this.grabAcademicInfo}
                     sat={this.state.sat}
                     act={this.state.act}
                     gpa={this.state.gpa}
                     academicNotes={this.state.academicNotes}
                     handleChange={this.handleChange}
                     handleSaveProfile={this.handleSaveProfile}
+                    currentPageId={currentPageId}
                   />
                 </div>
               </div>

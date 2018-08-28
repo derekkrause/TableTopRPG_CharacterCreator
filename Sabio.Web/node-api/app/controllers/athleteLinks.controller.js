@@ -3,9 +3,9 @@ const responses = require("../models/responses");
 
 module.exports = {
   post: (req, res) => {
-    const { userId, statsTitle, statsLink } = req.body;
+    const { userId, linkTitle, link, iconId } = req.body;
 
-    athleteLinksService.post(userId, statsTitle, statsLink).then(Id => {
+    athleteLinksService.post(userId, linkTitle, link, iconId).then(Id => {
       res.status(201).json(Id);
     });
   },

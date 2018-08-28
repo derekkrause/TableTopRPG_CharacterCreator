@@ -1,10 +1,19 @@
 import React from "react";
-import { SaveButton, CancelButton } from "../CustomComponents/Button";
-import Popover from "../CustomComponents/Popover";
+import { SaveProfileButton, CancelButton } from "../CustomComponents/Button";
+import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
+import { connect } from "react-redux";
 
 class AthleteAcademics extends React.Component {
   state = {
-    editAcademics: false
+    editAcademics: false,
+    prevPropsGpa: 0,
+    prevPropsSat: 0,
+    prevPropsAct: 0,
+    prevPropsAcademicNotes: "",
+    gpa: 0,
+    sat: 0,
+    act: 0,
+    academicNotes: ""
   };
 
   handleEditAcademics = () => {
@@ -13,14 +22,60 @@ class AthleteAcademics extends React.Component {
     });
   };
 
-  handleAcademicSaveProfile = () => {
+  static getDerivedStateFromProps(props, state) {
+    if (
+      props.gpa !== state.prevPropsGpa ||
+      props.sat !== state.prevPropsSat ||
+      props.act !== state.prevPropsAct ||
+      props.academicNotes !== state.prevPropsAcademicNotes
+    ) {
+      return {
+        gpa: props.gpa,
+        prevPropsGpa: props.gpa,
+        sat: props.sat,
+        prevPropsSat: props.sat,
+        act: props.act,
+        prevPropsAct: props.act,
+        prevPropsAcademicNotes: props.academicNotes,
+        academicNotes: props.academicNotes
+      };
+    }
+    return null;
+  }
+
+  handleAcademicSaveProfile = e => {
+    e.preventDefault();
     this.setState({
       editAcademics: false
     });
-    this.props.handleSaveProfile();
+    this.props.grabAcademicInfo(this.state.gpa, this.state.sat, this.state.act, this.state.academicNotes);
+  };
+
+  onCancelEdit = () => {
+    this.setState(
+      {
+        gpa: this.state.prevPropsGpa,
+        sat: this.state.prevPropsSat,
+        act: this.state.prevPropsAct,
+        academicNotes: this.state.prevPropsAcademicNotes
+      },
+      () => {
+        this.handleEditAcademics();
+      }
+    );
+  };
+
+  handleChange = e => {
+    let key = e.target.name;
+    let val = e.target.value;
+
+    this.setState({
+      [key]: val
+    });
   };
 
   render() {
+    const { currentPageId } = this.props;
     return (
       <div>
         <div className="row home-center-text mb-3">
@@ -29,7 +84,11 @@ class AthleteAcademics extends React.Component {
               <div className="mb-0">Academic</div>
             </div>
             <div className="float-right">
-              <Popover popover={this.props.popover} handleUpdate={this.handleEditAcademics} />
+              {this.props.currentUser.id == currentPageId ? (
+                <AthleteProfilePopover popover={this.props.popover} handleUpdate={this.handleEditAcademics} />
+              ) : (
+                <div />
+              )}
             </div>
           </div>
         </div>
@@ -65,62 +124,80 @@ class AthleteAcademics extends React.Component {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <div className="form">
-              <div className="row">
-                <div className="col-3">
-                  <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
-                    GPA
-                  </h3>
-                  <input
+            <form onSubmit={this.handleAcademicSaveProfile}>
+              <div className="form-group">
+                <div className="row">
+                  <div className="col-3">
+                    <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
+                      GPA
+                    </h3>
+                    <input
+                      className="form-control"
+                      value={this.state.gpa}
+                      type="number"
+                      name="gpa"
+                      min={0.1}
+                      step="any"
+                      max={5}
+                      onChange={this.handleChange}
+                      style={{ textAlign: "center" }}
+                    />
+                  </div>
+                  <span style={{ fontSize: "2.5em" }}>|</span>
+                  <div className="col-4">
+                    <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
+                      SAT
+                    </h3>
+                    <div>
+                      <input
+                        className="form-control"
+                        value={this.state.sat}
+                        type="number"
+                        min={1}
+                        max={2400}
+                        name="sat"
+                        onChange={this.handleChange}
+                        style={{ textAlign: "center" }}
+                      />
+                    </div>
+                  </div>
+                  <span style={{ fontSize: "2.5em" }}>|</span>
+                  <div className="col-3 ">
+                    <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
+                      ACT
+                    </h3>
+                    <div>
+                      <input
+                        className="form-control"
+                        value={this.state.act}
+                        type="number"
+                        min={1}
+                        max={36}
+                        name="act"
+                        onChange={this.handleChange}
+                        style={{ textAlign: "center" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="sub-heading mt-3 mb-3">
+                  <textarea
                     className="form-control"
-                    value={this.props.gpa}
-                    type="number"
-                    name="gpa"
-                    onChange={this.props.handleChange}
-                    style={{ textAlign: "center" }}
+                    value={this.state.academicNotes}
+                    name="academicNotes"
+                    type="text"
+                    max={200}
+                    onChange={this.handleChange}
                   />
                 </div>
-                <span style={{ fontSize: "2.5em" }}>|</span>
-                <div className="col-4">
-                  <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
-                    SAT
-                  </h3>
-                  <div>
-                    <input
-                      className="form-control"
-                      value={this.props.sat}
-                      type="number"
-                      name="sat"
-                      onChange={this.props.handleChange}
-                      style={{ textAlign: "center" }}
-                    />
-                  </div>
-                </div>
-                <span style={{ fontSize: "2.5em" }}>|</span>
-                <div className="col-3 ">
-                  <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
-                    ACT
-                  </h3>
-                  <div>
-                    <input
-                      className="form-control"
-                      value={this.props.act}
-                      type="number"
-                      name="act"
-                      onChange={this.props.handleChange}
-                      style={{ textAlign: "center" }}
-                    />
-                  </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12 text-right">
+                  <CancelButton type="button" onClick={this.onCancelEdit} />
+                  <SaveProfileButton type="submit" />
                 </div>
               </div>
-              <div className="sub-heading mt-3 mb-3">{this.props.academicNotes}</div>
-            </div>
-            <div className="row">
-              <div className="col-md-12 text-right">
-                <CancelButton type="button" onClick={this.handleEditAcademics} />
-                <SaveButton type="button" onClick={this.handleAcademicSaveProfile} />
-              </div>
-            </div>
+            </form>
           </React.Fragment>
         )}
       </div>
@@ -128,4 +205,7 @@ class AthleteAcademics extends React.Component {
   }
 }
 
-export default AthleteAcademics;
+function mapStateToProps(state) {
+  return { currentUser: state.currentUser };
+}
+export default connect(mapStateToProps)(AthleteAcademics);

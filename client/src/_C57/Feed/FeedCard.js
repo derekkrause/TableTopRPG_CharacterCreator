@@ -35,7 +35,8 @@ class FeedCard extends React.Component {
     liked: false,
     likeCount: 0,
     likedModal: false,
-    likeUserId: 0
+    likeUserId: 0,
+    showPhotos: true
   };
 
   componentDidMount() {
@@ -48,12 +49,12 @@ class FeedCard extends React.Component {
 
       const imageArray = this.props.feed.imageUrl;
       const mappedImageArray = imageArray.map(image => ({
-        img: image,
+        src: image,
         type: "image"
       }));
       const videoArray = this.props.feed.videoUrl;
       const mappedVideoArray = videoArray.map(video => ({
-        img: video,
+        src: video,
         type: "video",
         col: null
       }));
@@ -226,22 +227,78 @@ class FeedCard extends React.Component {
   };
 
   toggleImgModal = imgIndex => {
-    this.setState({
-      selectedImg: imgIndex,
-      showImgModal: !this.state.showImgModal
-    });
+    if (!this.state.showImgModal) {
+      if (this.state.mixedArray[imgIndex].type === "image" || this.state.mixedArray[imgIndex].type === "imageLarge") {
+        this.setState({
+          selectedImg: imgIndex,
+          selectedVideo: imgIndex,
+          showImgModal: !this.state.showImgModal,
+          showPhotos: true
+        });
+      } else if (
+        this.state.mixedArray[imgIndex].type === "video" ||
+        this.state.mixedArray[imgIndex].type === "videoLarge"
+      ) {
+        this.setState({
+          selectedImg: imgIndex,
+          selectedVideo: imgIndex,
+          showImgModal: !this.state.showImgModal,
+          showPhotos: false
+        });
+      }
+    } else {
+      this.setState({
+        showImgModal: false
+      });
+    }
   };
 
   nextImg = () => {
-    this.setState(prevState => ({
-      selectedImg: parseInt(prevState.selectedImg) + 1
-    }));
+    if (
+      this.state.mixedArray[this.state.selectedImg].type === "video" ||
+      this.state.mixedArray[this.state.selectedImg].type === "videoLarge"
+    ) {
+      this.setState(prevState => ({
+        selectedImg: parseInt(prevState.selectedImg) + 1,
+        selectedVideo: parseInt(prevState.selectedVideo) + 1
+      }));
+      this.setState({
+        showPhotos: false
+      });
+    } else if (
+      this.state.mixedArray[this.state.selectedImg].type === "image" ||
+      this.state.mixedArray[this.state.selectedImg].type === "imageLarge"
+    ) {
+      this.setState(prevState => ({
+        selectedImg: parseInt(prevState.selectedImg) + 1,
+        selectedVideo: parseInt(prevState.selectedVideo) + 1
+      }));
+      this.setState({
+        showPhotos: true
+      });
+    }
   };
 
   prevImg = () => {
-    this.setState(prevState => ({
-      selectedImg: parseInt(prevState.selectedImg) - 1
-    }));
+    if (
+      this.state.mixedArray[this.state.selectedImg].type === "video" ||
+      this.state.mixedArray[this.state.selectedImg].type === "videoLarge"
+    ) {
+      this.setState(prevState => ({
+        selectedImg: parseInt(prevState.selectedImg) - 1,
+        selectedVideo: parseInt(prevState.selectedVideo) - 1,
+        showPhotos: false
+      }));
+    } else if (
+      this.state.mixedArray[this.state.selectedImg].type === "image" ||
+      this.state.mixedArray[this.state.selectedImg].type === "imageLarge"
+    ) {
+      this.setState(prevState => ({
+        selectedImg: parseInt(prevState.selectedImg) - 1,
+        selectedVideo: parseInt(prevState.selectedVideo) - 1,
+        showPhotos: true
+      }));
+    }
   };
 
   handleDeleteFeed = () => {
@@ -383,7 +440,7 @@ class FeedCard extends React.Component {
                         <div className="grid img-grid">
                           <img
                             className="img-grid-item"
-                            src={tile.img}
+                            src={tile.src}
                             alt={tile.title}
                             style={{ objectFit: "cover", width: "100%", padding: 0 }}
                             onLoad={this.onImgLoad}
@@ -397,7 +454,7 @@ class FeedCard extends React.Component {
                         <div className="grid img-grid">
                           <img
                             className="img-grid-item"
-                            src={tile.img}
+                            src={tile.src}
                             alt={tile.title}
                             style={{ objectFit: "cover", width: "100%", padding: 0 }}
                             onLoad={this.onImgLoad}
@@ -409,7 +466,7 @@ class FeedCard extends React.Component {
                     {tile.type == "videoLarge" && (
                       <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
                         <div className="grid img-grid">
-                          <VideoPlayerContainer videoUrl={tile.img} className="img-grid-item" />
+                          <VideoPlayerContainer videoUrl={tile.src} className="img-grid-item" />
                           <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
@@ -417,7 +474,7 @@ class FeedCard extends React.Component {
                     {tile.type == "video" && (
                       <div className={`col-${tile.col}`} style={{ height: 160, objectFit: "cover", padding: 0 }}>
                         <div className="grid img-grid">
-                          <VideoPlayerContainer videoUrl={tile.img} height="160px" className="img-grid-item" />
+                          <VideoPlayerContainer videoUrl={tile.src} height="160px" className="img-grid-item" />
                           <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
@@ -428,9 +485,12 @@ class FeedCard extends React.Component {
                         toggleImgModal={this.toggleImgModal}
                         className={this.props.className}
                         images={this.state.mixedArray}
+                        videos={this.state.mixedArray}
                         selectedImg={this.state.selectedImg}
+                        selectedVideo={this.state.selectedVideo}
                         nextImg={this.nextImg}
                         prevImg={this.prevImg}
+                        showPhotos={this.state.showPhotos}
                       />
                     )}
                   </React.Fragment>

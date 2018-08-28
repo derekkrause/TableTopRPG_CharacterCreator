@@ -1,89 +1,132 @@
 import React from "react";
 import { getAllIcons } from "../../services/icon.service";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
+import "./ProfileLinks.css";
 
 class ProfileLinks extends React.Component {
   state = {
     linkIcon: null,
+    linkIconId: null,
     icon: []
   };
 
   componentDidMount() {
     getAllIcons().then(icon => {
-      console.log(icon);
       let info = icon.data.resultSets[0];
-      this.setState({
-        icon: info
-      });
+      this.setState(
+        {
+          icon: info
+        },
+        () => console.log(this.state.icon)
+      );
     });
   }
 
   handleChange = e => {
     let val = e.target.value;
     this.setState({
-      linkIcon: val
+      linkIconId: parseInt(val) - 1,
+      linkIcon: this.state.icon[parseInt(val) - 1]
     });
+  };
+
+  postAthleteLink = (e, icon) => {
+    e.preventDefault();
+    this.props.postLinks(parseInt(icon) + 1);
   };
 
   render() {
     return (
       <div>
-        {/* <form> */}
-        <div className="row ml-4">
-          <div className="">
-            <UncontrolledDropdown>
-              <DropdownToggle caret>
-                {this.state.linkIcon ? (
-                  <React.Fragment>
-                    <i className={this.state.linkIcon} />
-                  </React.Fragment>
-                ) : (
-                  <span>Profile Link Icon</span>
-                )}
-              </DropdownToggle>
-              <DropdownMenu name="linkIcon" value={this.state.linkIcon} onClick={this.handleChange}>
-                <DropdownItem header>Icon to display</DropdownItem>
-                <DropdownItem header>next to your link</DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>None</DropdownItem>
-                {this.state.icon !== [] && (
-                  <React.Fragment>
-                    {console.log(this.state.icon)}
-                    {this.state.icon.map(icon => (
-                      <DropdownItem key={icon.Id} value={icon.Icon}>
-                        <i className={icon.Icon} />
-                        {icon.IconName}
-                      </DropdownItem>
-                    ))}
-                  </React.Fragment>
-                )}
-              </DropdownMenu>
-            </UncontrolledDropdown>
-
-            <label className="px-2" htmlFor="link">
-              Link:
-            </label>
-            <input type="text" id="link" onChange={this.props.handleOnChange} name="link" value={this.props.link} />
-            <label className="px-2" htmlFor="linkTitle">
-              Link Title:
-            </label>
+        <form onSubmit={e => this.postAthleteLink(e, this.state.linkIconId)}>
+          <div className="row col-md-12 px-0 mx-0" style={{ display: "flex", alignItems: "center" }}>
+            <div className="row col-auto px-3">
+              <UncontrolledDropdown>
+                <DropdownToggle caret>
+                  {this.state.linkIcon ? (
+                    <React.Fragment>
+                      <i className={this.state.linkIcon.Icon} />
+                    </React.Fragment>
+                  ) : (
+                    <span>Profile Link Icon</span>
+                  )}
+                </DropdownToggle>
+                <DropdownMenu
+                  name="linkIcon"
+                  onClick={this.handleChange}
+                  modifiers={{
+                    setMaxHeight: {
+                      enabled: true,
+                      order: 890,
+                      fn: data => {
+                        return {
+                          ...data,
+                          styles: {
+                            ...data.styles,
+                            overflow: "auto",
+                            maxHeight: 250
+                          }
+                        };
+                      }
+                    }
+                  }}
+                >
+                  <DropdownItem value={null}>None</DropdownItem>
+                  {this.state.icon !== [] && (
+                    <React.Fragment>
+                      {this.state.icon.map(icon => (
+                        <DropdownItem key={icon.Id} value={icon.Id}>
+                          <i className={icon.Icon} />
+                          {icon.IconName}
+                        </DropdownItem>
+                      ))}
+                    </React.Fragment>
+                  )}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+              Icon to display next to your hyperlink.
+            </div>
+          </div>
+          <div className="row col-auto pl-3 px-0 ">
+            <label className="pr-2">Link:</label>
+          </div>
+          <div className="row">
             <input
-              className="mr-2"
+              className="mx-3"
+              type="text"
+              id="link"
+              style={{ width: "100%" }}
+              title="Make sure you have http(s):// at the start of your URL"
+              pattern="^https?:\/\/[a-zA-Z0-9_\-]+\.[a-zA-Z0-9_\-]+\.[a-zA-Z0-9_\-]+$"
+              required={true}
+              onChange={this.props.handleOnChange}
+              name="link"
+              value={this.props.link}
+            />
+          </div>
+          <div className="row col-auto pl-3 pt-3 px-0">
+            <label className="pr-2">Description:</label>
+          </div>
+          <div className="row">
+            <input
+              className="mx-3"
+              style={{ width: "100%" }}
               type="text"
               id="linkTitle"
               onChange={this.props.handleOnChange}
               name="linkTitle"
               value={this.props.linkTitle}
             />
-            <button className="btn btn-success" type="button" onClick={this.handleAddVideoToPreview}>
+          </div>
+          <div className="text-right mt-2">
+            <button className="btn btn-success" type="submit">
               <i className="zmdi zmdi-check zmdi-hc-lg" />
             </button>
-            <button className="btn btn-secondary" type="button" onClick={this.handleOnclickVideoLink}>
+            <button className="btn btn-secondary" type="button">
               <i className="zmdi zmdi-close zmdi-hc-lg" />
             </button>
           </div>
-        </div>
-        {/* </form> */}
+        </form>
       </div>
     );
   }

@@ -125,7 +125,7 @@ module.exports = {
   getAll,
   getById,
   search,
-  post,
+  // post,
   put,
   del,
   getTrend

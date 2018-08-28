@@ -65,6 +65,15 @@ router.route("/faqs/:id").get(FaqsController.getFaqByCategory);
 router.use("/faqs", faqsRoutes);
 router.use("/faqsCategories", faqsCategoriesRoutes);
 
+router.use("/athleteSchool", athleteSchoolRoutes);
+router.use("/athlete", athleteRoutes);
+router.use("/athleteLinks", athleteLinksRoutes);
+router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
+
+router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);
+
+router.use("/athleteTags", athleteTagsRoutes);
+router.use("/coaches", coachesRoutes);
 router.use("/profile", profilesRoutes);
 router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
