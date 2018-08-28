@@ -20,7 +20,7 @@ class ProfileImages extends React.Component {
     return (
       <React.Fragment>
         <div role="group" className="btn-group mb-3">
-          <button className="jr-btn jr-btn-default btn btn-default" onClick={this.props.photoView} autoFocus="true">
+          <button className="jr-btn jr-btn-default btn btn-default" onClick={this.props.photoView}>
             Photos
           </button>
 

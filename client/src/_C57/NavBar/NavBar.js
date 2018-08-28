@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Redirect } from "react";
 import "./NavStyle.css";
 import { Button, Collapse, FormGroup, Input, Select } from "reactstrap";
 import { userLogout } from "../../services/registerLogin.service";
@@ -16,6 +16,11 @@ import { NotificationManager, NotificationContainer } from "react-notifications"
 import "react-notifications/lib/notifications.css";
 
 class NavBar extends React.Component {
+  state = {
+    dropdownListValue: "",
+    searchStringN: ""
+  };
+
   handleTypeAheadChange = name => values => {
     this.setCriteriaProperties({
       [name]: values
@@ -45,15 +50,93 @@ class NavBar extends React.Component {
     let key = e.target.name;
     let val = e.target.value;
 
-    this.setCriteriaProperties({
-      [key]: val
+    if (key === "searchType") {
+      this.setCriteriaProperties({
+        [key]: val
+      });
+
+      this.handleChangeDropdownList(e);
+    } else if (key === "searchString") {
+      this.setState({ searchStringN: val });
+    } else {
+      this.setCriteriaProperties({
+        [key]: val
+      });
+    }
+  };
+
+  handleChangeDropdownList = e => {
+    const value = e.target.value;
+
+    this.setState({ dropdownListValue: value }, () => {
+      const { dropdownListValue } = this.state;
+      let newRoute;
+
+      switch (dropdownListValue) {
+        case "all":
+          newRoute = `${this.props.match.url}/home`;
+          break;
+        case "athletes":
+          newRoute = `${this.props.match.url}/search/athletes`;
+          break;
+        case "coaches":
+          newRoute = `${this.props.match.url}/search/coaches`;
+          break;
+        case "schools":
+          newRoute = `${this.props.match.url}/search/schools`;
+          break;
+        case "events":
+          newRoute = `${this.props.match.url}/search/events`;
+          break;
+        case "venues":
+          newRoute = `${this.props.match.url}/search/venues`;
+          break;
+        default:
+          newRoute = `${this.props.match.url}/home`;
+          break;
+      }
+
+      this.goNewRoute(newRoute);
     });
   };
 
   handleKeyPress = e => {
     //console.log("key pressed", e.which);
-    if (e.charCode === 13 || e.which === 13) {
-      this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
+
+    if (e.which === 13 && e.target.name === "searchString") {
+      // this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
+
+      const newPushRoute = `${this.props.match.url}/search/${this.props.searchCriteria.searchType}`;
+      const { searchStringN } = this.state;
+
+      this.setCriteriaProperties({ searchString: searchStringN });
+
+      this.goNewRoute(newPushRoute);
+    }
+  };
+
+  handlerLink = () => {
+    // For link to /home
+
+    this.setState({ searchStringN: "" });
+
+    this.setCriteriaProperties({ searchString: "", searchType: "all" });
+  };
+
+  handlerNavLink = () => {
+    const { dropdownListValue, searchStringN } = this.state;
+
+    this.setCriteriaProperties({ searchString: searchStringN, searchType: dropdownListValue });
+  };
+
+  goNewRoute = newRoute => {
+    const { dropdownListValue } = this.state;
+    const currentLocation = this.props.history.location.pathname;
+
+    if (newRoute !== currentLocation) {
+      this.setCriteriaProperties({ searchString: "", searchType: dropdownListValue });
+
+      this.props.history.push(newRoute);
     }
   };
 
@@ -82,7 +165,7 @@ class NavBar extends React.Component {
           <div className="centre">
             <div className="row align-items-center justify-content-between justify-content-md-center p-2 m-0">
               <div className="col-1 justify-content-start order-md-1 order-1 px-0 mb-2 mt-1 my-md-2">
-                <Link to={`${this.props.match.url}/home`}>
+                <Link to={`${this.props.match.url}/home`} replace={true} onClick={this.handlerLink}>
                   <picture>
                     <source
                       media="(min-width: 80px)"
@@ -109,14 +192,15 @@ class NavBar extends React.Component {
                       id="exampleSelect"
                       onChange={this.handleChange}
                     >
-                      <option /> {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
+                      {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
+                      {/* <option />  */}
                       <option value="all">All</option>
                       <option value="athletes">Athletes</option>
                       <option value="coaches">Coaches</option>
                       <option value="schools">Schools</option>
                       <option value="events">Events</option>
                       <option value="venues">Venues</option>
-                      <option value="articles">Articles</option>
+                      {/* <option value="articles">Articles</option> */}
                     </select>
 
                     <FormGroup>
@@ -128,9 +212,14 @@ class NavBar extends React.Component {
                         // onFocus={this.toggle}
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
-                        value={this.props.searchCriteria.searchString}
+                        // value={this.props.searchCriteria.searchString}
+                        value={this.state.searchStringN}
                       />
-                      <NavLink to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}>
+                      <NavLink
+                        to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}
+                        replace={true}
+                        onClick={this.handlerNavLink}
+                      >
                         <Button className="search-icon pb-3">
                           <i className="zmdi zmdi-search zmdi-hc-lg" />
                         </Button>
@@ -191,6 +280,7 @@ class NavBar extends React.Component {
               eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
               eventStartDateFilter={this.props.searchCriteria.eventStartDateFilter}
               eventEndDateFilter={this.props.searchCriteria.eventEndDateFilter}
+              props={this.props}
             />
           )}
           {this.props.searchCriteria.searchType === "coaches" && (

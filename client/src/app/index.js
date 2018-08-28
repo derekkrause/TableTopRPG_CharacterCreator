@@ -21,7 +21,6 @@ import "../_C57/WelcomePage/WelcomePage.css";
 import axios from "axios";
 import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
 import "../_C57/NavBar/NavStyle.css";
-import SchoolSearchResults from "../_C57/SearchResults/SchoolSearchResults";
 
 //import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
@@ -51,17 +50,17 @@ class App extends React.Component {
   componentDidMount() {
     //-- Leave this if statement here for now. I need it to test filter later. -Ricky
     if (this.props.currentUser) {
-      axios
-        .get("api/search")
-        .then(res => {
-          // console.log("Good Get All!", res.data);
-          this.props.setDropdownValues(res.data);
-          this.props;
-          this.checkSportFilter();
-        })
-        .catch(() => {
-          console.log("Get All Failed");
-        });
+    axios
+      .get("api/search")
+      .then(res => {
+        // console.log("Good Get All!", res.data);
+        this.props.setDropdownValues(res.data);
+        this.props;
+        this.checkSportFilter();
+      })
+      .catch(() => {
+        console.log("Get All Failed");
+      });
     }
   }
 
