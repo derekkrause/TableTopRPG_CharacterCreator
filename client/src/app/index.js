@@ -49,19 +49,21 @@ const MessageAsyncComponent = asyncComponent(() => import("../_C57/Messaging/Mes
 class App extends React.Component {
   componentDidMount() {
     //-- Leave this if statement here for now. I need it to test filter later. -Ricky
-    if (this.props.currentUser) {
-      axios
-        .get("api/search")
-        .then(res => {
-          // console.log("Good Get All!", res.data);
-          this.props.setDropdownValues(res.data);
-          this.props;
-          this.checkSportFilter();
-        })
-        .catch(() => {
-          console.log("Get All Failed");
-        });
-    }
+
+    // Commented out if statement for AthleteSearchFilter --RR
+    // if (this.props.currentUser) {
+    axios
+      .get("api/search")
+      .then(res => {
+        // console.log("Good Get All!", res.data);
+        this.props.setDropdownValues(res.data);
+        this.props;
+        this.checkSportFilter();
+      })
+      .catch(() => {
+        console.log("Get All Failed");
+      });
+    // }
   }
 
   setDropdownProperties = properties => {

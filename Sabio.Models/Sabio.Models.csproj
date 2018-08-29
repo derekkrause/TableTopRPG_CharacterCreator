@@ -50,17 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\AdvoAthlete.cs" />
-    <Compile Include="Domain\AdvoTeam.cs" />
-    <Compile Include="Domain\Game.cs" />
-    <Compile Include="Domain\Team.cs" />
-    <Compile Include="Requests\AdvoAthleteUpdate.cs" />
-    <Compile Include="Requests\AdvocateUpdate.cs" />
-    <Compile Include="Requests\AdvoTeamInsert.cs" />
-    <Compile Include="Requests\AdvoTeamUpdate.cs" />
-    <Compile Include="Requests\ClassYearUpdate.cs" />
-    <Compile Include="Requests\AdvoAthleteInsert.cs" />
-    <Compile Include="Requests\AdvocateInsert.cs" />
     <Compile Include="Domain\Advocate.cs" />
+    <Compile Include="Domain\AdvoTeam.cs" />
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteFilterOptions.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
@@ -84,6 +75,7 @@
     <Compile Include="Domain\FeedHome.cs" />
     <Compile Include="Domain\ForgotPasswordEmail.cs" />
     <Compile Include="Domain\ForgotPasswordEmailConfirmation.cs" />
+    <Compile Include="Domain\Game.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Schools.cs" />
     <Compile Include="Domain\SchoolTrend.cs" />
@@ -93,11 +85,18 @@
     <Compile Include="Domain\SportPosition.cs" />
     <Compile Include="Domain\SportPositionBasic.cs" />
     <Compile Include="Domain\State.cs" />
+    <Compile Include="Domain\Team.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Domain\UserBase.cs" />
     <Compile Include="Domain\UserLogin.cs" />
     <Compile Include="Interfaces\IUserAuthData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Requests\AdvoAthleteInsert.cs" />
+    <Compile Include="Requests\AdvoAthleteUpdate.cs" />
+    <Compile Include="Requests\AdvocateInsert.cs" />
+    <Compile Include="Requests\AdvocateUpdate.cs" />
+    <Compile Include="Requests\AdvoTeamInsert.cs" />
+    <Compile Include="Requests\AdvoTeamUpdate.cs" />
     <Compile Include="Requests\AthleteInsertRequest.cs" />
     <Compile Include="Requests\AthleteSportCreateRequest.cs" />
     <Compile Include="Requests\AthleteSportUpdateRequest.cs" />
@@ -105,6 +104,7 @@
     <Compile Include="Requests\BlogCreateRequest.cs" />
     <Compile Include="Requests\BlogUpdateRequest.cs" />
     <Compile Include="Requests\ClassYearInsert.cs" />
+    <Compile Include="Requests\ClassYearUpdate.cs" />
     <Compile Include="Requests\CoachInsertRequest.cs" />
     <Compile Include="Requests\CoachUpdateRequest.cs" />
     <Compile Include="Requests\EventCreateRequest.cs" />
@@ -144,7 +144,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

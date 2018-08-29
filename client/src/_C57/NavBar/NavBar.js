@@ -18,7 +18,9 @@ import "react-notifications/lib/notifications.css";
 class NavBar extends React.Component {
   state = {
     dropdownListValue: "",
-    searchStringN: ""
+    searchStringN: "",
+    currentUser: {},
+    searchCriteria: {}
   };
 
   handleTypeAheadChange = name => values => {
@@ -66,7 +68,7 @@ class NavBar extends React.Component {
   };
 
   handleChangeDropdownList = e => {
-    const value = e.target.value;
+    let value = e.target.value;
 
     this.setState({ dropdownListValue: value }, () => {
       const { dropdownListValue } = this.state;
@@ -74,7 +76,7 @@ class NavBar extends React.Component {
 
       switch (dropdownListValue) {
         case "all":
-          newRoute = `${this.props.match.url}/home`;
+          newRoute = `${this.props.match.url}/search/all`;
           break;
         case "athletes":
           newRoute = `${this.props.match.url}/search/athletes`;
@@ -96,6 +98,10 @@ class NavBar extends React.Component {
           break;
       }
 
+      this.setState({ searchStringN: "" });
+
+      this.setCriteriaProperties({ searchString: "" });
+
       this.goNewRoute(newRoute);
     });
   };
@@ -103,13 +109,16 @@ class NavBar extends React.Component {
   handleKeyPress = e => {
     //console.log("key pressed", e.which);
 
-    if (e.which === 13 && e.target.name === "searchString") {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    if (e.which === 13 && name === "searchString") {
       // this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
 
-      const newPushRoute = `${this.props.match.url}/search/${this.props.searchCriteria.searchType}`;
-      const { searchStringN } = this.state;
+      const { searchStringN, dropdownListValue } = this.state;
+      const newPushRoute = `${this.props.match.url}/search/${dropdownListValue}`;
 
-      this.setCriteriaProperties({ searchString: searchStringN });
+      this.setCriteriaProperties({ searchString: searchStringN, searchType: dropdownListValue });
 
       this.goNewRoute(newPushRoute);
     }
@@ -118,7 +127,7 @@ class NavBar extends React.Component {
   handlerLink = () => {
     // For link to /home
 
-    this.setState({ searchStringN: "" });
+    this.setState({ searchStringN: "", dropdownListValue: "all" });
 
     this.setCriteriaProperties({ searchString: "", searchType: "all" });
   };
@@ -130,11 +139,11 @@ class NavBar extends React.Component {
   };
 
   goNewRoute = newRoute => {
-    const { dropdownListValue } = this.state;
+    const { dropdownListValue, searchStringN } = this.state;
     const currentLocation = this.props.history.location.pathname;
 
     if (newRoute !== currentLocation) {
-      this.setCriteriaProperties({ searchString: "", searchType: dropdownListValue });
+      this.setCriteriaProperties({ searchString: searchStringN, searchType: dropdownListValue });
 
       this.props.history.push(newRoute);
     }
@@ -146,9 +155,26 @@ class NavBar extends React.Component {
   };
 
   /* UNCOMMENT THIS IF YOU NEED TO CHECK THIS.PROPS */
-  // componentDidMount() {
-  //   console.log("componentDidMount 1", this.props);
-  // }
+  componentDidMount() {
+    // console.log("componentDidMount 1", this.props);
+
+    const { currentUser, searchCriteria } = this.props;
+
+    this.setState({
+      currentUser: currentUser,
+      searchCriteria: searchCriteria,
+      searchStringN: "",
+      dropdownListValue: "all"
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.searchCriteria !== prevProps.searchCriteria) {
+      const { currentUser, searchCriteria } = this.props;
+
+      this.setState({ currentUser: currentUser, searchCriteria: searchCriteria });
+    }
+  }
 
   logout = () => {
     userLogout().then(() => {
@@ -188,7 +214,7 @@ class NavBar extends React.Component {
                       data-width="fit"
                       data-style="btn-primary"
                       name="searchType"
-                      value={this.props.searchCriteria.searchType}
+                      value={this.state.dropdownListValue}
                       id="exampleSelect"
                       onChange={this.handleChange}
                     >
