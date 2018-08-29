@@ -5,6 +5,8 @@ import { Button } from "reactstrap";
 import Collapsible from "react-collapsible";
 import { getAllFaqs, searchFaq, getAllFaqCategories, deleteFaqCategory, deleteFaq, getFaqsbyCategory } from "./server";
 import FaqCategoryForm from "./FaqCategoryForm";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class Faqs extends React.Component {
   state = {
@@ -198,6 +200,7 @@ class Faqs extends React.Component {
   };
 
   render() {
+    const { currentUser } = this.props;
     return (
       <React.Fragment>
         <div className="app-wrapper">
@@ -222,18 +225,23 @@ class Faqs extends React.Component {
                     trigger={faq.Question}
                   >
                     <p>{faq.Answer}</p>
-                    <Button onClick={() => this.editFaq(faq)} color="blue-grey">
-                      Edit
-                    </Button>
-                    <Button onClick={() => this.deleteFaq(faq)} color="red">
-                      Delete
-                    </Button>
+                    {currentUser.isAdmin && (
+                      <React.Fragment>
+                        <Button onClick={() => this.editFaq(faq)} color="blue-grey">
+                          Edit
+                        </Button>
+                        <Button onClick={() => this.deleteFaq(faq)} color="red">
+                          Delete
+                        </Button>
+                      </React.Fragment>
+                    )}
                   </Collapsible>
                 ))}
-
-                <Button onClick={this.toggleNewFaq} color="success">
-                  Create New FAQ
-                </Button>
+                {currentUser.isAdmin && (
+                  <Button onClick={this.toggleNewFaq} color="success">
+                    Create New FAQ
+                  </Button>
+                )}
               </div>
               <div className="col-md-4 col-sm-5 col-12 animation slideInRight">
                 <div className="sidebar">
@@ -262,16 +270,18 @@ class Faqs extends React.Component {
                       <h1 className="text-uppercase letter-spacing-base mb-3" style={{ display: "inline-block" }}>
                         Categories
                       </h1>
-                      <Button
-                        className="jr-btn jr-flat-btn jr-btn-primary btn btn-default"
-                        style={{ display: "inline-block", float: "right" }}
-                        onClick={this.showDeleteIcons}
-                        color="blue-grey"
-                      >
-                        <i className="zmdi zmdi-edit zmdi-hc-fw" />
+                      {currentUser.isAdmin && (
+                        <Button
+                          className="jr-btn jr-flat-btn jr-btn-primary btn btn-default"
+                          style={{ display: "inline-block", float: "right" }}
+                          onClick={this.showDeleteIcons}
+                          color="blue-grey"
+                        >
+                          <i className="zmdi zmdi-edit zmdi-hc-fw" />
 
-                        <span>Edit</span>
-                      </Button>
+                          <span>Edit</span>
+                        </Button>
+                      )}
                     </div>
                     <ul className="categories-list list-unstyled">
                       <li>
@@ -320,11 +330,13 @@ class Faqs extends React.Component {
                       )}
                     </ul>
                   </div>
-                  <div className="offset-4">
-                    <Button onClick={this.toggleCategory} color="success">
-                      Add New Category
-                    </Button>
-                  </div>
+                  {currentUser.isAdmin && (
+                    <div className="offset-4">
+                      <Button onClick={this.toggleCategory} color="success">
+                        Add New Category
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
                 <FaqForm
@@ -364,4 +376,9 @@ class Faqs extends React.Component {
   }
 }
 
-export default Faqs;
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser
+  };
+}
+export default withRouter(connect(mapStateToProps)(Faqs));

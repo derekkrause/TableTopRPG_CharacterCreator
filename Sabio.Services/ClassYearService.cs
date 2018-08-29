@@ -106,7 +106,7 @@ namespace Sabio.Services
             {
                 newId = (int)parameters["@Id"].Value;
 
-            });
+                });
 
             return newId;
         }
@@ -123,7 +123,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@DisplayOrder", classYearUpdate.DisplayOrder);
                     parameters.AddWithValue("@Inactive", classYearUpdate.Inactive);
                     parameters.AddWithValue("@Id", classYearUpdate.Id);
-
+                    
                 });
         }
 

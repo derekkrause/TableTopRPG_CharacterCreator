@@ -1,7 +1,7 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
 
-const post = (userId, linkTitle, link, IconId) => {
+const post = (userId, linkTitle, link, iconId) => {
   return mssql
     .executeProc("AthleteLink_Insert", request => {
       request.addParameter("UserId", TYPES.Int, userId);

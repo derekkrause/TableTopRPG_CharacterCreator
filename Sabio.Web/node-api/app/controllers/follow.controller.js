@@ -2,6 +2,18 @@ const router = require("express").Router();
 const followService = require("../services/follow.service");
 const responses = require("../models/responses/index");
 
+const getMessageContacts = (req, res) => {
+  followService
+    .getMessageContacts(req.params.id)
+    .then(item => {
+      const r = new responses.ItemsResponse(item);
+      res.json(r);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+};
+
 const getByFollowerId = (req, res) => {
   followService
     .getByFollowerId(req.params.followerId)
@@ -71,5 +83,6 @@ module.exports = {
   getByUserId,
   getById,
   post,
-  del
+  del,
+  getMessageContacts
 };

@@ -77,8 +77,6 @@ class AddSport extends React.Component {
         return position.id == val;
       });
       let sportPositionIdArray = [...this.props.sportPositionId, newSportPositionId[0]];
-      let sportPositionIdArrayCopy = sportPositionIdArray.splice();
-      sportPositionIdArrayCopy.push(newSportPositionId[0]);
       this.setState({ sportPositionId: sportPositionIdArray });
       this.props.onSportPositionIdChange(sportPositionIdArray);
       this.state.sportPositionId.push(newSportPositionId[0]);

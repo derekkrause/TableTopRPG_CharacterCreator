@@ -7,12 +7,12 @@ import "./ProfileInfo.css";
 class ProfileInfo extends React.Component {
   render() {
     return (
-      <div className="profileInfo col-lg-12">
+      <div className="profileInfo col-lg-8">
         <div className="jr-card">
           <div className="app-main-content">
             <div className="row">
               <div className="col-lg-3">
-                <img src="https://bringmethenews.com/.image/t_share/MTU0MDQ3MjMzOTE1ODg4NzIy/image-placeholder-title.jpg" />
+                <img src="https://ca.slack-edge.com/T08EKJ58F-UA4DE8E2G-a70e60681ee1-512" />
                 <hr />
               </div>
               <div className="col-lg-9">

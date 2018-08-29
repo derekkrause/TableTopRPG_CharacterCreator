@@ -6,7 +6,7 @@ ProgressIndicator Component
 How to use
 
 1. Import the ProgressIndicator component.
-2. Add the component <ProgressIndicator /> anywhere in the render return <div>. Works similar to SweetAlerts.
+2. Add the component <ProgressIndicator /> where you want the loading circle to display.
 3. It will need a prop of "loader" to be set in state and passed as the prop.  Component in render return will look like:
     <ProgressIndicator loader={this.state.pLoader} />
 

@@ -38,7 +38,7 @@ class ProfileImages extends React.Component {
             />
           </div>
         )}
-        {!this.state.showPhotos && (
+        {!this.props.showPhotos && (
           <React.Fragment>
             <div className="row">
               {this.props.videos.map((tile, index) => (

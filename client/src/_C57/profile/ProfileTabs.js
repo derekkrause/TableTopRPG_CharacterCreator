@@ -144,11 +144,11 @@ class ProfileTabs extends React.Component {
         uploadMode: false
       });
     } else {
-      this.setState({
+    this.setState({
         selectedImg: index,
         selectedVideo: index,
-        showImgModal: !this.state.showImgModal
-      });
+      showImgModal: !this.state.showImgModal
+    });
     }
   };
 
@@ -241,20 +241,20 @@ class ProfileTabs extends React.Component {
     getEventsByUserId(parseInt(this.props.userProfile)).then(response => {
       //console.log("GET events", response);
       if (response.data.resultSets) {
-        let calEventArray = [];
-        response.data.resultSets[0].map(event => {
-          let calEvent = {
-            title: event.name,
-            start: new Date(event.startDate),
-            end: new Date(event.endDate),
-            desc: event.description,
-            id: event.eventId
-          };
-          calEventArray.push(calEvent);
-        });
-        this.setState({
-          events: calEventArray
-        });
+      let calEventArray = [];
+      response.data.resultSets[0].map(event => {
+        let calEvent = {
+          title: event.name,
+          start: new Date(event.startDate),
+          end: new Date(event.endDate),
+          desc: event.description,
+          id: event.eventId
+        };
+        calEventArray.push(calEvent);
+      });
+      this.setState({
+        events: calEventArray
+      });
       }
     });
 
@@ -275,7 +275,7 @@ class ProfileTabs extends React.Component {
               thumbnailHeight: thumbnail.Height,
               title: thumbnail.Title,
               caption: thumbnail.Caption
-            };
+          };
             imageTileArray.push(tile);
           } else if (thumbnail.Type === "video") {
             let tile = {
@@ -288,7 +288,7 @@ class ProfileTabs extends React.Component {
               thumbnailHeight: thumbnail.Height,
               title: thumbnail.Title,
               caption: thumbnail.Caption
-            };
+          };
             videoTileArray.push(tile);
           }
         }
@@ -343,11 +343,11 @@ class ProfileTabs extends React.Component {
           <TabContainer dir={theme.direction}>
             <CardBody>
               {this.props.currentUser.id == this.props.userProfile && (
-                <div className="row">
-                  <div className="col-md-1">
-                    <EventModal />
-                  </div>
+              <div className="row">
+                <div className="col-md-1">
+                  <EventModal />
                 </div>
+              </div>
               )}
               <div className="row mt-4">
                 <div className="col-md-12">
@@ -373,13 +373,13 @@ class ProfileTabs extends React.Component {
           <TabContainer dir={theme.direction}>
             <CardBody>
               {this.props.currentUser.id == this.props.userProfile && (
-                <div className="row">
+              <div className="row">
                   <div className="col-md-3">
                     <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
                       + Add New Photo/Video
                     </button>
-                  </div>
                 </div>
+              </div>
               )}
               <div className="row">
                 <div className="col-md-12">

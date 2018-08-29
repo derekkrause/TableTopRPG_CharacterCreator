@@ -512,25 +512,34 @@ class AthleteSportHistoryCard extends React.Component {
                   </h2>
                 </div>
               </div>
-              <div className="d-flex justify-content-lg-between flex-lg-row flex-md-column flex-sm-column flex-xs-column">
-                <div className="mr-3">
-                  <span>{sportName}</span>
+              {this.state.athleteTeamInfo ? (
+                <React.Fragment>
+                  <div className="d-flex justify-content-lg-between flex-lg-row flex-md-column flex-sm-column flex-xs-column">
+                    <div className="mr-3">
+                      <span>{sportName}</span>
+                    </div>
+                    <div>
+                      <span>{this.state.athleteTeamInfoOriginal && this.positionArray()}</span>
+                    </div>
+                  </div>
+                  <div className="row col-md-12">
+                    <div>
+                      {classYear}
+                      <strong>(</strong>
+                      {sportLevel}
+                      <strong>)</strong>
+                    </div>
+                  </div>
+                  <div className="row pb-3">
+                    <div className="sub-heading col-md-12">{comments == "null" ? "" : comments}</div>
+                  </div>
+                </React.Fragment>
+              ) : (
+                <div className="d-flex justify-content-lg-between flex-lg-row flex-md-column flex-sm-column flex-xs-column">
+                  {" "}
+                  No Team History
                 </div>
-                <div>
-                  <span>{this.state.athleteTeamInfoOriginal && this.positionArray()}</span>
-                </div>
-              </div>
-              <div className="row col-md-12">
-                <div>
-                  {classYear}
-                  <strong>(</strong>
-                  {sportLevel}
-                  <strong>)</strong>
-                </div>
-              </div>
-              <div className="row pb-3">
-                <div className="sub-heading col-md-12">{comments == "null" ? "" : comments}</div>
-              </div>
+              )}
             </div>
           </React.Fragment>
         )}

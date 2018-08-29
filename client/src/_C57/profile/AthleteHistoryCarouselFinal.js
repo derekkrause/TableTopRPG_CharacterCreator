@@ -18,7 +18,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
   }
 
   getAthleteSportInfo = () => {
-    getAthleteInfoById(this.props.currentUser.id).then(res => {
+    getAthleteInfoById(this.props.currentPageId).then(res => {
       const itemArray = [];
       res.data.items.map(ash => {
         let ashInfo = {
@@ -125,6 +125,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
 
   render = () => {
     const { activeIndex } = this.state;
+    const { currentPageId } = this.props;
     return (
       <React.Fragment>
         <NotificationContainer />
@@ -134,12 +135,16 @@ class AthleteHistoryCarouselFinal extends React.Component {
               <div>
                 <h2>Athlete History</h2>
               </div>
-              <AthleteTeamPopover
-                onDelete={this.delete}
-                onEditClick={this.onEditClick}
-                onAddNewToggle={this.onAddNewToggle}
-                popover={"AthleteTeam"}
-              />
+              {this.props.currentUser.id == currentPageId ? (
+                <AthleteTeamPopover
+                  onDelete={this.delete}
+                  onEditClick={this.onEditClick}
+                  onAddNewToggle={this.onAddNewToggle}
+                  popover={"AthleteTeam"}
+                />
+              ) : (
+                <div />
+              )}
             </React.Fragment>
           ) : (
             <div>
@@ -155,7 +160,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
           createAthleteTeamNotificationError={this.createAthleteTeamNotificationError}
         />
         <div className="carousel-inner">
-          {this.state.items ? (
+          {this.state.items[0] ? (
             this.state.items.map((item, index) => (
               <div key={item.id} className={index === activeIndex ? "carousel-item active" : "carousel-item"}>
                 <AthleteSportHistoryCard
@@ -170,9 +175,9 @@ class AthleteHistoryCarouselFinal extends React.Component {
               </div>
             ))
           ) : (
-            <div>Add Sport History</div>
+            <div className="text-align: center">No Athlete History</div>
           )}
-          {!this.state.editMode ? (
+          {!this.state.editMode && this.state.items.length > 1 ? (
             <div className="d-flex justify-content-between">
               <div>
                 <button className="btn btn-primary" direction="prev" onClick={this.previous}>

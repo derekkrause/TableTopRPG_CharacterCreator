@@ -2,7 +2,8 @@ import React from "react";
 import { Input } from "reactstrap";
 import "./profileCard.css";
 import { SaveButton, CancelButton } from "../CustomComponents/Button";
-import Popover from "../CustomComponents/Popover";
+import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
+import { connect } from "react-redux";
 
 class ProfileBio extends React.Component {
   state = {
@@ -23,6 +24,7 @@ class ProfileBio extends React.Component {
   };
 
   render() {
+    const { currentPageId } = this.props;
     return (
       <div className="ml-2">
         <div className="row home-center-text">
@@ -30,7 +32,11 @@ class ProfileBio extends React.Component {
             <h2 className="mb-0">Bio</h2>
           </div>
           <div className="col-md-3 text-right">
-            <Popover popover={this.props.popover} handleUpdate={this.handleEditBio} />
+            {this.props.currentUser.id == currentPageId ? (
+              <AthleteProfilePopover popover={this.props.popover} handleUpdate={this.handleEditBio} />
+            ) : (
+              <div />
+            )}
           </div>
         </div>
         {this.state.editBio === false ? (
@@ -59,5 +65,7 @@ class ProfileBio extends React.Component {
     );
   }
 }
-
-export default ProfileBio;
+function mapStateToProps(state) {
+  return { currentUser: state.currentUser };
+}
+export default connect(mapStateToProps)(ProfileBio);

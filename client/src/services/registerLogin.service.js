@@ -49,6 +49,11 @@ export function getCurrentUser() {
   return axios.get("/api/users/current");
 }
 
+//GET USER BY ID
+export function getUserById(id) {
+  return axios.get("/api/users/" + id);
+}
+
 //USER GET ALL
 export function getAll(pageIndex, pageSize) {
   return axios.get("api/users/" + pageIndex + "/" + pageSize);

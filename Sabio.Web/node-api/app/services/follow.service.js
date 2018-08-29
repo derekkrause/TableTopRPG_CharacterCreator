@@ -1,6 +1,23 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
 
+const getMessageContacts = id => {
+  return mssql
+    .executeProc("Follow_GetMessageContacts", sqlRequest => {
+      sqlRequest.addParameter("FollowerId", TYPES.Int, id);
+    })
+    .then(res => {
+      const item = {
+        contacts: res.resultSets[0]
+      };
+      return item;
+    })
+    .catch(() => {
+      const item = {};
+      return item;
+    });
+};
+
 const getByFollowerId = followerId => {
   return mssql
     .executeProc("Follow_SelectFollowingById", sqlRequest => {
@@ -56,5 +73,6 @@ module.exports = {
   getByFollowerId,
   getByUserId,
   post,
-  del
+  del,
+  getMessageContacts
 };

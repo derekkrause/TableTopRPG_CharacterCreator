@@ -3,6 +3,6 @@ const router = require("express").Router();
 
 module.exports = router;
 
-router.post("/", athleteLinksController.post);
+router.post("/:id(\\d+)", athleteLinksController.post);
 router.get("/", athleteLinksController.getAll);
 router.get("/:id(\\d+)", athleteLinksController.getById);

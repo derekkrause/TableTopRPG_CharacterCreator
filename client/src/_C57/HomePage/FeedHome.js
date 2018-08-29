@@ -74,6 +74,7 @@ class FeedHome extends React.Component {
       postFeed(payload)
         .then(response => {
           //console.log("CREATE/POST", response);
+          document.removeEventListener("click", this.handleOutsideClick, false);
           this.setState({ feedForm: false }, this.renderFeed());
         })
         .catch(error => console.log(error));

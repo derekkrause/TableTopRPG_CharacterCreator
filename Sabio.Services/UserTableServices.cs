@@ -16,7 +16,7 @@ namespace Sabio.Services
     {
         readonly IDataProvider dataProvider;
         readonly EmailService emailService;
-        readonly string domain = "http://localhost:3001/#/app";
+        readonly string domain = "https://prospectscout.azurewebsites.net/#/app";
 
         public UserTableServices(IDataProvider dataProvider, EmailService emailService)
         {
@@ -182,7 +182,10 @@ namespace Sabio.Services
                         IsAdmin = (bool)reader["Admin"],
                         CurrentSportId = reader.GetSafeInt32Nullable("CurrentSportId"),
                         DateCreated = (DateTime)reader["DateCreated"],
-                        DateModified = (DateTime)reader["DateModified"]
+                        DateModified = (DateTime)reader["DateModified"],
+                        StripeUserId = reader.GetSafeString("StripeUserId"),
+                        StripeSubId = reader.GetSafeString("StripeSubId"),
+                        SubNeeded = (bool)reader["SubNeeded"]
                     };
 
                     object MiddleNameValue = reader["MiddleName"];
@@ -191,6 +194,11 @@ namespace Sabio.Services
                         user.MiddleName = (string)MiddleNameValue;
                     };
 
+                    object SubscriptionExpiration = reader["SubscriptionExpiration"];
+                    if (SubscriptionExpiration != DBNull.Value)
+                    {
+                        user.SubscriptionExpiration = (DateTime)SubscriptionExpiration;
+                    };
                 });
                     return user;
         }

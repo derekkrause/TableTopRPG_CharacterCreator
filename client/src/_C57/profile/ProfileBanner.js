@@ -31,37 +31,17 @@ class ProfileBanner extends React.Component {
             </div>
             <div className="col-md-9">
               <ProfileInfo
+                everyThing={this.props.everyThing}
                 highlighting={this.props.highlighting}
                 highlightUser={this.props.highlightUser}
                 following={this.props.following}
                 followUser={this.props.followUser}
                 handleChange={this.props.handleChange}
-                onChange={this.props.onChange}
-                firstName={this.props.firstName}
-                middleName={this.props.middleName}
-                lastName={this.props.lastName}
-                title={this.props.title}
-                city={this.props.city}
-                state={this.props.state}
-                schoolName={this.props.schoolName}
-                schoolId={this.props.schoolId}
-                classYear={this.props.classYear}
-                classYearId={this.props.classYearId}
-                classYearOptions={this.props.classYearOptions}
-                gradYear={this.props.gradYear}
-                sport={this.props.sport}
-                sportLevel={this.props.sportLevel}
-                sportPosition={this.props.sportPosition}
-                height={this.props.height}
-                heightFeet={this.props.heightFeet}
-                heightInches={this.props.heightInches}
-                weight={this.props.weight}
-                gpa={this.props.gpa}
-                act={this.props.act}
                 currentProfile={this.props.currentProfile}
                 userId={this.props.userId}
-                handleSaveProfile={this.props.handleSaveProfile}
-                onHandleSchoolSelect={this.props.onHandleSchoolSelect}
+                handleProfileInfoSubmit={this.props.handleProfileInfoSubmit}
+                classYearOptions={this.props.classYearOptions}
+                currentPageId={this.props.currentPageId}
               />
             </div>
           </div>

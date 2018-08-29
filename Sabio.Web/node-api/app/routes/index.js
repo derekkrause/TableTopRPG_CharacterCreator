@@ -26,6 +26,8 @@ const athleteRoutes = require("./athlete.routes");
 const athleteLinksRoutes = require("./athleteLinks.routes");
 const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
+const { userFromJWTFilter } = require("../filters/jwt.user");
+const messagesRoutes = require("./messages.routes");
 const venuesRoutes = require("./venues.routes");
 const userFromJWT = require("../filters/jwt.user");
 const coachAthleteRoutes = require("./coachAthlete.routes");
@@ -65,6 +67,15 @@ router.route("/faqs/:id").get(FaqsController.getFaqByCategory);
 router.use("/faqs", faqsRoutes);
 router.use("/faqsCategories", faqsCategoriesRoutes);
 
+router.use("/athleteSchool", athleteSchoolRoutes);
+router.use("/athlete", athleteRoutes);
+router.use("/athleteLinks", athleteLinksRoutes);
+router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
+
+router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);
+
+router.use("/athleteTags", athleteTagsRoutes);
+router.use("/coaches", coachesRoutes);
 router.use("/profile", profilesRoutes);
 router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
@@ -82,7 +93,7 @@ router.use("/venues", venuesRoutes);
 // Authenticated routes go below this:
 // -----------------------------------
 
-router.use(userFromJWT);
+router.use(userFromJWTFilter);
 router.use(validateUser);
-
+router.use("/messages", messagesRoutes);
 router.use("/api/test", testRoutes); // TODO: remove this before delivery to the client
