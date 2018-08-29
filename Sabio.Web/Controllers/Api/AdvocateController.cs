@@ -3,6 +3,7 @@ using Sabio.Models;
 using Sabio.Models.Domain;
 using Sabio.Models.Responses;
 using Sabio.Models.ViewModels;
+using Sabio.Services.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,12 @@ namespace Sabio.Web.Controllers
         }
 
         [Route, HttpGet]
-        public HttpResponseMessage AdvocateSelectAll()
+        public HttpResponseMessage AdvocateSelectById()
         {
-            PagedItemResponse<Advocate> pagedItemResponse  = advocateService.SelectAllAdvocate();
-            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<Advocate>>
-            {
-                Item = pagedItemResponse
-            });
+            int advocateUserId = User.Identity.GetId().Value;
+            ItemResponse<Advocate> itemResponse = advocateService.SelectAdvocateById(advocateUserId);
+            return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
+
         }
 
         [Route, HttpPost, AllowAnonymous]
@@ -61,7 +61,7 @@ namespace Sabio.Web.Controllers
                 ModelState.AddModelError("", "Data is null");
             }
 
-            if (advocateId != advocateUpdate.Id)
+            else if (advocateId != advocateUpdate.Id)
             {
                 ModelState.AddModelError("Id", "Id does not match");
             }

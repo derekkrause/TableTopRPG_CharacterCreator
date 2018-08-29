@@ -10,7 +10,7 @@ class ClassYearTable extends React.Component {
   render() {
     return (
       <div className="jr-card ClassYearTable">
-        <button type="button" className="btn btn-primary ClassYearTable" onClick={this.props.addFormToggle}>
+        <button type="button" className="btn btn-link ClassYearTable" onClick={this.props.addFormToggle}>
           <i className="zmdi zmdi-account-add" /> Create New <br /> Class Year
         </button>
         <Table className="table-middle table ClassYearTable" hover>
@@ -28,7 +28,7 @@ class ClassYearTable extends React.Component {
                   <td className="ClassYearTable">
                     <button
                       type="button"
-                      className="btn btn-warning ClassYearTable"
+                      className="btn btn-link ClassYearTable"
                       onClick={() => this.props.editFormToggle(data.id)}
                     >
                       Edit

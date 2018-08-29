@@ -117,7 +117,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvoAthleteService.cs" />
     <Compile Include="AdvocateService.cs" />
+    <Compile Include="AdvoTeamService.cs" />
     <Compile Include="AthleteSearchService.cs" />
     <Compile Include="AthleteSportService.cs" />
     <Compile Include="AthletesService.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="FakePogService.cs" />
     <Compile Include="FeedHomeService.cs" />
     <Compile Include="ForgotPasswordService.cs" />
+    <Compile Include="GameService.cs" />
     <Compile Include="HardCodedConfiguration.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
@@ -160,6 +163,7 @@
     <Compile Include="Security\SecurityStringExtensions.cs" />
     <Compile Include="SportLevelService.cs" />
     <Compile Include="SportServices.cs" />
+    <Compile Include="TeamService.cs" />
     <Compile Include="UnconfirmedAccountException.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="UserTableServices.cs" />

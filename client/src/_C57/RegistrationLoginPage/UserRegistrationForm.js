@@ -138,12 +138,12 @@ class UserRegistrationForm extends React.Component {
     if (this.state.formValid) {
       const userData = {
         firstName: this.state.firstName,
-        middleName: this.state.middleName,
+        // middleName: this.state.middleName,
         lastName: this.state.lastName,
         email: this.state.emailInput,
-        passwordHash: this.state.password,
-        gender: this.state.genderSelect,
-        avatarUrl: this.state.avatarUrl
+        passwordHash: this.state.password
+        // gender: this.state.genderSelect,
+        // avatarUrl: this.state.avatarUrl
       };
       registerUser(userData)
         .then(result => {

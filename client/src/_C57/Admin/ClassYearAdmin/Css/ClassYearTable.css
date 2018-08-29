@@ -5,7 +5,7 @@ div.ClassYearTable {
 
 button.ClassYearTable {
     float: right;
-    display: inline-block;
+    margin-right: 40px;
     font-size: 14px;
     text-align: center;
 }
@@ -38,15 +38,15 @@ td.ClassYearTable {
 
     
 }
-
+/* 
 .ClassYearTable td:hover {
     font-size: 18px;
     font-style: italic;
     transform: translateX(5%);
     transition: ease-in-out .2s; 
-}
+} */
 
-.ClassYearTable td:hover > button.ClassYearTable {
+/* .ClassYearTable td:hover > button.ClassYearTable {
     font-size: 12px;
     font-style:italic;  
     transform: translateX(-100%);
@@ -54,11 +54,11 @@ td.ClassYearTable {
     opacity: 1;
     margin-left: 30px;
 
-}
+} */
 
-
+/* 
 td > button.ClassYearTable {
     opacity: 0;
 }
-
+ */
 

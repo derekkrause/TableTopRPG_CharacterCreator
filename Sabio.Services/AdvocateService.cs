@@ -24,33 +24,35 @@ namespace Sabio.Data.Services
             this.dataProvider = dataProvider;
         }
 
-        public PagedItemResponse<Advocate> SelectAllAdvocate()
+        public ItemResponse<Advocate> SelectAdvocateById(int advocateUserId)
         {
-            PagedItemResponse<Advocate> pagedItemResponse = new PagedItemResponse<Advocate>();
-            List<Advocate> advocateList = new List<Advocate>();
-
+            ItemResponse<Advocate> itemResponse = new ItemResponse<Advocate>();
+          
             dataProvider.ExecuteCmd(
-                "Advocate_Select",
+                "Advocate_SelectByUserId",
                 (parameters) =>
                 {
-
+                    parameters.AddWithValue("@UserId", advocateUserId);
                 },
                 (reader, resultSetIndex) =>
                 {
                     Advocate advocate = new Advocate
                     {
                         Id = (int)reader["Id"],
-                        UserId = (int)reader["UserId"],
-                        Title = (string)reader["Title"],
-                        ShortBio = (string)reader["ShortBio"],
+                        UserId = (int)reader["UserId"],                 
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        AvatarUrl = (string)reader["AvatarUrl"],
+                        Email = (string)reader["Email"],
+                        PasswordHash = (string)reader["PasswordHash"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
                     };
 
-                    object CollegeId = reader["CollegeId"];
-                    if (CollegeId != DBNull.Value)
+                    object MiddleName = reader["MiddleName"];
+                    if (MiddleName != DBNull.Value)
                     {
-                        advocate.CollegeId = (int)CollegeId;
+                        advocate.MiddleName = (string)MiddleName;
                     }
 
                     object HighSchoolId = reader["HighSchoolId"];
@@ -58,11 +60,29 @@ namespace Sabio.Data.Services
                     {
                         advocate.HighSchoolId = (int)HighSchoolId;
                     }
-                    advocateList.Add(advocate);
-                    pagedItemResponse.PagedItems = advocateList;
+
+                    object Title = reader["Title"];
+                    if (Title != DBNull.Value)
+                    {
+                        advocate.Title = (string)Title;
+                    }
+
+                    object ShortBio = reader["ShortBio"];
+                    if (ShortBio != DBNull.Value)
+                    {
+                        advocate.ShortBio = (string)ShortBio;
+                    }
+
+                    object Name = reader["Name"];
+                    if (Name != DBNull.Value)
+                    {
+                        advocate.Name = (string)Name;
+                    }
+
+                    itemResponse.Item = advocate;
                 });
 
-            return pagedItemResponse;
+            return itemResponse;
         }
 
         public int InsertAdvocate(AdvocateInsert advocateInsert)
@@ -72,11 +92,11 @@ namespace Sabio.Data.Services
             dataProvider.ExecuteNonQuery(
                 "Advocate_Insert",
                 (parameters) =>
-            {
-                parameters.AddWithValue("@UserId", advocateInsert.UserId);
-                parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
+                {
+                    parameters.AddWithValue("@UserId", advocateInsert.UserId);
+                    parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-            },
+                },
                 (parameters) =>
                 {
 
@@ -96,10 +116,14 @@ namespace Sabio.Data.Services
                 {
                     parameters.AddWithValue("@Id", advocateUpdate.Id);
                     parameters.AddWithValue("@UserId", advocateUpdate.UserId);
-                    parameters.AddWithValue("@CollegeId", advocateUpdate.CollegeId);
-                    parameters.AddWithValue("@HighSchoolId", advocateUpdate.HighSchoolId);
-                    parameters.AddWithValue("@Title", advocateUpdate.Title);
-                    parameters.AddWithValue("@ShortBio", advocateUpdate.ShortBio);
+                    parameters.AddWithValue("@HighSchoolId", advocateUpdate.HighSchoolId ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@Title", advocateUpdate.Title ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@ShortBio", advocateUpdate.ShortBio ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@FirstName", advocateUpdate.FirstName);
+                    parameters.AddWithValue("@LastName", advocateUpdate.LastName);
+                    //parameters.AddWithValue("@AvatarUrl", advocateUpdate.AvatarUrl);
+                    parameters.AddWithValue("@Email", advocateUpdate.Email);
+                    parameters.AddWithValue("@PasswordHash", advocateUpdate.PasswordHash);
                 });
         }
 
