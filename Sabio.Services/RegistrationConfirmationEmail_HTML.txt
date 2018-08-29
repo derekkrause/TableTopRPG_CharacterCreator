@@ -180,7 +180,7 @@
 
 <div>&nbsp;</div>
 
-<div>To complete your registration, confirm your account by clicking <a href='@link' target="_blank" alt="@link">here</a>.</div>
+<div>To complete your registration, confirm your account by clicking <a href='@link' target="_blank" alt="@link">here.</a></div>
 
 <div>Once you complete your registration, you will have complete access to all our features.</div>
 

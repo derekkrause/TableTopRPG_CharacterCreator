@@ -16,7 +16,7 @@ namespace Sabio.Services
     {
         readonly IDataProvider dataProvider;
         readonly EmailService emailService;
-        readonly string domain = "http://localhost:3001/#/app";
+        readonly string domain = "https://prospectscout.azurewebsites.net/#/app";
 
         public UserTableServices(IDataProvider dataProvider, EmailService emailService)
         {
