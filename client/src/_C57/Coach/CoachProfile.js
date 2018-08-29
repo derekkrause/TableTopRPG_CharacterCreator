@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import ProfileCard from "../profile/ProfileCard";
 import { FormGroup, Input, Label } from "reactstrap";
-import { getCoachById, updateCoachProfile } from "../../services/coach.service";
+import SchoolSearch from "./SchoolSearchByName";
+import StateSelect from "../CustomComponents/InputsDropdowns/StateOptions";
+import { getCoachById, updateCoachProfile, schoolSearch } from "../../services/coach.service";
 import "./CoachProfile.css";
 
 const defaultBio =
@@ -277,11 +279,14 @@ class CoachProfile extends React.Component {
                   <div>
                     <div className="form-group text-left">
                       <label htmlFor="schoolNameEdit">School</label>
-                      <input
-                        className="form-control"
+                      <SchoolSearch
                         name="schoolNameEdit"
-                        defaultValue={schoolNameEdit}
-                        placeholder="School Name"
+                        city={cityEdit || city}
+                        cityEdit={cityEdit}
+                        state={stateEdit || state}
+                        stateEdit={stateEdit}
+                        defaultValue={schoolNameEdit || schoolName}
+                        setSchoolName={input => this.setState({ schoolNameEdit: input })}
                       />
                     </div>
                     <div className="form-row">
@@ -290,6 +295,7 @@ class CoachProfile extends React.Component {
                         <input
                           className="form-control"
                           name="cityEdit"
+                          style={{ height: "38px" }}
                           defaultValue={cityEdit || city}
                           placeholder="City"
                           onChange={this.onChange}
@@ -297,13 +303,7 @@ class CoachProfile extends React.Component {
                       </div>
                       <div className="form-group text-left col">
                         <label htmlFor="stateEdit">State</label>
-                        <input
-                          className="form-control"
-                          name="stateEdit"
-                          defaultValue={stateEdit || state}
-                          placeholder="State"
-                          onChange={this.onChange}
-                        />
+                        <StateSelect name="stateEdit" defaultValue={stateEdit || state} onChange={this.onChange} />
                       </div>
                     </div>
                   </div>

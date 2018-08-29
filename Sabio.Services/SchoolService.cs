@@ -2,9 +2,6 @@
 using Sabio.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sabio.Services
 {
@@ -39,6 +36,34 @@ namespace Sabio.Services
                     listOfSchools.Add(school);
                 });
             return listOfSchools;
+        }
+
+        public List<Schools> Search(string q, string city, string state)
+        {
+            List<Schools> schoolList = new List<Schools>();
+            
+
+
+            dataProvider.ExecuteCmd(
+                "School_SearchByName",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@SearchString", q);
+                    parameters.AddWithValue("@City", city ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@State", state ?? (object)DBNull.Value);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    Schools school = new Schools
+                    {
+                        Id = (int)reader["Id"],
+                        Name = (string)reader["Name"],
+                        City = (string)reader["City"],
+                        State = (string)reader["State"]
+                    };
+                    schoolList.Add(school);
+                });
+            return schoolList;
         }
     }
 }

@@ -67,5 +67,6 @@ namespace Sabio.Web.Controllers.Api
             ItemResponse<CoachProfile> itemResponse = new ItemResponse<CoachProfile> { Item = coachProfileService.UpdateCoachProfile(request) };
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
         }
+
     }
 }
