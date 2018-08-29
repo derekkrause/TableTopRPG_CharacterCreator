@@ -94,7 +94,7 @@ class HomePage extends React.Component {
                       borderColor="border-purple"
                     />
                     <CollegeList datas={schools} cardTitle="Trending Schools" dotColor="bg-orange" />
-                    <ArticleList cardTitle={articleTitle} />
+                    {/* <ArticleList cardTitle={articleTitle} /> // NO LONGER INCLUDED IN FINAL DELIVERABLE. IF YOU NEED THIS IN THE FUTURE, PLEASE UNCOMMENT IT */}
                   </div>
                 </div>
               </div>

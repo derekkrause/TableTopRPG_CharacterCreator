@@ -78,6 +78,7 @@
     <Compile Include="Domain\Game.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Schools.cs" />
+    <Compile Include="Domain\SchoolSearch.cs" />
     <Compile Include="Domain\SchoolTrend.cs" />
     <Compile Include="Domain\Sport.cs" />
     <Compile Include="Domain\SportBase.cs" />

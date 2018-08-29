@@ -13,6 +13,25 @@
 .venuetag {
     border-left: solid 8px yellow;
 }
+
+.schooltag{
+    border-left: solid 8px rgb(241, 172, 21);
+}
+
+.external-link{
+    font-size: 14px;
+    color: gray;
+    right: 0px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.external-link:hover{
+    text-decoration: none;
+    color: black;
+}
+
+
 .line-clamp {
     display: -webkit-box;
     -webkit-line-clamp: 2;

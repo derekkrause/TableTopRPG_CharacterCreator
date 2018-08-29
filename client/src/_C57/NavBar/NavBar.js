@@ -23,6 +23,20 @@ class NavBar extends React.Component {
     searchCriteria: {}
   };
 
+  checkSportFilter = () => {
+    if (this.props.searchCriteria.sportFilter == null) {
+      this.setCriteriaProperties({
+        sportFilter: this.props.currentUser.currentSportId
+      });
+    }
+  };
+
+  setDropdownProperties = properties => {
+    this.props.setDropdownValues({
+      ...this.props.dropDownOptions,
+      ...properties
+    });
+  };
   handleTypeAheadChange = name => values => {
     this.setCriteriaProperties({
       [name]: values
@@ -166,6 +180,9 @@ class NavBar extends React.Component {
       searchStringN: "",
       dropdownListValue: "all"
     });
+    if (this.props.currentUser !== null) {
+      this.checkSportFilter();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -337,11 +354,12 @@ class NavBar extends React.Component {
           {this.props.searchCriteria.searchType === "schools" && (
             <SchoolSearchFilter
               className="bg-white"
-              handleChange={this.onChange}
+              handleChange={this.handleChange}
               handleKeyPress={this.handleKeyPress}
               handleTypeAheadChange={this.handleTypeAheadChange}
-              locationFilter={this.props.searchCriteria.locationFilter}
-              sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
+              //locationFilter={this.props.searchCriteria.locationFilter}
+              //sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
+              searchCriteria={this.props.searchCriteria}
             />
           )}
           {this.props.searchCriteria.searchType === "venues" && (
@@ -360,12 +378,14 @@ class NavBar extends React.Component {
 function mapStateToProps(state) {
   return {
     searchCriteria: state.searchCriteria,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    dropDownOptions: state.dropDownOptions
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    setDropdownValues: dropdownOptions => dispatch({ type: SET_DROPDOWN_VALUES, dropdownOptions }),
     setSearchCriteria: searchCriteria => dispatch({ type: "SET_SEARCH_CRITERIA", searchCriteria })
   };
 }

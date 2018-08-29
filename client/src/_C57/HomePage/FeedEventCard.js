@@ -11,7 +11,7 @@ const FeedEventCard = props => {
         <img className="img-fluid event-mini-card-img mb-3 mb-md-0 rounded" src={logo} alt="..." />
       </div>
       <div className="col-mb-9 col-sm-9 col-12">
-        <h3 className="mb-1">{name}</h3>
+        <h3 className="mb-1 font-weight-bold">{name}</h3>
         <p className="meta-date mb-2">Organized by {organizer}</p>
         <div className="meta-wrapper">
           <span className="meta-date">

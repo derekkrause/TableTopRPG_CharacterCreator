@@ -114,7 +114,8 @@ namespace Sabio.Services
                             DropDownSportPosition sportPosition = new DropDownSportPosition
                             {
                                 Id = reader.GetSafeInt32Nullable("SportPositionId"),
-                                Name = (string)reader["SportPosition"]
+                                Name = (string)reader["SportPosition"],
+                                Code = (string)reader["Code"]
                             };
                             options.SportPosition.Add(sportPosition);
                             break;

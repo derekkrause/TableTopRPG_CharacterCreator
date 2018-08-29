@@ -35,7 +35,7 @@ namespace Sabio.Services
                     {
                         DateCreated = (DateTime)reader["DateCreated"],
                         Type = (string)reader["Type"],
-                        ItemData = new Newtonsoft.Json.Linq.JRaw((string)reader["ItemData"]),
+                        ItemData = new JRaw((string)reader["ItemData"]),
                         Liked = (bool)reader["Liked"],
                         LikedId = reader.GetSafeInt32Nullable("LikedId"),
                         CommentData = new JRaw((string)reader["CommentData"])

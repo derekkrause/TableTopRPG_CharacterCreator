@@ -49,44 +49,16 @@ const MessageAsyncComponent = asyncComponent(() => import("../_C57/Messaging/Mes
 class App extends React.Component {
   componentDidMount() {
     //-- Leave this if statement here for now. I need it to test filter later. -Ricky
-
-    // Commented out if statement for AthleteSearchFilter --RR
-    // if (this.props.currentUser) {
     axios
       .get("api/search")
       .then(res => {
         // console.log("Good Get All!", res.data);
         this.props.setDropdownValues(res.data);
-        this.props;
-        this.checkSportFilter();
       })
       .catch(() => {
         console.log("Get All Failed");
       });
-    // }
   }
-
-  setDropdownProperties = properties => {
-    this.props.setDropdownValues({
-      ...this.props.dropDownOptions,
-      ...properties
-    });
-  };
-
-  setCriteriaProperties = properties => {
-    this.props.setSearchCriteria({
-      ...this.props.searchCriteria,
-      ...properties
-    });
-  };
-
-  checkSportFilter = () => {
-    if (this.props.searchCriteria.sportFilter == null) {
-      this.setCriteriaProperties({
-        sportFilter: this.props.currentUser.currentSportId
-      });
-    }
-  };
 
   render() {
     const { match, drawerType, navigationStyle, horizontalNavPosition, currentUser } = this.props;
@@ -188,9 +160,9 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = ({ currentUser, settings, dropDownOptions, searchCriteria }) => {
+const mapStateToProps = ({ currentUser, settings, searchCriteria }) => {
   const { drawerType, navigationStyle, horizontalNavPosition } = settings;
-  return { drawerType, navigationStyle, horizontalNavPosition, currentUser, dropDownOptions, searchCriteria };
+  return { drawerType, navigationStyle, horizontalNavPosition, currentUser, searchCriteria };
 };
 
 function mapDispatchToProps(dispatch) {
