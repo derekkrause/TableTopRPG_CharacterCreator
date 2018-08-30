@@ -47,7 +47,8 @@ class CoachProfile extends React.Component {
   componentDidMount = () => this.getProfileInfo(this.props.match.params.id);
 
   getProfileInfo = userId => {
-    getCoachById(userId).then(result => this.updateVariables(result.data.item));
+    const promise = getCoachById(userId);
+    promise.then(result => this.updateVariables(result.data.item));
   };
 
   editingProfile = () => {
@@ -286,6 +287,7 @@ class CoachProfile extends React.Component {
                         state={stateEdit || state}
                         stateEdit={stateEdit}
                         defaultValue={schoolNameEdit || schoolName}
+                        setCityState={(city, state) => this.setState({ cityEdit: city, stateEdit: state })}
                         setSchoolName={input => this.setState({ schoolNameEdit: input })}
                       />
                     </div>
@@ -297,13 +299,19 @@ class CoachProfile extends React.Component {
                           name="cityEdit"
                           style={{ height: "38px" }}
                           defaultValue={cityEdit || city}
+                          value={cityEdit}
                           placeholder="City"
                           onChange={this.onChange}
                         />
                       </div>
                       <div className="form-group text-left col">
                         <label htmlFor="stateEdit">State</label>
-                        <StateSelect name="stateEdit" defaultValue={stateEdit || state} onChange={this.onChange} />
+                        <StateSelect
+                          name="stateEdit"
+                          defaultValue={stateEdit || state}
+                          value={stateEdit}
+                          onChange={this.onChange}
+                        />
                       </div>
                     </div>
                   </div>
