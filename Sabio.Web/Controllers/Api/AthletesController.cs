@@ -60,6 +60,13 @@ namespace Sabio.Web.Controllers.Api
         [Route("{userId:int}"), HttpPut]
         public HttpResponseMessage Update(AthleteUpdateRequest athleteUpdateRequest, int userId)
         {
+            int? currentUserId = User.Identity.GetId();
+
+            if (userId != currentUserId)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "User not authorized to make changes to this profile.");
+            }
+
             if (athleteUpdateRequest == null)
             {
                 ModelState.AddModelError("", "Missing body data");
