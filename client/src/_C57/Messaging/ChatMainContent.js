@@ -1,4 +1,5 @@
 import React from "react";
+import "./message.css";
 
 class ChatMainContent extends React.Component {
   render() {
@@ -6,29 +7,49 @@ class ChatMainContent extends React.Component {
     return (
       <React.Fragment>
         {author === currentUser.firstName ? (
-          <div className="d-flex flex-nowrap chat-item flex-row-reverse">
-            <img className="rounded-circle avatar size-40 align-self-end" src={currentUser.avatarUrl} />
-            <div style={{ position: "relative", top: "20px" }}>
-              <div className="bubble jambo-card" style={{ backgroundColor: "#2dcc6f", border: "none" }}>
-                <div className="message" style={{ color: "white", fontSize: "15px" }}>
+          <div className="d-flex flex-wrap chat-item flex-row-reverse">
+            <div
+              className="senderBubble"
+              style={{
+                position: "relative",
+                top: "20px",
+                overflow: "hidden"
+              }}
+            >
+              <div
+                className="bubble flex-wrap"
+                style={{
+                  backgroundColor: "#2dcc6f",
+                  border: "none",
+                  overflowWrap: "break-word",
+                  marginLeft: "0"
+                }}
+              >
+                <span className="message" style={{ color: "white", fontSize: "15px" }}>
                   {message}
-                </div>
+                </span>
               </div>
-              <div className="time text-right mt-2" style={{ fontSize: "10px", marginRight: "16px" }}>
+              <div className="time text-right mt-2" style={{ fontSize: "10px", paddingBottom: "7%" }}>
                 {time}
               </div>
             </div>
           </div>
         ) : (
-          <div className="d-flex flex-nowrap chat-item" ref={this.registerRef}>
+          <div className="d-flex flex-wrap chat-item" ref={this.registerRef}>
             <img className="rounded-circle avatar size-40 align-self-end" src={senderAvatar} />
-            <div style={{ position: "relative", top: "20px" }}>
-              <div className="bubble" style={{ backgroundColor: "rgb(220, 224, 225)", border: "none" }}>
-                <div className="message" style={{ fontSize: "15px" }}>
+            <div
+              className="recipientBubble"
+              style={{ position: "relative", top: "20px", left: "2%", overflow: "hidden" }}
+            >
+              <div
+                className="bubble flex-wrap"
+                style={{ backgroundColor: "rgb(220, 224, 225)", border: "none", overflowWrap: "break-word" }}
+              >
+                <span className="message" style={{ fontSize: "15px" }}>
                   {message}
-                </div>
+                </span>
               </div>
-              <div className="time text-muted text-left mt-2" style={{ fontSize: "10px", marginLeft: "16px" }}>
+              <div className="time text-muted text-left mt-2" style={{ fontSize: "10px", paddingBottom: "7%" }}>
                 {time}
               </div>
             </div>

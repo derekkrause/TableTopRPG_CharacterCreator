@@ -153,8 +153,8 @@ class AthleteAcademics extends React.Component {
                         className="form-control"
                         value={this.state.sat}
                         type="number"
-                        min={1}
-                        max={2400}
+                        min={400}
+                        max={1600}
                         name="sat"
                         onChange={this.handleChange}
                         style={{ textAlign: "center" }}

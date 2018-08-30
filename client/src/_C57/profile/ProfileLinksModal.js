@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { getAthleteLinksById, postAthleteLink } from "../../services/athleteLink.service";
+import { getAthleteLinksById, postAthleteLink, deleteAthleteLink } from "../../services/athleteLink.service";
 import ProfileLinks from "./ProfileLinks";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 class ProfileLinksModal extends React.Component {
   state = {
@@ -11,7 +12,8 @@ class ProfileLinksModal extends React.Component {
     profileLinks: [],
     linkIcon: 0,
     linkTitle: "",
-    link: ""
+    link: "",
+    alert: null
   };
 
   componentDidMount() {
@@ -54,13 +56,48 @@ class ProfileLinksModal extends React.Component {
     };
     postAthleteLink(payload)
       .then(
-        this.getAthleteLinksFunc(),
-        this.setState({
-          linkTitle: "",
-          link: ""
-        })
+        this.setState(
+          {
+            linkTitle: "",
+            link: ""
+          },
+          () => this.getAthleteLinksFunc()
+        )
       )
       .catch(err => console.log(err));
+  };
+
+  delete = id => {
+    const getAlert = () => (
+      <SweetAlert
+        warning
+        showCancel
+        confirmBtnText="Yes, delete it!"
+        confirmBtnBsStyle="danger"
+        cancelBtnBsStyle="default"
+        title={`Are you sure you want to delete?`}
+        onConfirm={() => this.deleteLink(id)} //what function you want on confirm
+        onCancel={this.cancelAlert} //what function you want on cancel
+      />
+    );
+    this.setState({ alert: getAlert() });
+  };
+
+  cancelAlert = () => {
+    this.setState({
+      alert: null
+    });
+  };
+
+  deleteLink = id => {
+    deleteAthleteLink(id)
+      .then(() => {
+        this.getAthleteLinksFunc();
+        this.cancelAlert();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -103,6 +140,15 @@ class ProfileLinksModal extends React.Component {
                           )}
                         </h3>
                       </a>
+                      {/* <button className="btn btn-secondary" type="button" onClick={() => this.deleteLink(link.Id)}> */}
+                      <p className="px-1"> </p>
+                      <p
+                        style={{ fontSize: "x-small", color: "red", cursor: "pointer" }}
+                        onClick={() => this.delete(link.Id)}
+                      >
+                        X
+                      </p>
+                      {/* </button> */}
                     </div>
                   ))}
                 </React.Fragment>
@@ -116,6 +162,7 @@ class ProfileLinksModal extends React.Component {
               Close
             </Button>
           </ModalFooter>
+          {this.state.alert}
         </Modal>
       </div>
     );

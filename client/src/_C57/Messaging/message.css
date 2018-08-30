@@ -55,6 +55,16 @@
     -webkit-animation: 1s blink infinite 0.9999s;
             animation: 1s blink infinite 0.9999s;
   }
+
+  .senderBubble {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .recipientBubble {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   
   @-webkit-keyframes blink {
     50% {
@@ -79,3 +89,4 @@
               transform: scale(1.05);
     }
   }
+

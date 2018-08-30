@@ -52,6 +52,7 @@
     <Compile Include="Domain\AdvoAthlete.cs" />
     <Compile Include="Domain\Advocate.cs" />
     <Compile Include="Domain\AdvoTeam.cs" />
+    <Compile Include="Domain\AllSearch.cs" />
     <Compile Include="Domain\Athlete.cs" />
     <Compile Include="Domain\AthleteFilterOptions.cs" />
     <Compile Include="Domain\AthleteInfo.cs" />
