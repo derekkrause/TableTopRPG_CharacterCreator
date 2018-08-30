@@ -32,7 +32,10 @@ namespace Sabio.Web
             container.RegisterType<IConfiguration, HardCodedConfiguration>();
 
             container.RegisterType<IUserTableService, UserTableServices>();
+
             container.RegisterType<IEventService, EventService>();
+            container.RegisterType<IEventTypeService, EventTypeService>();
+            container.RegisterType<IAllSearchService, AllSearchService>();
             container.RegisterType<ISchoolTrendService, SchoolTrendService>();
             container.RegisterType<IEmailService, EmailService>();
 

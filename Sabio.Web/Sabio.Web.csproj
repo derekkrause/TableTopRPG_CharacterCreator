@@ -252,6 +252,7 @@
     <Compile Include="Controllers\Api\AdvoAthleteController.cs" />
     <Compile Include="Controllers\Api\AdvocateController.cs" />
     <Compile Include="Controllers\Api\AdvoTeamController.cs" />
+    <Compile Include="Controllers\Api\AllSearchController.cs" />
     <Compile Include="Controllers\Api\AthletesController.cs" />
     <Compile Include="Controllers\Api\AthleteSearchController.cs" />
     <Compile Include="Controllers\Api\AthleteSportController.cs" />

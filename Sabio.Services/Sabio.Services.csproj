@@ -120,6 +120,7 @@
     <Compile Include="AdvoAthleteService.cs" />
     <Compile Include="AdvocateService.cs" />
     <Compile Include="AdvoTeamService.cs" />
+    <Compile Include="AllSearchService.cs" />
     <Compile Include="AthleteSearchService.cs" />
     <Compile Include="AthleteSportService.cs" />
     <Compile Include="AthletesService.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="GameService.cs" />
     <Compile Include="HardCodedConfiguration.cs" />
     <Compile Include="Interfaces\Cryptography\ICryptographyService.cs" />
+    <Compile Include="Interfaces\IAllSearchService.cs" />
     <Compile Include="Interfaces\IAuthenticationService.cs" />
     <Compile Include="Interfaces\ICacheService.cs" />
     <Compile Include="Interfaces\IConfiguration.cs" />

@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import AthleteSearchResults from "./AthleteSearchResults";
 import CoachSearchResults from "./CoachSearchResults";
 import SchoolSearchResults from "./SchoolSearchResults";
@@ -23,7 +23,7 @@ class SearchResults extends React.Component {
             <Route path={`${this.props.match.url}/schools`} render={props => <SchoolSearchResults {...props} />} />
             <Route path={`${this.props.match.url}/events`} render={props => <EventSearchResults {...props} />} />
             <Route path={`${this.props.match.url}/venues`} render={props => <VenueSearchResults {...props} />} />
-            <Route path={`${this.props.match.url}/articles`} render={props => <ArticleSearchResults {...props} />} />
+            {/* <Route path={`${this.props.match.url}/articles`} render={props => <ArticleSearchResults {...props} />} /> */}
           </div>
         </div>
       </div>
@@ -31,4 +31,4 @@ class SearchResults extends React.Component {
   }
 }
 
-export default SearchResults;
+export default withRouter(SearchResults);
