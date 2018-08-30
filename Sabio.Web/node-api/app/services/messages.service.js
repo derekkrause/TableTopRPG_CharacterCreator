@@ -36,11 +36,13 @@ const postMessage = (senderUserId, recipientUserId, message) => {
       request.addParameter("Message", TYPES.NVarChar, message);
       request.addOutputParameter("Id", TYPES.Int, null);
       request.addOutputParameter("DateCreated", TYPES.DateTime2, null);
+      request.addOutputParameter("RecentMessageCount", TYPES.Int, null);
     })
     .then(response => {
       const item = {
         id: response.outputParameters.Id,
-        dateCreated: response.outputParameters.DateCreated
+        dateCreated: response.outputParameters.DateCreated,
+        recentMessageCount: response.outputParameters.RecentMessageCount
       };
       return item;
     });

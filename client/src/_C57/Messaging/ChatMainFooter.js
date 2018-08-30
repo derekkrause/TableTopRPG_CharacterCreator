@@ -25,11 +25,11 @@ class ChatMainFooter extends React.Component {
   startCheckingTyping = () => {
     //console.log("Typing");
     this.typingInterval = setInterval(() => {
-      if (Date.now() - this.lastUpdateTime > 300) {
+      if (Date.now() - this.lastUpdateTime > 4000) {
         this.setState({ isTyping: false });
         this.stopCheckingTyping();
       }
-    }, 300);
+    }, 400);
   };
 
   /*

@@ -14,7 +14,10 @@ class ChatMainContent extends React.Component {
                   {message}
                 </div>
               </div>
-              <div className="time text-right mt-2" style={{ fontSize: "10px", marginRight: "16px" }}>
+              <div
+                className="time text-right mt-2"
+                style={{ fontSize: "10px", marginRight: "16px", paddingBottom: "7%" }}
+              >
                 {time}
               </div>
             </div>
@@ -28,7 +31,10 @@ class ChatMainContent extends React.Component {
                   {message}
                 </div>
               </div>
-              <div className="time text-muted text-left mt-2" style={{ fontSize: "10px", marginLeft: "16px" }}>
+              <div
+                className="time text-muted text-left mt-2"
+                style={{ fontSize: "10px", marginLeft: "16px", paddingBottom: "7%" }}
+              >
                 {time}
               </div>
             </div>

@@ -13,6 +13,7 @@ import InfiniteScroll from "./ScrollChecker";
 import { getMessagesByUserId, postMessage, getConvosByUserId, getContacts } from "../../services/message.service";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
+import SweetAlert from "react-bootstrap-sweetalert";
 
 class Message extends React.Component {
   state = {
@@ -38,7 +39,8 @@ class Message extends React.Component {
     isTyping: false,
     messagesToShow: false,
     contactsArray: [],
-    messageContacts: []
+    messageContacts: [],
+    alert: false
   };
 
   registerRef = React.createRef();
@@ -68,7 +70,7 @@ class Message extends React.Component {
       //console.log(data);
       const { messages, activeChatId } = this.state;
       if (data.senderUserId == this.props.currentUser.id) {
-        this.setState({ activeChatId: data.recipientUserId }, () => {
+        this.setState({ activeChatId: data.recipientUserId, isTyping: false }, () => {
           if (activeChatId == data.recipientUserId) {
             const addMessage = (arr, value) => arr.concat(value);
             const updatedMessages = addMessage(messages, {
@@ -132,8 +134,7 @@ class Message extends React.Component {
           });
           this.setState({ messages: updatedMessages });
           return {
-            ...chat,
-            snippet: data.message
+            ...chat
           };
         } else if (chat.id == data.senderUserId) {
           return {
@@ -240,36 +241,41 @@ class Message extends React.Component {
     const { currentUser } = this.props;
     if (e.key === "Enter") {
       e.preventDefault();
-      const payload = {
-        recipientUserId,
-        message,
-        hasBeenRead: 0
-      };
-
-      postMessage(payload)
-        .then(response => {
-          const newTime = moment(response.data.items.dateCreated).format("h:mm:ss a");
-
-          socket.emit("SEND_MESSAGE", {
-            sender: username,
-            senderUserId: currentUser.id,
-            message: message,
-            time: newTime,
-            messageKey: response.data.items.id,
-            recipientName: recipientName,
-            recipientSocketId: recipientSocketId,
-            senderAvatar: currentUser.avatarUrl,
-            recipientUserId: recipientUserId
-          });
-
-          this.setState({
-            message: ""
-          });
-        })
-        .catch(() => {
-          console.log("There was an error sending your message to the DB");
+      if (message != "" && message != " ") {
+        this.setState({
+          message: ""
         });
-      // }
+
+        const payload = {
+          recipientUserId,
+          message,
+          hasBeenRead: 0
+        };
+
+        postMessage(payload)
+          .then(response => {
+            const newTime = moment(response.data.items.dateCreated).format("h:mm:ss a");
+
+            socket.emit("SEND_MESSAGE", {
+              sender: username,
+              senderUserId: currentUser.id,
+              message: message,
+              time: newTime,
+              messageKey: response.data.items.id,
+              recipientName: recipientName,
+              recipientSocketId: recipientSocketId,
+              senderAvatar: currentUser.avatarUrl,
+              recipientUserId: recipientUserId
+            });
+
+            if (response.data.items.recentMessageCount > 12) {
+              this.showAlert();
+            }
+          })
+          .catch(() => {
+            console.log("There was an error sending your message to the DB");
+          });
+      }
     }
   };
 
@@ -356,25 +362,22 @@ class Message extends React.Component {
     const newArray = [];
     getConvosByUserId().then(response => {
       const chatArray = response.data.items.convoHistory;
-      if (chatArray.length > 0) {
+      if (response.data.items.convoHistory.length > 0) {
         for (let i = 0; i < chatArray.length; i++) {
-          getUserById(chatArray[i].SenderUserId).then(reply => {
-            const recipient = reply.data.item;
-            newArray.push({
-              name: recipient.firstName + " " + recipient.lastName,
-              snippet: "",
-              avatar: recipient.avatarUrl,
-              unseenMessages: 0,
-              id: chatArray[i].SenderUserId
-            });
-            if (newArray.length == chatArray.length) {
-              this.setState({ currentChats: newArray }, () => {
-                if (this.state.activeChatId == "") {
-                  this.setState({ activeChatId: this.state.currentChats[0].id });
-                }
-              });
-            }
+          newArray.push({
+            name: chatArray[i].FirstName + " " + chatArray[i].LastName,
+            snippet: "",
+            avatar: chatArray[i].AvatarUrl,
+            unseenMessages: 0,
+            id: chatArray[i].SenderUserId
           });
+          if (newArray.length == chatArray.length) {
+            this.setState({ currentChats: newArray }, () => {
+              if (this.state.activeChatId == "") {
+                this.setState({ activeChatId: this.state.currentChats[0].id });
+              }
+            });
+          }
         }
       } else {
         this.setState({ messagesToShow: true });
@@ -501,6 +504,21 @@ class Message extends React.Component {
 
   //Misc
 
+  showAlert = () => {
+    this.setState({
+      alert: true
+    });
+  };
+
+  hideAlert = () => {
+    setTimeout(
+      this.setState({
+        alert: false
+      }),
+      2000
+    );
+  };
+
   acceptScrollerRef = el => {
     //console.log("got the ref!", el);
 
@@ -531,11 +549,17 @@ class Message extends React.Component {
   handleChange = handleChange.bind(this);
 
   handleScrolledToBottom = () => {
-    this.setState({ scrolledToBottom: true }, () => console.log("scrolled to bottom: ", this.state.scrolledToBottom));
+    this.setState(
+      { scrolledToBottom: true }
+      // , () => console.log("scrolled to bottom: ", this.state.scrolledToBottom)
+    );
   };
 
   handleScrollChecker = () => {
-    this.setState({ scrolledToBottom: false }, () => console.log("scrolled to bottom: ", this.state.scrolledToBottom));
+    this.setState(
+      { scrolledToBottom: false }
+      // , () => console.log("scrolled to bottom: ", this.state.scrolledToBottom)
+    );
   };
   updateChatId = data => {
     this.setState({ activeChatId: data }, () => {
@@ -547,8 +571,11 @@ class Message extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.messages !== prevState.messages) {
       this.scrollToBottom();
-      //console.log("message was added");
+      if (this.state.isTyping == true) {
+        this.setState({ isTyping: false });
+      }
     }
+
     if (this.state.scrolledToBottom !== prevState.scrolledToBottom && this.state.showMessages == true) {
       this.setState({ showMessages: false });
     }
@@ -596,7 +623,8 @@ class Message extends React.Component {
       pageHasLoaded,
       isTyping,
       messagesToShow,
-      messageContacts
+      messageContacts,
+      alert
     } = this.state;
     return (
       <React.Fragment>
@@ -740,7 +768,6 @@ class Message extends React.Component {
                               paddingTop: "1%",
                               paddingBottom: "1%",
                               bottom: "90px"
-                              // margin:"0 auto"
                             }}
                             onClick={this.forceScrollToBottom}
                           >
@@ -756,6 +783,16 @@ class Message extends React.Component {
                           message={this.state.message}
                           handleTextChange={this.handleTextChange}
                           sendTyping={this.sendTyping}
+                        />
+                      )}
+                      {this.state.alert && (
+                        <SweetAlert
+                          warning
+                          confirmBtnText="Okay"
+                          confirmBtnBsStyle="danger"
+                          cancelBtnBsStyle="default"
+                          title="Please Refrain From Spamming!"
+                          onConfirm={this.hideAlert}
                         />
                       )}
                     </div>
