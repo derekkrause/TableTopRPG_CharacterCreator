@@ -11,3 +11,7 @@ export function getAthleteLinksById(id) {
 export function postAthleteLink(payload) {
   return axios.post("/node-api/server.js/athleteLinks/" + payload.userId, payload);
 }
+
+export function deleteAthleteLink(id) {
+  return axios.delete("/node-api/server.js/athleteLinks/" + id);
+}

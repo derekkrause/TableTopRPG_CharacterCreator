@@ -153,7 +153,7 @@ class AthleteAcademics extends React.Component {
                         className="form-control"
                         value={this.state.sat}
                         type="number"
-                        min={1}
+                        min={400}
                         max={2400}
                         name="sat"
                         onChange={this.handleChange}

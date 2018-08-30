@@ -22,6 +22,7 @@ const likesRoutes = require("./likes.routes");
 const iconRoutes = require("./icon.routes");
 const commentsRoutes = require("./comments.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");
+const athleteTargetSportRoutes = require("./athleteTargetSport.routes");
 const athleteRoutes = require("./athlete.routes");
 const athleteLinksRoutes = require("./athleteLinks.routes");
 const testRoutes = require("./test.routes");
@@ -47,6 +48,7 @@ router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
 router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);
 router.use("/athleteLinks", athleteLinksRoutes);
 router.use("/athleteSearch", athleteSearchRoutes);
+router.use("/athleteTargetSport", athleteTargetSportRoutes);
 
 router.use("/api/coaches", coachesRoutes);
 router.use("/coaches", coachesRoutes);
@@ -67,15 +69,6 @@ router.route("/faqs/:id").get(FaqsController.getFaqByCategory);
 router.use("/faqs", faqsRoutes);
 router.use("/faqsCategories", faqsCategoriesRoutes);
 
-router.use("/athleteSchool", athleteSchoolRoutes);
-router.use("/athlete", athleteRoutes);
-router.use("/athleteLinks", athleteLinksRoutes);
-router.use("/athleteSchoolLog", athleteSchoolLogRoutes);
-
-router.use("/athleteSchoolTags", athleteSchoolTagsRoutes);
-
-router.use("/athleteTags", athleteTagsRoutes);
-router.use("/coaches", coachesRoutes);
 router.use("/profile", profilesRoutes);
 router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
@@ -84,7 +77,6 @@ router.use("/likes", likesRoutes);
 
 router.use("/school", schoolsRoutes);
 router.use("/schools", schoolsRoutes);
-
 router.use("/sportPosition", sportPositionsRoutes);
 
 router.use("/venues", venuesRoutes);

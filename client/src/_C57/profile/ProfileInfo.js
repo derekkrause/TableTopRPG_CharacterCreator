@@ -174,40 +174,46 @@ class ProfileInfo extends React.Component {
                     </div>
                     <div className="row" style={{ position: "relative", left: "4%" }}>
                       <div role="group" className="btn-group">
-                        {!this.props.ollowing ? (
-                          <button
-                            className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
-                            onClick={() => this.props.followUser()}
-                          >
-                            Follow
-                          </button>
-                        ) : (
-                          <button
-                            className="jr-btn jr-btn-default btn btn-default profileInfoBtn px-3"
-                            style={{ color: "#81c784" }}
-                            onClick={() => this.props.followUser()}
-                          >
-                            <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
-                            &nbsp; Following
-                          </button>
-                        )}
+                        {this.props.currentUser.id != this.props.currentPageId ? (
+                          <React.Fragment>
+                            {!this.props.following ? (
+                              <button
+                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                                onClick={() => this.props.followUser()}
+                              >
+                                Follow
+                              </button>
+                            ) : (
+                              <button
+                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn px-3"
+                                style={{ color: "#81c784" }}
+                                onClick={() => this.props.followUser()}
+                              >
+                                <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
+                                &nbsp; Following
+                              </button>
+                            )}
 
-                        {!this.props.highlighting ? (
-                          <button
-                            className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
-                            onClick={() => this.props.highlightUser()}
-                          >
-                            Highlight
-                          </button>
+                            {!this.props.highlighting ? (
+                              <button
+                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                                onClick={() => this.props.highlightUser()}
+                              >
+                                Highlight
+                              </button>
+                            ) : (
+                              <button
+                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn  px-3"
+                                style={{ color: "#81c784" }}
+                                onClick={() => this.props.highlightUser()}
+                              >
+                                <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
+                                &nbsp; Highlighted
+                              </button>
+                            )}
+                          </React.Fragment>
                         ) : (
-                          <button
-                            className="jr-btn jr-btn-default btn btn-default profileInfoBtn  px-3"
-                            style={{ color: "#81c784" }}
-                            onClick={() => this.props.highlightUser()}
-                          >
-                            <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
-                            &nbsp; Highlighted
-                          </button>
+                          <div />
                         )}
                       </div>
 

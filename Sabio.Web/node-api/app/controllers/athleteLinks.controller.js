@@ -30,5 +30,16 @@ module.exports = {
       .catch(() => {
         res.status(500).send(err);
       });
+  },
+
+  deleteLink: (req, res) => {
+    athleteLinksService
+      .deleteLink(req.params.id)
+      .then(id => {
+        res.status(200).json(id);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };

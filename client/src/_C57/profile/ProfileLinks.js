@@ -24,15 +24,17 @@ class ProfileLinks extends React.Component {
 
   handleChange = e => {
     let val = e.target.value;
+    const newIcon = this.state.icon.filter(item => item.Id == val);
+    console.log(newIcon, val);
     this.setState({
-      linkIconId: parseInt(val) - 1,
-      linkIcon: this.state.icon[parseInt(val) - 1]
+      linkIconId: newIcon[0].Id,
+      linkIcon: newIcon[0]
     });
   };
 
   postAthleteLink = (e, icon) => {
     e.preventDefault();
-    this.props.postLinks(parseInt(icon) + 1);
+    this.props.postLinks(parseInt(icon));
   };
 
   render() {

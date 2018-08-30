@@ -20,11 +20,11 @@ class ProfileBanner extends React.Component {
                   </div>
                   <div className="row justify-content-center">
                     <h2 style={{ fontWeight: "600" }}>
-                      {this.props.sportLevel} {this.props.sport}
+                      {this.props.sportLevel && "Varsity"} {this.props.sport ? <div /> : <div>Baseball</div>}
                     </h2>
                   </div>
                   <div className="row justify-content-center">
-                    <h2 style={{ fontWeight: "600" }}>{this.props.sportPosition}</h2>
+                    <h2 style={{ fontWeight: "600" }}>{this.props.sportPosition ? <div /> : <div>Pitcher</div>}</h2>
                   </div>
                 </div>
               </div>

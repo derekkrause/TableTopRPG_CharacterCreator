@@ -43,8 +43,22 @@ const getById = id => {
     });
 };
 
+const deleteLink = id => {
+  return mssql
+    .executeProc("AthleteLink_Delete", request => {
+      request.addParameter("Id", TYPES.Int, id);
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 module.exports = {
   post,
   getAll,
-  getById
+  getById,
+  deleteLink
 };
