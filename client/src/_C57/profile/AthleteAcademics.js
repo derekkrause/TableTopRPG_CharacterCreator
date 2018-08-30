@@ -154,7 +154,7 @@ class AthleteAcademics extends React.Component {
                         value={this.state.sat}
                         type="number"
                         min={400}
-                        max={2400}
+                        max={1600}
                         name="sat"
                         onChange={this.handleChange}
                         style={{ textAlign: "center" }}
