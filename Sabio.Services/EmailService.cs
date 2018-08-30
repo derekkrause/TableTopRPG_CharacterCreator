@@ -8,9 +8,16 @@ namespace Sabio.Services
 {
     public class EmailService : IEmailService
     {
+        readonly IConfiguration configuration;
+
+        public EmailService(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
         public async Task<Response> Execute(Email email)
         {
-            var apiKey = "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";
+            var apiKey = configuration.UrlOrigin;
             var client = new SendGridClient(apiKey);
 
             string link = email.Link;

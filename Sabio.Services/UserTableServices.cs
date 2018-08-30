@@ -3,6 +3,7 @@ using Sabio.Data.Providers;
 using Sabio.Models.Domain;
 using Sabio.Models.Requests;
 using Sabio.Models.Responses;
+using Sabio.Services.Interfaces;
 using SendGrid;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,13 @@ namespace Sabio.Services
 {
     public class UserTableServices : IUserTableService
     {
+        readonly IConfiguration configuration;
         readonly IDataProvider dataProvider;
         readonly EmailService emailService;
-        readonly string domain = "https://prospectscout.azurewebsites.net/#/app";
-
-        public UserTableServices(IDataProvider dataProvider, EmailService emailService)
+        
+        public UserTableServices(IConfiguration configuration, IDataProvider dataProvider, EmailService emailService)
         {
+            this.configuration = configuration;
             this.dataProvider = dataProvider;
             this.emailService = emailService;
         }
@@ -100,7 +102,7 @@ namespace Sabio.Services
                 ToName = FirstName + " " + LastName,
                 Message = EmbeddedResource.Get("RegistrationConfirmationEmail_HTML.txt"),
                 Subject = "Registration Confirmation",
-                Link = domain + "/registration_confirmation/?token=" + tokenId
+                Link = configuration.UrlOrigin + "/#/app/registration_confirmation/?token=" + tokenId
             };
 
             return await emailService.Execute(email);
