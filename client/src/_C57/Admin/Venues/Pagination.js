@@ -9,21 +9,11 @@ class Pagination extends React.Component {
     return (
       <div className="d-flex justify-content-center">
         <ButtonGroup>
-          <Button
-            color="primary"
-            outline
-            onClick={this.props.firstPage}
-            disabled={currentPage == 1 ? true : false}
-          >
+          <Button color="primary" outline onClick={this.props.firstPage} disabled={currentPage == 1 ? true : false}>
             First
           </Button>
 
-          <Button
-            color="primary"
-            outline
-            onClick={this.props.prevPage}
-            disabled={currentPage == 1 ? true : false}
-          >
+          <Button color="primary" outline onClick={this.props.prevPage} disabled={currentPage == 1 ? true : false}>
             Prev
           </Button>
 

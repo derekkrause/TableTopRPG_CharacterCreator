@@ -360,6 +360,17 @@ namespace Sabio.Data
             }
         }
 
+        public static float? GetSafeFloatNullable(this IDataReader reader, string columnName)
+        {
+
+            var value = reader[columnName];
+            if (value is DBNull)
+                return null;
+            else
+                return (float?)value;
+        }
+
+
         public static double GetSafeDouble(this IDataReader reader, Int32 ordinal)
         {
             if (reader[ordinal] != null && reader[ordinal] != DBNull.Value)

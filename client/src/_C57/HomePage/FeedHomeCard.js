@@ -394,7 +394,7 @@ class FeedHomeCard extends React.Component {
 
             <div className="card-body pb-2">
               <blockquote className="blockquote mb-0">
-                <h3>{data.title.charAt(0).toUpperCase() + data.title.slice(1)}</h3>
+                <h3 className="font-weight-bold">{data.title.charAt(0).toUpperCase() + data.title.slice(1)}</h3>
 
                 <div className="meta-wrapper">
                   <React.Fragment>
