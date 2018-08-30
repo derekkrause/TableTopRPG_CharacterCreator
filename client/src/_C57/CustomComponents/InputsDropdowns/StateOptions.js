@@ -69,7 +69,7 @@ class StateSelect extends React.Component {
         <select
           className="form-control"
           name="stateEdit"
-          value={this.props.value || this.props.defaultValue}
+          value={this.props.value}
           placeholder="State"
           onChange={this.props.onChange}
         >
