@@ -14,6 +14,7 @@ import { getMessagesByUserId, postMessage, getConvosByUserId, getContacts } from
 import moment from "moment";
 import { withRouter } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert";
+import Drawer from "rc-drawer";
 
 class Message extends React.Component {
   state = {
@@ -40,7 +41,8 @@ class Message extends React.Component {
     messagesToShow: false,
     contactsArray: [],
     messageContacts: [],
-    alert: false
+    alert: false,
+    drawerState: false
   };
 
   registerRef = React.createRef();
@@ -573,6 +575,43 @@ class Message extends React.Component {
     });
   };
 
+  showSideNav = () => {
+    return (
+      <SideBar
+        recipient={this.state.recipient}
+        handleChange={this.handleChange}
+        activeUsers={this.state.activeUsers}
+        userSearch={this.state.userSearch}
+        changeRecipient={this.changeRecipient}
+        currentChats={this.state.currentChats}
+        updateChatId={this.updateChatId}
+        activeChatId={this.state.activeChatId}
+        recipientSocketId={this.state.recipientSocketId}
+        handleResetUnseenMessages={this.handleResetUnseenMessages}
+        messageContacts={this.state.messageContacts}
+        resetDrawer={this.resetDrawer}
+      />
+    );
+  };
+
+  handleDrawerState = () => {
+    this.setState({
+      drawerState: true
+    });
+  };
+
+  resetDrawer = () => {
+    this.setState({
+      drawerState: false
+    });
+  };
+
+  onChatToggleDrawer = () => {
+    this.setState({
+      drawerState: false
+    });
+  };
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.messages !== prevState.messages) {
       this.scrollToBottom();
@@ -629,7 +668,7 @@ class Message extends React.Component {
       isTyping,
       messagesToShow,
       messageContacts,
-      alert
+      drawerState
     } = this.state;
     return (
       <React.Fragment>
@@ -638,23 +677,37 @@ class Message extends React.Component {
             <div className="col-6 offset-3" style={{ paddingTop: "30px", paddingBottom: "30px" }}>
               <div className="app-module chat-module animated slideInUpTiny animation-duration-3">
                 <div className="chat-module-box">
-                  <SideBar
-                    recipient={recipient}
-                    handleChange={this.handleChange}
-                    activeUsers={activeUsers}
-                    userSearch={userSearch}
-                    changeRecipient={this.changeRecipient}
-                    currentChats={currentChats}
-                    updateChatId={this.updateChatId}
-                    activeChatId={activeChatId}
-                    recipientSocketId={recipientSocketId}
-                    handleResetUnseenMessages={this.handleResetUnseenMessages}
-                    messageContacts={messageContacts}
-                  />
+                  <div className="d-block d-xl-none">
+                    <Drawer
+                      touch={true}
+                      transitions={true}
+                      enableDragHandle={true}
+                      open={drawerState}
+                      onOpenChange={this.onChatToggleDrawer}
+                      sidebar={this.showSideNav()}
+                    />
+                  </div>
+
+                  <div className="chat-sidenav d-none d-xl-flex">
+                    <SideBar
+                      recipient={recipient}
+                      handleChange={this.handleChange}
+                      activeUsers={activeUsers}
+                      userSearch={userSearch}
+                      changeRecipient={this.changeRecipient}
+                      currentChats={currentChats}
+                      updateChatId={this.updateChatId}
+                      activeChatId={activeChatId}
+                      recipientSocketId={recipientSocketId}
+                      handleResetUnseenMessages={this.handleResetUnseenMessages}
+                      messageContacts={messageContacts}
+                    />
+                  </div>
+
                   <div className="chat-box">
                     <div className="chat-main" style={{ height: "100%" }}>
                       <div className="chat-main-header">
-                        <span className="icon-btn d-block d-xl-none chat-btn">
+                        <span className="icon-btn d-block d-xl-none chat-btn" onClick={this.handleDrawerState}>
                           <i className="zmdi zmdi-comment-text" />
                         </span>
                         {pageHasLoaded && (
