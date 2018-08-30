@@ -38,7 +38,23 @@ const getById = id => {
     });
 };
 
+const putById = (id, athleteTargetSportId, athleteTargetSportPositionIdJson) => {
+  return mssql
+    .executeProc("AthleteTargetSport_Update", request => {
+      request.addParameter("Id", TYPES.Int, id);
+      request.addParameter("AthleteTargetSportId", TYPES.Int, athleteTargetSportId);
+      request.addParameter("AthleteTargetSportPositionIdJson", TYPES.NVarChar, athleteTargetSportPositionIdJson);
+    })
+    .then(response => {
+      return response;
+    })
+    .catch(err => {
+      return err;
+    });
+};
+
 module.exports = {
   post,
-  getById
+  getById,
+  putById
 };

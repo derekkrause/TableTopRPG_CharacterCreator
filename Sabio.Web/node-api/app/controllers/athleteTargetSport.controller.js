@@ -18,5 +18,18 @@ module.exports = {
       .catch(err => {
         res.status(500).send(err);
       });
+  },
+
+  putById: (req, res) => {
+    const { id, athleteTargetSportId, AthleteTargetSportPositionIdJson } = req.body;
+    athleteTargetSportService
+      .putById(id, athleteTargetSportId, AthleteTargetSportPositionIdJson)
+      .then(response => {
+        console.log(response);
+        res.status(200).send(response);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
   }
 };
