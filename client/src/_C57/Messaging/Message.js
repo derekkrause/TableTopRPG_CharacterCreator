@@ -203,36 +203,41 @@ class Message extends React.Component {
     const { currentUser } = this.props;
     if (e.key === "Enter") {
       e.preventDefault();
-      const payload = {
-        recipientUserId,
-        message,
-        hasBeenRead: 0
-      };
-
-      postMessage(payload)
-        .then(response => {
-          const newTime = moment(response.data.items.dateCreated).format("h:mm:ss a");
-
-          socket.emit("SEND_MESSAGE", {
-            sender: username,
-            senderUserId: currentUser.id,
-            message: message,
-            time: newTime,
-            messageKey: response.data.items.id,
-            recipientName: recipientName,
-            recipientSocketId: recipientSocketId,
-            senderAvatar: currentUser.avatarUrl,
-            recipientUserId: recipientUserId
-          });
-
-          this.setState({
-            message: ""
-          });
-        })
-        .catch(() => {
-          console.log("There was an error sending your message to the DB");
+      if (message != "" && message != " ") {
+        this.setState({
+          message: ""
         });
-      // }
+
+        const payload = {
+          recipientUserId,
+          message,
+          hasBeenRead: 0
+        };
+
+        postMessage(payload)
+          .then(response => {
+            const newTime = moment(response.data.items.dateCreated).format("h:mm:ss a");
+
+            socket.emit("SEND_MESSAGE", {
+              sender: username,
+              senderUserId: currentUser.id,
+              message: message,
+              time: newTime,
+              messageKey: response.data.items.id,
+              recipientName: recipientName,
+              recipientSocketId: recipientSocketId,
+              senderAvatar: currentUser.avatarUrl,
+              recipientUserId: recipientUserId
+            });
+
+            if (response.data.items.recentMessageCount > 12) {
+              this.showAlert();
+            }
+          })
+          .catch(() => {
+            console.log("There was an error sending your message to the DB");
+          });
+      }
     }
   };
 
