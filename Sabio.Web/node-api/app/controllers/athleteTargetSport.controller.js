@@ -3,10 +3,15 @@ const responses = require("../models/responses");
 
 module.exports = {
   post: (req, res) => {
-    const { userId, SportId, SportPositionIdJson, PreferenceOrder } = req.body;
-    athleteTargetSportService.post(userId, SportId, SportPositionIdJson, PreferenceOrder).then(Id => {
-      res.status(201).json(Id);
-    });
+    const { userId, sportId, sportPositionIdJson, preferenceOrder } = req.body;
+    athleteTargetSportService
+      .post(userId, sportId, sportPositionIdJson, preferenceOrder)
+      .then(Id => {
+        res.status(201).json(Id);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
   },
 
   getById: (req, res) => {
