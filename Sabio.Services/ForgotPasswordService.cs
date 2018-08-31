@@ -182,7 +182,8 @@ namespace Sabio.Services
                 Gender = user.Gender,
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email,
-                PasswordHash = forgotPasswordUpdateRequest.Password
+                PasswordHash = forgotPasswordUpdateRequest.Password,
+                CurrentSportId = user.CurrentSportId
             };
 
             userTableService.Update(userUpdateRequest);
