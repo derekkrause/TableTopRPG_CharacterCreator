@@ -60,7 +60,21 @@ const post = item => {
       sqlRequest.addParameter("PostId", TYPES.Int, item.postId);
       sqlRequest.addParameter("EventId", TYPES.Int, item.eventId);
       sqlRequest.addParameter("MediaId", TYPES.Int, item.mediaId);
+      sqlRequest.addParameter("UserNotified", TYPES.Bit, item.userNotified);
       sqlRequest.addOutputParameter("Id", TYPES.Int, null);
+    })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err;
+    });
+};
+
+const put = id => {
+  return mssql
+    .executeProc("Like_Update", sqlRequest => {
+      sqlRequest.addParameter("Id", TYPES.Int, id);
     })
     .then(res => {
       return res;
@@ -89,5 +103,6 @@ module.exports = {
   getByEventId,
   getByMediaId,
   post,
+  put,
   del
 };

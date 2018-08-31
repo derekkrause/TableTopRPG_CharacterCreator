@@ -9,6 +9,7 @@ import "./ProfileBanner.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
+import FileUploader from "../CustomComponents/FileUploader/FileUploader";
 import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
 
 class ImageModal extends React.Component {
@@ -19,6 +20,7 @@ class ImageModal extends React.Component {
     editMode: false,
     newImgSrc: null,
     editImgStyles: false,
+    showImgModal: this.props.showImgModal,
     //-----Uploader States----------
     imageUrl: [],
     videoUrl: [],
@@ -34,10 +36,217 @@ class ImageModal extends React.Component {
     sendImage: false
   };
 
+  resetImageUrl = () => {
+    this.setState({
+      imageUrl: [],
+      newImgSrc: "",
+      pLoader: false,
+      editMode: false,
+      profileCropMode: false
+    });
+  };
+
+  cropProfilePic = () => {
+    this.getS3Image(this.state.imageUrl[0]);
+    this.setState({
+      editMode: true,
+      profileCropMode: true
+    });
+  };
+
   toggleLoader = () => {
     this.setState({
       pLoader: !this.state.pLoader
     });
+  };
+
+  handleChange = e => {
+    let key = e.target.name;
+    let val = e.target.value;
+
+    this.setState({
+      [key]: val
+    });
+  };
+
+  static getDerivedStateFromProps(props) {
+    if (!props.uploadMode) {
+      return {
+        reviewMode: false,
+        imageUrl: []
+      };
+    }
+  }
+
+  uploadProfilePic = newImageUrl => {
+    let newArr = [newImageUrl];
+    this.setState({
+      imageUrl: newArr
+    });
+  };
+
+  handleImageUrlChange = newImageUrl => {
+    let newArr = [];
+    for (let i = 0; i < newImageUrl.length; i++) {
+      newArr.push(newImageUrl[i].url);
+    }
+    this.setState({
+      imageUrl: newArr
+    });
+  };
+
+  handleVideoUrlChange = newVideoUrl => {
+    let newArr = [];
+    // for (let i = 0; i < newVideoUrl.length; i++) {
+    //   newArr.push(newVideoUrl[i].url);
+    // }
+    newVideoUrl.map(video => newArr.push(video.url));
+    this.setState({
+      videoUrl: newArr
+    });
+  };
+
+  discardReview = () => {
+    if (this.state.imageUrl.length > 0) {
+      let reviewArray = [...this.state.imageUrl];
+      reviewArray.shift();
+      if (reviewArray.length === 0 && this.state.videoUrl.length === 0) {
+        this.props.toggleImgModal();
+        this.setState({
+          reviewMode: false,
+          imageUrl: reviewArray,
+          newTitle: "",
+          newCaption: ""
+        });
+      } else {
+        this.setState({
+          imageUrl: reviewArray,
+          newTitle: "",
+          newCaption: ""
+        });
+      }
+    } else if (this.state.videoUrl.length > 0) {
+      let reviewArray = [...this.state.videoUrl];
+      reviewArray.shift();
+      if (reviewArray.length === 0) {
+        this.props.toggleImgModal();
+        this.setState({
+          reviewMode: false,
+          videoUrl: reviewArray,
+          newTitle: "",
+          newCaption: ""
+        });
+      } else {
+        this.setState({
+          videoUrl: reviewArray,
+          newTitle: "",
+          newCaption: ""
+        });
+      }
+    }
+  };
+  saveReview = () => {
+    if (this.state.imageUrl.length > 0) {
+      let mediaObject = {
+        userId: this.props.currentUser.id,
+        type: "image",
+        url: this.state.imageUrl[0],
+        displayOrder: null,
+        width: this.state.naturalDimensions.width,
+        height: this.state.naturalDimensions.height,
+        title: this.state.newTitle,
+        caption: this.state.newCaption
+      };
+      let addedPhoto = {
+        type: "image",
+        src: this.state.imageUrl[0],
+        thumbnail: this.state.imageUrl[0],
+        thumbnailWidth: this.state.naturalDimensions.width,
+        thumbnailHeight: this.state.naturalDimensions.height,
+        title: this.state.newTitle,
+        caption: this.state.newCaption
+      };
+      this.props.addNewMediaToState(addedPhoto);
+      postMedia(mediaObject).then(response => {
+        //console.log("Post to Media Table", response);
+        let reviewArray = [...this.state.imageUrl];
+        reviewArray.shift();
+        if (reviewArray.length === 0 && this.state.videoUrl.length === 0) {
+          this.props.toggleImgModal();
+          this.setState({
+            reviewMode: false,
+            imageUrl: reviewArray,
+            newTitle: "",
+            newCaption: ""
+          });
+        } else {
+          this.setState({
+            imageUrl: reviewArray,
+            newTitle: "",
+            newCaption: ""
+          });
+        }
+      });
+    } else if (this.state.videoUrl.length > 0) {
+      let mediaObject = {
+        userId: this.props.currentUser.id,
+        type: "video",
+        url: this.state.videoUrl[0],
+        displayOrder: null,
+        width: 320,
+        height: 180,
+        title: this.state.newTitle,
+        caption: this.state.newCaption
+      };
+      let addedVideo = {
+        type: "video",
+        src: this.state.videoUrl[0],
+        thumbnail: this.state.videoUrl[0],
+        width: 320,
+        height: 180,
+        title: this.state.newTitle,
+        caption: this.state.newCaption
+      };
+      this.props.addNewMediaToState(addedVideo);
+      postMedia(mediaObject).then(response => {
+        //console.log("Post to Media Table", response);
+        let reviewArray = [...this.state.videoUrl];
+        reviewArray.shift();
+        if (reviewArray.length === 0) {
+          this.props.toggleImgModal();
+          this.setState({
+            reviewMode: false,
+            videoUrl: reviewArray,
+            newTitle: "",
+            newCaption: ""
+          });
+        } else {
+          this.setState({
+            videoUrl: reviewArray,
+            newTitle: "",
+            newCaption: ""
+          });
+        }
+      });
+    }
+  };
+
+  handleImgUrlChange = imgUrl => {
+    this.setState({
+      imgUrl
+    });
+  };
+
+  handleEditImageStylesChange = () => {
+    if (!this.state.editImageStyles) {
+      this.setState({
+        editImageStyles: true
+      });
+    } else {
+      this.setState({
+        editImageStyles: false
+      });
+    }
   };
 
   handleChange = e => {
@@ -223,13 +432,14 @@ class ImageModal extends React.Component {
 
   prepareEdit = () => {
     if (!this.state.editMode) {
-      this.setState({ editMode: !this.state.editMode });
+      this.setState({ editMode: !this.state.editMode, imageUrl: "" });
       this.getS3Image(this.props.images[this.props.selectedImg].src);
     }
     this.setState({
       editMode: !this.state.editMode,
       profileCropMode: false,
-      popoverOpen: false
+      popoverOpen: false,
+      imageUrl: ""
     });
   };
 
@@ -308,32 +518,35 @@ class ImageModal extends React.Component {
           <ModalHeader className="text-center">
             <div>
               <b>
-                {this.props.showImgModal &&
+                {!this.props.uploadMode &&
+                  this.props.showImgModal &&
                   this.props.images &&
                   this.props.showPhotos &&
                   typeof this.props.selectedImg === "number" &&
                   this.props.images[this.props.selectedImg].title}
-                {this.props.showImgModal &&
+                {!this.props.uploadMode &&
+                  this.props.showImgModal &&
                   this.props.videos &&
                   !this.props.showPhotos &&
                   typeof this.props.selectedVideo === "number" &&
                   this.props.videos[this.props.selectedVideo].title}
-                {this.state.reviewMode && (
-                  <input
-                    type="text"
-                    placeholder="Add title..."
-                    value={this.state.newTitle}
-                    onChange={this.handleChange}
-                    name="newTitle"
-                    style={{
-                      borderRadius: "15px",
-                      width: "100%",
-                      resize: "none",
-                      outline: "0",
-                      padding: "7px"
-                    }}
-                  />
-                )}
+                {!this.props.updatePic &&
+                  this.state.reviewMode && (
+                    <input
+                      type="text"
+                      placeholder="Add title..."
+                      value={this.state.newTitle}
+                      onChange={this.handleChange}
+                      name="newTitle"
+                      style={{
+                        borderRadius: "15px",
+                        width: "100%",
+                        resize: "none",
+                        outline: "0",
+                        padding: "7px"
+                      }}
+                    />
+                  )}
               </b>
             </div>
             {this.props.currentUser.id == this.props.userProfile &&
@@ -409,9 +622,11 @@ class ImageModal extends React.Component {
                 )}
               <div className="col-md-10">
                 {!this.state.editMode &&
+                  !this.props.uploadMode &&
                   this.props.showPhotos &&
                   this.props.showImgModal &&
                   this.props.images &&
+                  this.props.images[parseInt(this.props.selectedImg)].type === "image" &&
                   typeof this.props.selectedImg === "number" && (
                     <img
                       className="mw-100 rounded"
@@ -420,7 +635,7 @@ class ImageModal extends React.Component {
                         this.props.showImgModal &&
                         this.props.images &&
                         typeof this.props.selectedImg === "number" &&
-                        this.props.images[this.props.selectedImg].src
+                        this.props.images[parseInt(this.props.selectedImg)].src
                       }
                       style={{ display: "block", margin: "auto" }}
                     />
@@ -445,14 +660,14 @@ class ImageModal extends React.Component {
                   !this.props.uploadMode &&
                   !this.props.showPhotos &&
                   this.props.showImgModal &&
-                  this.props.videos && (
+                  this.props.videos[parseInt(this.props.selectedVideo)].type === "video" && (
                     <VideoPlayerContainer
                       className="w-100 rounded"
                       videoUrl={
                         this.props.showImgModal &&
                         this.props.videos &&
                         typeof this.props.selectedVideo === "number" &&
-                        this.props.videos[this.props.selectedVideo].src
+                        this.props.videos[parseInt(this.props.selectedVideo)].src
                       }
                     />
                   )}
@@ -474,7 +689,28 @@ class ImageModal extends React.Component {
                       replaceCroppedImg={this.props.replaceCroppedImg}
                     />
                   )}
-                {!this.state.reviewMode &&
+                {this.props.updatePic &&
+                  this.state.editMode &&
+                  this.props.showImgModal && (
+                    <ImageEditor
+                      handleImgUrlChange={this.handleImgUrlChange}
+                      editImgStyles={this.state.editImgStyles}
+                      sendImage={this.state.sendImage}
+                      profileCropMode={this.state.profileCropMode}
+                      newImgSrc={this.state.newImgSrc}
+                      showImgModal={this.props.showImgModal}
+                      toggleImgModal={this.props.toggleImgModal}
+                      toggleLoader={this.toggleLoader}
+                      replaceCroppedImg={this.props.replaceCroppedImg}
+                      profilePic={this.state.imageUrl}
+                      updatePic={this.props.updatePic}
+                      imageUrl={this.state.imageUrl}
+                      resetImageUrl={this.resetImageUrl}
+                      updateProfilePic={this.props.updateProfilePic}
+                    />
+                  )}
+                {!this.state.editMode &&
+                  !this.state.reviewMode &&
                   this.props.uploadMode && (
                     <React.Fragment>
                       {this.state.imageUrl.length === 0 &&
@@ -489,12 +725,15 @@ class ImageModal extends React.Component {
                             }}
                           />
                         )}
-                      <MultiFileUploader
-                        onImageUrlChange={this.handleImageUrlChange}
-                        onVideoUrlChange={this.handleVideoUrlChange}
-                        toggleLoader={this.toggleLoader}
-                        pLoader={this.state.pLoader}
-                      />
+                      {!this.props.updatePic && (
+                        <MultiFileUploader
+                          onImageUrlChange={this.handleImageUrlChange}
+                          onVideoUrlChange={this.handleVideoUrlChange}
+                          toggleLoader={this.toggleLoader}
+                          pLoader={this.state.pLoader}
+                        />
+                      )}
+                      {this.props.updatePic && <FileUploader uploadProfilePic={this.uploadProfilePic} />}
                     </React.Fragment>
                   )}
               </div>
@@ -531,40 +770,44 @@ class ImageModal extends React.Component {
               <div className="col-md-10">
                 <br />
                 <h4>
-                  {this.props.showImgModal &&
+                  {!this.props.uploadMode &&
+                    this.props.showImgModal &&
                     this.props.showPhotos &&
                     this.props.images &&
                     typeof this.props.selectedImg === "number" &&
                     !this.state.editMode &&
                     this.props.images[this.props.selectedImg].caption}
-                  {this.props.showImgModal &&
+                  {!this.props.uploadMode &&
+                    this.props.showImgModal &&
                     this.props.videos &&
                     !this.props.showPhotos &&
                     typeof this.props.selectedVideo === "number" &&
                     !this.state.editMode &&
                     this.props.videos[this.props.selectedVideo].caption}
-                  {this.state.reviewMode && (
-                    <textarea
-                      value={this.state.newCaption}
-                      onChange={this.handleChange}
-                      name="newCaption"
-                      rows="1"
-                      style={{
-                        borderRadius: "15px",
-                        width: "100%",
-                        resize: "none",
-                        outline: "0",
-                        padding: "7px"
-                      }}
-                      placeholder="Add a caption..."
-                    />
-                  )}
+                  {!this.props.updatePic &&
+                    this.state.reviewMode && (
+                      <textarea
+                        value={this.state.newCaption}
+                        onChange={this.handleChange}
+                        name="newCaption"
+                        rows="1"
+                        style={{
+                          borderRadius: "15px",
+                          width: "100%",
+                          resize: "none",
+                          outline: "0",
+                          padding: "7px"
+                        }}
+                        placeholder="Add a caption..."
+                      />
+                    )}
                 </h4>
               </div>
             </div>
           </ModalBody>
           <ModalFooter>
             {!this.state.reviewMode &&
+              !this.props.updatePic &&
               this.props.uploadMode &&
               (this.state.imageUrl.length > 0 || this.state.videoUrl.length > 0) && (
                 <button
@@ -575,6 +818,15 @@ class ImageModal extends React.Component {
                   }}
                 >
                   Review Uploads
+                </button>
+              )}
+            {!this.state.reviewMode &&
+              !this.state.profileCropMode &&
+              this.props.updatePic &&
+              this.props.uploadMode &&
+              this.state.imageUrl.length > 0 && (
+                <button type="button" className="btn btn-primary" onClick={this.cropProfilePic}>
+                  Review and Crop
                 </button>
               )}
             {this.state.reviewMode &&

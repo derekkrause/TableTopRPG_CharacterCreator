@@ -20,24 +20,8 @@ export function getSchools() {
   return axios.get(nodeBaseUrl + "/school");
 }
 
-export function getCurrentSchool(userId) {
-  return axios.get(BaseUrl + "/");
-}
-
-export function getSportPositions() {
-  return axios.get("/sportPositions");
-}
-
-export function getCurrentSportPosition(userId) {
-  return axios.get("");
-}
-
-export function getSportLevels() {
-  return axios.get("");
-}
-
-export function getCurrentSportLevel(userId) {
-  return axios.get("");
+export function getProfilePic(userId) {
+  return axios.get(nodeBaseUrl + "/profile/pic/" + userId);
 }
 
 export function getEventsByUserId(userId) {

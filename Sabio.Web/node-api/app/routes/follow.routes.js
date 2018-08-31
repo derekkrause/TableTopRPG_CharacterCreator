@@ -12,4 +12,5 @@ router.get("/mutual/:id", followController.getMessageContacts);
 //router.get("/:id", followController.getById);
 
 router.post("/", followController.post);
+router.put("/:followerId/:userId", followController.put);
 router.delete("/delete/:followerId/:userId", followController.del);

@@ -19,6 +19,7 @@ const mediaRoutes = require("./media.routes");
 const followRoutes = require("./follow.routes");
 const highlightsRoutes = require("./highlights.routes");
 const likesRoutes = require("./likes.routes");
+const notificationsRoutes = require("./notifications.routes");
 const iconRoutes = require("./icon.routes");
 const commentsRoutes = require("./comments.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");

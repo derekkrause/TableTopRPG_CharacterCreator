@@ -83,3 +83,33 @@ border-radius: 100%;
     margin: auto;
     border-radius: 100%;
 }
+
+.img-grid button {
+    position: absolute;
+    bottom: 10%;
+    opacity: 0;
+    z-index: -1;
+    right: 45%
+}
+.img-grid .img-grid-item:hover  {
+    opacity: .5;
+
+}
+.img-grid:hover button {
+    opacity: .8;
+    z-index: 1;
+}
+
+.vert-center-right {
+    height: 100%;
+    width: 90%;
+    position: absolute;
+    left: 5%;
+}
+.vert-center-left {
+    height: 100%;
+    width: 90%;
+    position: absolute;
+    right: 5%;
+
+}

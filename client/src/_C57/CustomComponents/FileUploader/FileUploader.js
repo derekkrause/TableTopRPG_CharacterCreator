@@ -134,21 +134,21 @@ handleImageUrlChange = imageUrl => {
             //console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
           }
         };
+
         putUploadFile(presignedUrl, newBlob, options).then(s3res => {
           //console.log("Uploaded", s3res);
           var imageUrl = presignedUrl.split("?", 2)[0];
-          //console.log(imageUrl);
-          let newImagePreview = [...this.state.previewUrls];
-          let imagePreviewObject = {
-            type: "image",
-            url: imageUrl
-          };
-          newImagePreview.push(imagePreviewObject);
+          if (this.props.uploadProfilePic) {
+            this.props.uploadProfilePic(imageUrl);
+          }
+
+          console.log(imageUrl);
           this.setState(
             {
-              previewUrls: newImagePreview
+              imageUrl: presignedUrl.split("?", 2)[0],
+              imagePreview: presignedUrl.split("?", 2)[0]
             },
-            () => this.dividePreviewArray()
+            () => console.log("finalURL", this.state.imageUrl)
           );
         });
       });
@@ -186,15 +186,19 @@ handleImageUrlChange = imageUrl => {
                 }}
               >
                 <i className="zmdi zmdi-image zmdi-hc-fw" />
-                &nbsp;Upload Images
+                &nbsp;Upload Image
               </button>
             </React.Fragment>
           ) : (
             <div className="preview-container">
-              <img src={this.state.imagePreview} className="img" />
-              <button type="button" className="btn" onClick={this.handleOnClickDelete}>
-                <i className="zmdi zmdi-close zmdi-hc-lg" />
-              </button>
+              <div className="row">
+                <div className="col-md-3">
+                  <img src={this.state.imagePreview} className="img" />
+                  <button type="button" className="btn" onClick={this.handleOnClickDelete}>
+                    <i className="zmdi zmdi-close zmdi-hc-lg" />
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>

@@ -31,6 +31,13 @@ class ImageSettings extends React.Component {
               handleChange={this.props.handleInvertChange}
             />
             <Setting
+              name={this.props.invert.name}
+              min={this.props.invert.min}
+              max={this.props.invert.max}
+              defaultValue={this.props.invert.defaultValue}
+              handleChange={this.props.handleInvertChange}
+            />
+            <Setting
               name={this.props.brightness.name}
               min={this.props.brightness.min}
               max={this.props.brightness.max}
@@ -68,7 +75,9 @@ class ImageSettings extends React.Component {
             src={this.props.newImgSrc}
             className="mw-100"
             style={{
-              filter: `contrast(${this.props.contrast.setValue}%) invert(${this.props.invert.setValue}%)
+              filter: `contrast(${this.props.contrast.setValue}%) hue-rotate(${this.props.hue.setValue}deg) invert(${
+                this.props.invert.setValue
+              }%)
  brightness(${this.props.brightness.setValue}%) saturate(${this.props.saturate.setValue}%) sepia(${
                 this.props.sepia.setValue
               }%) grayscale(${this.props.grayscale.setValue}%)`

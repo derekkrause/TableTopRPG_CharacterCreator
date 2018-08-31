@@ -16,7 +16,12 @@ class ProfileBanner extends React.Component {
               <div className="row" style={{ marginTop: "-56%", marginLeft: "-12%" }}>
                 <div className="col-md-12">
                   <div className="row justify-content-center" style={{ marginBottom: "8%" }}>
-                    <ProfilePicture profilePic={this.props.profilePic} />
+                    <ProfilePicture
+                      profilePic={this.props.profilePic}
+                      currentUser={this.props.currentUser}
+                      currentProfile={this.props.currentProfile}
+                      updateProfilePic={this.props.updateProfilePic}
+                    />
                   </div>
                   <div className="row justify-content-center">
                     <h2 style={{ fontWeight: "600" }}>

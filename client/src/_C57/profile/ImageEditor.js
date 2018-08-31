@@ -36,7 +36,7 @@ class ImageEditor extends React.Component {
     },
     //----------Image Style States----------
     contrast: { name: "contrast", setValue: 100, defaultValue: 100, min: 0, max: 200 },
-    //hue: { name: "hue", setValue: 0, defaultValue: 0, min: -360, max: 360 },
+    hue: { name: "hue", setValue: 0, defaultValue: 0, min: -360, max: 360 },
     invert: { name: "invert", setValue: 0, defaultValue: 0, min: 0, max: 100 },
     brightness: { name: "brightness", setValue: 100, defaultValue: 100, min: 0, max: 200 },
     saturate: { name: "saturate", setValue: 100, defaultValue: 100, min: 0, max: 100 },
@@ -62,6 +62,9 @@ class ImageEditor extends React.Component {
           };
           updateAvatarById(this.props.currentUser.id, imgPayload).then(response => {
             //console.log(response);
+            this.props.toggleImgModal();
+            this.props.resetImageUrl();
+            this.props.updateProfilePic(this.props.currentUser.id);
           });
         } else {
           let imgPayload = {
@@ -131,7 +134,7 @@ class ImageEditor extends React.Component {
   handleRestoreDefault = e => {
     this.setState(prevState => ({
       contrast: { ...prevState.contrast, setValue: this.state.contrast.defaultValue },
-      //hue: { ...prevState.hue, setValue: this.state.hue.defaultValue },
+      hue: { ...prevState.hue, setValue: this.state.hue.defaultValue },
       invert: { ...prevState.invert, setValue: this.state.invert.defaultValue },
       brightness: { ...prevState.brightness, setValue: this.state.brightness.defaultValue },
       saturate: { ...prevState.saturate, setValue: this.state.saturate.defaultValue },
@@ -152,6 +155,12 @@ class ImageEditor extends React.Component {
   //     hue: { ...prevState.hue, setValue: newValue }
   //   }));
   // };
+  handleInvertChange = e => {
+    let newValue = e.target.value;
+    this.setState(prevState => ({
+      invert: { ...prevState.invert, setValue: newValue }
+    }));
+  };
   handleInvertChange = e => {
     let newValue = e.target.value;
     this.setState(prevState => ({
@@ -205,11 +214,11 @@ class ImageEditor extends React.Component {
 
     const ctx = canvas.getContext("2d");
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.filter = `contrast(${this.state.contrast.setValue}%) invert(${this.state.invert.setValue}%) brightness(${
-      this.state.brightness.setValue
-    }%) saturate(${this.state.saturate.setValue}%) sepia(${this.state.sepia.setValue}%) grayscale(${
-      this.state.grayscale.setValue
-    }%)`;
+    ctx.filter = `contrast(${this.state.contrast.setValue}%) hue-rotate(${this.state.hue.setValue}deg) invert(${
+      this.state.invert.setValue
+    }%) brightness(${this.state.brightness.setValue}%) saturate(${this.state.saturate.setValue}%) sepia(${
+      this.state.sepia.setValue
+    }%) grayscale(${this.state.grayscale.setValue}%)`;
 
     ctx.drawImage(img, newImgX, newImgY, newImgWidth, newImgHeight, 0, 0, newImgWidth, newImgHeight);
 
@@ -316,7 +325,7 @@ class ImageEditor extends React.Component {
             <div className="col-md-12">
               <ImageSettings
                 contrast={this.state.contrast}
-                //hue={this.state.hue}
+                hue={this.state.hue}
                 invert={this.state.invert}
                 brightness={this.state.brightness}
                 saturate={this.state.saturate}
@@ -325,7 +334,7 @@ class ImageEditor extends React.Component {
                 newImgSrc={this.props.newImgSrc}
                 handleRestoreDefault={this.handleRestoreDefault}
                 handleContrastChange={this.handleContrastChange}
-                //handleHueChange={this.handleHueChange}
+                handleHueChange={this.handleHueChange}
                 handleInvertChange={this.handleInvertChange}
                 handleBrightnessChange={this.handleBrightnessChange}
                 handleSaturateChange={this.handleSaturateChange}
@@ -344,7 +353,8 @@ class ImageEditor extends React.Component {
               ) : (
                 <h2 className="text-center font-weight-bold">Set Profile Photo Crop</h2>
               )}
-              {this.props.images &&
+              {!this.props.updatePic &&
+                this.props.images &&
                 this.props.selectedImg && (
                   <ReactCrop
                     imageStyle={{ width: "100%" }}
@@ -356,6 +366,17 @@ class ImageEditor extends React.Component {
                     onComplete={this.onCropComplete}
                   />
                 )}
+              {this.props.updatePic && (
+                <ReactCrop
+                  imageStyle={{ width: "100%" }}
+                  crossorigin="anonymous"
+                  src={this.props.newImgSrc}
+                  crop={this.state.profileCrop}
+                  onChange={this.onCropChange}
+                  onImageLoaded={this.onImageLoaded}
+                  onComplete={this.onCropComplete}
+                />
+              )}
             </div>
             <div className="col-md-6" style={{ overflow: "hidden" }}>
               <h2 className="text-center font-weight-bold">Image Preview</h2>
@@ -365,8 +386,10 @@ class ImageEditor extends React.Component {
                 <img
                   className="mw-100"
                   style={{
-                    filter: `contrast(${this.state.contrast.setValue}%) invert(${this.state.invert.setValue}%)
- brightness(${this.state.brightness.setValue}%) saturate(${this.state.saturate.setValue}%) sepia(${
+                    filter: `contrast(${this.state.contrast.setValue}%) hue-rotate(${
+                      this.state.hue.setValue
+                    }deg) invert(${this.state.invert.setValue}%)
+ brightness(${this.state.brightness.setValue}%) saturate(${this.state.saturate.setValue}%)  sepia(${
                       this.state.sepia.setValue
                     }%) grayscale(${this.state.grayscale.setValue}%)`
                   }}

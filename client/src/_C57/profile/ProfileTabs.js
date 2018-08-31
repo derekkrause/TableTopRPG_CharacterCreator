@@ -47,14 +47,13 @@ class ProfileTabs extends React.Component {
     value: 0,
     imageUrl: "",
     videoUrl: "",
-
     events: [],
     images: [],
     videos: [],
     showModal: false,
     showImgModal: false,
-    selectedImg: null,
-    selectedVideo: null,
+    selectedImg: 0,
+    selectedVideo: 0,
     showPhotos: true,
 
     //-----Calendar States-----------
@@ -144,11 +143,11 @@ class ProfileTabs extends React.Component {
         uploadMode: false
       });
     } else {
-    this.setState({
+      this.setState({
         selectedImg: index,
         selectedVideo: index,
-      showImgModal: !this.state.showImgModal
-    });
+        showImgModal: !this.state.showImgModal
+      });
     }
   };
 
@@ -241,62 +240,64 @@ class ProfileTabs extends React.Component {
     getEventsByUserId(parseInt(this.props.userProfile)).then(response => {
       //console.log("GET events", response);
       if (response.data.resultSets) {
-      let calEventArray = [];
-      response.data.resultSets[0].map(event => {
-        let calEvent = {
-          title: event.name,
-          start: new Date(event.startDate),
-          end: new Date(event.endDate),
-          desc: event.description,
-          id: event.eventId
-        };
-        calEventArray.push(calEvent);
-      });
-      this.setState({
-        events: calEventArray
-      });
+        let calEventArray = [];
+        response.data.resultSets[0].map(event => {
+          let calEvent = {
+            title: event.name,
+            start: new Date(event.startDate),
+            end: new Date(event.endDate),
+            desc: event.description,
+            id: event.eventId
+          };
+          calEventArray.push(calEvent);
+        });
+        this.setState({
+          events: calEventArray
+        });
       }
     });
 
     getMediaByUserId(parseInt(this.props.userProfile)).then(response => {
-      //console.log("GET Media by user Id", response);
+      console.log("GET Media by user Id", response);
       let imageTileArray = [];
       let videoTileArray = [];
-      response.data.resultSets[0].map(thumbnail => {
-        if (thumbnail.Url.length > 3) {
-          if (thumbnail.Type === "image") {
-            let tile = {
-              id: thumbnail.id,
-              type: thumbnail.Type,
-              alt: thumbnail.Id,
-              src: thumbnail.Url,
-              thumbnail: thumbnail.Url,
-              thumbnailWidth: thumbnail.Width,
-              thumbnailHeight: thumbnail.Height,
-              title: thumbnail.Title,
-              caption: thumbnail.Caption
-          };
-            imageTileArray.push(tile);
-          } else if (thumbnail.Type === "video") {
-            let tile = {
-              id: thumbnail.id,
-              type: thumbnail.Type,
-              alt: thumbnail.Id,
-              src: thumbnail.Url,
-              thumbnail: thumbnail.Url,
-              thumbnailWidth: thumbnail.Width,
-              thumbnailHeight: thumbnail.Height,
-              title: thumbnail.Title,
-              caption: thumbnail.Caption
-          };
-            videoTileArray.push(tile);
+      if (response.data.resultSets) {
+        response.data.resultSets[0].map(thumbnail => {
+          if (thumbnail.Url.length > 3) {
+            if (thumbnail.Type === "image") {
+              let tile = {
+                id: thumbnail.id,
+                type: thumbnail.Type,
+                alt: thumbnail.Id,
+                src: thumbnail.Url,
+                thumbnail: thumbnail.Url,
+                thumbnailWidth: thumbnail.Width,
+                thumbnailHeight: thumbnail.Height,
+                title: thumbnail.Title,
+                caption: thumbnail.Caption
+              };
+              imageTileArray.push(tile);
+            } else if (thumbnail.Type === "video") {
+              let tile = {
+                id: thumbnail.id,
+                type: thumbnail.Type,
+                alt: thumbnail.Id,
+                src: thumbnail.Url,
+                thumbnail: thumbnail.Url,
+                thumbnailWidth: thumbnail.Width,
+                thumbnailHeight: thumbnail.Height,
+                title: thumbnail.Title,
+                caption: thumbnail.Caption
+              };
+              videoTileArray.push(tile);
+            }
           }
-        }
-      });
-      this.setState({
-        images: imageTileArray,
-        videos: videoTileArray
-      });
+        });
+        this.setState({
+          images: imageTileArray,
+          videos: videoTileArray
+        });
+      }
     });
   }
 
@@ -343,11 +344,11 @@ class ProfileTabs extends React.Component {
           <TabContainer dir={theme.direction}>
             <CardBody>
               {this.props.currentUser.id == this.props.userProfile && (
-              <div className="row">
-                <div className="col-md-1">
-                  <EventModal />
+                <div className="row">
+                  <div className="col-md-1">
+                    <EventModal />
+                  </div>
                 </div>
-              </div>
               )}
               <div className="row mt-4">
                 <div className="col-md-12">
@@ -373,13 +374,13 @@ class ProfileTabs extends React.Component {
           <TabContainer dir={theme.direction}>
             <CardBody>
               {this.props.currentUser.id == this.props.userProfile && (
-              <div className="row">
+                <div className="row">
                   <div className="col-md-3">
                     <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
                       + Add New Photo/Video
                     </button>
+                  </div>
                 </div>
-              </div>
               )}
               <div className="row">
                 <div className="col-md-12">

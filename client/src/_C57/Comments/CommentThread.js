@@ -132,17 +132,17 @@ class CommentThread extends React.Component {
           </div>
         </div>
         {!this.props.showReplyInput && (
-        <ul className="pl-0" style={{ listStyle: "none" }}>
-          <li className="pl-0" style={{ listStyle: "none" }}>
-            <CommentForm
-              showReplyInput={this.props.showReplyInput}
-              currentUser={this.props.currentUser}
-              addComment={this.props.addComment}
-              handleCommentChange={this.props.handleCommentChange}
-              newComment={this.props.newComment}
-            />
-          </li>
-        </ul>
+          <ul className="pl-0" style={{ listStyle: "none" }}>
+            <li className="pl-0" style={{ listStyle: "none" }}>
+              <CommentForm
+                showReplyInput={this.props.showReplyInput}
+                currentUser={this.props.currentUser}
+                addComment={this.props.addComment}
+                handleCommentChange={this.props.handleCommentChange}
+                newComment={this.props.newComment}
+              />
+            </li>
+          </ul>
         )}
       </React.Fragment>
     );

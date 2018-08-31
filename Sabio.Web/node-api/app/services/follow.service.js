@@ -49,9 +49,24 @@ const post = item => {
     .executeProc("Follow_Insert", sqlRequest => {
       sqlRequest.addParameter("FollowerId", TYPES.Int, item.followerId);
       sqlRequest.addParameter("UserId", TYPES.Int, item.userId);
+      sqlRequest.addParameter("UserNotified", TYPES.Bit, item.userNotified);
     })
     .then(() => {
       return true;
+    });
+};
+
+const put = (followerId, userId) => {
+  return mssql
+    .executeProc("Follow_Update", sqlRequest => {
+      sqlRequest.addParameter("FollowerId", TYPES.Int, followerId);
+      sqlRequest.addParameter("UserId", TYPES.Int, userId);
+    })
+    .then(res => {
+      return res;
+    })
+    .catch(err => {
+      return err;
     });
 };
 
@@ -73,6 +88,7 @@ module.exports = {
   getByFollowerId,
   getByUserId,
   post,
+  put,
   del,
   getMessageContacts
 };
