@@ -56,15 +56,15 @@ class SchoolSearch extends React.Component {
                 results.slice(0, 5).map(result => (
                   <div
                     href=""
-                    className="d-flex justify-content-between p-0"
+                    className="d-flex justify-content-between p-0 option"
                     key={result.id}
                     value={result.name}
                     title={result.name}
                     style={{ cursor: "pointer" }}
                     onClick={() => this.onSelect(result)}
                   >
-                    <span>{result.name}</span>
-                    <small style={{ color: "gray" }}>
+                    <span className="col-8 p-0">{result.name}</span>
+                    <small className="col-4 pr-0" style={{ color: "gray" }}>
                       {result.city}, {result.state}
                     </small>
                   </div>
