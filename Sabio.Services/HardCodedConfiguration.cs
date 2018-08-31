@@ -7,6 +7,6 @@ namespace Sabio.Services
     public class HardCodedConfiguration : IConfiguration
     {
         public string SendGridKey => "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";
-        public string UrlOrigin => "http://localhost:3001";
+        public string UrlOrigin => "https://prospectscout.azurewebsites.net";
     }
 }
