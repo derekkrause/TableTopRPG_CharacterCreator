@@ -33,71 +33,8 @@ namespace Sabio.Services
             this.authenticationService = authenticationService;
         }
 
-        //public async Task<Response> Execute(Email email)
-        //{
-        //    //var apiKey = "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";
-
-        //    string apiKey = configuration.SendGridKey;
-        //    var client = new SendGridClient(apiKey);
-
-        //    ForgotPasswordEmail forgotPasswordEmail = new ForgotPasswordEmail
-        //    {
-        //        FromAddress = email.FromAddress,
-        //        FromName = email.FromName,
-        //        ToAddress = email.ToAddress,
-        //        ToName = email.ToName,
-        //        Message = email.Message,
-        //        Subject = email.Subject,
-        //        Link = email.Link
-        //    };
-        //}
-
-        //private static void Main()
-        //{
-        //    Execute().Wait();
-        //}
-
-        private async Task Execute()
-        {
-            //var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
-            //var client = new SendGridClient(apiKey);
-            //var from = new EmailAddress("test@example.com", "Example User");
-            //var subject = "Sending with SendGrid is Fun";
-            //var to = new EmailAddress("test@example.com", "Example User");
-            //var plainTextContent = "and easy to do anywhere, even with C#";
-            //var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
-            //var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-            //var response = await client.SendEmailAsync(msg);
-
-            //var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
-            //var client = new SendGridClient(apiKey);
-            //var msg = new SendGridMessage()
-            //{
-            //    From = new EmailAddress("test@example.com", "DX Team"),
-            //    Subject = "Sending with SendGrid is Fun",
-            //    PlainTextContent = "and easy to do anywhere, even with C#",
-            //    HtmlContent = "<strong>and easy to do anywhere, even with C#</strong>"
-            //};
-            //msg.AddTo(new EmailAddress("test@example.com", "Test User"));
-            //var response = await client.SendEmailAsync(msg);
-
-            string apiKey = configuration.SendGridKey;
-            var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
-            {
-                From = new EmailAddress("test@example.com", "DX Team"),
-                Subject = "Sending with SendGrid is Fun",
-                PlainTextContent = "and easy to do anywhere, even with C#",
-                HtmlContent = "<strong>and easy to do anywhere, even with C#</strong>"
-            };
-            msg.AddTo(new EmailAddress("test@example.com", "Test User"));
-            var response = await client.SendEmailAsync(msg);
-        }
-
         public bool CheckEmail(ForgotPasswordEmailRequest theEmail)
         {
-            // Check e-mail against DB
-            //ForgotPasswordEmailRequest forgotPasswordEmail = eMail;
             string eMail = theEmail.EMail;
 
             string storedPassword = "";
@@ -132,7 +69,6 @@ namespace Sabio.Services
 
         public async Task<Response> SendEmail(ForgotPasswordEmailRequest theEmail)
         {
-            // Send out e-mail
             string eMail = theEmail.EMail;
 
             string storedPassword = "";
@@ -167,7 +103,7 @@ namespace Sabio.Services
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     parameters.AddWithValue("@RegEmail", eMail);
                     parameters.AddWithValue("@TokenId", tokenId);
-                    parameters.AddWithValue("@TokenTypeId", 2);  // 1 for Registration, 2 for Forgot Password
+                    parameters.AddWithValue("@TokenTypeId", 2);
                 });
 
             Email email = new Email()
@@ -200,7 +136,6 @@ namespace Sabio.Services
                 emailConfirmation.TokenId = (string)reader["TokenId"];
                 emailConfirmation.TokenTypeId = (int)reader["TokenTypeId"];
                 emailConfirmation.Confirmed = (bool)reader["Confirmed"];
-                //emailConfirmation.Confirmed = reader.GetSafeBool("Confirmed");
                 emailConfirmation.DateCreated = (DateTime)reader["DateCreated"];
                 emailConfirmation.UserId = (int)reader["UserId"];
                 emailConfirmation.UserFirstName = (string)reader["UserFirstName"];
@@ -221,17 +156,8 @@ namespace Sabio.Services
 
             return emailConfirmation;
         }
-
-        //public void UpdateConfirmed(ForgotPasswordUpdateRequest forgotPasswordUpdateRequest, string tokenId)  // Old version
-        //{
-        //    dataProvider.ExecuteNonQuery("EmailConfirmation_UpdateConfirmed", (parameters) =>
-        //    {
-        //        parameters.AddWithValue("@TokenId", forgotPasswordUpdateRequest.TokenId);
-        //        parameters.AddWithValue("@Confirmed", forgotPasswordUpdateRequest.Confirmed);
-        //    });
-        //}
-
-        public void UpdateConfirmed(string tokenId)  // Updated version
+        
+        public void UpdateConfirmed(string tokenId)
         {
             dataProvider.ExecuteNonQuery("EmailConfirmation_UpdateConfirmed", (parameters) =>
             {
@@ -256,7 +182,8 @@ namespace Sabio.Services
                 Gender = user.Gender,
                 AvatarUrl = user.AvatarUrl,
                 Email = user.Email,
-                PasswordHash = forgotPasswordUpdateRequest.Password
+                PasswordHash = forgotPasswordUpdateRequest.Password,
+                CurrentSportId = user.CurrentSportId
             };
 
             userTableService.Update(userUpdateRequest);

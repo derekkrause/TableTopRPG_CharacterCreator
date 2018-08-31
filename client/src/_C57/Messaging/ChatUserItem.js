@@ -31,7 +31,17 @@ class ChatUserItem extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { name, avatar, lastMessageSent, snippet, updateChatId, id, activeChatId, unseenMessages } = this.props;
+    const {
+      name,
+      avatar,
+      lastMessageSent,
+      snippet,
+      updateChatId,
+      id,
+      activeChatId,
+      unseenMessages,
+      resetDrawer
+    } = this.props;
     let div;
     if (activeChatId == id) {
       div = "active";
@@ -41,7 +51,13 @@ class ChatUserItem extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={`chat-user-item ${div}`} onClick={() => updateChatId(id)}>
+        <div
+          className={`chat-user-item ${div}`}
+          onClick={() => {
+            updateChatId(id);
+            resetDrawer();
+          }}
+        >
           <div className="chat-user-row row">
             <div className="chat-avatar col-xl-2 col-3">
               <div className="chat-avatar-mode">

@@ -140,7 +140,7 @@ class App extends React.Component {
                     render={props => {
                       return (
                         <IfLoginStatus loggedIn={true}>
-                          <ProfileAsyncComponent {...props} />
+                          <ProfileAsyncComponent key={props.match.params.id} {...props} />
                         </IfLoginStatus>
                       );
                     }}

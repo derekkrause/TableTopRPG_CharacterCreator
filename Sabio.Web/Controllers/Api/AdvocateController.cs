@@ -56,6 +56,13 @@ namespace Sabio.Web.Controllers
         [Route("{advocateId:int}"), HttpPut]
         public HttpResponseMessage AdvocateUpdate(AdvocateUpdate advocateUpdate, int advocateId)
         {
+            int? currentUserId = User.Identity.GetId();
+
+            if (advocateId != currentUserId)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "User not authorized to make changes to this profile.");
+            }
+
             if (advocateUpdate == null)
             {
                 ModelState.AddModelError("", "Data is null");
