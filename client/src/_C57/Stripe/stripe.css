@@ -1,0 +1,15 @@
+.subChoice{
+  display: flex;
+  align-items: center
+}
+.headerColor{
+  background-color: #388e3c
+}
+.benefits{
+  
+  background-color: #c8e6c9
+}
+
+.text-color{
+  color:  #194d33
+}

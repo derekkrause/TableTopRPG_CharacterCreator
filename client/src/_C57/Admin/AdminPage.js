@@ -10,6 +10,7 @@ import "./Admin.css";
 import EventTypeAdmin from "./EventTypeAdmin/EventTypeAdmin";
 import EventAdmin from "./EventAdmin/EventAdmin";
 import VenueAdmin from "./Venues/AdminVenues";
+import StripeAdminConfig from "../Stripe/StripeAdminConfig";
 
 class AdminPage extends React.Component {
   render() {
@@ -30,6 +31,7 @@ class AdminPage extends React.Component {
             <Route path={`${this.props.match.url}/eventadmin`} component={EventAdmin} />
             {/* <Route exact path={`${this.props.match.url}/eventadmin`} render={props => <EventAdmin {...props} />} /> */}
             <Route path={`${this.props.match.url}/venues`} component={VenueAdmin} />
+            <Route exact path={`${this.props.match.url}/stripe`} render={props => <StripeAdminConfig {...props} />} />
           </div>
         </div>
       </div>

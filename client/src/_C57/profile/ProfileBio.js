@@ -7,8 +7,20 @@ import { connect } from "react-redux";
 
 class ProfileBio extends React.Component {
   state = {
-    editBio: false
+    editBio: false,
+    prevPropsBio: "",
+    Bio: ""
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.bio !== state.prevPropsBio) {
+      return {
+        prevPropsBio: props.bio,
+        Bio: props.bio
+      };
+    }
+    return null;
+  }
 
   handleEditBio = () => {
     this.setState({
@@ -16,11 +28,15 @@ class ProfileBio extends React.Component {
     });
   };
 
+  cancelEdit = () => {
+    this.setState({ Bio: this.state.prevPropsBio }, () => this.handleEditBio());
+  };
+
   handleBioSaveProfile = () => {
     this.setState({
       editBio: false
     });
-    this.props.handleSaveProfile();
+    this.props.handleSaveProfile(this.state.Bio);
   };
 
   render() {
@@ -50,12 +66,12 @@ class ProfileBio extends React.Component {
               placeholder="Your bio goes here."
               rows="10"
               autoFocus
-              value={this.props.bio}
-              onChange={this.props.handleChange}
+              value={this.state.Bio}
+              onChange={e => this.setState({ Bio: e.target.value })}
             />
             <div className="row">
               <div className="col-md-12 text-right pt-3">
-                <CancelButton type="button" className="text-right" onClick={this.props.handleEditAcademics} />
+                <CancelButton type="button" className="text-right" onClick={this.cancelEdit} />
                 <SaveButton type="button" className="text-right" onClick={this.handleBioSaveProfile} />
               </div>
             </div>

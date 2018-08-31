@@ -178,14 +178,14 @@ class ProfileInfo extends React.Component {
                           <React.Fragment>
                             {!this.props.following ? (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                                className="profileButton jr-btn jr-btn-default-custom btn btn-default profileInfoBtn"
                                 onClick={() => this.props.followUser()}
                               >
                                 Follow
                               </button>
                             ) : (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn px-3"
+                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn px-3"
                                 style={{ color: "#81c784" }}
                                 onClick={() => this.props.followUser()}
                               >
@@ -196,14 +196,14 @@ class ProfileInfo extends React.Component {
 
                             {!this.props.highlighting ? (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn"
                                 onClick={() => this.props.highlightUser()}
                               >
                                 Highlight
                               </button>
                             ) : (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn  px-3"
+                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn  px-3"
                                 style={{ color: "#81c784" }}
                                 onClick={() => this.props.highlightUser()}
                               >
@@ -372,7 +372,7 @@ class ProfileInfo extends React.Component {
                           onChange={this.handleChange}
                         />
                       </div>
-                      <div className="col-md-3">
+                      <div className="form-group col-md-3">
                         <label>Weight: </label>
                         <input
                           className="form-control"

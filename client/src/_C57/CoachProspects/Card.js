@@ -169,13 +169,13 @@ class Card extends React.Component {
 
   handleRemovingTags = tag => {
     console.log(tag, "tag", this.props.athleteId);
-    const promise = deleteCoachAthleteTag(this.props.athleteId, tag);
-    promise.then(this.props.handleRemoveTag(tag, this.props.athleteId)).then(this.props.loadAthleteById());
+    const promise = deleteCoachAthleteTag(this.props.athleteId, tag)
+      .then(this.props.handleRemoveTag(tag, this.props.athleteId))
+      .then(this.props.loadAthleteById());
   };
   render() {
     const {
       logo,
-      id,
       index,
       athleteTags,
       name,

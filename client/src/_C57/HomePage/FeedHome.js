@@ -9,6 +9,10 @@ import FeedEventCard from "./FeedEventCard";
 import { postLike, getLikeByPostId, deleteLike } from "../../services/like.service";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { getConfigById } from "../../services/config.service";
+import { NotificationContainer, NotificationManager } from "react-notifications";
+import "react-notifications/lib/notifications.css";
+let numberOfRenders = 0;
 
 class FeedHome extends React.Component {
   state = {
@@ -31,14 +35,61 @@ class FeedHome extends React.Component {
     modal: false,
     eventCardsList: [],
     likedUser: [],
-    userLikeMatch: false
+    userLikeMatch: false,
+    type: ""
   };
 
   componentDidMount() {
+    ++numberOfRenders;
+    //  console.log(numberOfRenders);
     if (this.props.currentUser) {
       this.renderFeed();
+
+      getConfigById(55).then(res => {
+        if (res.data.item.Value == "true" || res.data.item.Value == "True") {
+          if (this.props.currentUser.stripeSubId === null) {
+            if (numberOfRenders == 1 || numberOfRenders % 3 <= 0) {
+              this.sendNotification("SubscriptionRequired");
+
+              setTimeout(() => this.createNotification(this.state.type), 3000);
+            }
+          }
+        }
+      });
     }
   }
+
+  createNotification = type => {
+    const date = new Date(this.props.currentUser.subscriptionExpiration);
+    const time = date.getTime();
+    const todaysDate = new Date();
+    const todaysTime = todaysDate.getTime();
+    const timeLeft = time - todaysTime;
+    const oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+    const daysLeftMilli = timeLeft / oneDayInMilliseconds;
+    const daysLeftMilliString = daysLeftMilli.toString();
+    const daysLeft = daysLeftMilliString.substring(0, daysLeftMilliString.indexOf("."));
+
+    switch (type) {
+      case "SubscriptionRequired":
+        NotificationManager.info(
+          `You have ${daysLeft} days left on your free trial `,
+          "Click to subscribe now!",
+          5000,
+          () => {
+            this.props.history.push("/app/stripe");
+          }
+        );
+        break;
+    }
+  };
+  subNow = () => {
+    return <button type="button">Sub Now</button>;
+  };
+
+  sendNotification = type => {
+    this.setState({ type: type });
+  };
 
   renderFeed = () => {
     getFeedHome()
@@ -220,6 +271,7 @@ class FeedHome extends React.Component {
             />
           </div> */}
         </div>
+        <NotificationContainer />
       </div>
     );
   }

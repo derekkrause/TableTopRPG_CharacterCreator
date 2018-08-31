@@ -134,37 +134,37 @@ class ProfileContainer extends React.Component {
       this.setState(
         {
           everyThing: info,
-          firstName: info.FirstName,
-          middleName: info.MiddleName,
-          lastName: info.LastName,
-          city: info.City,
-          state: info.State,
-          bio: info.ShortBio,
-          profilePic: info.AvatarUrl,
-          gradYear: info.HighSchoolGraduationYear,
-          sportLevel: info.CompetitionLevel,
-          sportPosition: sportPositions,
-          sport: info.SportName,
-          classYear: info.ClassYearName,
-          classYearId: info.ClassYearId,
-          schoolName: info.SchoolName,
-          schoolId: info.SchoolId,
-          height: info.Height,
-          heightFeet: heightFeet,
-          heightInches: heightInches,
-          weight: info.Weight,
-          sat: info.SAT,
-          gpa: info.GPA,
-          act: info.ACT,
-          academicNotes: info.AcademicNotes,
-          id: info.Id,
-          userId: info.UserId
+        firstName: info.FirstName,
+        middleName: info.MiddleName,
+        lastName: info.LastName,
+        city: info.City,
+        state: info.State,
+        bio: info.ShortBio,
+        profilePic: info.AvatarUrl,
+        gradYear: info.HighSchoolGraduationYear,
+        sportLevel: info.CompetitionLevel,
+        sportPosition: sportPositions,
+        sport: info.SportName,
+        classYear: info.ClassYearName,
+        classYearId: info.ClassYearId,
+        schoolName: info.SchoolName,
+        schoolId: info.SchoolId,
+        height: info.Height,
+        heightFeet: heightFeet,
+        heightInches: heightInches,
+        weight: info.Weight,
+        sat: info.SAT,
+        gpa: info.GPA,
+        act: info.ACT,
+        academicNotes: info.AcademicNotes,
+        id: info.Id,
+        userId: info.UserId
         },
         () => {
           this.setState({
             pLoader: false
-          });
-        }
+      });
+  }
       );
     });
   };
@@ -192,10 +192,20 @@ class ProfileContainer extends React.Component {
       academicNotes: this.state.academicNotes,
       shortBio: this.state.bio
     };
-    console.log(payload, "--------------------------------");
-    putAthleteById(payload).then(res => {
-      console.log(res);
-      this.getAthleteCall();
+    putAthleteById(payload).then(res => {});
+  };
+  handleEditBio = bio => {
+    this.setState(
+      {
+        bio
+      },
+      () => this.handleSaveProfile()
+    );
+  };
+
+  onHandleSchoolSelect = id => {
+    this.setState({
+      schoolId: id
     });
   };
 

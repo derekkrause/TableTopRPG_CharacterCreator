@@ -14,6 +14,8 @@ import { validateRegistration } from "./RegValidation";
 import SweetAlert from "react-bootstrap-sweetalert";
 import "react-notifications/lib/notifications.css";
 import "./RegForm.css";
+import { getConfigById } from "../../services/config.service";
+import { addSubExpirationToUser } from "../Stripe/stripe.server";
 
 class UserRegistrationForm extends React.Component {
   state = {
@@ -134,6 +136,7 @@ class UserRegistrationForm extends React.Component {
   };
 
   signUp = e => {
+    let userId = 0;
     e.preventDefault();
     if (this.state.formValid) {
       const userData = {
@@ -150,6 +153,42 @@ class UserRegistrationForm extends React.Component {
           console.log("Registration", result);
           this.registerUserType(this.state.userType, result.data.item);
           this.setState({ regSuccess: true });
+
+          userId = result.data.item;
+          debugger;
+        })
+        .then(() => {
+          getConfigById(55).then(res => {
+            console.log(res.data.item.Value, "55 results");
+            if (res.data.item.Value == "true" || res.data.item.Value == "True") {
+              console.log(res.data.item.Value, "wut");
+              getConfigById(54).then(res => {
+                const freeTrialPeriod = parseInt(res.data.item.Value);
+                const oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+                const setTrialPeriod = freeTrialPeriod * oneDayInMilliseconds;
+                const date = new Date();
+                const midnight = date.setHours(24, 0, 0, 0);
+                //  console.log(midnight);
+                const trialEnds = midnight + setTrialPeriod;
+                console.log(trialEnds);
+                const newDate = new Date(trialEnds)
+                  .toISOString()
+                  .slice(0, 19)
+                  .replace("T", " ");
+
+                const payload = {
+                  subExpiration: newDate
+                };
+                //  console.log(newDate, "newDate");
+                debugger;
+                addSubExpirationToUser(userId, payload).then(res => {
+                  //  console.log(res, "addsub expiration");
+                });
+              });
+            } else {
+              console.log(res.data.item.Value, "wut1");
+            }
+          });
         })
         .catch(error => {
           error.response.status && error.response.status === 409
