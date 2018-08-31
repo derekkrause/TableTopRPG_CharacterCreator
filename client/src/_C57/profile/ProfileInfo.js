@@ -119,7 +119,7 @@ class ProfileInfo extends React.Component {
                 <div className="row" style={{ position: "relative", left: "4%", float: "right" }}>
                   <div className="col-md-3">
                     {this.props.currentUser.id == currentPageId ? (
-                      <AthleteProfilePopover handleUpdate={this.editField} />
+                      <AthleteProfilePopover popover={"athlete"} handleUpdate={this.editField} />
                     ) : (
                       <div />
                     )}
