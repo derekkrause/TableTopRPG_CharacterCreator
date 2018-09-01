@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 class ChatMainHeader extends React.Component {
   state = {
@@ -25,7 +26,7 @@ class ChatMainHeader extends React.Component {
 
   render() {
     const { status } = this.state;
-    const { recipientAvatar, recipientName, messagesToShow } = this.props;
+    const { recipientAvatar, recipientName, messagesToShow, recipientUserId } = this.props;
 
     return (
       <React.Fragment>
@@ -35,8 +36,10 @@ class ChatMainHeader extends React.Component {
           <div className="chat-main-header-info">
             <div className="chat-avatar mr-2">
               <div className="chat-avatar-mode">
-                <img src={recipientAvatar} className="rounded-circle size-60" alt="" />
-                <span className={`chat-mode ${status}`} />
+                <NavLink to={"/app/profile/" + `${recipientUserId}`}>
+                  <img src={recipientAvatar} className="rounded-circle size-60" alt="" />
+                  <span className={`chat-mode ${status}`} />
+                </NavLink>
               </div>
             </div>
             <div className="chat-contact-name">{recipientName}</div>

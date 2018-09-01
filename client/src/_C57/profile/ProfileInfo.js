@@ -8,6 +8,8 @@ import { SaveProfileButton, CancelButton, MessageButton, StatsButton } from "../
 import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
 import ProfileLinksModal from "./ProfileLinksModal";
 import { connect } from "react-redux";
+import { NavLink, withRouter } from "react-router-dom";
+import { getContacts } from "../../services/message.service";
 
 class ProfileInfo extends React.Component {
   state = {
@@ -15,7 +17,8 @@ class ProfileInfo extends React.Component {
     schoolName: "",
     statsModal: false,
     everyThing: {},
-    prevPropsEveryThing: {}
+    prevPropsEveryThing: {},
+    showMessageButton: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -29,6 +32,10 @@ class ProfileInfo extends React.Component {
     }
     return null;
   }
+
+  componentDidMount = () => {
+    this.handleGetContacts();
+  };
 
   bundleProfileInfo = e => {
     e.preventDefault();
@@ -107,9 +114,29 @@ class ProfileInfo extends React.Component {
     return schoolSearch(0, this.state.everyThing.SchoolName); // schoolSearch available in SchoolAdminServer.js
   };
 
+  handleGetContacts = () => {
+    const id = this.props.currentUser.id;
+    getContacts(id)
+      .then(response => {
+        const user = response.data.items.contacts;
+        if (user) {
+          for (let i = 0; i < user.length; i++) {
+            if (user[i]["UserId"] == this.props.currentPageId) {
+              this.setState({ showMessageButton: true });
+            }
+          }
+        }
+      })
+      .catch(() => {
+        console.log("There was an error getting your contacts");
+      });
+  };
+
+  // handleMessageAction = () => this.props.currentPageId;
   // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     const { currentPageId } = this.props;
+    const { showMessageButton } = this.state;
     return (
       <div>
         {!this.state.editMode ? (
@@ -178,8 +205,11 @@ class ProfileInfo extends React.Component {
                           <React.Fragment>
                             {!this.props.following ? (
                               <button
-                                className="profileButton jr-btn jr-btn-default-custom btn btn-default profileInfoBtn"
-                                onClick={() => this.props.followUser()}
+                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                                onClick={() => {
+                                  this.props.followUser();
+                                  this.handleGetContacts();
+                                }}
                               >
                                 Follow
                               </button>
@@ -220,7 +250,11 @@ class ProfileInfo extends React.Component {
                       <div className="col-md-2" />
                       <div className="text-right col-md-6">
                         <StatsButton onClick={this.toggle} />
-                        <MessageButton />
+                        {showMessageButton && (
+                          <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
+                            <MessageButton />
+                          </NavLink>
+                        )}
                         <ProfileLinksModal
                           statsModal={this.state.statsModal}
                           userId={this.props.userId}
@@ -403,4 +437,4 @@ class ProfileInfo extends React.Component {
 function mapStateToProps(state) {
   return { currentUser: state.currentUser };
 }
-export default connect(mapStateToProps)(ProfileInfo);
+export default withRouter(connect(mapStateToProps)(ProfileInfo));

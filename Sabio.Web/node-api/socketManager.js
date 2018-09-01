@@ -1,5 +1,6 @@
 const io = require("./server.js").io;
 const { userFromJWT } = require("./app/filters/jwt.user");
+const { signalNotificationForUser } = require("./app/services/dotnet-interop.service.js");
 
 let userIdToSockets = {};
 module.exports = function(socket) {
@@ -35,11 +36,13 @@ module.exports = function(socket) {
       for (let i = 0; i < data.recipientSocketId.length; i++) {
         io.to(`${data.recipientSocketId[i]}`).emit("RECEIVE_MESSAGE", data);
       }
+    } else {
+      signalNotificationForUser(data.recipientUserId);
     }
     for (let i = 0; i < userIdToSockets[data.senderUserId]["socketId"].length; i++) {
       io.to(`${userIdToSockets[data.senderUserId]["socketId"][i]}`).emit("RECEIVE_MESSAGE", data);
     }
-    sendNotif(socket.user.id);
+    //sendNotif(socket.user.id);
   });
 
   socket.on("disconnect", () => {
