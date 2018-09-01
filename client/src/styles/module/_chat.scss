@@ -2,9 +2,10 @@
 
 .chat-module {
   @include flex();
-
+ 
   &:before {
     left: -29px;
+    
   }
 }
 
@@ -14,6 +15,8 @@
   background-color: $gray-100;
   position: relative;
   width: 100%;
+  border-radius: (20px 20px 20px 20px);
+  
 }
 
 .chat-sidenav {
@@ -308,8 +311,10 @@
     padding-top: 0;
   }
 
+
   .chat-main-header {
     padding: 8px 24px;
+    
 
     & .size-60 {
       height: 50px !important;
@@ -346,6 +351,7 @@
 }
 
 @media screen and (max-width: 991px) {
+
   .s-128 {
     font-size: 100px !important;
     width: 100px !important;
@@ -353,6 +359,7 @@
     line-height: 100px !important;
     margin-bottom: 10px;
   }
+
 }
 
 @media screen and (max-width: 767px) {
@@ -375,6 +382,7 @@
       font-size: 17px;
     }
   }
+
   .s-128 {
     font-size: 40px !important;
     width: 40px !important;

@@ -92,6 +92,7 @@ class VideoPlayerContainer extends React.Component {
           onPlay={this.onPlay}
           onProgress={this.onProgress}
           onStart={this.onStart}
+          videoPost={this.props.videoPost}
         />
       </div>
     );

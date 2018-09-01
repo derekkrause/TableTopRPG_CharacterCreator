@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import AthleteAcademics from "./AthleteAcademics";
 import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
 import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
+import { getProfilePic } from "./ProfileServer";
 import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
 
 class ProfileContainer extends React.Component {
@@ -93,6 +94,16 @@ class ProfileContainer extends React.Component {
     console.log("submit", profInfo);
   };
 
+  updateProfilePic = id => {
+    getProfilePic(id).then(res => {
+      console.log(res);
+      let newPic = res.data.resultSets[0][0].AvatarUrl;
+      this.setState({
+        profilePic: newPic
+      });
+    });
+  };
+
   componentDidMount() {
     this.setState({
       pLoader: true
@@ -124,6 +135,7 @@ class ProfileContainer extends React.Component {
 
   getAthleteCall = () => {
     getAthleteById(this.props.match.params.id).then(response => {
+      console.log("info", response);
       const info = response.data.item.athletes[0];
       const sportPositions = [];
       const heightFeet = Math.floor(info.Height / 12);
@@ -192,17 +204,28 @@ class ProfileContainer extends React.Component {
       academicNotes: this.state.academicNotes,
       shortBio: this.state.bio
     };
-    console.log(payload, "--------------------------------");
-    putAthleteById(payload).then(res => {
-      console.log(res);
-      this.getAthleteCall();
+    putAthleteById(payload).then(res => {});
+  };
+  handleEditBio = bio => {
+    this.setState(
+      {
+        bio
+      },
+      () => this.handleSaveProfile()
+    );
+  };
+
+  onHandleSchoolSelect = id => {
+    this.setState({
+      schoolId: id
     });
   };
 
   followUser = () => {
     const payload = {
       followerId: this.props.currentUser.id,
-      userId: parseInt(this.props.match.params.id)
+      userId: parseInt(this.props.match.params.id),
+      userNotified: false
     };
     if (!this.state.following) {
       followUser(payload).then(res => {
@@ -256,9 +279,13 @@ class ProfileContainer extends React.Component {
                 highlighting={this.state.highlighting}
                 following={this.state.following}
                 followUser={this.followUser}
-                handleChange={this.handleChange}
                 currentProfile={this.props.match.params.id}
+                currentUser={this.props.currentUser}
+                onChange={this.onChange}
+                handleChange={this.handleChange}
+                handleSaveProfile={this.handleSaveProfile}
                 onHandleSchoolSelect={this.onHandleSchoolSelect}
+                updateProfilePic={this.updateProfilePic}
                 handleProfileInfoSubmit={this.handleProfileInfoSubmit}
                 profilePic={this.state.profilePic}
                 classYearOptions={this.state.classYearOptions}

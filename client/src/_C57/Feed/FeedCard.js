@@ -5,7 +5,7 @@ import Popover from "../CustomComponents/Popover";
 import IfLoginStatus from "../CustomComponents/IfLoginStatus";
 import CommentsContainer from "../Comments/CommentsContainer";
 import "./FeedCard.css";
-import ImageModal from "../profile/ImageModal";
+import FeedModal from "./FeedModal";
 import SweetAlert from "react-bootstrap-sweetalert";
 import { LikeButton, LikedButton, ViewCommentsButton, ViewLikesButton } from "../CustomComponents/Button";
 import { postMedia } from "../profile/ProfileServer";
@@ -23,10 +23,13 @@ class FeedCard extends React.Component {
     videoWidth: "130px",
     mixedArray: [],
     popoverOpen: false,
+    videoPost: true,
     //  img carousel
     showImgModal: false,
     images: [],
-    selectedImg: null,
+    selectedImg: 0,
+    selectedVideo: 0,
+    showPhotos: true,
     //SweetAlert
     alert: null,
     //popoverBtn
@@ -112,8 +115,8 @@ class FeedCard extends React.Component {
           mixedArray[0].col = 4;
           break;
         case 2:
-          mixedArray[0].col = 8;
-          mixedArray[1].col = 4;
+          mixedArray[0].col = 6;
+          mixedArray[1].col = 6;
           break;
         case 1:
           mixedArray[0].col = 12;
@@ -124,6 +127,28 @@ class FeedCard extends React.Component {
       this.setState({ mixedArray });
     }
   }
+
+  toggleImgModal = index => {
+    this.setState({
+      selectedImg: index,
+      selectedVideo: index,
+      showImgModal: !this.state.showImgModal
+    });
+  };
+
+  nextImg = () => {
+    this.setState(prevState => ({
+      selectedImg: parseInt(prevState.selectedImg) + 1,
+      selectedVideo: parseInt(prevState.selectedVideo) + 1
+    }));
+  };
+
+  prevImg = () => {
+    this.setState(prevState => ({
+      selectedImg: parseInt(prevState.selectedImg) - 1,
+      selectedVideo: parseInt(prevState.selectedVideo) - 1
+    }));
+  };
 
   toggle = () => {
     this.setState({
@@ -226,81 +251,6 @@ class FeedCard extends React.Component {
     }
   };
 
-  toggleImgModal = imgIndex => {
-    if (!this.state.showImgModal) {
-      if (this.state.mixedArray[imgIndex].type === "image" || this.state.mixedArray[imgIndex].type === "imageLarge") {
-        this.setState({
-          selectedImg: imgIndex,
-          selectedVideo: imgIndex,
-          showImgModal: !this.state.showImgModal,
-          showPhotos: true
-        });
-      } else if (
-        this.state.mixedArray[imgIndex].type === "video" ||
-        this.state.mixedArray[imgIndex].type === "videoLarge"
-      ) {
-        this.setState({
-          selectedImg: imgIndex,
-          selectedVideo: imgIndex,
-          showImgModal: !this.state.showImgModal,
-          showPhotos: false
-        });
-      }
-    } else {
-      this.setState({
-        showImgModal: false
-      });
-    }
-  };
-
-  nextImg = () => {
-    if (
-      this.state.mixedArray[this.state.selectedImg].type === "video" ||
-      this.state.mixedArray[this.state.selectedImg].type === "videoLarge"
-    ) {
-      this.setState(prevState => ({
-        selectedImg: parseInt(prevState.selectedImg) + 1,
-        selectedVideo: parseInt(prevState.selectedVideo) + 1
-      }));
-      this.setState({
-        showPhotos: false
-      });
-    } else if (
-      this.state.mixedArray[this.state.selectedImg].type === "image" ||
-      this.state.mixedArray[this.state.selectedImg].type === "imageLarge"
-    ) {
-      this.setState(prevState => ({
-        selectedImg: parseInt(prevState.selectedImg) + 1,
-        selectedVideo: parseInt(prevState.selectedVideo) + 1
-      }));
-      this.setState({
-        showPhotos: true
-      });
-    }
-  };
-
-  prevImg = () => {
-    if (
-      this.state.mixedArray[this.state.selectedImg].type === "video" ||
-      this.state.mixedArray[this.state.selectedImg].type === "videoLarge"
-    ) {
-      this.setState(prevState => ({
-        selectedImg: parseInt(prevState.selectedImg) - 1,
-        selectedVideo: parseInt(prevState.selectedVideo) - 1,
-        showPhotos: false
-      }));
-    } else if (
-      this.state.mixedArray[this.state.selectedImg].type === "image" ||
-      this.state.mixedArray[this.state.selectedImg].type === "imageLarge"
-    ) {
-      this.setState(prevState => ({
-        selectedImg: parseInt(prevState.selectedImg) - 1,
-        selectedVideo: parseInt(prevState.selectedVideo) - 1,
-        showPhotos: true
-      }));
-    }
-  };
-
   handleDeleteFeed = () => {
     this.props.deleteFeed(this.props.feed.id);
     this.onClickCancel();
@@ -347,7 +297,8 @@ class FeedCard extends React.Component {
     });
     this.props.handleSubmitLike({
       userId: this.props.currentUser.id,
-      postId: this.props.feed.id
+      postId: this.props.feed.id,
+      userNotified: false
     });
   };
 
@@ -466,7 +417,11 @@ class FeedCard extends React.Component {
                     {tile.type == "videoLarge" && (
                       <div className={`col-12`} style={{ height: "auto", padding: 0 }}>
                         <div className="grid img-grid">
-                          <VideoPlayerContainer videoUrl={tile.src} className="img-grid-item" />
+                          <VideoPlayerContainer
+                            videoUrl={tile.src}
+                            className="img-grid-item"
+                            videoPost={this.state.videoPost}
+                          />
                           <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
@@ -474,13 +429,18 @@ class FeedCard extends React.Component {
                     {tile.type == "video" && (
                       <div className={`col-${tile.col}`} style={{ height: 160, objectFit: "cover", padding: 0 }}>
                         <div className="grid img-grid">
-                          <VideoPlayerContainer videoUrl={tile.src} height="160px" className="img-grid-item" />
+                          <VideoPlayerContainer
+                            videoUrl={tile.src}
+                            height="160px"
+                            className="img-grid-item"
+                            videoPost={this.state.videoPost}
+                          />
                           <button onClick={() => this.toggleImgModal(parseInt(index))}>view</button>
                         </div>
                       </div>
                     )}
                     {this.state.showImgModal && (
-                      <ImageModal
+                      <FeedModal
                         showImgModal={this.state.showImgModal}
                         toggleImgModal={this.toggleImgModal}
                         className={this.props.className}
@@ -490,7 +450,8 @@ class FeedCard extends React.Component {
                         selectedVideo={this.state.selectedVideo}
                         nextImg={this.nextImg}
                         prevImg={this.prevImg}
-                        showPhotos={this.state.showPhotos}
+                        title={this.state.title}
+                        content={this.state.content}
                       />
                     )}
                   </React.Fragment>

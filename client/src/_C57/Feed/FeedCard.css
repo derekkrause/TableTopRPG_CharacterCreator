@@ -15,17 +15,15 @@
 }
 
 .vert-center-right {
-    height: 40%;
+    height: 100%;
     width: 90%;
     position: absolute;
-    top: 30%;
     left: 5%;
 }
 .vert-center-left {
-    height: 40%;
+    height: 100%;
     width: 90%;
     position: absolute;
-    top: 30%;
     right: 5%;
 
 }

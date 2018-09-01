@@ -135,7 +135,6 @@ class SchoolTable extends Component {
 
           <div className="col-md-2 ">
             <NavLink className="float-right pt-3" to={`${this.props.match.url}/create`}>
-              + Add New
               <CreateButton />
             </NavLink>
           </div>

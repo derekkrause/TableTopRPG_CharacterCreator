@@ -12,6 +12,18 @@ const getById = (req, res) => {
     });
 };
 
+const getPicById = (req, res) => {
+  profilesService
+    .getPicById(req.params.id)
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(err => {
+      res.status(500).send(err);
+      console.log(err);
+    });
+};
+
 const getEvents = (req, res) => {
   profilesService
     .getEvents(req.params.userId)
@@ -37,6 +49,7 @@ const put = (req, res) => {
 
 module.exports = {
   getById,
+  getPicById,
   getEvents,
   put
 };

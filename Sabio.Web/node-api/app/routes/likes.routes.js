@@ -9,4 +9,5 @@ router.get("/events/:eventId", likesController.getByEventId);
 router.get("/media/:mediaId", likesController.getByMediaId);
 
 router.post("/", likesController.post);
+router.put("/:id", likesController.put);
 router.delete("/:id", likesController.del);

@@ -8,6 +8,8 @@ import { SaveProfileButton, CancelButton, MessageButton, StatsButton } from "../
 import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
 import ProfileLinksModal from "./ProfileLinksModal";
 import { connect } from "react-redux";
+import { NavLink, withRouter } from "react-router-dom";
+import { getContacts } from "../../services/message.service";
 
 class ProfileInfo extends React.Component {
   state = {
@@ -15,7 +17,8 @@ class ProfileInfo extends React.Component {
     schoolName: "",
     statsModal: false,
     everyThing: {},
-    prevPropsEveryThing: {}
+    prevPropsEveryThing: {},
+    showMessageButton: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -29,6 +32,10 @@ class ProfileInfo extends React.Component {
     }
     return null;
   }
+
+  componentDidMount = () => {
+    this.handleGetContacts();
+  };
 
   bundleProfileInfo = e => {
     e.preventDefault();
@@ -107,9 +114,29 @@ class ProfileInfo extends React.Component {
     return schoolSearch(0, this.state.everyThing.SchoolName); // schoolSearch available in SchoolAdminServer.js
   };
 
+  handleGetContacts = () => {
+    const id = this.props.currentUser.id;
+    getContacts(id)
+      .then(response => {
+        const user = response.data.items.contacts;
+        if (user) {
+          for (let i = 0; i < user.length; i++) {
+            if (user[i]["UserId"] == this.props.currentPageId) {
+              this.setState({ showMessageButton: true });
+            }
+          }
+        }
+      })
+      .catch(() => {
+        console.log("There was an error getting your contacts");
+      });
+  };
+
+  // handleMessageAction = () => this.props.currentPageId;
   // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     const { currentPageId } = this.props;
+    const { showMessageButton } = this.state;
     return (
       <div>
         {!this.state.editMode ? (
@@ -119,7 +146,7 @@ class ProfileInfo extends React.Component {
                 <div className="row" style={{ position: "relative", left: "4%", float: "right" }}>
                   <div className="col-md-3">
                     {this.props.currentUser.id == currentPageId ? (
-                      <AthleteProfilePopover handleUpdate={this.editField} />
+                      <AthleteProfilePopover popover={"athlete"} handleUpdate={this.editField} />
                     ) : (
                       <div />
                     )}
@@ -179,13 +206,16 @@ class ProfileInfo extends React.Component {
                             {!this.props.following ? (
                               <button
                                 className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
-                                onClick={() => this.props.followUser()}
+                                onClick={() => {
+                                  this.props.followUser();
+                                  this.handleGetContacts();
+                                }}
                               >
                                 Follow
                               </button>
                             ) : (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn px-3"
+                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn px-3"
                                 style={{ color: "#81c784" }}
                                 onClick={() => this.props.followUser()}
                               >
@@ -196,14 +226,14 @@ class ProfileInfo extends React.Component {
 
                             {!this.props.highlighting ? (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn"
                                 onClick={() => this.props.highlightUser()}
                               >
                                 Highlight
                               </button>
                             ) : (
                               <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn  px-3"
+                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn  px-3"
                                 style={{ color: "#81c784" }}
                                 onClick={() => this.props.highlightUser()}
                               >
@@ -220,7 +250,11 @@ class ProfileInfo extends React.Component {
                       <div className="col-md-2" />
                       <div className="text-right col-md-6">
                         <StatsButton onClick={this.toggle} />
-                        <MessageButton />
+                        {showMessageButton && (
+                          <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
+                            <MessageButton />
+                          </NavLink>
+                        )}
                         <ProfileLinksModal
                           statsModal={this.state.statsModal}
                           userId={this.props.userId}
@@ -372,7 +406,7 @@ class ProfileInfo extends React.Component {
                           onChange={this.handleChange}
                         />
                       </div>
-                      <div className="col-md-3">
+                      <div className="form-group col-md-3">
                         <label>Weight: </label>
                         <input
                           className="form-control"
@@ -403,4 +437,4 @@ class ProfileInfo extends React.Component {
 function mapStateToProps(state) {
   return { currentUser: state.currentUser };
 }
-export default connect(mapStateToProps)(ProfileInfo);
+export default withRouter(connect(mapStateToProps)(ProfileInfo));

@@ -51,6 +51,11 @@ class Message extends React.Component {
     this.initSocket();
     this.handleGetConvos();
     this.handleGetContacts();
+    if (this.props.location.state) {
+      this.setState({ activeChatId: this.props.location.state["id"] }, () =>
+        console.log("Harold disappears", this.props.location.state)
+      );
+    }
   }
 
   initSocket = () => {
@@ -201,50 +206,54 @@ class Message extends React.Component {
   };
 
   sendMessage = e => {
-    const { socket, recipientName, recipientSocketId, username, message, recipientUserId } = this.state;
+    const { socket, recipientName, recipientSocketId, username, message, recipientUserId, activeUsers } = this.state;
     const { currentUser } = this.props;
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (message != "" && message != " ") {
-        this.setState({
-          message: ""
-        });
 
-        const payload = {
-          recipientUserId,
-          message,
-          hasBeenRead: 0
-        };
+    e.preventDefault();
+    if (message != "" && message != " ") {
+      this.setState({
+        message: ""
+      });
 
-        postMessage(payload)
-          .then(response => {
-            const newTime = moment(response.data.items.dateCreated).format("h:mm:ss a");
+      const payload = {
+        recipientUserId,
+        message
+      };
 
-            socket.emit("SEND_MESSAGE", {
-              sender: username,
-              senderUserId: currentUser.id,
-              message: message,
-              time: newTime,
-              messageKey: response.data.items.id,
-              recipientName: recipientName,
-              recipientSocketId: recipientSocketId,
-              senderAvatar: currentUser.avatarUrl,
-              recipientUserId: recipientUserId
-            });
-
-            if (response.data.items.recentMessageCount > 12) {
-              this.showAlert();
-            }
-          })
-          .catch(() => {
-            console.log("There was an error sending your message to the DB");
-          });
+      if (activeUsers[recipientUserId]) {
+        payload.hasBeenRead = 1;
+      } else {
+        payload.hasBeenRead = 0;
       }
+
+      postMessage(payload)
+        .then(response => {
+          const newTime = moment(response.data.items.dateCreated).format("h:mm:ss a");
+
+          socket.emit("SEND_MESSAGE", {
+            sender: username,
+            senderUserId: currentUser.id,
+            message: message,
+            time: newTime,
+            messageKey: response.data.items.id,
+            recipientName: recipientName,
+            recipientSocketId: recipientSocketId,
+            senderAvatar: currentUser.avatarUrl,
+            recipientUserId: recipientUserId
+          });
+
+          if (response.data.items.recentMessageCount > 12) {
+            this.showAlert();
+          }
+        })
+        .catch(() => {
+          console.log("There was an error sending your message to the DB");
+        });
     }
   };
 
   sendMessageOnEnter = e => {
-    const { socket, recipientName, recipientSocketId, username, message, recipientUserId } = this.state;
+    const { socket, recipientName, recipientSocketId, username, message, recipientUserId, activeUsers } = this.state;
     const { currentUser } = this.props;
     if (e.key === "Enter") {
       e.preventDefault();
@@ -255,9 +264,14 @@ class Message extends React.Component {
 
         const payload = {
           recipientUserId,
-          message,
-          hasBeenRead: 0
+          message
         };
+
+        if (activeUsers[recipientUserId]) {
+          payload.hasBeenRead = 1;
+        } else {
+          payload.hasBeenRead = 0;
+        }
 
         postMessage(payload)
           .then(response => {
@@ -395,7 +409,7 @@ class Message extends React.Component {
   // Handle All Recipient/Active Users Info
 
   updateUsers = connectedUsers => {
-    this.setState({ activeUsers: connectedUsers });
+    this.setState({ activeUsers: connectedUsers }, () => console.log("active users list is", this.state.activeUsers));
   };
 
   reformatUsersArray = connectedUsers => {
@@ -413,6 +427,11 @@ class Message extends React.Component {
       //console.log("new recipient list: ", this.state.recipient);
       this.getUserInfo(user.userId);
     });
+    const { currentChats } = this.state;
+    const result = currentChats.filter(chat => chat["id"] == user.userId);
+    if (result.length > 0) {
+      this.setState({ activeChatId: user.userId });
+    }
   };
 
   getUserInfo = id => {
@@ -575,6 +594,24 @@ class Message extends React.Component {
     });
   };
 
+  handleDrawerState = () => {
+    this.setState({
+      drawerState: true
+    });
+  };
+
+  resetDrawer = () => {
+    this.setState({
+      drawerState: false
+    });
+  };
+
+  onChatToggleDrawer = () => {
+    this.setState({
+      drawerState: false
+    });
+  };
+
   showSideNav = () => {
     return (
       <SideBar
@@ -592,24 +629,6 @@ class Message extends React.Component {
         resetDrawer={this.resetDrawer}
       />
     );
-  };
-
-  handleDrawerState = () => {
-    this.setState({
-      drawerState: true
-    });
-  };
-
-  resetDrawer = () => {
-    this.setState({
-      drawerState: false
-    });
-  };
-
-  onChatToggleDrawer = () => {
-    this.setState({
-      drawerState: false
-    });
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -701,6 +720,7 @@ class Message extends React.Component {
                       recipientSocketId={recipientSocketId}
                       handleResetUnseenMessages={this.handleResetUnseenMessages}
                       messageContacts={messageContacts}
+                      resetDrawer={this.resetDrawer}
                     />
                   </div>
 

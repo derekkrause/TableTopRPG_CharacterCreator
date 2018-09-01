@@ -26,9 +26,22 @@ module.exports = {
   },
 
   putById: (req, res) => {
-    const { id, athleteTargetSportId, AthleteTargetSportPositionIdJson } = req.body;
+    const { id, sportId, sportPositionIdJson } = req.body;
     athleteTargetSportService
-      .putById(id, athleteTargetSportId, AthleteTargetSportPositionIdJson)
+      .putById(id, sportId, sportPositionIdJson)
+      .then(response => {
+        console.log(response);
+        res.status(200).send(response);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  },
+
+  deleteById: (req, res) => {
+    const { id } = req.params;
+    athleteTargetSportService
+      .deleteById(id)
       .then(response => {
         console.log(response);
         res.status(200).send(response);

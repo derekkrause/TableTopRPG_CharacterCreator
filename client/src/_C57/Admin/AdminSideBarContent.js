@@ -50,9 +50,14 @@ class AdminSideBarContent extends React.Component {
                 Sports
               </NavLink>
             </li>
-            <li>
+            <li className="admin-link">
               <NavLink className="link" to={`${this.props.match.url}/venues`}>
                 Venues
+              </NavLink>
+            </li>
+            <li className="admin-link">
+              <NavLink className="link" to={`${this.props.match.url}/stripe`}>
+                Stripe
               </NavLink>
             </li>
           </ul>

@@ -65,6 +65,19 @@ const post = (req, res) => {
     });
 };
 
+const put = (req, res) => {
+  followService
+    .put(req.params.followerId, req.params.userId)
+    .then(response => {
+      console.log(response);
+      res.status(200).send(response);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
+
 const del = (req, res) => {
   followService
     .del(req.params.followerId, req.params.userId)
@@ -83,6 +96,7 @@ module.exports = {
   getByUserId,
   getById,
   post,
+  put,
   del,
   getMessageContacts
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import "./schoolStyle.css";
+import { EditButton } from "../../CustomComponents/Button/index";
 
 const SchoolTableCells = props => {
   const pascal = str => {
@@ -25,9 +26,7 @@ const SchoolTableCells = props => {
       <td>{props.data.Zip}</td>
       <td>
         <NavLink to={`${props.match.path}/edit/${props.data.Id}`}>
-          <button className="btn btn-link">
-            <small>Edit</small>
-          </button>
+          <EditButton />
         </NavLink>
       </td>
     </tr>

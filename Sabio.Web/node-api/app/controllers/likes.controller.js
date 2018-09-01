@@ -65,6 +65,18 @@ const post = (req, res) => {
     });
 };
 
+const put = (req, res) => {
+  likesService
+    .put(req.params.id)
+    .then(response => {
+      console.log(response);
+      res.status(200).send(response);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
 const del = (req, res) => {
   likesService
     .del(req.params.id)
@@ -84,5 +96,6 @@ module.exports = {
   getByEventId,
   getByMediaId,
   post,
+  put,
   del
 };

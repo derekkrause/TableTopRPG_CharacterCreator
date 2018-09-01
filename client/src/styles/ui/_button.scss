@@ -379,7 +379,16 @@ button {
   pointer-events: none;
   opacity: 0.65;
 }
+.jr-btn-default-custom{
+  background-color: $white;
+  color: $body-color;
+  border: 1px solid $gray-300;
+  &:hover{
+    background-color: darken($white, 5%);
+    color: $body-color;
+  }
 
+}
 .jr-btn-default {
   background-color: $white;
   color: $body-color;
@@ -415,7 +424,7 @@ button {
 .bg-primary {
   & .jr-flat-btn.jr-btn-primary {
     background-color: transparent;
-    color: $white;
+    color: red; //$white;
 
     &:hover,
     &:focus {

@@ -22,6 +22,9 @@ class IfLoginStatus extends React.Component {
       if (props.isAdmin === true) {
         if (props.user.isAdmin) {
           return props.children;
+        }
+        if (props.isCoach === true) {
+          return props.children;
         } else {
           return null;
         }

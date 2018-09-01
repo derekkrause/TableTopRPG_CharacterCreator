@@ -79,7 +79,8 @@ class SideBar extends React.Component {
                   position: "relative",
                   overflow: "hidden",
                   width: "100%",
-                  height: "calc(100vh - 328px)"
+                  height: "calc(100vh - 328px)",
+                  borderBottomLeftRadius: "20px"
                 }}
               >
                 <div

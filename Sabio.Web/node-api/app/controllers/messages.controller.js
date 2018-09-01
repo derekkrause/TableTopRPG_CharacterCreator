@@ -30,10 +30,10 @@ module.exports = {
   },
 
   postMessage: (req, res) => {
-    const { recipientUserId, message } = req.body;
+    const { recipientUserId, message, hasBeenRead } = req.body;
     const senderUserId = req.user.id;
 
-    messagesService.postMessage(senderUserId, recipientUserId, message).then(item => {
+    messagesService.postMessage(senderUserId, recipientUserId, message, hasBeenRead).then(item => {
       const r = new responses.ItemsResponse(item);
       res.status(201).json(r);
     });

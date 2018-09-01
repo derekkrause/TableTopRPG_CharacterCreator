@@ -147,7 +147,9 @@ purpose of these functions is sync imageUrl and videoUrl state on the parent so 
             },
             () => this.dividePreviewArray()
           );
-          this.props.toggleLoader();
+          if (this.props.toggleLoader) {
+            this.props.toggleLoader();
+          }
         });
       });
     } else {

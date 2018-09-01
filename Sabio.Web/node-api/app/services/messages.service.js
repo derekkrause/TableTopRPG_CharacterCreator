@@ -28,12 +28,13 @@ const getConvosByUserId = userId => {
     });
 };
 
-const postMessage = (senderUserId, recipientUserId, message) => {
+const postMessage = (senderUserId, recipientUserId, message, hasBeenRead) => {
   return mssql
     .executeProc("Message_Insert", request => {
       request.addParameter("SenderUserId", TYPES.Int, senderUserId);
       request.addParameter("RecipientUserId", TYPES.Int, recipientUserId);
       request.addParameter("Message", TYPES.NVarChar, message);
+      request.addParameter("HasBeenRead", TYPES.Bit, hasBeenRead);
       request.addOutputParameter("Id", TYPES.Int, null);
       request.addOutputParameter("DateCreated", TYPES.DateTime2, null);
       request.addOutputParameter("RecentMessageCount", TYPES.Int, null);

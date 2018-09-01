@@ -21,6 +21,7 @@ import "../_C57/WelcomePage/WelcomePage.css";
 import axios from "axios";
 import { SET_DROPDOWN_VALUES } from "../constants/ActionTypes";
 import "../_C57/NavBar/NavStyle.css";
+import { stripeStatus } from "../_C57/Stripe/stripe.server";
 
 //import { COLLAPSED_DRAWER, FIXED_DRAWER } from "constants/ActionTypes";
 
@@ -36,6 +37,8 @@ const ForgotPasswordAsyncComponent = asyncComponent(() => import("../_C57/Forgot
 const ProfileAsyncComponent = asyncComponent(() => import("../_C57/profile/ProfileContainer"));
 const RegistrationAsyncComponent = asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"));
 const WelcomeAsyncComponent = asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"));
+const StripeAsyncComponent = asyncComponent(() => import("../_C57/Stripe/StripeApp"));
+
 const ArticlesAsyncComponent = asyncComponent(() => import("../_C57/Articles/ArticleCreate"));
 const CoachFavAsyncComponent = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
 const EventsAsyncComponent = asyncComponent(() => import("../_C57/Event/EventContainer"));
@@ -47,8 +50,14 @@ const VenuesAsyncComponent = asyncComponent(() => import("../_C57/Admin/Venues/A
 const MessageAsyncComponent = asyncComponent(() => import("../_C57/Messaging/Message"));
 
 class App extends React.Component {
+  state = {
+    notifcationCounter: 0
+  };
   componentDidMount() {
     //-- Leave this if statement here for now. I need it to test filter later. -Ricky
+
+    if (this.props.currentUser) {
+      console.log(this.props.currentUser, "currentUser");
     axios
       .get("api/search")
       .then(res => {
@@ -59,6 +68,32 @@ class App extends React.Component {
         console.log("Get All Failed");
       });
   }
+  }
+
+  setDropdownProperties = properties => {
+    this.props.setDropdownValues({
+      ...this.props.dropDownOptions,
+      ...properties
+    });
+  };
+
+  setCriteriaProperties = properties => {
+    this.props.setSearchCriteria({
+      ...this.props.searchCriteria,
+      ...properties
+    });
+  };
+  notificationCounter = () => {
+    this.setState({ notifcationCounter: this.state.notifcationCounter++ });
+  };
+
+  checkSportFilter = () => {
+    if (this.props.searchCriteria.sportFilter == null) {
+      this.setCriteriaProperties({
+        sportFilter: this.props.currentUser.currentSportId
+      });
+    }
+  };
 
   render() {
     const { match, drawerType, navigationStyle, horizontalNavPosition, currentUser } = this.props;
@@ -77,9 +112,15 @@ class App extends React.Component {
     return (
       <div className={`app-container ${drawerStyle}`}>
         <NotificationContainer />
-        <IfLoginStatus loggedIn={true} isAdmin={true}>
-          <Route path={`${match.url}/admin`} component={AdminSideNavAsyncComponent} />
-        </IfLoginStatus>
+        {currentUser
+          ? currentUser.isAdmin === true && (
+              <Route
+                path={`${match.url}/admin`}
+                component={asyncComponent(() => import("../containers/SideNav/index"))}
+              />
+            )
+          : null}
+
         <div className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch">
           <div>
             <IfLoginStatus loggedIn={false}>
@@ -89,6 +130,7 @@ class App extends React.Component {
             <IfLoginStatus loggedIn={true}>
               <NavBar />
               <UserTypeSweetAlert {...this.props} />
+              {() => stripeStatus(this.props)}
             </IfLoginStatus>
 
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
@@ -96,7 +138,13 @@ class App extends React.Component {
 
           <main className="app-main-content-wrapper">
             <div className="app-main-content">
-              {currentUser !== null && (
+              {currentUser !== null &&
+                (currentUser.subNeeded === true ? (
+                  <Switch>
+                    <Route path={`${match.url}/stripe`} component={StripeAsyncComponent} />
+                    <Redirect to={`${match.url}/stripe`} />
+                  </Switch>
+                ) : (
                 <Switch key="mainswitch">
                   {/* This Route must remain above the rest but still needs to be alphebatized */}
                   <Route path={`${match.url}/forgot-password`} component={ForgotPasswordAsyncComponent} />
@@ -135,6 +183,7 @@ class App extends React.Component {
                   <Route path={`${match.url}/home`} component={HomeAsyncComponent} />
                   <Route path={`${match.url}/messaging`} component={MessageAsyncComponent} />
                   <Route path={`${match.url}/pogs`} component={PogsAsyncComponent} />
+
                   <Route
                     path={`${match.url}/profile/:id(\\d+)`}
                     render={props => {
@@ -146,11 +195,12 @@ class App extends React.Component {
                     }}
                   />
                   <Route path={`${match.url}/search`} component={SearchAsyncComponent} />
+                    <Route path={`${match.url}/stripe`} component={StripeAsyncComponent} />
                   <Route path={`${match.url}/venues`} component={VenuesAsyncComponent} />
                   <Route component={asyncComponent(() => import("components/Error404"))} />
                   {/* Please keep Routes alphebetized by URL */}
                 </Switch>
-              )}
+                ))}
             </div>
             <Footer />
           </main>

@@ -40,7 +40,34 @@ class CommentsContainer extends React.Component {
       //console.log("GET Comments", response);
       if (response && response.data.length > 0) {
         response.data.map(post => {
-          let elapsedTime = Math.round((new Date() - new Date(post.dateCreated)) / 1000 / 60);
+          let year = new Date().getUTCFullYear();
+          let month = new Date().getUTCMonth();
+          let day = new Date().getUTCDate();
+          let hours = new Date().getUTCHours();
+          let minutes = new Date().getUTCMinutes();
+          let seconds = new Date().getUTCSeconds();
+          let milliseconds = new Date().getUTCMilliseconds();
+
+          // let utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds));
+          let nowElapsed = Date.UTC(year, month, day, hours, minutes, seconds, milliseconds);
+          // let currentUTCDateTime = utcDate.toUTCString();
+          // let timeNow = currentUTCDateTime.replace(/,/g, "") + "-0700 (Pacific Daylight Time)";
+          let pTime = post.dateCreated;
+          let pYear = pTime.substring(0, 4);
+          let pMonth = pTime.substring(5, 7) - 1;
+
+          let pDay = pTime.substring(8, 10);
+          let pHours = pTime.substring(11, 13);
+
+          let pMinutes = pTime.substring(14, 16);
+
+          let pSeconds = pTime.substring(17, 19);
+
+          let pMilliseconds = pTime.substring(20, 21) * 100;
+          let postElapsed = Date.UTC(pYear, pMonth, pDay, pHours, pMinutes, pSeconds, pMilliseconds);
+          let elapsedTime = Math.round((nowElapsed - postElapsed) / 1000 / 60);
+
+          // let elapsedTime = Math.round((new Date() - new Date(post.dateCreated)) / 1000 / 60);
 
           let timeStamp;
           if (elapsedTime < 1) {
@@ -68,6 +95,7 @@ class CommentsContainer extends React.Component {
             let yrsTime = Math.round(elapsedTime / 518400);
             timeStamp = `${yrsTime}yrs`;
           }
+
           let comment = {
             postId: post.parentPost,
             commentId: post.id,
@@ -202,7 +230,34 @@ class CommentsContainer extends React.Component {
     //console.log("GET Comments", response);
     if (this.props.data && this.props.data.length > 0) {
       this.props.data.map(post => {
-        let elapsedTime = Math.round((new Date() - new Date(post.DateCreated)) / 1000 / 60);
+        let year = new Date().getUTCFullYear();
+        let month = new Date().getUTCMonth();
+        let day = new Date().getUTCDate();
+        let hours = new Date().getUTCHours();
+        let minutes = new Date().getUTCMinutes();
+        let seconds = new Date().getUTCSeconds();
+        let milliseconds = new Date().getUTCMilliseconds();
+
+        // let utcDate = new Date(Date.UTC(year, month, day, hours, minutes, seconds, milliseconds));
+        let nowElapsed = Date.UTC(year, month, day, hours, minutes, seconds, milliseconds);
+        // let currentUTCDateTime = utcDate.toUTCString();
+        // let timeNow = currentUTCDateTime.replace(/,/g, "") + "-0700 (Pacific Daylight Time)";
+        let pTime = post.DateCreated;
+        let pYear = pTime.substring(0, 4);
+        let pMonth = pTime.substring(5, 7) - 1;
+
+        let pDay = pTime.substring(8, 10);
+        let pHours = pTime.substring(11, 13);
+
+        let pMinutes = pTime.substring(14, 16);
+
+        let pSeconds = pTime.substring(17, 19);
+
+        let pMilliseconds = pTime.substring(20, 21) * 100;
+        let postElapsed = Date.UTC(pYear, pMonth, pDay, pHours, pMinutes, pSeconds, pMilliseconds);
+        let elapsedTime = Math.round((nowElapsed - postElapsed) / 1000 / 60);
+
+        // let elapsedTime = Math.round((new Date() - new Date(post.DateCreated)) / 1000 / 60);
         let timeStamp;
         if (elapsedTime < 1) {
           timeStamp = "1min";

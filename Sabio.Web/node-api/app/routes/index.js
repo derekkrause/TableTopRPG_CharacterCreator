@@ -19,6 +19,7 @@ const mediaRoutes = require("./media.routes");
 const followRoutes = require("./follow.routes");
 const highlightsRoutes = require("./highlights.routes");
 const likesRoutes = require("./likes.routes");
+const notificationsRoutes = require("./notifications.routes");
 const iconRoutes = require("./icon.routes");
 const commentsRoutes = require("./comments.routes");
 const athleteSchoolLogRoutes = require("./athleteSchoolLog.routes");
@@ -36,6 +37,9 @@ const coachAthleteLogRoutes = require("./coachAthleteLog.routes");
 const coachAthleteTagRoutes = require("./coachAthleteTag.routes");
 const coachTagsRoutes = require("./coachTags.routes");
 const athleteSearchRoutes = require("./athleteSearch.routes");
+const stripeRoutes = require("./stripe.routes.js");
+const userRoutes = require("./user.routes");
+const stripeAuthRoutes = require("./stripeAuth.routes");
 
 module.exports = router;
 
@@ -57,10 +61,18 @@ router.use("/coachAthleteTag", coachAthleteTagRoutes);
 router.use("/coachAthlete", coachAthleteRoutes);
 router.use("/coachTags", coachTagsRoutes);
 
+router.use("/profile", profilesRoutes);
+router.use("/media", mediaRoutes);
+router.use("/follow", followRoutes);
+router.use("/highlights", highlightsRoutes);
+router.use("/likes", likesRoutes);
+router.use("/stripe", stripeRoutes);
 router.use("/icon", iconRoutes);
 router.use("/comments", commentsRoutes);
 
 router.use("/api/conferences", conferencesRoutes);
+router.use("/school", schoolsRoutes);
+router.use("/user", userRoutes);
 
 router.use("/config", configRoutes);
 
@@ -69,13 +81,6 @@ router.route("/faqs/:id").get(FaqsController.getFaqByCategory);
 router.use("/faqs", faqsRoutes);
 router.use("/faqsCategories", faqsCategoriesRoutes);
 
-router.use("/profile", profilesRoutes);
-router.use("/media", mediaRoutes);
-router.use("/follow", followRoutes);
-router.use("/highlights", highlightsRoutes);
-router.use("/likes", likesRoutes);
-
-router.use("/school", schoolsRoutes);
 router.use("/schools", schoolsRoutes);
 router.use("/sportPosition", sportPositionsRoutes);
 
@@ -89,3 +94,4 @@ router.use(userFromJWTFilter);
 router.use(validateUser);
 router.use("/messages", messagesRoutes);
 router.use("/api/test", testRoutes); // TODO: remove this before delivery to the client
+router.use("/api/stripe", stripeAuthRoutes);

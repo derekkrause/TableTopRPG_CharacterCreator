@@ -11,6 +11,16 @@ const getById = id => {
     });
 };
 
+const getPicById = id => {
+  return mssql
+    .executeProc("User_SelectAvatarById", sqlRequest => {
+      sqlRequest.addParameter("Id", TYPES.Int, id);
+    })
+    .then(response => {
+      return response;
+    });
+};
+
 const getEvents = userId => {
   return mssql
     .executeProc("EventUser_SelectEventsByUserId", sqlRequest => {
@@ -34,6 +44,7 @@ const put = body => {
 
 module.exports = {
   getById,
+  getPicById,
   getEvents,
   put
 };

@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get("/auth", (req, res) => {
   const user = req.user;
+  console.log(user.roles);
 
   const message =
     "JWT token info:\n" + `User ID:  ${user.id}\n` + `Username: ${user.name}\n` + "Roles: " + user.roles.join(", ");
