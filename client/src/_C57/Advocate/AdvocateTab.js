@@ -131,9 +131,15 @@ class AdvocateTab extends React.Component {
     getAllTeams()
       .then(response => {
         console.log(response, "Get All Teams");
-        this.setState({
-          teams: response.data.item.pagedItems
-        });
+        if (!response.data.item.pagedItems) {
+          this.setState({
+            teams: []
+          });
+        } else {
+          this.setState({
+            teams: response.data.item.pagedItems
+          });
+        }
       })
       .catch(error => {
         console.log(error, "Error");
@@ -184,11 +190,7 @@ class AdvocateTab extends React.Component {
             <CardBody>
               <div className="row">
                 {/* <div className="col-md-1"> */}
-                  <GameModal
-                    key={this.state.teams}
-                    teams={this.state.teams}
-                    advocateUserId={this.props.advocateUserId}
-                  />
+                <GameModal key={this.state.teams} teams={this.state.teams} advocateUserId={this.props.advocateUserId} />
                 {/* </div> */}
               </div>
               <div className="mt-2">

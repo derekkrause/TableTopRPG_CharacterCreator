@@ -68,7 +68,6 @@ class AthleteAutoComplete extends React.Component {
               ? this.state.options.slice(0, this.props.limit || 10).map(options => (
                   <div className="optional-divs " key={options.Id}>
                     <img src={options.AvatarUrl} className="float-left user-avatar rounded-circle mr-3 " />
-
                     <div
                       name={options.Name}
                       id={options.Id}

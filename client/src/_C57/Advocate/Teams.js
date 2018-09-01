@@ -1,6 +1,6 @@
 import React from "react";
 import { Table } from "reactstrap";
-import { updateTeam } from "./AdvocateServer";
+import { updateTeam, deleteTeam, deleteAdvoTeam } from "./AdvocateServer";
 
 class Teams extends React.Component {
   state = {
@@ -42,6 +42,26 @@ class Teams extends React.Component {
         }
       })
     }));
+  };
+
+  deleteTeam = teamId => {
+    deleteAdvoTeam(teamId)
+      .then(response => {
+        console.log(response, "AdvoTeam Deleted");
+        deleteTeam(teamId)
+          .then(response => {
+            console.log(response, "Team Deleted");
+            this.setState(prevState => ({
+              teamArr: prevState.teamArr.filter(t => t.id != teamId)
+            }));
+          })
+          .catch(error => {
+            console.log(error, "Error");
+          });
+      })
+      .catch(error => {
+        console.log(error, "Error");
+      });
   };
 
   render() {
@@ -92,10 +112,12 @@ class Teams extends React.Component {
                   <div>
                     <input type="number" name="zip" onChange={e => this.teamInput(e, t.id)} value={t.zip || ""} />
                     <i className="zmdi zmdi-edit zmdi-hc-fw" onClick={() => this.editToggle(t)} />
+                    <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteTeam(t.id)} />
                   </div>
                 ) : (
                   <div>
                     {t.zip}
+                    <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteTeam(t.id)} />
                     <i className="zmdi zmdi-edit zmdi-hc-fw" onClick={() => this.editToggle(t)} />
                   </div>
                 )}

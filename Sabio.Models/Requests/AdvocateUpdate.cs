@@ -19,6 +19,7 @@ namespace Sabio.Models.Domain
         public string Title { get; set; }
         [MaxLength(500)]
         public string ShortBio { get; set; }
-
+        public string Name { get; set; }
+        
     }
 }

@@ -1,16 +1,104 @@
 import React from "react";
 import { Table } from "reactstrap";
-// import { Nav, NavItem, NavLink, TabContent, TabPane, Card, CardHeader, CardBody } from "reactstrap";
-import { updateAdvoAthlete } from "./AdvocateServer";
+import { updateAdvoAthlete, deleteAdvoAthlete, insertAdvoAthletes } from "./AdvocateServer";
+import AthleteAutoSearch from "./AthleteAutoSearch";
 
 class AdvoAthlete extends React.Component {
   state = {
     editNotes: false,
-    addAthlete: false
-    // athleteInfo: {}
+    addAthlete: false,
+    advoAthleteArr: this.props.advoAthleteArr,
+    athleteInfo: {}
+  };
+
+  getInputValue = e => {
+    let key = e.target.name;
+    let value = e.target.value;
+    let checked = e.target.checked;
+    this.setState(prevState => ({
+      athleteInfo: {
+        ...prevState.athleteInfo,
+        [key]: value,
+        verify: checked
+      }
+    }));
+  };
+
+  addAthlete = () => {
+    if (this.state.addAthlete) {
+      this.setState({
+        addAthlete: false
+      });
+    } else {
+      this.setState({
+        addAthlete: true
+      });
+    }
+  };
+
+  selectedAthlete = aI => {
+    const athleteInfo = {};
+    athleteInfo.firstName = aI.FirstName;
+    athleteInfo.lastName = aI.LastName;
+    athleteInfo.name = aI.Name;
+    athleteInfo.athleteUserId = aI.UserId;
+    this.setState({
+      athleteInfo: athleteInfo
+    });
+  };
+
+  insertAdvoAthletes = a => {
+    a.advocateUserId = this.props.advocateUserId;
+    insertAdvoAthletes(a)
+      .then(response => {
+        console.log(response, "Added AdvoAthlete");
+        a.id = response.data.item;
+        const advoAthletes = [...this.state.advoAthleteArr, a];
+        this.setState({
+          advoAthleteArr: advoAthletes,
+          athleteInfo: {},
+          addAthlete: false
+        });
+      })
+      .catch(error => {
+        console.log(error, "Error");
+      });
+  };
+
+  deleteAthlete = athleteId => {
+    deleteAdvoAthlete(athleteId)
+      .then(response => {
+        console.log(response, "Deleted Athlete");
+        this.setState(prevState => ({
+          advoAthleteArr: prevState.advoAthleteArr.filter(a => a.id != athleteId)
+        }));
+      })
+      .catch(error => {
+        console.log(error, "error");
+      });
+  };
+
+  editNotes = (e, athleteUserId) => {
+    let key = e.target.name;
+    let value = e.target.value;
+    let checked = e.target.checked;
+    this.setState(prevState => ({
+      advoAthleteArr: prevState.advoAthleteArr.map(a => {
+        if (a.athleteUserId == athleteUserId) {
+          return {
+            ...a,
+            [key]: value,
+            verify: checked
+          };
+        } else {
+          return a;
+        }
+      })
+    }));
   };
 
   updateNotes = payload => {
+    console.log(payload, "this is the payload");
     if (this.state.editNotes) {
       updateAdvoAthlete(payload)
         .then(response => {
@@ -29,40 +117,6 @@ class AdvoAthlete extends React.Component {
     }
   };
 
-  // wip
-  addAthlete = () => {
-    if (this.state.addAthlete) {
-      this.setState({
-        addAthlete: false
-      });
-    } else {
-      this.setState({
-        addAthlete: true
-      });
-    }
-    // insertAdvoAthletes()
-    // .then(response => {
-    //   console.log(response, "Added AdvoAthlete")
-    // })
-    // .catch(error => {
-    //   console.log(error, "Error");
-    // })
-  };
-
-  // getInputValue = () => {
-  //   let key = e.target.key;
-  //   let value = e.target.value;
-  //   this.setState({
-  //     athleteInfo: {
-  //       [key] : value
-  //     }
-  //   })
-  // }
-
-  deleteAthlete = () => {
-    console.log("clicked wip");
-  };
-
   render() {
     return (
       <div style={{ padding: "5%" }}>
@@ -70,36 +124,83 @@ class AdvoAthlete extends React.Component {
           <thead>
             <tr>
               <th>
-                <i class="zmdi zmdi-plus zmdi-hc-fw" style={{ fontSize: "20px" }} onClick={() => this.addAthlete()} />
+                <i
+                  className="zmdi zmdi-account-add zmdi-hc-fw"
+                  style={{ fontSize: "20px" }}
+                  onClick={() => this.addAthlete()}
+                />
               </th>
               <th>Name</th>
+              <th>High School</th>
               <th>Notes</th>
             </tr>
           </thead>
           <tbody>
-            {this.props.advoAthleteArr.map(a => (
+            {this.state.advoAthleteArr.map(a => (
               <tr key={a.id}>
-                <th scope="row" />
+                {!this.state.editNotes &&
+                  a.verify && (
+                    <th scope="row">
+                      Verified
+                      <i className="zmdi zmdi-badge-check zmdi-hc-fw" style={{ color: "#388e3c" }} />
+                    </th>
+                  )}
+                {!this.state.editNotes &&
+                  !a.verify && (
+                    <th scope="row">
+                      UnVerified
+                      <i className="zmdi zmdi-alert-triangle zmdi-hc-fw" style={{ color: "red" }} />
+                    </th>
+                  )}
+                {this.state.editNotes &&
+                  !a.verify && (
+                    <th scope="row">
+                      <input
+                        type="checkbox"
+                        name="verify"
+                        value={a.verify}
+                        onChange={e => this.editNotes(e, a.athleteUserId)}
+                      />
+                      <label htmlFor="verify">Verify Athlete</label>
+                      <i className="zmdi zmdi-badge-check zmdi-hc-fw" />
+                    </th>
+                  )}
+                {this.state.editNotes &&
+                  a.verify && (
+                    <th scope="row">
+                      <input
+                        type="checkbox"
+                        name="verify"
+                        value={a.verify}
+                        onChange={e => this.editNotes(e, a.athleteUserId)}
+                        checked
+                      />
+                      <label htmlFor="verify">Verify Athlete</label>
+                      <i className="zmdi zmdi-badge-check zmdi-hc-fw" />
+                    </th>
+                  )}
                 <td>
                   {a.firstName} {a.lastName}
+                  {""}
                 </td>
+                <td>{a.name}</td>
                 <td>
                   {this.state.editNotes ? (
                     <div>
                       <input
                         type="text"
                         name="notes"
-                        onChange={e => this.props.editNotes(e, a.athleteUserId)}
+                        onChange={e => this.editNotes(e, a.athleteUserId)}
                         value={a.notes || ""}
                         size="25"
                       />
-                      <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteAthlete()} />
+                      <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteAthlete(a.id)} />
                       <i className="zmdi zmdi-edit zmdi-hc-fw float-right" onClick={() => this.updateNotes(a)} />
                     </div>
                   ) : (
                     <div>
                       {a.notes}{" "}
-                      <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteAthlete()} />
+                      <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteAthlete(a.id)} />
                       <i className="zmdi zmdi-edit zmdi-hc-fw float-right" onClick={() => this.updateNotes(a)} />
                     </div>
                   )}
@@ -108,13 +209,34 @@ class AdvoAthlete extends React.Component {
             ))}
             {this.state.addAthlete && (
               <tr>
-                <th scope="row" />
-                <td>
-                  <input type="text" name="firstName" size="10" placeholder="First Name" /> &nbsp;
-                  <input type="text" name="lastName" size="10" placeholder="Last Name" />
+                <th scope="row">
+                  <input
+                    type="checkbox"
+                    name="verify"
+                    value={this.state.athleteInfo.verify}
+                    onChange={e => this.getInputValue(e)}
+                  />
+                  <label htmlFor="verify">Verify Athlete</label>
+                  <i className="zmdi zmdi-badge-check zmdi-hc-fw" />
+                </th>
+                <td style={{ width: "180px" }}>
+                  <AthleteAutoSearch selectedAthlete={aI => this.selectedAthlete(aI)} />
                 </td>
+                <td>{this.state.athleteInfo.name}</td>
                 <td>
-                  <input type="text" name="notes" size="25" placeholder="Notes" />
+                  <input
+                    type="text"
+                    name="notes"
+                    size="30"
+                    placeholder="Notes..."
+                    onChange={e => this.getInputValue(e)}
+                    value={this.state.athleteInfo.notes || ""}
+                  />
+                  <i
+                    className="zmdi zmdi-check zmdi-hc-fw float-right"
+                    style={{ fontSize: "24px" }}
+                    onClick={() => this.insertAdvoAthletes(this.state.athleteInfo)}
+                  />
                 </td>
               </tr>
             )}

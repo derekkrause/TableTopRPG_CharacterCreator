@@ -1,8 +1,37 @@
 import React from "react";
 import "./AdvocateStyle.css";
 import { Button, Input } from "reactstrap";
+import { getAdvoAthletesById } from "./AdvocateServer";
+import AdvoAthlete from "./AdvoAthlete";
 
 class AdvocateBody extends React.Component {
+  state = {
+    viewTable: false,
+    advoAthleteArr: []
+  };
+
+  tableToggle = () => {
+    if (this.state.viewTable) {
+      this.setState({
+        viewTable: false
+      });
+    } else {
+      getAdvoAthletesById()
+        .then(response => {
+          console.log(response, "Get All advoAthletes");
+          this.setState({
+            advoAthleteArr: response.data.item.pagedItems
+          });
+        })
+        .catch(error => {
+          console.log(error, "Error");
+        });
+      this.setState({
+        viewTable: true
+      });
+    }
+  };
+
   render() {
     return (
       <div>
@@ -19,22 +48,26 @@ class AdvocateBody extends React.Component {
                 value={this.props.advocateUser.shortBio || ""}
                 onChange={this.props.editInput}
               />
-              <Button color="btn btn-primary float-right AdvocateStyle" onClick={() => this.props.tableToggle()}>
+              <Button color="btn btn-primary float-right AdvocateStyle" onClick={() => this.tableToggle()}>
                 Advocated Athletes...
               </Button>
             </div>
           ) : (
             <div>
               <p className="aboutInfo AdvocateStyle">{this.props.advocateUser.shortBio}</p>
-              <Button
-                color="btn btn-primary tableBtn float-right AdvocateStyle"
-                onClick={() => this.props.tableToggle()}
-              >
+              <Button color="btn btn-primary tableBtn float-right AdvocateStyle" onClick={() => this.tableToggle()}>
                 Advocated Athletes...
               </Button>
             </div>
           )}
         </div>
+        {this.state.viewTable && (
+          <AdvoAthlete
+            key={JSON.stringify(this.state.advoAthleteArr)}
+            advoAthleteArr={this.state.advoAthleteArr}
+            advocateUserId={this.props.advocateUserId}
+          />
+        )}
       </div>
     );
   }

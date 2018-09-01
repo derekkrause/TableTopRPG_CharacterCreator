@@ -39,6 +39,8 @@ namespace Sabio.Services
                         Id = (int)reader["Id"],
                         AdvocateUserId = (int)reader["AdvocateUserId"],
                         AthleteUserId = (int)reader["AthleteUserId"],
+                        Verify = (bool)reader["Verify"],
+                        Name = (string)reader["Name"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"],
                         FirstName = (string)reader["FirstName"],
@@ -70,7 +72,8 @@ namespace Sabio.Services
                     parameters.Add("@Id", SqlDbType.Int).Direction = ParameterDirection.Output;
                     parameters.AddWithValue("@AdvocateUserId", advoAthleteInsert.AdvocateUserId);
                     parameters.AddWithValue("@AthleteUserId", advoAthleteInsert.AthleteUserId);
-                    parameters.AddWithValue("@Notes", advoAthleteInsert.Notes);
+                    parameters.AddWithValue("@Notes", advoAthleteInsert.Notes ?? (object)DBNull.Value);
+                    parameters.AddWithValue("@Verify", advoAthleteInsert.Verify);
 
                 },
                 (parameters) =>
@@ -92,6 +95,7 @@ namespace Sabio.Services
                     parameters.AddWithValue("@AdvocateUserId", advoAthleteUpdate.AdvocateUserId);
                     parameters.AddWithValue("@AthleteUserId", advoAthleteUpdate.AthleteUserId);
                     parameters.AddWithValue("@Notes", advoAthleteUpdate.Notes);
+                    parameters.AddWithValue("@Verify", advoAthleteUpdate.Verify);
 
                 });
         }

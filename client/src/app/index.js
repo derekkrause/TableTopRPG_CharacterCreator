@@ -54,15 +54,15 @@ class App extends React.Component {
   };
 
   componentDidMount() {
-    axios
-      .get("api/search")
-      .then(res => {
-        this.props.setDropdownValues(res.data);
-      })
-      .catch(() => {
-        console.log("Get All Failed");
-      });
-  }
+      axios
+        .get("api/search")
+        .then(res => {
+          this.props.setDropdownValues(res.data);
+        })
+        .catch(() => {
+          console.log("Get All Failed");
+        });
+    }
 
   setDropdownProperties = properties => {
     this.props.setDropdownValues({
@@ -139,61 +139,61 @@ class App extends React.Component {
                     <Redirect to={`${match.url}/stripe`} />
                   </Switch>
                 ) : (
-                  <Switch key="mainswitch">
-                    {/* This Route must remain above the rest but still needs to be alphebatized */}
-                    <Route path={`${match.url}/forgot-password`} component={ForgotPasswordAsyncComponent} />
-                    <Route path={`${match.url}/registration_confirmation`} component={RegistrationAsyncComponent} />
-                    <Route path={`${match.url}/welcome`} component={WelcomeAsyncComponent} />
-                    {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
-                    {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
-                    <Route path={`${match.url}/admin`} component={AdminAsyncComponent} />
-                    <Route path={`${match.url}/advocates`} component={AdvocateAsyncComponent} />
-                    <Route path={`${match.url}/articles/create`} component={ArticlesAsyncComponent} />
-                    <Route
-                      path={`${match.url}/coach/:id(\\d+)`}
-                      render={props => {
-                        const Component = asyncComponent(() => import("../_C57/Coach/CoachProfile"));
-                        return (
-                          <IfLoginStatus loggedIn={true}>
-                            <Component {...props} />
-                          </IfLoginStatus>
-                        );
-                      }}
-                    />
-                    <Route
-                      path={`${match.url}/coach-fav`}
-                      render={props => {
-                        return (
-                          <IfLoginStatus loggedIn={true}>
-                            {currentUser.isCoach === true && <CoachFavAsyncComponent {...props} />}
-                          </IfLoginStatus>
-                        );
-                      }}
-                    />
-                    <Route path={`${match.url}/events`} component={EventsAsyncComponent} />
-                    <Route path={`${match.url}/faqs-page`} component={FaqsPageAsyncComponent} />
-                    <Route path={`${match.url}/fav-page`} component={FavPageAsyncComponent} />
-                    <Route path={`${match.url}/feed-page`} component={FeedPageAsyncComponent} />
-                    <Route path={`${match.url}/home`} component={HomeAsyncComponent} />
-                    <Route path={`${match.url}/messaging`} component={MessageAsyncComponent} />
-                    <Route path={`${match.url}/pogs`} component={PogsAsyncComponent} />
+                <Switch key="mainswitch">
+                  {/* This Route must remain above the rest but still needs to be alphebatized */}
+                  <Route path={`${match.url}/forgot-password`} component={ForgotPasswordAsyncComponent} />
+                  <Route path={`${match.url}/registration_confirmation`} component={RegistrationAsyncComponent} />
+                  <Route path={`${match.url}/welcome`} component={WelcomeAsyncComponent} />
+                  {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
+                  {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
+                  <Route path={`${match.url}/admin`} component={AdminAsyncComponent} />
+                  <Route path={`${match.url}/advocates`} component={AdvocateAsyncComponent} />
+                  <Route path={`${match.url}/articles/create`} component={ArticlesAsyncComponent} />
+                  <Route
+                    path={`${match.url}/coach/:id(\\d+)`}
+                    render={props => {
+                      const Component = asyncComponent(() => import("../_C57/Coach/CoachProfile"));
+                      return (
+                        <IfLoginStatus loggedIn={true}>
+                          <Component {...props} />
+                        </IfLoginStatus>
+                      );
+                    }}
+                  />
+                  <Route
+                    path={`${match.url}/coach-fav`}
+                    render={props => {
+                      return (
+                        <IfLoginStatus loggedIn={true}>
+                          {currentUser.isCoach === true && <CoachFavAsyncComponent {...props} />}
+                        </IfLoginStatus>
+                      );
+                    }}
+                  />
+                  <Route path={`${match.url}/events`} component={EventsAsyncComponent} />
+                  <Route path={`${match.url}/faqs-page`} component={FaqsPageAsyncComponent} />
+                  <Route path={`${match.url}/fav-page`} component={FavPageAsyncComponent} />
+                  <Route path={`${match.url}/feed-page`} component={FeedPageAsyncComponent} />
+                  <Route path={`${match.url}/home`} component={HomeAsyncComponent} />
+                  <Route path={`${match.url}/messaging`} component={MessageAsyncComponent} />
+                  <Route path={`${match.url}/pogs`} component={PogsAsyncComponent} />
 
-                    <Route
-                      path={`${match.url}/profile/:id(\\d+)`}
-                      render={props => {
-                        return (
-                          <IfLoginStatus loggedIn={true}>
+                  <Route
+                    path={`${match.url}/profile/:id(\\d+)`}
+                    render={props => {
+                      return (
+                        <IfLoginStatus loggedIn={true}>
                             <ProfileAsyncComponent key={props.match.params.id} {...props} />
-                          </IfLoginStatus>
-                        );
-                      }}
-                    />
-                    <Route path={`${match.url}/search`} component={SearchAsyncComponent} />
+                        </IfLoginStatus>
+                      );
+                    }}
+                  />
+                  <Route path={`${match.url}/search`} component={SearchAsyncComponent} />
                     <Route path={`${match.url}/stripe`} component={StripeAsyncComponent} />
-                    <Route path={`${match.url}/venues`} component={VenuesAsyncComponent} />
-                    <Route component={asyncComponent(() => import("components/Error404"))} />
-                    {/* Please keep Routes alphebetized by URL */}
-                  </Switch>
+                  <Route path={`${match.url}/venues`} component={VenuesAsyncComponent} />
+                  <Route component={asyncComponent(() => import("components/Error404"))} />
+                  {/* Please keep Routes alphebetized by URL */}
+                </Switch>
                 ))}
             </div>
             <Footer />

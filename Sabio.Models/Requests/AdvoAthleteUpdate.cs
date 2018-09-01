@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace Sabio.Models.Domain
 {
-    public class AdvoAthleteUpdate:AdvoAthleteInsert 
+    public class AdvoAthleteUpdate : AdvoAthleteInsert
     {
         [Required]
-        public int? Id { get; set;} 
+        public int? Id { get; set; }
+        public bool Verify { get; set; }
+
     }
 }

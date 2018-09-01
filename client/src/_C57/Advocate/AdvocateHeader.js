@@ -1,8 +1,41 @@
 import React from "react";
 import "./AdvocateStyle.css";
 import { Form, Input, Button, Label, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import SchoolAutoSearch from "./SchoolAutoSearch";
+import { updateAdvocate } from "./AdvocateServer";
 
 class AdvocateHeader extends React.Component {
+  state = {
+    editPic: false
+  };
+
+  editPicture = payload => {
+    if (this.state.editPic) {
+      updateAdvocate(payload)
+        .then(response => {
+          console.log(response, "Updated");
+        })
+        .catch(error => {
+          console.log(error, "Error");
+        });
+      this.setState({
+        editPic: false
+      });
+    } else {
+      this.setState({
+        editPic: true
+      });
+    }
+  };
+
+  cancelPicture = () => {
+    if (this.state.editPic) {
+      this.setState({
+        editPic: false
+      });
+    }
+  };
+
   render() {
     return (
       <div>
@@ -14,15 +47,13 @@ class AdvocateHeader extends React.Component {
               src="http://goodswing.hoelterresearch.com/images/PHSLin1.jpg"
             />
           </div>
-
           <div className="headerInfo Advocatestyle" style={{ borderLeft: "8px solid brown" }}>
             <i
               className="zmdi zmdi-more zmdi-hc-3x moreDots AdvocateStyle float-right"
               onClick={() => this.props.editMode(this.props.advocateUser)}
             />
-
-            {this.props.editPic ? (
-              <Modal isOpen={this.props.editPic} style={{ width: "350px" }}>
+            {this.state.editPic ? (
+              <Modal isOpen={this.state.editPic} style={{ width: "350px" }}>
                 <ModalHeader>Change Profile Picture</ModalHeader>
                 <ModalBody>
                   <Form>
@@ -41,15 +72,11 @@ class AdvocateHeader extends React.Component {
                         <Button
                           type="button"
                           className="btn btn-primary AdvocateStyle"
-                          onClick={() => this.props.editPicture(this.props.advocateUser)}
+                          onClick={() => this.editPicture(this.props.advocateUser)}
                         >
                           Upload
                         </Button>
-                        <Button
-                          type="button"
-                          className="btn btn-secondary AdvocateStyle"
-                          onClick={this.props.cancelPicture}
-                        >
+                        <Button type="button" className="btn btn-secondary AdvocateStyle" onClick={this.cancelPicture}>
                           Cancel
                         </Button>
                       </div>
@@ -73,12 +100,11 @@ class AdvocateHeader extends React.Component {
                 <div className="middle AdvocateStyle">
                   <i
                     className="zmdi zmdi-local-see zmdi-hc-fw AdvocateStyle"
-                    onClick={() => this.props.editPicture(this.props.advocateUser.userId)}
+                    onClick={() => this.editPicture(this.props.advocateUser.userId)}
                   />
                 </div>
               </div>
             )}
-
             <div className="info AdvocateStyle">
               <h1 className="name AdvocateStyle">
                 {this.props.editState ? (
@@ -110,19 +136,9 @@ class AdvocateHeader extends React.Component {
                   </div>
                 )}
               </h1>
-
               <h2 style={{ fontSize: "14px" }}>
                 {this.props.editState ? (
                   <div>
-                    <strong>Affiliation</strong>
-                    <Input
-                      type="text"
-                      name="name"
-                      value={this.props.advocateUser.name || ""}
-                      onChange={this.props.editInput}
-                      style={{ marginBottom: "15px" }}
-                      size="25"
-                    />
                     <strong>Email</strong>
                     <Input
                       type="text"
@@ -130,6 +146,12 @@ class AdvocateHeader extends React.Component {
                       value={this.props.advocateUser.email || ""}
                       onChange={this.props.editInput}
                       size="20"
+                    />
+                    <br />
+                    <strong>Affiliation</strong>
+                    <SchoolAutoSearch
+                      initialValue={this.props.advocateUser.name}
+                      selectedSchool={options => this.props.selectedSchool(options)}
                     />
                   </div>
                 ) : (

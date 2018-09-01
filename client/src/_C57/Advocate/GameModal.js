@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Input, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import Teams from "../Advocate/Teams";
-import { insertTeam, insertadvoTeam } from "./AdvocateServer";
+import { insertTeam, insertAdvoTeam } from "./AdvocateServer";
 
 class GameModal extends Component {
   state = {
@@ -50,7 +50,7 @@ class GameModal extends Component {
             const advoTeam = {};
             advoTeam.teamId = payload.id;
             advoTeam.advocateUserId = this.props.advocateUserId;
-            insertadvoTeam(advoTeam)
+            insertAdvoTeam(advoTeam)
               .then(response => {
                 console.log(response, "Inserted advoTeam");
               })
