@@ -56,6 +56,8 @@ namespace Sabio.Web
 
             container.RegisterType<ISportServices, SportServices>(new ContainerControlledLifetimeManager());
 
+            container.RegisterType<INotificationsService, NotificationService>(new ContainerControlledLifetimeManager());
+
             System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
 
             DependencyResolver.SetResolver(new Unity.Mvc5.UnityDependencyResolver(container));
