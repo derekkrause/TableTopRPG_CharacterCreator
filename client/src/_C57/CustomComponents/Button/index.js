@@ -112,7 +112,11 @@ const CloseButtonText = props => {
 
 const MessageButton = props => {
   return (
-    <button type="button" className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo" onClick={props.onClick}>
+    <button
+      type="button"
+      className={props.className || "jr-btn jr-btn-default btn btn-success profileInfoBtnTwo"}
+      onClick={props.onClick}
+    >
       <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
       &nbsp;&nbsp; Message
     </button>

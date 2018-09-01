@@ -1,11 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
 import ProfileCard from "../profile/ProfileCard";
-import { FormGroup, Input, Label } from "reactstrap";
+import FollowHighlightButtons from "./FollowHighlight";
+import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
+import { FormGroup, Input } from "reactstrap";
 import SchoolSearch from "./SchoolSearchByName";
 import StateSelect from "../CustomComponents/InputsDropdowns/StateOptions";
-import { getCoachById, updateCoachProfile, schoolSearch } from "../../services/coach.service";
+import { getCoachById, updateCoachProfile } from "../../services/coach.service";
 import "./CoachProfile.css";
+import { MessageButton } from "../CustomComponents/Button";
 
 const defaultBio =
   "A biography, or simply bio, is a detailed description of a person's life. It involves more than just the basic facts like education, work, relationships, and death; it portrays a person's experience of these life events. Unlike a profile or curriculum vitae (résumé), a biography presents a subject's life story, highlighting various aspects of his or her life, including intimate details of experience, and may include an analysis of the subject's personality.";
@@ -25,8 +28,9 @@ class CoachProfile extends React.Component {
     city: "",
     state: "",
     bio: defaultBio,
-    //BACKGROUND IMAGES
+    //BACKGROUND IMAGES/LOADER
     backgroundImage: defaultBackgroundImage,
+    pLoader: true,
     //DATA
     viewingUserId: this.props.currentUser.id,
     viewedProfileId: parseInt(this.props.match.params.id),
@@ -37,7 +41,6 @@ class CoachProfile extends React.Component {
     middleNameEdit: "",
     lastNameEdit: "",
     titleEdit: "",
-    profileImageEdit: "",
     schoolNameEdit: "",
     cityEdit: "",
     stateEdit: "",
@@ -48,7 +51,10 @@ class CoachProfile extends React.Component {
 
   getProfileInfo = userId => {
     const promise = getCoachById(userId);
-    promise.then(result => this.updateVariables(result.data.item));
+    promise.then(result => {
+      this.updateVariables(result.data.item);
+      this.setState({ pLoader: false });
+    });
   };
 
   editingProfile = () => {
@@ -160,7 +166,7 @@ class CoachProfile extends React.Component {
       middleNameEdit,
       lastNameEdit,
       titleEdit,
-      profileImageEdit,
+      pLoader,
       schoolNameEdit,
       cityEdit,
       stateEdit,
@@ -168,269 +174,250 @@ class CoachProfile extends React.Component {
     } = this.state;
 
     return (
-      <div className="app-wrapper justify-content-center bg-info">
-        {/* ---PROFILE CARD--- */}
-        <div className="row justify-content-center">
-          <div className="profile-intro card col-11 col-lg-8 col-xl-6 p-0 bg-danger" style={{ maxWidth: "900px" }}>
-            <div className="pi-header">
-              {/* ---HEADER BACKGROUND IMAGE--- */}
-              <div
-                className="card-image"
-                style={{
-                  backgroundImage: `url(${backgroundImage})`,
-                  maxHeight: "90px"
-                }}
-              >
-                {/* ---OFFSET PROFILE IMAGE--- */}
+      <React.Fragment>
+        <div className="app-wrapper justify-content-center">
+          {/* ---PROFILE CARD--- */}
+          <div className="row justify-content-center">
+            <div className="profile-intro card col-11 col-lg-8 col-xl-6 p-0 bg-danger" style={{ maxWidth: "900px" }}>
+              <div className="pi-header">
+                {/* ---HEADER BACKGROUND IMAGE--- */}
                 <div
-                  className="col-12 col-md-3 justify-content-center text-center ml-md-2 mx-auto"
+                  className="card-image"
                   style={{
-                    WebkitTransform: "translateY(30px)",
-                    msTransform: "translateY(30px)",
-                    transform: "translateY(30px)"
+                    backgroundImage: `url(${backgroundImage})`,
+                    maxHeight: "90px"
                   }}
                 >
-                  {/* ---PROFILE IMAGE--- */}
-                  <img
-                    className="avatar-circle rounded-circle bg-white p-1"
-                    src={profileImage || defaultProfileImage}
-                    alt="Coach"
+                  {/* ---OFFSET PROFILE IMAGE--- */}
+                  <div
+                    className="col-12 col-md-3 justify-content-center text-center ml-md-2 mx-auto"
                     style={{
-                      right: "inherit",
-                      WebkitTransform: "initial",
-                      msTransform: "initial",
-                      transform: "initial",
-                      boxShadow: "initial"
+                      WebkitTransform: "translateY(30px)",
+                      msTransform: "translateY(30px)",
+                      transform: "translateY(30px)"
                     }}
-                  />
-                  {editingProfile ? (
-                    <div className="form-group text-left d-none d-md-block">
-                      <label htmlFor="titleEdit">Title</label>
-                      <input
-                        className="form-control"
-                        name="titleEdit"
-                        defaultValue={titleEdit}
-                        placeholder="Title"
-                        onChange={this.onChange}
-                      />
-                    </div>
-                  ) : (
-                    <h2 className="my-2">
-                      {/* ---TITLE--- */}
-                      <strong style={{ color: "black" }}>{title}</strong>
-                    </h2>
-                  )}
-                </div>
-                {/* ---SPACER COLUMN--- //this column helps with background layering// */}
-                <div className="col-9" />
-              </div>
-            </div>
-            <div className="pi-content d-flex p-0 ml-2 bg-white">
-              {/* <div className="col-3 px-3 text-center" style={{ width: "120px" }} /> */}
-              <div
-                className={
-                  "col-6 offset-3 text-md-left text-center my-3 pt-5 pt-md-0 mt-md-2 p-0 " + (!editingProfile && "mt-5")
-                }
-              >
-                {/* ---NAME--- */}
-                {editingProfile ? (
-                  <div className="form-group text-left">
-                    <div className="form-group text-left d-block d-md-none">
-                      <label htmlFor="titleEdit">Title</label>
-                      <input
-                        className="form-control"
-                        name="titleEdit"
-                        defaultValue={titleEdit}
-                        placeholder="Title"
-                        onChange={this.onChange}
-                      />
-                    </div>
-                    <label htmlFor="userName">Name</label>
-                    <div className="input-group" name="userName">
-                      <input
-                        className="form-control"
-                        name="firstNameEdit"
-                        placeholder="First Name"
-                        defaultValue={firstNameEdit}
-                        onChange={this.onChange}
-                      />
-                      <input
-                        className="form-control"
-                        name="middleNameEdit"
-                        placeholder="Middle Name"
-                        defaultValue={middleNameEdit}
-                        onChange={this.onChange}
-                      />
-                      <input
-                        className="form-control"
-                        name="lastNameEdit"
-                        placeholder="Last Name"
-                        defaultValue={lastNameEdit}
-                        onChange={this.onChange}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <h1 style={{ fontWeight: "800", color: "black" }}>
-                    {firstName} {middleName} {lastName}
-                  </h1>
-                )}
-                {/* ---SCHOOL , CITY , STATE--- */}
-                {editingProfile ? (
-                  <div>
-                    <div className="form-group text-left">
-                      <label htmlFor="schoolNameEdit">School</label>
-                      <SchoolSearch
-                        name="schoolNameEdit"
-                        city={cityEdit || city}
-                        cityEdit={cityEdit}
-                        state={stateEdit || state}
-                        stateEdit={stateEdit}
-                        defaultValue={schoolNameEdit || schoolName}
-                        setCityState={(city, state) => this.setState({ cityEdit: city, stateEdit: state })}
-                        setSchoolName={input => this.setState({ schoolNameEdit: input })}
-                      />
-                    </div>
-                    <div className="form-row">
-                      <div className="form-group text-left col">
-                        <label htmlFor="cityEdit">City</label>
+                  >
+                    {/* ---PROFILE IMAGE--- */}
+                    <img
+                      className="avatar-circle rounded-circle bg-white p-1"
+                      src={profileImage || defaultProfileImage}
+                      alt="Coach"
+                      style={{
+                        right: "inherit",
+                        WebkitTransform: "initial",
+                        msTransform: "initial",
+                        transform: "initial",
+                        boxShadow: "initial"
+                      }}
+                    />
+                    {editingProfile ? (
+                      <div className="form-group text-left d-none d-md-block">
+                        <label htmlFor="titleEdit">Title</label>
                         <input
                           className="form-control"
-                          name="cityEdit"
-                          style={{ height: "38px" }}
-                          defaultValue={cityEdit || city}
-                          value={cityEdit}
-                          placeholder="City"
+                          name="titleEdit"
+                          defaultValue={titleEdit}
+                          placeholder="Title"
                           onChange={this.onChange}
                         />
                       </div>
-                      <div className="form-group text-left col">
-                        <label htmlFor="stateEdit">State</label>
-                        <StateSelect
-                          name="stateEdit"
-                          defaultValue={stateEdit || state}
-                          value={stateEdit}
-                          onChange={this.onChange}
-                        />
-                      </div>
-                    </div>
+                    ) : (
+                      <h2 className="my-2">
+                        {/* ---TITLE--- */}
+                        <strong style={{ color: "black" }}>{title}</strong>
+                      </h2>
+                    )}
                   </div>
-                ) : (
-                  <div>
-                    <h2 style={{ color: "black", marginBottom: "6px" }}>{schoolName}</h2>
-                    <h2 style={{ color: "black", marginBottom: "6px" }}>
-                      {city}
-                      {!city || !state ? "" : ","} {state}
-                    </h2>
-                  </div>
-                )}
-                {/* ---FOLLOW HIGHLIGHT MESSAGE BUTTONS--- */}
-                {editingProfile ? (
-                  <div className="d-flex justify-content-end mt-3">
-                    <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
-                      Cancel
-                    </button>
-                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.submitUpdates}>
-                      Save
-                    </button>
-                  </div>
-                ) : (
-                  <div className="row mt-4 justify-content-md-start justify-content-center">
-                    {/* ---BUTTONS FOR SMALL SCREENS--- */}
-                    <div className="btn-group mb-md-0 d-none d-md-block ml-3">
-                      <div className="jr-btn jr-btn-default btn btn-default">Follow</div>
-                      <div className="jr-btn jr-btn-default btn btn-default rounded-right">Highlight</div>
-                      <div className="jr-btn jr-btn-success btn btn-success d-md-none">
-                        <i className="zmdi zmdi-email zmdi-hc-fw" />
-                        Message
-                      </div>
-                    </div>
-                    {/* ---BUTTONS FOR MD SCREENS AND LARGER--- */}
-                    <div className="btn-group mb-md-0 d-md-none">
-                      <div className="jr-btn jr-btn-sm jr-btn-default btn btn-default">Follow</div>
-                      <div className="jr-btn jr-btn-sm jr-btn-default btn btn-default">Highlight</div>
-                      {/* ---MESSAGE BUTTON ONLY VISIBLE ON SMALL SCREENS-- */}
-                      <div className="jr-btn jr-btn-sm jr-btn-success btn btn-success d-md-none">
-                        <i className="zmdi zmdi-email zmdi-hc-fw" />
-                        Message
-                      </div>
-                    </div>
-                  </div>
-                )}
+                  {/* ---SPACER COLUMN--- //this column helps with background layering// */}
+                  <div className="col-9" />
+                </div>
               </div>
-              <div className="d-flex flex-column col-3 align-items-end mb-3 pr-0">
-                {/* ---EDIT BUTTON--- */}
+              <div className="pi-content d-flex p-0 ml-2 bg-white">
+                <div
+                  className={
+                    "col-6 offset-3 text-md-left text-center my-3 pt-5 pt-md-0 mt-md-2 p-0 " +
+                    (!editingProfile && "mt-5")
+                  }
+                >
+                  <ProgressIndicator loader={pLoader} />
+                  {/* ---NAME--- */}
+                  {editingProfile ? (
+                    <div className="form-group text-left">
+                      <div className="form-group text-left d-block d-md-none">
+                        <label htmlFor="titleEdit">Title</label>
+                        <input
+                          className="form-control"
+                          name="titleEdit"
+                          defaultValue={titleEdit}
+                          placeholder="Title"
+                          onChange={this.onChange}
+                        />
+                      </div>
+                      <label htmlFor="userName">Name</label>
+                      <div className="input-group" name="userName">
+                        <input
+                          className="form-control"
+                          name="firstNameEdit"
+                          placeholder="First Name"
+                          defaultValue={firstNameEdit}
+                          onChange={this.onChange}
+                        />
+                        <input
+                          className="form-control"
+                          name="middleNameEdit"
+                          placeholder="Middle Name"
+                          defaultValue={middleNameEdit}
+                          onChange={this.onChange}
+                        />
+                        <input
+                          className="form-control"
+                          name="lastNameEdit"
+                          placeholder="Last Name"
+                          defaultValue={lastNameEdit}
+                          onChange={this.onChange}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <h1 style={{ fontWeight: "800", color: "black" }} hidden={pLoader}>
+                      {firstName} {middleName} {lastName}
+                    </h1>
+                  )}
+                  {/* ---SCHOOL , CITY , STATE--- */}
+                  {editingProfile ? (
+                    <div>
+                      <div className="form-group text-left">
+                        <label htmlFor="schoolNameEdit">School</label>
+                        <SchoolSearch
+                          name="schoolNameEdit"
+                          city={cityEdit || city}
+                          cityEdit={cityEdit}
+                          state={stateEdit || state}
+                          stateEdit={stateEdit}
+                          defaultValue={schoolNameEdit || schoolName}
+                          setCityState={(city, state) => this.setState({ cityEdit: city, stateEdit: state })}
+                          setSchoolName={input => this.setState({ schoolNameEdit: input })}
+                        />
+                      </div>
+                      <div className="form-row">
+                        <div className="form-group text-left col">
+                          <label htmlFor="cityEdit">City</label>
+                          <input
+                            className="form-control"
+                            name="cityEdit"
+                            style={{ height: "38px" }}
+                            defaultValue={cityEdit || city}
+                            value={cityEdit}
+                            placeholder="City"
+                            onChange={this.onChange}
+                          />
+                        </div>
+                        <div className="form-group text-left col">
+                          <label htmlFor="stateEdit">State</label>
+                          <StateSelect
+                            name="stateEdit"
+                            defaultValue={stateEdit || state}
+                            value={stateEdit}
+                            onChange={this.onChange}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div hidden={pLoader}>
+                      <h2 style={{ color: "black", marginBottom: "6px" }}>{schoolName}</h2>
+                      <h2 style={{ color: "black", marginBottom: "6px" }}>
+                        {city}
+                        {!city || !state ? "" : ","} {state}
+                      </h2>
+                    </div>
+                  )}
+                  {/* ---FOLLOW HIGHLIGHT MESSAGE BUTTONS--- */}
+                  {editingProfile ? (
+                    <div className="d-flex justify-content-end mt-3">
+                      <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
+                        Cancel
+                      </button>
+                      <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.submitUpdates}>
+                        Save
+                      </button>
+                    </div>
+                  ) : (
+                    <div hidden={viewingUserId == viewedProfileId}>
+                      <FollowHighlightButtons profileId={viewedProfileId} userId={viewingUserId} />
+                    </div>
+                  )}
+                </div>
+                <div className="d-flex flex-column col-3 align-items-end mb-3 pr-0">
+                  {/* ---EDIT BUTTON--- */}
+                  {viewingUserId == viewedProfileId && (
+                    <button
+                      className={"ash btn btn-secondary pt-2 m-0 " + (editingProfile && "editing")}
+                      onClick={this.editingProfile}
+                    >
+                      <i className="zmdi zmdi-more zmdi-hc-2x" />
+                    </button>
+                  )}
+                  {/* ---MESSAGE BUTTON FOR LAPTOPS AND LARGER--- */}
+                  {editingProfile || viewingUserId == viewedProfileId ? (
+                    <div />
+                  ) : (
+                    <MessageButton className="d-none d-md-block jr-btn jr-btn-success btn btn-success mt-auto mb-0 mr-3" />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/*BIO CARD*/}
+          <div className="row justify-content-center">
+            <div className="card col-11 col-lg-8 col-xl-6 p-0 bg-danger" style={{ maxWidth: "900px" }}>
+              <div
+                className="card-body bg-white ml-2 p-0"
+                style={{ borderTopRightRadius: "inherit", borderBottomRightRadius: "inherit" }}
+              >
+                {/* ---UPDATE BIO BUTTON--- */}
                 {viewingUserId == viewedProfileId && (
                   <button
-                    className={"ash btn btn-secondary pt-2 m-0 " + (editingProfile && "editing")}
-                    onClick={this.editingProfile}
+                    className={"ash btn btn-secondary float-right pt-2 mr-1 " + (editingBio && "editing")}
+                    style={{ borderTopRightRadius: "inherit" }}
+                    onClick={this.editingBio}
                   >
                     <i className="zmdi zmdi-more zmdi-hc-2x" />
                   </button>
                 )}
-                {/* ---MESSAGE BUTTON FOR LAPTOPS AND LARGER--- */}
-                {editingProfile ? (
-                  <div />
+                {/* ---BIO--- */}
+                {editingBio ? (
+                  <FormGroup className="m-3 mt-5">
+                    <Input
+                      type="textarea"
+                      className="form-control"
+                      name="bioEdit"
+                      rows="5"
+                      defaultValue={bioEdit || defaultBio}
+                      onChange={this.onChange}
+                    />
+                    <div className="d-flex justify-content-end mt-3">
+                      <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
+                        Cancel
+                      </button>
+                      <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.submitUpdates}>
+                        Save
+                      </button>
+                    </div>
+                  </FormGroup>
                 ) : (
-                  <div className="d-none d-md-block jr-btn jr-btn-success btn btn-success mt-auto mb-0 mr-3">
-                    <i className="zmdi zmdi-email zmdi-hc-fw" />
-                    Message
-                  </div>
+                  <p className="card-text m-3 pr-4">{bio || defaultBio}</p>
                 )}
               </div>
             </div>
           </div>
-        </div>
-        {/*BIO CARD*/}
-        <div className="row justify-content-center">
-          <div className="card col-11 col-lg-8 col-xl-6 p-0 bg-danger" style={{ maxWidth: "900px" }}>
-            <div
-              className="card-body bg-white ml-2 p-0"
-              style={{ borderTopRightRadius: "inherit", borderBottomRightRadius: "inherit" }}
-            >
-              {/* ---UPDATE BIO BUTTON--- */}
-              {viewingUserId == viewedProfileId && (
-                <button
-                  className={"ash btn btn-secondary float-right pt-2 mr-1 " + (editingBio && "editing")}
-                  style={{ borderTopRightRadius: "inherit" }}
-                  onClick={this.editingBio}
-                >
-                  <i className="zmdi zmdi-more zmdi-hc-2x" />
-                </button>
-              )}
-              {/* ---BIO--- */}
-              {editingBio ? (
-                <FormGroup className="m-3 mt-5">
-                  <Input
-                    type="textarea"
-                    className="form-control"
-                    name="bioEdit"
-                    rows="5"
-                    defaultValue={bioEdit || defaultBio}
-                    onChange={this.onChange}
-                  />
-                  <div className="d-flex justify-content-end mt-3">
-                    <button className="jr-btn jr-btn-sm btn btn-default mb-0" onClick={this.cancelEdit}>
-                      Cancel
-                    </button>
-                    <button className="jr-btn jr-btn-sm btn btn-primary mb-0" onClick={this.submitUpdates}>
-                      Save
-                    </button>
-                  </div>
-                </FormGroup>
-              ) : (
-                <p className="card-text m-3 pr-4">{bio || defaultBio}</p>
-              )}
-            </div>
-          </div>
-        </div>
-        {/*FEED SCHEDULE PHOTOS*/}
-        <div className="row justify-content-center">
-          <div className="card col-11 col-lg-8 col-xl-6 p-0" style={{ maxWidth: "900px" }}>
-            <div className="jr-card px-0 pt-0">
-              <div className="row">
-                <div className="col-md-12">
-                  {/* <ProfileCard
+          {/*FEED SCHEDULE PHOTOS*/}
+          <div className="row justify-content-center">
+            <div className="card col-11 col-lg-8 col-xl-6 p-0" style={{ maxWidth: "900px" }}>
+              <div className="jr-card px-0 pt-0">
+                <div className="row">
+                  <div className="col-md-12">
+                    {/* <ProfileCard
                     handleChange={this.handleChange}
                     gpa={this.state.gpa}
                     sat={this.state.sat}
@@ -439,12 +426,13 @@ class CoachProfile extends React.Component {
                     stats={this.state.stats}
                     handleSaveProfile={this.handleSaveProfile}
                   /> */}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }
