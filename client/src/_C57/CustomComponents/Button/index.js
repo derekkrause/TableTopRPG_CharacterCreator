@@ -3,7 +3,7 @@ import "./Button.css";
 
 const SaveButton = props => {
   return (
-    <button type="button" className="jr-btn btn rs-btn-primary mb-0" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary-light mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-upload zmdi-hc-lg" />
       &nbsp;&nbsp;Save
     </button>
@@ -12,7 +12,7 @@ const SaveButton = props => {
 
 const SubmitButton = props => {
   return (
-    <button type="button" className="jr-btn btn rs-btn-primary" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary-light" onClick={props.onClick}>
       {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
       {props.name}
     </button>
@@ -23,7 +23,7 @@ const SubmitButtonWide = props => {
   return (
     <button
       type="button"
-      className="jr-btn jr-btn-primary text-uppercase btn-block btn rs-btn-primary"
+      className="jr-btn jr-btn-primary text-uppercase btn-block btn rs-btn-primary-light"
       onClick={props.onClick}
     >
       {/* <i className="zmdi zmdi-upload zmdi-hc-lg" /> */}
@@ -51,7 +51,7 @@ const EditButton = props => {
 
 const CreateButton = props => {
   return (
-    <button type="button" className="jr-btn btn rs-btn-primary mb-0" onClick={props.onClick}>
+    <button type="button" className="jr-btn btn rs-btn-primary-light mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-plus zmdi-hc-lg" />
       &nbsp;&nbsp;Add&nbsp;
       {props.name}
@@ -112,17 +112,31 @@ const CloseButtonText = props => {
 
 const MessageButton = props => {
   return (
-    <button type="button" className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo" onClick={props.onClick}>
-      <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
-      &nbsp;&nbsp; Message
+    <button
+      type="button"
+      className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin}`}
+      onClick={props.onClick}
+    >
+      <div className="d-flex justify-content-center align-items-center">
+        <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-lg" />
+        &nbsp;&nbsp;
+        <h4 className="mb-0"> Message</h4>
+      </div>
     </button>
   );
 };
 
 const StatsButton = props => {
   return (
-    <button className="jr-btn jr-btn-default btn btn-success profileInfoBtnTwo" onClick={props.onClick}>
-      <i className="zmdi zmdi-link zmdi-hc-fw" /> &nbsp;Links
+    <button
+      type="button"
+      className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin}`}
+      onClick={props.onClick}
+    >
+      <div className="d-flex justify-content-center align-items-center">
+        <i className="zmdi zmdi-link zmdi-hc-lg" /> &nbsp;
+        <h4 className="mb-0">Links</h4>
+      </div>
     </button>
   );
 };
@@ -174,16 +188,52 @@ const ViewCommentsButton = props => {
 };
 
 const FollowButton = props => {
-  return <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Follow</button>;
+  return (
+    <button className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin}`} onClick={props.onClick}>
+      <h4 className="mb-0">Follow</h4>
+    </button>
+  );
+};
+
+const FollowOnButton = props => {
+  return (
+    <button className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin}`} onClick={props.onClick}>
+      <div className="d-flex justify-content-center align-items-center">
+        <i className="zmdi zmdi-check-circle zmdi-hc-lg mr-2 " />
+        <h4 className="mb-0">Follow</h4>
+      </div>
+    </button>
+  );
 };
 
 const HighlightButton = props => {
-  return <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn">Highlight</button>;
+  return (
+    <button
+      className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin} px-0`}
+      onClick={props.onClick}
+    >
+      <h4 className="mb-0">Highlight</h4>
+    </button>
+  );
+};
+
+const HighlightOnButton = props => {
+  return (
+    <button
+      className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin} px-0`}
+      onClick={props.onClick}
+    >
+      <div className="d-flex justify-content-center align-items-center">
+        <i className="zmdi zmdi-check-circle zmdi-hc-lg mr-2 " />
+        <h4 className="mb-0">Highlight</h4>
+      </div>
+    </button>
+  );
 };
 
 const SaveProfileButton = props => {
   return (
-    <button type="submit" className="jr-btn btn btn-primary mb-0">
+    <button type="submit" className="jr-btn btn btn-primary rs-btn-primary-light mb-0">
       <i className="zmdi zmdi-upload zmdi-hc-lg" />
       &nbsp;&nbsp;Save
     </button>
@@ -211,5 +261,7 @@ export {
   StatsButton,
   FollowButton,
   HighlightButton,
-  SaveProfileButton
+  SaveProfileButton,
+  FollowOnButton,
+  HighlightOnButton
 };

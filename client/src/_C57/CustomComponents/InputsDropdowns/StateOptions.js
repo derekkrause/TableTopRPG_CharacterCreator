@@ -67,8 +67,8 @@ class StateSelect extends React.Component {
     return (
       <React.Fragment>
         <select
-          className="form-control"
-          name="stateEdit"
+          className={`form-control ${this.props.className}`}
+          name={this.props.name ? this.props.name : "stateEdit"}
           defaultValue={this.props.defaultValue}
           placeholder="State"
           onChange={this.props.onChange}

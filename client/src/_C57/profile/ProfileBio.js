@@ -43,20 +43,16 @@ class ProfileBio extends React.Component {
     const { currentPageId } = this.props;
     return (
       <div className="ml-2">
-        <div className="row home-center-text">
-          <div className="pl-3 col-md-9">
-            <h2 className="mb-0">Bio</h2>
-          </div>
-          <div className="col-md-3 text-right">
-            {this.props.currentUser.id == currentPageId ? (
-              <AthleteProfilePopover popover={this.props.popover} handleUpdate={this.handleEditBio} />
-            ) : (
-              <div />
-            )}
-          </div>
+        <div className="text-right">
+          {this.props.currentUser.id == currentPageId && this.state.editBio == false ? (
+            <AthleteProfilePopover popover={this.props.popover} handleUpdate={this.handleEditBio} />
+          ) : (
+            <div />
+          )}
         </div>
+
         {this.state.editBio === false ? (
-          <a onClick={this.handleEditBio}>{this.props.bio}</a>
+          <p>{this.props.bio}</p>
         ) : (
           <React.Fragment>
             <Input

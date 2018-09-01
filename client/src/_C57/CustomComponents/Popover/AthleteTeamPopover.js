@@ -38,7 +38,7 @@ export default class AthleteTeamPopover extends React.Component {
   render() {
     return (
       <div>
-        <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash">
+        <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash p-0">
           <i className="zmdi zmdi-more zmdi-hc-2x" />
         </Button>
         <Popover
@@ -51,7 +51,7 @@ export default class AthleteTeamPopover extends React.Component {
           <PopoverBody className=" p-1">
             <div>
               <Button className="btn m-auto px-1 ash" onClick={this.addNewToggle}>
-                <i className="zmdi zmdi-delete zmdi-edit zmdi-hc-lg" />
+                <i className="zmdi zmdi-plus zmdi-hc-lg" />
                 &nbsp; Add New
               </Button>
             </div>

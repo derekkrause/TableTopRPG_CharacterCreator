@@ -34,7 +34,7 @@ export default class AthleteProfilePopver extends React.Component {
   render() {
     return (
       <div ref={this.feedRef}>
-        <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash">
+        <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash p-0">
           <i className="zmdi zmdi-more zmdi-hc-2x" />
         </Button>
         <Popover
