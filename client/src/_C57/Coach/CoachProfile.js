@@ -9,6 +9,7 @@ import StateSelect from "../CustomComponents/InputsDropdowns/StateOptions";
 import { getCoachById, updateCoachProfile } from "../../services/coach.service";
 import "./CoachProfile.css";
 import { MessageButton } from "../CustomComponents/Button";
+import CoachProfilePopover from "../CustomComponents/Popover/CoachProfilePopover";
 
 const defaultBio =
   "A biography, or simply bio, is a detailed description of a person's life. It involves more than just the basic facts like education, work, relationships, and death; it portrays a person's experience of these life events. Unlike a profile or curriculum vitae (résumé), a biography presents a subject's life story, highlighting various aspects of his or her life, including intimate details of experience, and may include an analysis of the subject's personality.";
@@ -36,6 +37,7 @@ class CoachProfile extends React.Component {
     viewedProfileId: parseInt(this.props.match.params.id),
     editingProfile: false,
     editingBio: false,
+    popoverOpen: false,
     //EDITS
     firstNameEdit: "",
     middleNameEdit: "",
@@ -57,12 +59,20 @@ class CoachProfile extends React.Component {
     });
   };
 
+  toggle() {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  }
+
   editingProfile = () => {
     this.setState({ editingProfile: !this.state.editingProfile, editingBio: false });
+    this.toggle;
   };
 
   editingBio = () => {
     this.setState({ editingBio: !this.state.editingBio, editingProfile: false });
+    this.toggle;
   };
 
   onChange = e => {
@@ -166,6 +176,7 @@ class CoachProfile extends React.Component {
       middleNameEdit,
       lastNameEdit,
       titleEdit,
+      popoverOpen,
       pLoader,
       schoolNameEdit,
       cityEdit,
@@ -351,12 +362,15 @@ class CoachProfile extends React.Component {
                 <div className="d-flex flex-column col-3 align-items-end mb-3 pr-0">
                   {/* ---EDIT BUTTON--- */}
                   {viewingUserId == viewedProfileId && (
-                    <button
-                      className={"ash btn btn-secondary pt-2 m-0 " + (editingProfile && "editing")}
-                      onClick={this.editingProfile}
-                    >
-                      <i className="zmdi zmdi-more zmdi-hc-2x" />
-                    </button>
+                    <React.Fragment>
+                      <button
+                        className={"ash btn btn-secondary pt-2 m-0 " + (editingProfile && "editing")}
+                        onClick={this.editingProfile}
+                      >
+                        <i className="zmdi zmdi-more zmdi-hc-2x" />
+                      </button>
+                      <CoachProfilePopover popoverOpen={popoverOpen} />
+                    </React.Fragment>
                   )}
                   {/* ---MESSAGE BUTTON FOR LAPTOPS AND LARGER--- */}
                   {editingProfile || viewingUserId == viewedProfileId ? (
