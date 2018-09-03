@@ -501,7 +501,7 @@ class AthleteSportHistoryCard extends React.Component {
             <div className="body">
               <div className="row">
                 <div className="col-md-12">
-                  <h2 className="card-heading">
+                  <h3 className="mt-3 font-weight-bold">
                     {this.state.athleteTeamInfoOriginal && (
                       <React.Fragment>
                         {selectedOption == 1 && schoolName}
@@ -509,29 +509,35 @@ class AthleteSportHistoryCard extends React.Component {
                         {selectedOption == 3 && teamName}
                       </React.Fragment>
                     )}
-                  </h2>
+                  </h3>
                 </div>
               </div>
               {this.state.athleteTeamInfo ? (
                 <React.Fragment>
                   <div className="d-flex justify-content-lg-between flex-lg-row flex-md-column flex-sm-column flex-xs-column">
                     <div className="mr-3">
-                      <span>{sportName}</span>
+                      <span>
+                        <h3>{sportName}</h3>
+                      </span>
                     </div>
                     <div>
-                      <span>{this.state.athleteTeamInfoOriginal && this.positionArray()}</span>
+                      <span>
+                        <h3>{this.state.athleteTeamInfoOriginal && this.positionArray()}</h3>
+                      </span>
                     </div>
                   </div>
                   <div className="row col-md-12">
                     <div>
-                      {classYear}
-                      <strong>(</strong>
-                      {sportLevel}
-                      <strong>)</strong>
+                      <h3>
+                        {classYear} &nbsp;
+                        <strong>(</strong>
+                        {sportLevel}
+                        <strong>)</strong>
+                      </h3>
                     </div>
                   </div>
                   <div className="row pb-3">
-                    <div className="sub-heading col-md-12">{comments == "null" ? "" : comments}</div>
+                    <div className="meta-date col-md-12">{comments == "null" ? "" : comments}</div>
                   </div>
                 </React.Fragment>
               ) : (

@@ -78,23 +78,22 @@ class AthleteAcademics extends React.Component {
     const { currentPageId } = this.props;
     return (
       <div>
-        <div className="row home-center-text mb-3">
-          <div className="col-12">
-            <div className="">
-              <div className="mb-0">Academic</div>
-            </div>
-            <div className="float-right">
-              {this.props.currentUser.id == currentPageId ? (
-                <AthleteProfilePopover popover={this.props.popover} handleUpdate={this.handleEditAcademics} />
-              ) : (
-                <div />
-              )}
-            </div>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <div>
+            <h3 className="mb-0">Academic</h3>
+          </div>
+          <div className="">
+            {this.props.currentUser.id == currentPageId && this.state.editAcademics === false ? (
+              <AthleteProfilePopover popover={this.props.popover} handleUpdate={this.handleEditAcademics} />
+            ) : (
+              <div />
+            )}
           </div>
         </div>
+
         {this.state.editAcademics === false ? (
           <React.Fragment>
-            <div className="row justify-content-center" style={{}}>
+            <div className="row justify-content-center">
               <div className="col-3 pl-0 pr-0">
                 <h3 className="font-weight-bold" style={{ textAlign: "center" }}>
                   GPA
@@ -120,7 +119,7 @@ class AthleteAcademics extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="sub-heading mt-3">{this.props.academicNotes}</div>
+            <div className="meta-date mt-3">{this.props.academicNotes}</div>
           </React.Fragment>
         ) : (
           <React.Fragment>

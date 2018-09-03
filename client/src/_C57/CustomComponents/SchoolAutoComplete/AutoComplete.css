@@ -1,6 +1,11 @@
 .optional-divs:hover{
     background-color: rgb(180, 180, 180, 0.5)
 }
+
+.dropdown-input{
+    position: relative;
+}
+
 .options-div{
     width:100%;
     background-color: white;

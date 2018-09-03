@@ -87,6 +87,13 @@ class WebpackBaseConfig {
         port: 3001,
         proxy: {
           "/api/": "http://localhost:54810",
+          "/Scripts/": "http://localhost:54810",
+          "/signalr/hubs": "http://localhost:54810",
+          "/signalr": {
+            target: "http://localhost:54810",
+            ws: true
+          },
+
           "/node-api/": "http://localhost:54810",
           "/socket.io/": {
             target: "http://localhost:54810",

@@ -15,6 +15,7 @@ namespace Sabio.Models.Requests
         public int? AthleteUserId { get; set; }
         [MaxLength(500)]
         public string Notes { get; set; } 
+        public bool Verify { get; set; }
 
     }
 }

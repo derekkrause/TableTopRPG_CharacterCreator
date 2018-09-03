@@ -38,7 +38,6 @@ const ProfileAsyncComponent = asyncComponent(() => import("../_C57/profile/Profi
 const RegistrationAsyncComponent = asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"));
 const WelcomeAsyncComponent = asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"));
 const StripeAsyncComponent = asyncComponent(() => import("../_C57/Stripe/StripeApp"));
-
 const ArticlesAsyncComponent = asyncComponent(() => import("../_C57/Articles/ArticleCreate"));
 const CoachFavAsyncComponent = asyncComponent(() => import("../_C57/CoachProspects/MainPage"));
 const EventsAsyncComponent = asyncComponent(() => import("../_C57/Event/EventContainer"));
@@ -53,22 +52,17 @@ class App extends React.Component {
   state = {
     notifcationCounter: 0
   };
-  componentDidMount() {
-    //-- Leave this if statement here for now. I need it to test filter later. -Ricky
 
-    if (this.props.currentUser) {
-      console.log(this.props.currentUser, "currentUser");
-    axios
-      .get("api/search")
-      .then(res => {
-        // console.log("Good Get All!", res.data);
-        this.props.setDropdownValues(res.data);
-      })
-      .catch(() => {
-        console.log("Get All Failed");
-      });
-  }
-  }
+  componentDidMount() {
+      axios
+        .get("api/search")
+        .then(res => {
+          this.props.setDropdownValues(res.data);
+        })
+        .catch(() => {
+          console.log("Get All Failed");
+        });
+    }
 
   setDropdownProperties = properties => {
     this.props.setDropdownValues({
@@ -189,7 +183,7 @@ class App extends React.Component {
                     render={props => {
                       return (
                         <IfLoginStatus loggedIn={true}>
-                          <ProfileAsyncComponent key={props.match.params.id} {...props} />
+                            <ProfileAsyncComponent key={props.match.params.id} {...props} />
                         </IfLoginStatus>
                       );
                     }}

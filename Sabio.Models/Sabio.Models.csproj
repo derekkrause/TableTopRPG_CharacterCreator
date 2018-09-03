@@ -77,6 +77,7 @@
     <Compile Include="Domain\ForgotPasswordEmail.cs" />
     <Compile Include="Domain\ForgotPasswordEmailConfirmation.cs" />
     <Compile Include="Domain\Game.cs" />
+    <Compile Include="Domain\Notifications.cs" />
     <Compile Include="Domain\Pog.cs" />
     <Compile Include="Domain\Schools.cs" />
     <Compile Include="Domain\SchoolSearch.cs" />

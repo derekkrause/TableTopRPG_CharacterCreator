@@ -24,10 +24,9 @@ namespace Sabio.Web.Controllers
             this.advocateService = advocateService;
         }
 
-        [Route, HttpGet]
-        public HttpResponseMessage AdvocateSelectById()
+        [Route("{advocateUserId:int}"), HttpGet]
+        public HttpResponseMessage AdvocateSelectById(int advocateUserId)
         {
-            int advocateUserId = User.Identity.GetId().Value;
             ItemResponse<Advocate> itemResponse = advocateService.SelectAdvocateById(advocateUserId);
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
 

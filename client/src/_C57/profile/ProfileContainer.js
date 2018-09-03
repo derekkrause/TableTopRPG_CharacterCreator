@@ -48,7 +48,8 @@ class ProfileContainer extends React.Component {
     following: false,
     highlighting: false,
     everyThing: {},
-    pLoader: null
+    pLoader: null,
+    showMessageButton: false
   };
 
   handleChange = e => {
@@ -258,76 +259,56 @@ class ProfileContainer extends React.Component {
     const currentPageId = this.props.match.params.id;
     return (
       <div className="app-wrapper">
-        <div className="row">
-          <div className="jr-card profileJrCard col-md-8 p-0">
-            <img
-              src="http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg"
-              style={{
-                maxWidth: "100%",
-                maxHeight: "170px",
-                position: "relative",
-                borderTopLeftRadius: "8px",
-                borderTopRightRadius: "8px"
-              }}
-              className="img-fluid"
-            />
-            <div className="p-4 col-md-12" style={{ borderLeft: "solid 15px #2673e2", borderBottomLeftRadius: "8px" }}>
-              <ProgressIndicator loader={this.state.pLoader} />
-              <ProfileBanner
-                everyThing={this.state.everyThing}
-                highlightUser={this.highlightUser}
-                highlighting={this.state.highlighting}
-                following={this.state.following}
-                followUser={this.followUser}
-                currentProfile={this.props.match.params.id}
-                currentUser={this.props.currentUser}
-                onChange={this.onChange}
-                handleChange={this.handleChange}
-                handleSaveProfile={this.handleSaveProfile}
-                onHandleSchoolSelect={this.onHandleSchoolSelect}
-                updateProfilePic={this.updateProfilePic}
-                handleProfileInfoSubmit={this.handleProfileInfoSubmit}
-                profilePic={this.state.profilePic}
-                classYearOptions={this.state.classYearOptions}
-                currentPageId={currentPageId}
+        <div className="row justify-content-center">
+          <div className="col-11 col-md-10 col-lg-9 col-xl-7 p-0">
+            <div className="card">
+              <img
+                src="http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg"
+                className="profile-banner-img img-fluid"
               />
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-8 profileJrCard" style={{ marginTop: "30px" }}>
-            <div className="row">
-              <div className="col-md-12" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-                <div
-                  className="jr-card profileJrCardTwo "
-                  style={{
-                    borderLeft: "15px solid rgb(38,115,226)"
-                  }}
-                  id="bio"
-                >
-                  <ProfileBio
-                    popover="bio"
-                    handleChange={this.handleChange}
-                    bio={this.state.bio}
-                    handleSaveProfile={this.handleSaveProfile}
-                    currentPageId={currentPageId}
-                  />
-                </div>
+              <div className="px-2 py-3 col-12 rs-athlete-tag">
+                <ProgressIndicator loader={this.state.pLoader} />
+                <ProfileBanner
+                  everyThing={this.state.everyThing}
+                  highlightUser={this.highlightUser}
+                  highlighting={this.state.highlighting}
+                  following={this.state.following}
+                  followUser={this.followUser}
+                  currentProfile={this.props.match.params.id}
+                  currentUser={this.props.currentUser}
+                  onChange={this.onChange}
+                  handleChange={this.handleChange}
+                  handleSaveProfile={this.handleSaveProfile}
+                  onHandleSchoolSelect={this.onHandleSchoolSelect}
+                  updateProfilePic={this.updateProfilePic}
+                  handleProfileInfoSubmit={this.handleProfileInfoSubmit}
+                  profilePic={this.state.profilePic}
+                  classYearOptions={this.state.classYearOptions}
+                  currentPageId={currentPageId}
+                />
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="row">
-          <div className="col-md-8 profileJrCard">
-            <div className="row">
-              <div className="col-md-7 col-sm-12" style={{ paddingLeft: "0px" }}>
-                <div className="jr-card profileJrCardTwo">
+            <div>
+              <div className="jr-card rs-athlete-tag pt-3" id="bio">
+                <ProfileBio
+                  popover="bio"
+                  handleChange={this.handleChange}
+                  bio={this.state.bio}
+                  handleSaveProfile={this.handleSaveProfile}
+                  currentPageId={currentPageId}
+                />
+              </div>
+            </div>
+
+            <div className="row px-3">
+              <div className="col-md-7 col-sm-12 pl-0 pr-0 pr-md-2">
+                <div className="jr-card pb-0 pt-3">
                   <AthleteHistoryCarouselFinal currentPageId={currentPageId} />
                 </div>
               </div>
-              <div className="col-md-5 col-sm-12" style={{ paddingRight: "0px" }}>
-                <div className="jr-card profileJrCardTwo pt-3" id="academics">
+              <div className="col-md-5 col-sm-12 pr-0 pl-0 pl-md-3 mt-4 mt-md-0">
+                <div className="jr-card pt-3" id="academics">
                   <AthleteAcademics
                     popover="academics"
                     grabAcademicInfo={this.grabAcademicInfo}
@@ -342,25 +323,18 @@ class ProfileContainer extends React.Component {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-md-8 profileJrCard" style={{ marginTop: "40px" }}>
-            <div className="jr-card profileJrCardTwo">
-              <div className="row">
-                <div className="col-md-12">
-                  <ProfileCard
-                    handleChange={this.handleChange}
-                    gpa={this.state.gpa}
-                    sat={this.state.sat}
-                    act={this.state.act}
-                    desiredMajor={this.state.desiredMajor}
-                    stats={this.state.stats}
-                    handleSaveProfile={this.handleSaveProfile}
-                    userProfile={this.props.match.params.id}
-                  />
-                </div>
-              </div>
+
+            <div className="mt-4">
+              <ProfileCard
+                handleChange={this.handleChange}
+                gpa={this.state.gpa}
+                sat={this.state.sat}
+                act={this.state.act}
+                desiredMajor={this.state.desiredMajor}
+                stats={this.state.stats}
+                handleSaveProfile={this.handleSaveProfile}
+                userProfile={this.props.match.params.id}
+              />
             </div>
           </div>
         </div>

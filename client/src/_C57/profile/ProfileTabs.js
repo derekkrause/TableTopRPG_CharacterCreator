@@ -24,7 +24,7 @@ import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploade
 
 function TabContainer({ children, dir }) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} style={{ padding: 8 * 3, backgroundColor: "#f1f1f1", textAlign: "left" }}>
       {children}
     </Typography>
   );
@@ -262,41 +262,41 @@ class ProfileTabs extends React.Component {
       let imageTileArray = [];
       let videoTileArray = [];
       if (response.data.resultSets) {
-        response.data.resultSets[0].map(thumbnail => {
-          if (thumbnail.Url.length > 3) {
-            if (thumbnail.Type === "image") {
-              let tile = {
-                id: thumbnail.id,
-                type: thumbnail.Type,
-                alt: thumbnail.Id,
-                src: thumbnail.Url,
-                thumbnail: thumbnail.Url,
-                thumbnailWidth: thumbnail.Width,
-                thumbnailHeight: thumbnail.Height,
-                title: thumbnail.Title,
-                caption: thumbnail.Caption
-              };
-              imageTileArray.push(tile);
-            } else if (thumbnail.Type === "video") {
-              let tile = {
-                id: thumbnail.id,
-                type: thumbnail.Type,
-                alt: thumbnail.Id,
-                src: thumbnail.Url,
-                thumbnail: thumbnail.Url,
-                thumbnailWidth: thumbnail.Width,
-                thumbnailHeight: thumbnail.Height,
-                title: thumbnail.Title,
-                caption: thumbnail.Caption
-              };
-              videoTileArray.push(tile);
-            }
+      response.data.resultSets[0].map(thumbnail => {
+        if (thumbnail.Url.length > 3) {
+          if (thumbnail.Type === "image") {
+            let tile = {
+              id: thumbnail.id,
+              type: thumbnail.Type,
+              alt: thumbnail.Id,
+              src: thumbnail.Url,
+              thumbnail: thumbnail.Url,
+              thumbnailWidth: thumbnail.Width,
+              thumbnailHeight: thumbnail.Height,
+              title: thumbnail.Title,
+              caption: thumbnail.Caption
+            };
+            imageTileArray.push(tile);
+          } else if (thumbnail.Type === "video") {
+            let tile = {
+              id: thumbnail.id,
+              type: thumbnail.Type,
+              alt: thumbnail.Id,
+              src: thumbnail.Url,
+              thumbnail: thumbnail.Url,
+              thumbnailWidth: thumbnail.Width,
+              thumbnailHeight: thumbnail.Height,
+              title: thumbnail.Title,
+              caption: thumbnail.Caption
+            };
+            videoTileArray.push(tile);
           }
-        });
-        this.setState({
-          images: imageTileArray,
-          videos: videoTileArray
-        });
+        }
+      });
+      this.setState({
+        images: imageTileArray,
+        videos: videoTileArray
+      });
       }
     });
   }
@@ -305,118 +305,96 @@ class ProfileTabs extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="inherit" style={{ boxShadow: "none" }}>
+        <AppBar
+          position="static"
+          color="inherit"
+          style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px" }}
+        >
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
             centered
+            fullWidth={true}
           >
-            <Tab label="Feed" />
+            <Tab label="Feed" style={{ padding: "12px" }} />
 
-            <Tab label="Schedule" />
+            <Tab label="Schedule" style={{ padding: "12px" }} />
 
-            <Tab label="Gallery" />
+            <Tab label="Gallery" style={{ padding: "12px" }} />
           </Tabs>
         </AppBar>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
+          style={{ backgroundColor: "#f1f1f1" }}
         >
+          <TabContainer dir={theme.direction} style={{ textAlign: "left" }}>
+            <Feed />
+          </TabContainer>
           <TabContainer dir={theme.direction}>
-            <CardBody>
+            {this.props.currentUser.id == this.props.userProfile && (
               <div className="row">
-                <div className="col-md-2" />
-                <div className="col-md-8">
-                  <Feed />
+                <div className="col-md-1">
+                  <EventModal />
                 </div>
-                <div className="col-md-2" />
               </div>
-            </CardBody>
+            )}
+            <div className="row mt-4">
+              <div className="col-md-12">
+                <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
+                <div style={{ overflow: "auto" }}>
+                  <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
+                </div>
+              </div>
+            </div>
           </TabContainer>
-          {/* <TabContainer dir={theme.direction}>
-              <CardBody>
-                <StatsRecord handleChange={this.props.handleChange} stats={this.props.stats} />
-              </CardBody>
-          </TabContainer> */}
           <TabContainer dir={theme.direction}>
-            <CardBody>
-              {this.props.currentUser.id == this.props.userProfile && (
-                <div className="row">
-                  <div className="col-md-1">
-                    <EventModal />
-                  </div>
-                </div>
-              )}
-              <div className="row mt-4">
-                <div className="col-md-12">
-                  <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
-                  <div style={{ overflow: "auto" }}>
-                    <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
-                  </div>
+            {this.props.currentUser.id == this.props.userProfile && (
+              <div className="row">
+                <div className="col-md-3 mb-2">
+                  <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
+                    + Add New Photo/Video
+                  </button>
                 </div>
               </div>
-            </CardBody>
-          </TabContainer>
-          {/* <TabContainer dir={theme.direction}>
-              <CardBody>
-                <AcademicTable
-                  handleChange={this.props.handleChange}
-                  gpa={this.props.gpa}
-                  sat={this.props.sat}
-                  act={this.props.act}
-                  desiredMajor={this.props.desiredMajor}
+            )}
+            <div className="row">
+              <div className="col-md-12">
+                <ProfileImages
+                  videos={this.state.videos}
+                  images={this.state.images}
+                  togglePopover={this.togglePopover}
+                  showPopover={this.state.showPopover}
+                  toggleImgModal={this.toggleImgModal}
+                  photoView={this.photoView}
+                  videoView={this.videoView}
+                  showPhotos={this.state.showPhotos}
                 />
-              </CardBody>
-          </TabContainer> */}
-          <TabContainer dir={theme.direction}>
-            <CardBody>
-              {this.props.currentUser.id == this.props.userProfile && (
-                <div className="row">
-                  <div className="col-md-3">
-                    <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
-                      + Add New Photo/Video
-                    </button>
-                  </div>
-                </div>
-              )}
-              <div className="row">
-                <div className="col-md-12">
-                  <ProfileImages
-                    videos={this.state.videos}
-                    images={this.state.images}
-                    togglePopover={this.togglePopover}
-                    showPopover={this.state.showPopover}
+                {this.state.showImgModal && (
+                  <ImageModal
+                    replaceCroppedImg={this.replaceCroppedImg}
+                    userProfile={this.props.userProfile}
+                    uploadMode={this.state.uploadMode}
+                    showImgModal={this.state.showImgModal}
                     toggleImgModal={this.toggleImgModal}
-                    photoView={this.photoView}
-                    videoView={this.videoView}
+                    className={this.props.className}
+                    images={this.state.images}
+                    videos={this.state.videos}
                     showPhotos={this.state.showPhotos}
+                    selectedImg={this.state.selectedImg}
+                    selectedVideo={this.state.selectedVideo}
+                    nextImg={this.nextImg}
+                    prevImg={this.prevImg}
+                    removeDeletedMedia={this.removeDeletedMedia}
+                    changeProfilePic={this.props.changeProfilePic}
+                    addNewMediaToState={this.addNewMediaToState}
                   />
-                  {this.state.showImgModal && (
-                    <ImageModal
-                      replaceCroppedImg={this.replaceCroppedImg}
-                      userProfile={this.props.userProfile}
-                      uploadMode={this.state.uploadMode}
-                      showImgModal={this.state.showImgModal}
-                      toggleImgModal={this.toggleImgModal}
-                      className={this.props.className}
-                      images={this.state.images}
-                      videos={this.state.videos}
-                      showPhotos={this.state.showPhotos}
-                      selectedImg={this.state.selectedImg}
-                      selectedVideo={this.state.selectedVideo}
-                      nextImg={this.nextImg}
-                      prevImg={this.prevImg}
-                      removeDeletedMedia={this.removeDeletedMedia}
-                      changeProfilePic={this.props.changeProfilePic}
-                      addNewMediaToState={this.addNewMediaToState}
-                    />
-                  )}
-                </div>
+                )}
               </div>
-            </CardBody>
+            </div>
           </TabContainer>
         </SwipeableViews>
       </div>

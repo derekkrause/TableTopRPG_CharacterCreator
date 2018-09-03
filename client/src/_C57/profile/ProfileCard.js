@@ -10,7 +10,7 @@ class ProfileCard extends React.Component {
 
   render() {
     return (
-      <div className="profile-intro text-center">
+      <div className="profile-intro mb-4">
         <ProfileTabs
           handleChange={this.props.handleChange}
           stats={this.props.stats}
@@ -20,7 +20,7 @@ class ProfileCard extends React.Component {
           desiredMajor={this.props.desiredMajor}
           userProfile={this.props.userProfile}
         />
-        <div className="pi-footer">
+        {/* <div className="pi-footer">
           <div className="icons-wrapper">
             <a className="icon facebook-icon" href="javascript:void(0)">
               <i className="zmdi zmdi-facebook zmdi-hc-fw zmdi-hc-lg" />
@@ -32,7 +32,7 @@ class ProfileCard extends React.Component {
               <i className="zmdi zmdi-linkedin zmdi-hc-fw zmdi-hc-lg" />
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

@@ -12,6 +12,8 @@ namespace Sabio.Models.Domain
         public int? AdvocateUserId { get; set; } 
         public int? AthleteUserId { get; set; }
         public string Notes { get; set; }
+        public bool Verify { get; set; }
+        public string Name { get; set; }
         //public DateTime DateCreated { get; set; }
         //public DateTime DateModified { get; set; } 
     }

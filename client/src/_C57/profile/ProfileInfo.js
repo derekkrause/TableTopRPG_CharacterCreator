@@ -4,12 +4,23 @@ import "./ProfileBanner.css";
 import "./Profile.css";
 import AutoComplete from "../CustomComponents/SchoolAutoComplete/AutoComplete";
 import { schoolSearch } from "../Admin/SchoolAdmin/SchoolAdminServer";
-import { SaveProfileButton, CancelButton, MessageButton, StatsButton } from "../CustomComponents/Button";
+import {
+  SaveProfileButton,
+  CancelButton,
+  MessageButton,
+  StatsButton,
+  HighlightButton,
+  FollowButton,
+  FollowOnButton,
+  HighlightOnButton
+} from "../CustomComponents/Button";
 import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
 import ProfileLinksModal from "./ProfileLinksModal";
 import { connect } from "react-redux";
-import { NavLink, withRouter } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import { getContacts } from "../../services/message.service";
+import StateOptions from "../CustomComponents/InputsDropdowns/StateOptions";
 
 class ProfileInfo extends React.Component {
   state = {
@@ -44,6 +55,7 @@ class ProfileInfo extends React.Component {
     this.setState({
       editMode: false
     });
+    NotificationManager.success("Profile Updated!", "Success", 2000);
   };
 
   editField = () => {
@@ -132,114 +144,107 @@ class ProfileInfo extends React.Component {
       });
   };
 
-  // handleMessageAction = () => this.props.currentPageId;
   // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     const { currentPageId } = this.props;
     const { showMessageButton } = this.state;
     return (
       <div>
+        <NotificationContainer />
         {!this.state.editMode ? (
           <React.Fragment>
-            <div className="row">
-              <div className="col-md-12 profileDiv">
-                <div className="row" style={{ position: "relative", left: "4%", float: "right" }}>
-                  <div className="col-md-3">
-                    {this.props.currentUser.id == currentPageId ? (
-                      <AthleteProfilePopover popover={"athlete"} handleUpdate={this.editField} />
-                    ) : (
-                      <div />
-                    )}
-                  </div>
-                </div>
+            <div className="container profileInfo-info px-0">
+              <div className="col-md-12 mr-2 mr-md-0">
                 {this.state.everyThing.FirstName && (
                   <React.Fragment>
-                    <div className="row" style={{ position: "relative", left: "4%" }}>
-                      <h1 style={{ fontWeight: "1000", marginBottom: "20px" }}>
-                        {this.state.everyThing.FirstName}
-                        &nbsp;
-                        {this.state.everyThing.MiddleName}
-                        &nbsp;
-                        {this.state.everyThing.LastName}
-                      </h1>
+                    <div className="row">
+                      <div className="col-11 text-center text-md-left pl-4 pl-md-0 pr-0">
+                        <h1 style={{ fontWeight: 800 }}>
+                          {this.state.everyThing.FirstName}
+                          &nbsp;
+                          {this.state.everyThing.MiddleName}
+                          &nbsp;
+                          {this.state.everyThing.LastName}
+                        </h1>
+                      </div>
+                      <div className="col-1 text-right p-0" id="profileInfoEdit">
+                        {this.props.currentUser.id == currentPageId ? (
+                          <AthleteProfilePopover handleUpdate={this.editField} popover="profileInfoEdit" />
+                        ) : (
+                          <div />
+                        )}
+                      </div>
                     </div>
-
-                    <div className="row" style={{ position: "relative", left: "4%" }}>
-                      <h2>{this.state.everyThing.SchoolName}</h2>
-                      &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
-                      <h2>
+                    <div className="row justify-content-center justify-content-md-start pl-0">
+                      <h3>{this.state.everyThing.SchoolName}</h3>
+                      &nbsp; <h4 className="slash"> &nbsp; | &nbsp; </h4> &nbsp;
+                      <h3>
                         {this.state.everyThing.City}, {this.state.everyThing.State}
-                      </h2>
+                      </h3>
                     </div>
-                    <div className="row" style={{ position: "relative", left: "4%" }}>
-                      <h2>{this.state.everyThing.ClassYearName}</h2>
-                      &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
-                      <h2 style={{ display: "inline-block" }}>Class of </h2>
-                      <h2 style={{ display: "inline-block" }}>
+                    <div className="row justify-content-center justify-content-md-start pl-0">
+                      <h3>{this.state.everyThing.ClassYearName}</h3>
+                      &nbsp; <h4 className="slash"> &nbsp; | &nbsp; </h4> &nbsp;
+                      <h3 style={{ display: "inline-block" }}>Class of </h3>
+                      <h3 style={{ display: "inline-block" }}>
                         &nbsp; {this.state.everyThing.HighSchoolGraduationYear}
-                      </h2>
+                      </h3>
                     </div>
-                    <div className="row" style={{ position: "relative", left: "4%", marginBottom: "40px" }}>
+                    <div className="row mb-3 justify-content-center justify-content-md-start pl-0">
                       {this.state.everyThing.Height && (
                         <React.Fragment>
-                          <h2>
+                          <h3>
                             Height: {this.state.everyThing.heightFeet}'{this.state.everyThing.heightInches}
-                          </h2>
+                          </h3>
                           {this.state.everyThing.Weight && (
                             <React.Fragment>
-                              &nbsp; <h2 className="slash"> &nbsp; | &nbsp; </h2> &nbsp;
+                              &nbsp; <h3 className="slash"> &nbsp; | &nbsp; </h3> &nbsp;
                             </React.Fragment>
                           )}
                         </React.Fragment>
                       )}
                       {this.state.everyThing.Weight && (
-                        <h2>
+                        <h3>
                           Weight: {this.state.everyThing.Weight}
-                          lbs.
-                        </h2>
+                          &nbsp;lbs
+                        </h3>
                       )}
                     </div>
-                    <div className="row" style={{ position: "relative", left: "4%" }}>
-                      <div role="group" className="btn-group">
+                    <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0">
+                      <div role="group" className="btn-group mt-3 mt-sm-3 mt-md-3 mt-lg-0">
                         {this.props.currentUser.id != this.props.currentPageId ? (
                           <React.Fragment>
                             {!this.props.following ? (
-                              <button
-                                className="jr-btn jr-btn-default btn btn-default profileInfoBtn"
+                              <FollowButton
+                                margin="mb-0"
+                                style="rs-btn-border-primary"
                                 onClick={() => {
                                   this.props.followUser();
                                   this.handleGetContacts();
                                 }}
-                              >
-                                Follow
-                              </button>
+                              />
                             ) : (
-                              <button
-                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn px-3"
-                                style={{ color: "#81c784" }}
-                                onClick={() => this.props.followUser()}
-                              >
-                                <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
-                                &nbsp; Following
-                              </button>
+                              <FollowOnButton
+                                margin="mb-0"
+                                style="rs-btn-border-primary-on"
+                                onClick={() => {
+                                  this.props.followUser();
+                                  this.setState({ showMessageButton: false });
+                                }}
+                              />
                             )}
-
                             {!this.props.highlighting ? (
-                              <button
-                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn"
+                              <HighlightButton
+                                margin="mb-0"
+                                style="rs-btn-border-primary"
                                 onClick={() => this.props.highlightUser()}
-                              >
-                                Highlight
-                              </button>
+                              />
                             ) : (
-                              <button
-                                className="jr-btn jr-btn-default-custom btn btn-default profileInfoBtn  px-3"
-                                style={{ color: "#81c784" }}
+                              <HighlightOnButton
+                                margin="mb-0"
+                                style="rs-btn-border-primary-on"
                                 onClick={() => this.props.highlightUser()}
-                              >
-                                <i className="zmdi zmdi-check-circle zmdi-hc-lg " />
-                                &nbsp; Highlighted
-                              </button>
+                              />
                             )}
                           </React.Fragment>
                         ) : (
@@ -247,12 +252,11 @@ class ProfileInfo extends React.Component {
                         )}
                       </div>
 
-                      <div className="col-md-2" />
-                      <div className="text-right col-md-6">
-                        <StatsButton onClick={this.toggle} />
+                      <div className="d-flex justify-content-end mt-3 mt-sm-3 mt-md-3 mt-lg-0 ">
+                        <StatsButton margin="mb-0 mr-2" style="rs-btn-primary-light" onClick={this.toggle} />
                         {showMessageButton && (
                           <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
-                            <MessageButton />
+                            <MessageButton margin="mb-0 mr-0" style="rs-btn-primary-light" />
                           </NavLink>
                         )}
                         <ProfileLinksModal
@@ -273,155 +277,147 @@ class ProfileInfo extends React.Component {
         ) : (
           <React.Fragment>
             <form onSubmit={this.bundleProfileInfo}>
-              <div className="form-group">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="row" style={{ position: "relative", left: "4%" }}>
-                      <div className="col-md-3" style={{ position: "relative", left: "85%" }}>
-                        <AthleteProfilePopover handleUpdate={this.editField} />
-                      </div>
-                    </div>
-                    <div className="row addedHeight col-md-12">
-                      <div className="col-md-4">
-                        <label>First Name:</label>
-                        <input
-                          className="nameInputs form-control"
-                          onChange={this.handleChange}
-                          value={this.state.everyThing.FirstName}
-                          name="FirstName"
-                        />
-                      </div>
-                      <div className="col-md-4">
-                        <label>Middle Name:</label>
-                        <input
-                          className="nameInputs form-control"
-                          onChange={this.handleChange}
-                          value={this.state.everyThing.MiddleName}
-                          name="MiddleName"
-                        />
-                      </div>
-                      <div className="col-md-4">
-                        <label>Last Name:</label>
-                        <input
-                          className="nameInputs form-control"
-                          onChange={this.handleChange}
-                          value={this.state.everyThing.LastName}
-                          name="LastName"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="row col-md-12">
-                      <div className="col-md-6">
-                        <label>School:</label>
-                        <AutoComplete
-                          numberOfCharacters={5} // when you want callback function to fire
-                          callBack={this.callback} // the call back function in the parent you want called
-                          value={this.state.everyThing.SchoolName} // value you want changed
-                          onChange={this.onChange} // onChange function in the parent
-                          name="SchoolName" // name
-                          limit={10} // limit the results on the dropdown, recommend 10
-                          className={"form-control"} // any classnames you want to include in the input
-                          resultSetNumber={1} // res.data.resultSets[*] * = the number your resultsets come back on
-                          onHandleSchoolSelect={this.onHandleSchoolSelect}
-                        />
-                      </div>
-                      <label> </label>
-                      <div className="col-md-4">
-                        <label>City:</label>
-                        <input
-                          className="form-control"
-                          value={this.state.everyThing.City}
-                          name="City"
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="col-md">
-                        <label>State:</label>
-                        <input
-                          className="form-control"
-                          value={this.state.everyThing.State}
-                          max={2}
-                          name="State"
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="row addedHeight col-md-12">
-                      <div className="col-md-4">
-                        <label>Class Year</label>
-                        <select
-                          className="form-control"
-                          type="text"
-                          value={this.state.everyThing.ClassYearId}
-                          name="ClassYearId"
-                          onChange={this.handleChange}
-                          style={{ height: "2rem" }}
-                        >
-                          <option>Class Year</option>
-                          {this.state.classYearOptions.map(year => (
-                            <option name={year.name} key={year.id} value={year.id}>
-                              {year.name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="col-md-5">
-                        <label>Class of:</label>
-                        <input
-                          value={this.state.everyThing.HighSchoolGraduationYear}
-                          name="HighSchoolGraduationYear"
-                          onChange={this.handleChange}
-                          min={2000}
-                          className="form-control"
-                        />
-                      </div>
-                    </div>
-                    <div className="row col-md-12">
-                      <div className="col">Height </div>
-                    </div>
-                    <div className="row col-md-12">
-                      <div className="col-md-2" style={{ paddingRight: 5 }}>
-                        Feet:
-                        <input
-                          className="form-control"
-                          type="number"
-                          value={this.state.everyThing.heightFeet}
-                          min={4}
-                          max={8}
-                          name="heightFeet"
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="col-md-2" style={{ paddingLeft: 5 }}>
-                        Inches:
-                        <input
-                          className="form-control"
-                          type="number"
-                          value={this.state.everyThing.heightInches}
-                          min={0}
-                          max={12}
-                          name="heightInches"
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                      <div className="form-group col-md-3">
-                        <label>Weight: </label>
-                        <input
-                          className="form-control"
-                          type="number"
-                          value={this.state.everyThing.Weight}
-                          max={500}
-                          name="Weight"
-                          onChange={this.handleChange}
-                        />
-                      </div>
-                    </div>
+              <div className="form-group profileInfo-info">
+                <div className="row mt-3" style={{ position: "relative", left: "4%" }} />
+                <div className="row addedHeight col-md-12">
+                  <div className="col-md-4">
+                    <label>First Name:</label>
+                    <input
+                      className="nameInputs form-control"
+                      onChange={this.handleChange}
+                      value={this.state.everyThing.FirstName}
+                      name="FirstName"
+                    />
+                  </div>
+                  <div className="col-md-4 px-md-0">
+                    <label>Middle Name:</label>
+                    <input
+                      className="nameInputs form-control"
+                      onChange={this.handleChange}
+                      value={this.state.everyThing.MiddleName}
+                      name="MiddleName"
+                    />
+                  </div>
+                  <div className="col-md-4 ">
+                    <label>Last Name:</label>
+                    <input
+                      className="nameInputs form-control"
+                      onChange={this.handleChange}
+                      value={this.state.everyThing.LastName}
+                      name="LastName"
+                    />
                   </div>
                 </div>
+
+                <div className="row col-md-12">
+                  <div className="col-md-5">
+                    <label>School:</label>
+                    <AutoComplete
+                      numberOfCharacters={5} // when you want callback function to fire
+                      callBack={this.callback} // the call back function in the parent you want called
+                      value={this.state.everyThing.SchoolName} // value you want changed
+                      onChange={this.onChange} // onChange function in the parent
+                      name="SchoolName" // name
+                      limit={10} // limit the results on the dropdown, recommend 10
+                      className={"form-control"} // any classnames you want to include in the input
+                      resultSetNumber={1} // res.data.resultSets[*] * = the number your resultsets come back on
+                      onHandleSchoolSelect={this.onHandleSchoolSelect}
+                    />
+                  </div>
+                  <label> </label>
+                  <div className="col-md-3 px-md-0">
+                    <label>City:</label>
+                    <input
+                      className="form-control"
+                      value={this.state.everyThing.City}
+                      name="City"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="col-md-4">
+                    <label>State:</label>
+                    <StateOptions
+                      className="rs-select-size"
+                      name="State"
+                      defaultValue={this.state.everyThing.State}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="row addedHeight col-md-12">
+                  <div className="col-md-4 pr-md-0">
+                    <label>Class Year</label>
+                    <select
+                      className="form-control"
+                      type="text"
+                      value={this.state.everyThing.ClassYearId}
+                      name="ClassYearId"
+                      onChange={this.handleChange}
+                      style={{ height: "2rem" }}
+                    >
+                      <option>Class Year</option>
+                      {this.state.classYearOptions.map(year => (
+                        <option name={year.name} key={year.id} value={year.id}>
+                          {year.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="col-md-5">
+                    <label>Class of:</label>
+                    <input
+                      value={this.state.everyThing.HighSchoolGraduationYear}
+                      name="HighSchoolGraduationYear"
+                      onChange={this.handleChange}
+                      min={2000}
+                      className="form-control"
+                    />
+                  </div>
+                </div>
+                <div className="row col-md-12">
+                  <div className="col">Height </div>
+                </div>
+                <div className="row col-md-12">
+                  <div className="col-md-2">
+                    Feet:
+                    <input
+                      className="form-control"
+                      type="number"
+                      value={this.state.everyThing.heightFeet}
+                      min={4}
+                      max={8}
+                      name="heightFeet"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="col-md-2 px-md-0">
+                    Inches:
+                    <input
+                      className="form-control"
+                      type="number"
+                      value={this.state.everyThing.heightInches}
+                      min={0}
+                      max={12}
+                      name="heightInches"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                  <div className="form-group col-md-3">
+                    <label>Weight: </label>
+                    <input
+                      className="form-control"
+                      type="number"
+                      value={this.state.everyThing.Weight}
+                      max={500}
+                      name="Weight"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </div>
+
                 <div className="row">
-                  <div className="col-md-12 text-right">
+                  <div className="col-md-12 text-right mt-4">
                     <CancelButton type="button" className="text-right" onClick={this.onEditCancelClick} />
                     <SaveProfileButton type="submit" className="text-right" />
                   </div>

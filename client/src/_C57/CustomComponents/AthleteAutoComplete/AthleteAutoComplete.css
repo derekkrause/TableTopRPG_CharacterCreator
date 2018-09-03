@@ -1,12 +1,12 @@
 .optional-divs:hover{
-    background-color: rgb(180, 180, 180, 0.5);
-
-    
-
-    
+    background-color: rgb(180, 180, 180, 0.5);   
 }
+
+.dropdown-input{
+    position: relative;
+}
+
 .optional-divs{
- 
     overflow: hidden;
 }
 .options-div{

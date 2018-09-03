@@ -100,7 +100,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
 
   onEditClick = () => {
     this.setState({ editMode: true });
-    NotificationManager.info("Update info, or cancel", "Edit Sport History!", 3000);
+    //NotificationManager.info("Update info, or cancel", "Edit Sport History!", 3000);
   };
 
   onEditCancel = () => {
@@ -129,22 +129,23 @@ class AthleteHistoryCarouselFinal extends React.Component {
     return (
       <React.Fragment>
         <NotificationContainer />
-        <div className="d-flex justify-content-between" ref={this.popoverRef}>
+        <div className="" ref={this.popoverRef}>
           {!this.state.editMode ? (
             <React.Fragment>
-              <div>
-                <h2>Athlete History</h2>
+              <div className="d-flex justify-content-between align-items-center">
+                <h3 className="mb-0">Athlete History</h3>
+
+                {this.props.currentUser.id == currentPageId ? (
+                  <AthleteTeamPopover
+                    onDelete={this.delete}
+                    onEditClick={this.onEditClick}
+                    onAddNewToggle={this.onAddNewToggle}
+                    popover={"AthleteTeam"}
+                  />
+                ) : (
+                  <div />
+                )}
               </div>
-              {this.props.currentUser.id == currentPageId ? (
-                <AthleteTeamPopover
-                  onDelete={this.delete}
-                  onEditClick={this.onEditClick}
-                  onAddNewToggle={this.onAddNewToggle}
-                  popover={"AthleteTeam"}
-                />
-              ) : (
-                <div />
-              )}
             </React.Fragment>
           ) : (
             <div>
@@ -159,7 +160,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
           createAthleteTeamNotification={this.createAthleteTeamNotification}
           createAthleteTeamNotificationError={this.createAthleteTeamNotificationError}
         />
-        <div className="carousel-inner">
+        <div className="carousel-inner rs-history-container">
           {this.state.items[0] ? (
             this.state.items.map((item, index) => (
               <div key={item.id} className={index === activeIndex ? "carousel-item active" : "carousel-item"}>
@@ -175,18 +176,19 @@ class AthleteHistoryCarouselFinal extends React.Component {
               </div>
             ))
           ) : (
-            <div className="text-align: center">No Athlete History</div>
+            <div className="text-center">No Athlete History</div>
           )}
           {!this.state.editMode && this.state.items.length > 1 ? (
             <div className="d-flex justify-content-between">
-              <div>
-                <button className="btn btn-primary" direction="prev" onClick={this.previous}>
-                  Prev
+              <div className="d-flex justify-items-center">
+                <button className="btn rs-btn-primary-light" direction="prev" onClick={this.previous}>
+                  <i className="zmdi zmdi-chevron-left zmdi-hc-lg" /> &nbsp;Prev
                 </button>
               </div>
-              <div>
-                <button className="btn btn-primary" direction="next" onClick={this.next}>
-                  Next
+              <div className="d-flex justify-items-center">
+                <button className="btn rs-btn-primary-light" direction="next" onClick={this.next}>
+                  Next &nbsp;
+                  <i className="zmdi zmdi-chevron-right zmdi-hc-lg" />
                 </button>
               </div>
             </div>

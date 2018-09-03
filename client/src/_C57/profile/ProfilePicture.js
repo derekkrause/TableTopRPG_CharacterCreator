@@ -31,13 +31,15 @@ class ProfilePicture extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="profileInfo img-profile">
-          <img src={this.props.profilePic} className="rounded-circle mr-3 img-fluid profile-pic img-grid-item" />
-          {this.props.currentUser.id == this.props.currentProfile && (
-            <button className="change-pic" onClick={this.toggleImgModal} style={{ borderRadius: "10px" }}>
-              update
-            </button>
-          )}
+        <div className="d-flex profileInfo img-profile justify-content-center">
+          <div style={{ width: "150px" }}>
+            <img src={this.props.profilePic} />
+            {this.props.currentUser.id == this.props.currentProfile && (
+              <button className="change-pic photoBtn" onClick={this.toggleImgModal}>
+                <i className="zmdi zmdi-camera-add zmdi-hc-2x text-white" />
+              </button>
+            )}
+          </div>
         </div>
         <ImageModal
           images={this.state.images}

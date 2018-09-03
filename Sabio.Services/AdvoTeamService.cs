@@ -60,8 +60,8 @@ namespace Sabio.Services
                 "AdvocateTeam_Delete",
                 (parameters) =>
                 {
-                    parameters.AddWithValue("@Id", advoTeamId);
-
+                    parameters.AddWithValue("@TeamId", advoTeamId);
+                    
                 });
         }
     }
