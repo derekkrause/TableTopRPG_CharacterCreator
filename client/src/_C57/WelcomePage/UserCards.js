@@ -4,8 +4,12 @@ import { Card, CardFooter, CardImg, CardImgOverlay, CardTitle, Button, ListGroup
 class UserTypeCards extends React.Component {
   render() {
     return (
-      <div className="d-flex flex-row flex-wrap p-0 mx-2 card-deck">
-        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-2" tabIndex={1}>
+      <div className="d-flex flex-row flex-wrap p-0 mx-auto card-deck justify-content-around">
+        <div
+          className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-2"
+          tabIndex={1}
+          style={{ maxWidth: "450px" }}
+        >
           <div className="card-flip">
             <Card inverse className="d-flex border-0 front p-0" name="athleteCard">
               <CardImg
@@ -28,13 +32,21 @@ class UserTypeCards extends React.Component {
                 <ListGroupItem>Access on the go!</ListGroupItem>
                 <ListGroupItem>Get the latest news</ListGroupItem>
               </ListGroup>
-              <Button color="primary" className="btn mx-auto my-auto" onClick={this.props.regScrollAthlete}>
+              <Button
+                color="primary"
+                className="btn btn-block btn-lg mt-auto mb-3"
+                onClick={this.props.regScrollAthlete}
+              >
                 Get Started
               </Button>
             </Card>
           </div>
         </div>
-        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-1" tabIndex={2}>
+        <div
+          className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-md-1"
+          tabIndex={2}
+          style={{ maxWidth: "450px" }}
+        >
           <div className="card-flip">
             <Card inverse className="d-flex border-0 front p-0" name="coachCard" onClick={void 0}>
               <CardImg
@@ -57,13 +69,17 @@ class UserTypeCards extends React.Component {
                 <ListGroupItem>Access on the go!</ListGroupItem>
                 <ListGroupItem>Get the latest news</ListGroupItem>
               </ListGroup>
-              <Button color="danger" className="btn mx-auto my-auto" onClick={this.props.regScrollCoach}>
+              <Button color="danger" className="btn btn-block btn-lg mt-auto mb-3" onClick={this.props.regScrollCoach}>
                 Get Started
               </Button>
             </Card>
           </div>
         </div>
-        <div className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-3" tabIndex={3}>
+        <div
+          className="card-container d-flex p-0 col-md-4 col-xs-10 my-2 order-3"
+          tabIndex={3}
+          style={{ maxWidth: "450px" }}
+        >
           <div className="card-flip">
             <Card inverse className="d-flex border-0 front p-0" name="advocateCard" onClick={void 0}>
               <CardImg
@@ -86,7 +102,12 @@ class UserTypeCards extends React.Component {
                 <ListGroupItem>Access on the go!</ListGroupItem>
                 <ListGroupItem>Get the latest news</ListGroupItem>
               </ListGroup>
-              <Button color="warning" className="btn mx-auto my-auto" onClick={this.props.regScrollAdvocate}>
+              <Button
+                color="warning"
+                style={{ color: "white" }}
+                className="btn btn-block btn-lg mt-auto mb-3"
+                onClick={this.props.regScrollAdvocate}
+              >
                 Get Started
               </Button>
             </Card>

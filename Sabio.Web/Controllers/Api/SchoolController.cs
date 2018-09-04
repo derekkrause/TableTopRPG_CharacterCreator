@@ -10,20 +10,28 @@ using System.Web.Http;
 
 namespace Sabio.Web.Controllers.Api
 {
-    [RoutePrefix("api")]
+    [RoutePrefix("api/schools")]
     public class SchoolController : ApiController
     {
-            readonly SchoolService schoolService;
+        readonly SchoolService schoolService;
 
-            public SchoolController(SchoolService schoolService)
-            {
-                this.schoolService = schoolService;
-            }
-            [Route("schools"), HttpGet]
-            public HttpResponseMessage GetAll()
-            {
-                List<Schools> listOfSchools = schoolService.GetAll();
-                return Request.CreateResponse(HttpStatusCode.OK, listOfSchools);
-            }
+        public SchoolController(SchoolService schoolService)
+        {
+            this.schoolService = schoolService;
         }
+        [Route, HttpGet]
+        public HttpResponseMessage GetAll()
+        {
+            List<Schools> listOfSchools = schoolService.GetAll();
+            return Request.CreateResponse(HttpStatusCode.OK, listOfSchools);
+        }
+
+        [Route("search"), HttpGet]
+        public HttpResponseMessage Search(string q, string city, string state)
+        {
+            List<Schools> schools = schoolService.Search(q, city, state);
+            return Request.CreateResponse(HttpStatusCode.OK, schools);
+        }
+
     }
+}

@@ -9,9 +9,13 @@ export function getCoachTrend() {
 }
 
 export function getCoachById(userId) {
-  return axios.get("api/coach/" + userId);
+  return axios.get("api/coaches/" + userId);
 }
 
 export function updateCoachProfile(userData) {
-  return axios.put("api/coach/" + userData.userId, userData);
+  return axios.put("api/coaches/" + userData.userId, userData);
+}
+
+export function schoolSearch(searchString, city, state) {
+  return axios.get("api/schools/search/?q=" + searchString + "&city=" + city + "&state=" + state);
 }
