@@ -21,6 +21,8 @@ import { Link, NavLink, withRouter } from "react-router-dom";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import { getContacts } from "../../services/message.service";
 import StateOptions from "../CustomComponents/InputsDropdowns/StateOptions";
+import { getAdvoListByAthleteId } from "../../services/advocate.service";
+import VerifyListModal from "./Modals/VerifyListModal";
 
 class ProfileInfo extends React.Component {
   state = {
@@ -29,7 +31,9 @@ class ProfileInfo extends React.Component {
     statsModal: false,
     everyThing: {},
     prevPropsEveryThing: {},
-    showMessageButton: false
+    showMessageButton: false,
+    verification: [],
+    verifyModal: false
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -46,6 +50,16 @@ class ProfileInfo extends React.Component {
 
   componentDidMount = () => {
     this.handleGetContacts();
+    this.getVerified();
+  };
+
+  getVerified = () => {
+    getAdvoListByAthleteId(this.props.match.params.id).then(res => {
+      console.log("PARENT VERIFY VALUE", res);
+      this.setState({
+        verification: res.data.item.pagedItems
+      });
+    });
   };
 
   bundleProfileInfo = e => {
@@ -122,6 +136,12 @@ class ProfileInfo extends React.Component {
     });
   };
 
+  verifyModalToggle = () => {
+    this.setState({
+      VerifyListModal: !this.state.VerifyListModal
+    });
+  };
+
   callback = () => {
     return schoolSearch(0, this.state.everyThing.SchoolName); // schoolSearch available in SchoolAdminServer.js
   };
@@ -147,7 +167,7 @@ class ProfileInfo extends React.Component {
   // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     const { currentPageId } = this.props;
-    const { showMessageButton } = this.state;
+    const { showMessageButton, verification } = this.state;
     return (
       <div>
         <NotificationContainer />
@@ -157,9 +177,9 @@ class ProfileInfo extends React.Component {
               <div className="col-md-12 mr-2 mr-md-0">
                 {this.state.everyThing.FirstName && (
                   <React.Fragment>
-                    <div className="row">
-                      <div className="col-11 text-center text-md-left pl-4 pl-md-0 pr-0">
-                        <h1 style={{ fontWeight: 800 }}>
+                    <div className="row align-items-center justify-content-end justify-content-md-between mb-2">
+                      <div className="col-9 text-center text-md-left pl-0 pr-0">
+                        <h1 style={{ fontWeight: 800 }} className="mb-0">
                           {this.state.everyThing.FirstName}
                           &nbsp;
                           {this.state.everyThing.MiddleName}
@@ -167,6 +187,27 @@ class ProfileInfo extends React.Component {
                           {this.state.everyThing.LastName}
                         </h1>
                       </div>
+                      {verification != null && verification[0].verify === true ? (
+                        <React.Fragment>
+                          <div
+                            className="col-2 d-flex align-items-center pr-1 pointer"
+                            style={{ color: "#388e3c" }}
+                            onClick={this.verifyModalToggle}
+                          >
+                            <i className="zmdi zmdi-assignment-check zmdi-hc-lg" />
+                            &nbsp;
+                            <h3 className="mb-0">Verified</h3>
+                          </div>
+                          <VerifyListModal
+                            data={verification}
+                            isOpen={this.state.VerifyListModal}
+                            toggle={this.verifyModalToggle}
+                          />
+                        </React.Fragment>
+                      ) : (
+                        <div />
+                      )}
+
                       <div className="col-1 text-right p-0" id="profileInfoEdit">
                         {this.props.currentUser.id == currentPageId ? (
                           <AthleteProfilePopover handleUpdate={this.editField} popover="profileInfoEdit" />

@@ -3,17 +3,21 @@ import "./AdvocateStyle.css";
 import AdvocateHeader from "./AdvocateHeader";
 import AdvocateBody from "./AdvocateBody";
 import AdvocateTab from "./AdvocateTab";
+import "../profile/ProfileBanner.css";
+import "../profile/Profile.css";
 import { getAdvocateByUserId, updateAdvocate } from "./AdvocateServer";
+import { connect } from "react-redux";
 
 class AdvocateProfile extends React.Component {
   state = {
     editState: false,
     advocateUser: {},
-    school: {}
+    school: {},
+    following: false
   };
 
   componentDidMount() {
-    getAdvocateByUserId()
+    getAdvocateByUserId(this.props.match.params.id)
       .then(response => {
         console.log(response, "Get By AdvUser Id");
         this.setState({
@@ -64,6 +68,33 @@ class AdvocateProfile extends React.Component {
     });
   };
 
+  updateProfilePic = id => {
+    getProfilePic(id).then(res => {
+      console.log(res);
+      let newPic = res.data.resultSets[0][0].AvatarUrl;
+      this.setState({
+        profilePic: newPic
+      });
+    });
+  };
+
+  followUser = () => {
+    const payload = {
+      followerId: this.props.currentUser.id,
+      userId: parseInt(this.props.match.params.id),
+      userNotified: false
+    };
+    if (!this.state.following) {
+      followUser(payload).then(res => {
+        this.setState({ following: true });
+      });
+    } else {
+      unfollowUser(this.props.currentUser.id, this.props.match.params.id).then(res => {
+        this.setState({ following: false });
+      });
+    }
+  };
+
   render() {
     const id = this.props.match.params.id;
     const aU = this.state.advocateUser;
@@ -72,23 +103,53 @@ class AdvocateProfile extends React.Component {
     const eI = this.editInput;
 
     return (
-      <div>
-        <div className="container AdvocateStyle">
-          <AdvocateHeader
-            advocateUser={aU}
-            editMode={eM}
-            editState={eS}
-            editInput={eI}
-            selectedSchool={options => this.selectedSchool(options)}
-          />
-          <AdvocateBody advocateUser={aU} editMode={eM} editState={eS} editInput={eI} advocateUserId={id} />
-        </div>
-        <div className="container AdvocateStyle">
-          <AdvocateTab advocateUserId={id} />
+      <div className="app-wrapper">
+        <div className="row justify-content-center">
+          <div className="col-11 col-md-10 col-lg-9 col-xl-7 p-0">
+            <div className="card">
+              <img
+                src="http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg"
+                className="profile-banner-img img-fluid"
+              />
+              <div className="px-2 py-3 col-12 rs-athlete-tag">
+                <AdvocateHeader
+                  advocateUser={aU}
+                  editMode={eM}
+                  editState={eS}
+                  editInput={eI}
+                  selectedSchool={options => this.selectedSchool(options)}
+                  currentUser={this.props.currentUser}
+                  currentProfile={id}
+                  profilePic={aU.avatarUrl}
+                  following={this.state.following}
+                  followUser={this.followUser}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="jr-card rs-athlete-tag pt-3" id="bio">
+                <AdvocateBody
+                  advocateUser={aU}
+                  editMode={eM}
+                  editState={eS}
+                  editInput={eI}
+                  advocateUserId={id}
+                  currentUser={this.props.currentUser}
+                  currentProfile={id}
+                />
+              </div>
+            </div>
+            <div className="card">
+              <AdvocateTab advocateUserId={id} />
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 }
 
-export default AdvocateProfile;
+function mapStateToProps(state) {
+  return { currentUser: state.currentUser };
+}
+export default connect(mapStateToProps)(AdvocateProfile);

@@ -43,10 +43,14 @@ class WelcomePage extends React.Component {
           className="container-fluid mainContainer mx-auto p-0 align-self-stretch"
           style={{
             backgroundImage:
-              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')"
+              "url('https://c.pxhere.com/photos/50/5b/baseball_diamond_sports_baseball_stadium_safeco_field_stadium_seattle_washington-682138.jpg!d')",
+            backgroundPosition: "bottom"
           }}
         >
-          <div className="container-fluid py-5">
+          <div
+            className="container-fluid py-5"
+            style={{ background: "linear-gradient(rgba(39,55,68,0.3), rgba(39,55,68,1))" }}
+          >
             <UserTypeCards
               regScrollCoach={this.scrollToRegFormCoach}
               regScrollAthlete={this.scrollToRegFormAthlete}

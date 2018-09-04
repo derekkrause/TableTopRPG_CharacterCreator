@@ -89,11 +89,15 @@ class ForgotPassword extends Component {
 
     return (
       <div>
-        <div className="login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
+        <div className="app-wrapper login-container d-flex justify-content-center align-items-center animated slideInUpTiny animation-duration-3">
           <div className="login-content">
-            <div className="login-header">
+            <div className="login-header justify-content-center">
               <Link className="app-logo" to="/" title="Jambo">
-                <img src="http://via.placeholder.com/105x36" alt="jambo" title="jambo" />
+                <img
+                  src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo_green.png"
+                  alt="jambo"
+                  title="jambo"
+                />
               </Link>
             </div>
 
@@ -120,7 +124,7 @@ class ForgotPassword extends Component {
                   </a>
                 </p>
 
-                <Button className="btn btn-primary" onClick={this.handerResetPasswordSubmit}>
+                <Button className="btn btn-secondary" onClick={this.handerResetPasswordSubmit}>
                   <span>Reset Password</span>
                 </Button>
                 {/* <NavLink to={`${this.props.match.url}/reset-password`}>

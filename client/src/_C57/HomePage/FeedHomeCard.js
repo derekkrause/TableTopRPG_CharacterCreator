@@ -301,7 +301,7 @@ class FeedHomeCard extends React.Component {
     const { liked } = this.props.data;
     return (
       <div className="card shadow">
-        <div className="cus-card-header" style={{ borderLeft: `8px solid lightblue` }}>
+        <div className="cus-card-header" style={{ borderLeft: `8px solid #245dbc` }}>
           <div className="user-profile d-flex flex-row justify-content-between align-items-center">
             <NavLink to={`profile/${data.authorId}`} className="link-text">
               <div className="d-flex">

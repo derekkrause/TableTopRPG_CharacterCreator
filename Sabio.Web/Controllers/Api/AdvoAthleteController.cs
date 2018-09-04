@@ -23,6 +23,16 @@ namespace Sabio.Web.Controllers.Api
             this.advoAthleteService = advoAthleteService;
         }
 
+        [Route("{athleteUserId:int}"), HttpGet]
+        public HttpResponseMessage GetAdvoListByAthleteUserId(int athleteUserId)
+        {
+            PagedItemResponse<AdvoAthleteList> pagedItemResponse = advoAthleteService.GetAdvoListByAthleteUserId(athleteUserId);
+            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<PagedItemResponse<AdvoAthleteList>>
+            {
+                Item = pagedItemResponse
+            });
+        }
+
         [Route, HttpGet]
         public HttpResponseMessage GetAllAdvoAthletesById()
         {

@@ -19,7 +19,7 @@ import { getAllTeams } from "./AdvocateServer";
 
 function TabContainer({ children, dir }) {
   return (
-    <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
+    <Typography component="div" dir={dir} style={{ padding: 8 * 3, backgroundColor: "#f1f1f1" }}>
       {children}
     </Typography>
   );
@@ -150,58 +150,54 @@ class AdvocateTab extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="white" style={{ boxShadow: "none" }}>
+        <AppBar position="static" color="white" style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px" }}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
             indicatorColor="primary"
             textColor="primary"
             centered
+            fullWidth={true}
           >
-            <Tab label="Schedule" />
-            <Tab label="Teams" onClick={this.getTeams} />
+            <Tab label="Schedule" style={{ padding: "12px" }} />
+            <Tab label="Teams" style={{ padding: "12px" }} onClick={this.getTeams} />
           </Tabs>
         </AppBar>
         <SwipeableViews
           axis={theme.direction === "rtl" ? "x-reverse" : "x"}
           index={this.state.value}
           onChangeIndex={this.handleChangeIndex}
+          style={{ backgroundColor: "#f1f1f1" }}
         >
           <TabContainer dir={theme.direction}>
-            {" "}
-            <CardBody>
-              <div className="row">
-                <div className="col-md-1">
-                  <EventModal />
+            <div className="row">
+              <div className="col-md-1">
+                <EventModal />
+              </div>
+            </div>
+            <div className="row mt-4">
+              <div className="col-md-12">
+                <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
+                <div style={{ overflow: "auto" }}>
+                  <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
                 </div>
               </div>
-              <div className="row mt-4">
-                <div className="col-md-12">
-                  <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
-                  <div style={{ overflow: "auto" }}>
-                    <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
-                  </div>
-                </div>
-              </div>
-            </CardBody>
+            </div>
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            {" "}
-            <CardBody>
-              <div className="row">
-                {/* <div className="col-md-1"> */}
-                <GameModal key={this.state.teams} teams={this.state.teams} advocateUserId={this.props.advocateUserId} />
-                {/* </div> */}
-              </div>
-              <div className="mt-2">
-                <div className="col-md-8">
-                  <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
-                  <div style={{ overflow: "auto" }}>
-                    <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
-                  </div>
+            <div className="row">
+              {/* <div className="col-md-1"> */}
+              <GameModal key={this.state.teams} teams={this.state.teams} advocateUserId={this.props.advocateUserId} />
+              {/* </div> */}
+            </div>
+            <div className="mt-2">
+              <div className="col-md-12 px-0">
+                <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
+                <div style={{ overflow: "auto" }}>
+                  <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
                 </div>
               </div>
-            </CardBody>
+            </div>
           </TabContainer>
         </SwipeableViews>
       </div>

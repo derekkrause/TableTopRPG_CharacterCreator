@@ -10,7 +10,7 @@ class FeatureList extends React.Component {
         <img
           className="img-fluid"
           style={{ backgroundSize: "cover" }}
-          src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/Capture.PNG"
+          src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/feature-image2.png"
         />
       </div>
     );

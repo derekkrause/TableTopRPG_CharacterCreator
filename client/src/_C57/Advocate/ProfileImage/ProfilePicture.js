@@ -1,9 +1,8 @@
 import React from "react";
-import "../profile/ProfileBanner.css";
-import ImageModal from "../profile/ImageModal";
-import { getProfilePic } from "../profile/ProfileServer";
+import "../../profile/ProfileBanner.css";
+import ImageModal from "./ImageModal";
 
-class ProfileImageEdit extends React.Component {
+class ProfilePicture extends React.Component {
   state = {
     updatePic: false,
     uploadMode: false,
@@ -29,26 +28,19 @@ class ProfileImageEdit extends React.Component {
     }
   };
 
-  updateProfilePic = () => {
-    getProfilePic(this.props.viewedProfileId).then(res => {
-      console.log(res);
-      let newPic = res.data.resultSets[0][0].AvatarUrl;
-      this.props.updateImage(newPic);
-    });
-  };
-
   render() {
     return (
       <React.Fragment>
-        {this.props.profileId == this.props.userId && (
-          <button
-            className="change-pic photoBtn"
-            style={{ zIndex: 1, transform: "translateX(-125px)" }}
-            onClick={this.toggleImgModal}
-          >
-            <i className="zmdi zmdi-camera-add zmdi-hc-2x text-white" />
-          </button>
-        )}
+        <div className="d-flex profileInfo img-profile justify-content-center">
+          <div style={{ width: "150px" }}>
+            <img src={this.props.profilePic} />
+            {this.props.currentUser.id == this.props.currentProfile && (
+              <button className="change-pic photoBtn" onClick={this.toggleImgModal}>
+                <i className="zmdi zmdi-camera-add zmdi-hc-2x text-white" />
+              </button>
+            )}
+          </div>
+        </div>
         <ImageModal
           images={this.state.images}
           videos={this.state.videos}
@@ -61,11 +53,11 @@ class ProfileImageEdit extends React.Component {
           changeProfilePic={this.props.changeProfilePic}
           addNewMediaToState={this.addNewMediaToState}
           updatePic={this.state.updatePic}
-          updateProfilePic={this.updateProfilePic}
+          updateProfilePic={this.props.updateProfilePic}
         />
       </React.Fragment>
     );
   }
 }
 
-export default ProfileImageEdit;
+export default ProfilePicture;
