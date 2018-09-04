@@ -1,5 +1,5 @@
 .editing {
-  transform: rotate(90deg);
+  visibility: hidden
 }
 
 .option:hover {

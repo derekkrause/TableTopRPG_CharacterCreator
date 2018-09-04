@@ -1,15 +1,18 @@
 import React from "react";
-import { connect } from "react-redux";
-import ProfileCard from "../profile/ProfileCard";
-import FollowHighlightButtons from "./FollowHighlight";
-import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
 import { FormGroup, Input } from "reactstrap";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import SchoolSearch from "./SchoolSearchByName";
-import StateSelect from "../CustomComponents/InputsDropdowns/StateOptions";
 import { getCoachById, updateCoachProfile } from "../../services/coach.service";
-import "./CoachProfile.css";
-import { MessageButton } from "../CustomComponents/Button";
+import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
 import CoachProfilePopover from "../CustomComponents/Popover/CoachProfilePopover";
+import StateSelect from "../CustomComponents/InputsDropdowns/StateOptions";
+import { MessageButton } from "../CustomComponents/Button";
+import FollowHighlightButtons from "./FollowHighlight";
+import ProfileCard from "../profile/ProfileCard";
+import ProfileImageEdit from "./ProfileImageEdit";
+import "../profile/ProfileBanner.css";
+import "./CoachProfile.css";
 
 const defaultBio =
   "A biography, or simply bio, is a detailed description of a person's life. It involves more than just the basic facts like education, work, relationships, and death; it portrays a person's experience of these life events. Unlike a profile or curriculum vitae (résumé), a biography presents a subject's life story, highlighting various aspects of his or her life, including intimate details of experience, and may include an analysis of the subject's personality.";
@@ -37,7 +40,9 @@ class CoachProfile extends React.Component {
     viewedProfileId: parseInt(this.props.match.params.id),
     editingProfile: false,
     editingBio: false,
-    popoverOpen: false,
+    popoverOpenBio: false,
+    popoverOpenProfile: false,
+    toMessaging: false,
     //EDITS
     firstNameEdit: "",
     middleNameEdit: "",
@@ -59,19 +64,30 @@ class CoachProfile extends React.Component {
     });
   };
 
-  toggle() {
-    this.setState({
-      popoverOpen: !this.state.popoverOpen
-    });
-  }
+  popoverClicked = target => {
+    if (target === "bio") {
+      this.setState({ popoverOpenBio: !this.state.popoverOpenBio, popoverOpenProfile: false });
+    } else {
+      this.setState({ popoverOpenProfile: !this.state.popoverOpenProfile, popoverOpenBio: false });
+    }
+  };
 
   editingProfile = () => {
-    this.setState({ editingProfile: !this.state.editingProfile, editingBio: false });
-    this.toggle;
+    this.setState({
+      popoverOpenProfile: false,
+      popoverOpenBio: false,
+      editingProfile: !this.state.editingProfile,
+      editingBio: false
+    });
   };
 
   editingBio = () => {
-    this.setState({ editingBio: !this.state.editingBio, editingProfile: false });
+    this.setState({
+      popoverOpenProfile: false,
+      popoverOpenBio: false,
+      editingBio: !this.state.editingBio,
+      editingProfile: false
+    });
     this.toggle;
   };
 
@@ -176,13 +192,20 @@ class CoachProfile extends React.Component {
       middleNameEdit,
       lastNameEdit,
       titleEdit,
-      popoverOpen,
-      pLoader,
       schoolNameEdit,
       cityEdit,
       stateEdit,
-      bioEdit
+      bioEdit,
+      pLoader,
+      popoverOpenBio,
+      popoverOpenProfile,
+      popoverTarget,
+      toMessaging
     } = this.state;
+
+    if (toMessaging) {
+      return <Redirect to={{ pathname: "/app/messaging", state: { id: `${viewedProfileId}` } }} />;
+    }
 
     return (
       <React.Fragment>
@@ -218,20 +241,27 @@ class CoachProfile extends React.Component {
                         WebkitTransform: "initial",
                         msTransform: "initial",
                         transform: "initial",
-                        boxShadow: "initial"
+                        boxShadow: "initial",
+                        zIndex: 0
                       }}
                     />
                     {editingProfile ? (
-                      <div className="form-group text-left d-none d-md-block">
-                        <label htmlFor="titleEdit">Title</label>
-                        <input
-                          className="form-control"
-                          name="titleEdit"
-                          defaultValue={titleEdit}
-                          placeholder="Title"
-                          onChange={this.onChange}
+                      <React.Fragment>
+                        <ProfileImageEdit
+                          viewedProfileId={viewedProfileId}
+                          updateImage={url => this.setState({ profileImage: url })}
                         />
-                      </div>
+                        <div className="form-group text-left d-none d-md-block">
+                          <label htmlFor="titleEdit">Title</label>
+                          <input
+                            className="form-control"
+                            name="titleEdit"
+                            defaultValue={titleEdit}
+                            placeholder="Title"
+                            onChange={this.onChange}
+                          />
+                        </div>
+                      </React.Fragment>
                     ) : (
                       <h2 className="my-2">
                         {/* ---TITLE--- */}
@@ -355,7 +385,11 @@ class CoachProfile extends React.Component {
                     </div>
                   ) : (
                     <div hidden={viewingUserId == viewedProfileId}>
-                      <FollowHighlightButtons profileId={viewedProfileId} userId={viewingUserId} />
+                      <FollowHighlightButtons
+                        profileId={viewedProfileId}
+                        userId={viewingUserId}
+                        toMessaging={() => this.setState({ toMessaging: true })}
+                      />
                     </div>
                   )}
                 </div>
@@ -364,19 +398,31 @@ class CoachProfile extends React.Component {
                   {viewingUserId == viewedProfileId && (
                     <React.Fragment>
                       <button
-                        className={"ash btn btn-secondary pt-2 m-0 " + (editingProfile && "editing")}
-                        onClick={this.editingProfile}
+                        className={"ash btn btn-secondary pt-2 m-0 " + ((editingProfile || editingBio) && "editing")}
+                        onClick={() => this.popoverClicked("profile")}
+                        id={"Popover-profile"}
                       >
                         <i className="zmdi zmdi-more zmdi-hc-2x" />
                       </button>
-                      <CoachProfilePopover popoverOpen={popoverOpen} />
+                      <CoachProfilePopover
+                        editing={this.editingProfile}
+                        popoverOpen={popoverOpenProfile}
+                        popoverToggle={() =>
+                          this.setState({ popoverOpenProfile: !popoverOpenProfile, popoverOpenBio: false })
+                        }
+                        popover={"profile"}
+                      />
                     </React.Fragment>
                   )}
                   {/* ---MESSAGE BUTTON FOR LAPTOPS AND LARGER--- */}
                   {editingProfile || viewingUserId == viewedProfileId ? (
                     <div />
                   ) : (
-                    <MessageButton className="d-none d-md-block jr-btn jr-btn-success btn btn-success mt-auto mb-0 mr-3" />
+                    <MessageButton
+                      margin={"d-none d-md-block mt-auto mb-0 mr-3"}
+                      style={"rs-btn-primary-light"}
+                      onClick={() => this.setState({ toMessaging: true })}
+                    />
                   )}
                 </div>
               </div>
@@ -391,13 +437,26 @@ class CoachProfile extends React.Component {
               >
                 {/* ---UPDATE BIO BUTTON--- */}
                 {viewingUserId == viewedProfileId && (
-                  <button
-                    className={"ash btn btn-secondary float-right pt-2 mr-1 " + (editingBio && "editing")}
-                    style={{ borderTopRightRadius: "inherit" }}
-                    onClick={this.editingBio}
-                  >
-                    <i className="zmdi zmdi-more zmdi-hc-2x" />
-                  </button>
+                  <React.Fragment>
+                    <button
+                      className={
+                        "ash btn btn-secondary float-right pt-2 mr-1 " + ((editingProfile || editingBio) && "editing")
+                      }
+                      style={{ borderTopRightRadius: "inherit" }}
+                      onClick={() => this.popoverClicked("bio")}
+                      id={"Popover-bio"}
+                    >
+                      <i className="zmdi zmdi-more zmdi-hc-2x" />
+                    </button>
+                    <CoachProfilePopover
+                      editing={this.editingBio}
+                      popoverOpen={popoverOpenBio}
+                      popoverToggle={() =>
+                        this.setState({ popoverOpenBio: !popoverOpenBio, popoverOpenProfile: false })
+                      }
+                      popover={"bio"}
+                    />
+                  </React.Fragment>
                 )}
                 {/* ---BIO--- */}
                 {editingBio ? (
@@ -431,15 +490,7 @@ class CoachProfile extends React.Component {
               <div className="jr-card px-0 pt-0">
                 <div className="row">
                   <div className="col-md-12">
-                    {/* <ProfileCard
-                    handleChange={this.handleChange}
-                    gpa={this.state.gpa}
-                    sat={this.state.sat}
-                    act={this.state.act}
-                    desiredMajor={this.state.desiredMajor}
-                    stats={this.state.stats}
-                    handleSaveProfile={this.handleSaveProfile}
-                  /> */}
+                    <ProfileCard />
                   </div>
                 </div>
               </div>

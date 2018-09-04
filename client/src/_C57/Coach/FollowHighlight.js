@@ -1,7 +1,7 @@
 import React from "react";
 import { followUser, selectFollowingById, unfollowUser } from "../../services/follow.service";
 import { highlightUser, unhighlightUser, selectHighlightById } from "../../services/highlight.service";
-import { MessageButton } from "../CustomComponents/Button";
+import { Button, ButtonGroup } from "reactstrap";
 
 class FollowHighlightButtons extends React.Component {
   state = {
@@ -69,6 +69,8 @@ class FollowHighlightButtons extends React.Component {
 
   render() {
     const { following, highlighting } = this.state;
+    const { profileId } = this.props;
+
     return (
       <React.Fragment>
         <div className="row mt-4 justify-content-md-start justify-content-center">
@@ -92,9 +94,9 @@ class FollowHighlightButtons extends React.Component {
             </div>
           </div>
           {/* ---BUTTONS FOR SMALL SCREENS--- */}
-          <div className="btn-group mb-md-0 d-md-none">
+          <ButtonGroup className="btn-group mb-md-0 d-md-none">
             <div
-              className="jr-btn jr-btn-sm jr-btn-default btn btn-default"
+              className="jr-btn jr-btn-sm jr-btn-default btn btn-default d-flex align-items-center justify-content-center"
               onClick={this.followUser}
               style={{ color: following && "#81c784" }}
             >
@@ -102,7 +104,7 @@ class FollowHighlightButtons extends React.Component {
               {following ? "Following" : "Follow"}
             </div>
             <div
-              className="jr-btn jr-btn-sm jr-btn-default btn btn-default"
+              className="jr-btn jr-btn-sm jr-btn-default btn btn-default d-flex align-items-center justify-content-center"
               onClick={this.highlightUser}
               style={{ color: highlighting && "#81c784" }}
             >
@@ -110,8 +112,17 @@ class FollowHighlightButtons extends React.Component {
               {highlighting ? "Highlighted" : "Highlight"}
             </div>
             {/* ---MESSAGE BUTTON ONLY VISIBLE ON SMALL SCREENS-- */}
-            <MessageButton className="jr-btn jr-btn-sm jr-btn-success btn btn-success d-md-none" />
-          </div>
+            <Button
+              className="jr-btn jr-btn-sm jr-btn-success btn btn-success d-md-none"
+              onClick={this.props.toMessaging}
+            >
+              <div className="d-flex justify-content-center align-items-center">
+                <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-lg" />
+                &nbsp;&nbsp;
+                <h4 className="mb-0"> Message</h4>
+              </div>
+            </Button>
+          </ButtonGroup>
         </div>
       </React.Fragment>
     );
