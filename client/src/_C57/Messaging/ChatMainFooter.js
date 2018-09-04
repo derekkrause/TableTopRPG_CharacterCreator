@@ -48,7 +48,7 @@ class ChatMainFooter extends React.Component {
   render() {
     const { message, handleTextChange, sendMessage, sendMessageOnEnter } = this.props;
     return (
-      <div className="chat-main-footer" style={{ position: "absolute", bottom: "0px" }}>
+      <div className="chat-main-footer" style={{ position: "relative", bottom: "0px" }}>
         <div className="d-flex flex-row align-items-center" style={{ maxHeight: "51px" }}>
           <div className="col">
             <div className="form-group">

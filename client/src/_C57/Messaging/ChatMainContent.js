@@ -7,7 +7,7 @@ class ChatMainContent extends React.Component {
     return (
       <React.Fragment>
         {author === currentUser.firstName ? (
-          <div className="d-flex flex-wrap chat-item flex-row-reverse">
+          <div className="d-flex chat-item flex-row-reverse" style={{ marginBottom: "3%", marginLeft: "3%" }}>
             <div
               className="senderBubble"
               style={{
@@ -29,13 +29,13 @@ class ChatMainContent extends React.Component {
                   {message}
                 </span>
               </div>
-              <div className="time text-right mt-2" style={{ fontSize: "10px", paddingBottom: "7%" }}>
+              <div className="time text-right mt-2" style={{ fontSize: "10px" }}>
                 {time}
               </div>
             </div>
           </div>
         ) : (
-          <div className="d-flex flex-wrap chat-item" ref={this.registerRef}>
+          <div className="d-flex chat-item" ref={this.registerRef} style={{ marginBottom: "3%", marginRight: "3%" }}>
             <img className="rounded-circle avatar size-40 align-self-end" src={senderAvatar} />
             <div
               className="recipientBubble"
@@ -49,7 +49,7 @@ class ChatMainContent extends React.Component {
                   {message}
                 </span>
               </div>
-              <div className="time text-muted text-left mt-2" style={{ fontSize: "10px", paddingBottom: "7%" }}>
+              <div className="time text-muted text-left mt-2" style={{ fontSize: "10px" }}>
                 {time}
               </div>
             </div>

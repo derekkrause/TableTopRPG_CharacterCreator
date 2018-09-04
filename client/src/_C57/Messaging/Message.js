@@ -693,186 +693,188 @@ class Message extends React.Component {
       <React.Fragment>
         <div className="app-main-content">
           <div className="app-wrapper app-wrapper-module">
-            <div className="col-6 offset-3" style={{ paddingTop: "30px", paddingBottom: "30px" }}>
-              <div className="app-module chat-module animated slideInUpTiny animation-duration-3">
-                <div className="chat-module-box">
-                  <div className="d-block d-xl-none">
-                    <Drawer
-                      touch={true}
-                      transitions={true}
-                      enableDragHandle={true}
-                      open={drawerState}
-                      onOpenChange={this.onChatToggleDrawer}
-                      sidebar={this.showSideNav()}
-                    />
-                  </div>
+            <div className="row justify-content-center">
+              <div className="col-xs-6 col-md-10 col-lg-7" style={{ paddingTop: "30px", paddingBottom: "30px" }}>
+                <div className="app-module chat-module animated slideInUpTiny animation-duration-3">
+                  <div className="chat-module-box">
+                    <div className="d-block d-xl-none">
+                      <Drawer
+                        touch={true}
+                        transitions={true}
+                        enableDragHandle={true}
+                        open={drawerState}
+                        onOpenChange={this.onChatToggleDrawer}
+                        sidebar={this.showSideNav()}
+                      />
+                    </div>
 
-                  <div className="chat-sidenav d-none d-xl-flex">
-                    <SideBar
-                      recipient={recipient}
-                      handleChange={this.handleChange}
-                      activeUsers={activeUsers}
-                      userSearch={userSearch}
-                      changeRecipient={this.changeRecipient}
-                      currentChats={currentChats}
-                      updateChatId={this.updateChatId}
-                      activeChatId={activeChatId}
-                      recipientSocketId={recipientSocketId}
-                      handleResetUnseenMessages={this.handleResetUnseenMessages}
-                      messageContacts={messageContacts}
-                      resetDrawer={this.resetDrawer}
-                    />
-                  </div>
+                    <div className="chat-sidenav d-none d-xl-flex">
+                      <SideBar
+                        recipient={recipient}
+                        handleChange={this.handleChange}
+                        activeUsers={activeUsers}
+                        userSearch={userSearch}
+                        changeRecipient={this.changeRecipient}
+                        currentChats={currentChats}
+                        updateChatId={this.updateChatId}
+                        activeChatId={activeChatId}
+                        recipientSocketId={recipientSocketId}
+                        handleResetUnseenMessages={this.handleResetUnseenMessages}
+                        messageContacts={messageContacts}
+                        resetDrawer={this.resetDrawer}
+                      />
+                    </div>
 
-                  <div className="chat-box">
-                    <div className="chat-main" style={{ height: "100%" }}>
-                      <div className="chat-main-header">
-                        <span className="icon-btn d-block d-xl-none chat-btn" onClick={this.handleDrawerState}>
-                          <i className="zmdi zmdi-comment-text" />
-                        </span>
-                        {pageHasLoaded && (
-                          <ChatMainHeader
-                            recipientAvatar={recipientAvatar}
-                            recipientName={recipientName}
-                            recipientUserId={recipientUserId}
-                            recipientSocketId={recipientSocketId}
-                            messagesToShow={messagesToShow}
-                            activeUsers={activeUsers}
-                            activeChatId={activeChatId}
+                    <div className="chat-box">
+                      <div className="chat-main" style={{ height: "100%" }}>
+                        <div className="chat-main-header">
+                          <span className="icon-btn d-block d-xl-none chat-btn" onClick={this.handleDrawerState}>
+                            <i className="zmdi zmdi-comment-text" />
+                          </span>
+                          {pageHasLoaded && (
+                            <ChatMainHeader
+                              recipientAvatar={recipientAvatar}
+                              recipientName={recipientName}
+                              recipientUserId={recipientUserId}
+                              recipientSocketId={recipientSocketId}
+                              messagesToShow={messagesToShow}
+                              activeUsers={activeUsers}
+                              activeChatId={activeChatId}
+                            />
+                          )}
+                        </div>
+                        <div
+                          className="chat-list-scroll scrollbar customClass"
+                          style={{
+                            position: "relative",
+                            width: "100%"
+                          }}
+                        >
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "0px",
+                              left: "0px",
+                              right: "0px",
+                              bottom: "0px",
+                              overflowY: "scroll"
+                            }}
+                            ref={this.acceptScroll}
+                          >
+                            <div className="chat-main-content">
+                              {messages.map(message => (
+                                <ChatMainContent
+                                  key={message.messageKey}
+                                  message={message.message}
+                                  author={message.author}
+                                  currentUser={currentUser}
+                                  time={message.time}
+                                  senderAvatar={message.avatar}
+                                  scrollToBottom={this.scrollToBottom}
+                                />
+                              ))}
+                              {isTyping && (
+                                <div className="d-flex flex-nowrap chat-item">
+                                  <img className="rounded-circle avatar size-40 align-self-end" src={recipientAvatar} />
+
+                                  <div className="message">
+                                    <div className="typing-indicator" style={{ marginLeft: "16px" }}>
+                                      <span />
+                                      <span />
+                                      <span />
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            <InfiniteScroll
+                              onVisible={this.handleScrolledToBottom}
+                              notVisible={this.handleScrollChecker}
+                            />
+                            {/* scrolling does not work accurately in Microsoft Edge */}
+                            <div key="scroller" style={{ float: "left", clear: "both" }} ref={this.acceptScrollerRef} />
+                          </div>
+                          <div className="track-horizontal" style={{ display: "none" }}>
+                            <div
+                              style={{
+                                position: "relative",
+                                display: "block",
+                                height: "100%",
+                                cursor: "pointer",
+                                borderRadius: "inherit",
+                                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                                width: "0px"
+                              }}
+                            />
+                          </div>
+                          <div
+                            style={{
+                              position: "absolute",
+                              width: "6px",
+                              transition: "opacity 200ms",
+                              opacity: "0",
+                              right: "2px",
+                              bottom: "2px",
+                              top: "2px",
+                              borderRadius: "3px"
+                            }}
+                          >
+                            <div
+                              style={{
+                                position: "relative",
+                                display: "block",
+                                width: "100%",
+                                cursor: "pointer",
+                                borderRadius: "inherit",
+                                backgroundColor: "rgba(0, 0, 0, 0.2)",
+                                height: "133px",
+                                transform: "translateY(0px)"
+                              }}
+                            />
+                          </div>
+                        </div>
+                        {showMessages && (
+                          <div className="row" style={{ margin: "0 auto", justifyContent: "center" }}>
+                            <button
+                              className="col-md-4 d-flex align-items-center badge badge-pill text-white boxShadow"
+                              style={{
+                                position: "absolute",
+                                zIndex: "5",
+                                opacity: "0.7",
+                                justifyContent: "center",
+                                backgroundColor: "#0648a5",
+                                fontSize: "100%",
+                                paddingTop: "1%",
+                                paddingBottom: "1%",
+                                bottom: "90px"
+                              }}
+                              onClick={this.forceScrollToBottom}
+                            >
+                              <i className="zmdi zmdi-long-arrow-down zmdi-hc-fw" />
+                              New Messages
+                            </button>
+                          </div>
+                        )}
+                        {recipientName && (
+                          <ChatMainFooter
+                            sendMessage={this.sendMessage}
+                            sendMessageOnEnter={this.sendMessageOnEnter}
+                            message={this.state.message}
+                            handleTextChange={this.handleTextChange}
+                            sendTyping={this.sendTyping}
+                          />
+                        )}
+                        {this.state.alert && (
+                          <SweetAlert
+                            warning
+                            confirmBtnText="Okay"
+                            confirmBtnBsStyle="danger"
+                            cancelBtnBsStyle="default"
+                            title="Please Refrain From Spamming!"
+                            onConfirm={this.hideAlert}
                           />
                         )}
                       </div>
-                      <div
-                        className="chat-list-scroll scrollbar customClass"
-                        style={{
-                          position: "relative",
-                          width: "100%"
-                        }}
-                      >
-                        <div
-                          style={{
-                            position: "absolute",
-                            top: "0px",
-                            left: "0px",
-                            right: "0px",
-                            bottom: "0px",
-                            overflowY: "scroll"
-                          }}
-                          ref={this.acceptScroll}
-                        >
-                          <div className="chat-main-content">
-                            {messages.map(message => (
-                              <ChatMainContent
-                                key={message.messageKey}
-                                message={message.message}
-                                author={message.author}
-                                currentUser={currentUser}
-                                time={message.time}
-                                senderAvatar={message.avatar}
-                                scrollToBottom={this.scrollToBottom}
-                              />
-                            ))}
-                            {isTyping && (
-                              <div className="d-flex flex-nowrap chat-item">
-                                <img className="rounded-circle avatar size-40 align-self-end" src={recipientAvatar} />
-
-                                <div className="message">
-                                  <div className="typing-indicator" style={{ marginLeft: "16px" }}>
-                                    <span />
-                                    <span />
-                                    <span />
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          <InfiniteScroll
-                            onVisible={this.handleScrolledToBottom}
-                            notVisible={this.handleScrollChecker}
-                          />
-                          {/* scrolling does not work accurately in Microsoft Edge */}
-                          <div key="scroller" style={{ float: "left", clear: "both" }} ref={this.acceptScrollerRef} />
-                        </div>
-                        <div className="track-horizontal" style={{ display: "none" }}>
-                          <div
-                            style={{
-                              position: "relative",
-                              display: "block",
-                              height: "100%",
-                              cursor: "pointer",
-                              borderRadius: "inherit",
-                              backgroundColor: "rgba(0, 0, 0, 0.2)",
-                              width: "0px"
-                            }}
-                          />
-                        </div>
-                        <div
-                          style={{
-                            position: "absolute",
-                            width: "6px",
-                            transition: "opacity 200ms",
-                            opacity: "0",
-                            right: "2px",
-                            bottom: "2px",
-                            top: "2px",
-                            borderRadius: "3px"
-                          }}
-                        >
-                          <div
-                            style={{
-                              position: "relative",
-                              display: "block",
-                              width: "100%",
-                              cursor: "pointer",
-                              borderRadius: "inherit",
-                              backgroundColor: "rgba(0, 0, 0, 0.2)",
-                              height: "133px",
-                              transform: "translateY(0px)"
-                            }}
-                          />
-                        </div>
-                      </div>
-                      {showMessages && (
-                        <div className="row" style={{ margin: "0 auto", justifyContent: "center" }}>
-                          <button
-                            className="col-md-4 d-flex align-items-center badge badge-pill text-white boxShadow"
-                            style={{
-                              position: "absolute",
-                              zIndex: "5",
-                              opacity: "0.7",
-                              justifyContent: "center",
-                              backgroundColor: "#0648a5",
-                              fontSize: "100%",
-                              paddingTop: "1%",
-                              paddingBottom: "1%",
-                              bottom: "90px"
-                            }}
-                            onClick={this.forceScrollToBottom}
-                          >
-                            <i className="zmdi zmdi-long-arrow-down zmdi-hc-fw" />
-                            New Messages
-                          </button>
-                        </div>
-                      )}
-                      {recipientName && (
-                        <ChatMainFooter
-                          sendMessage={this.sendMessage}
-                          sendMessageOnEnter={this.sendMessageOnEnter}
-                          message={this.state.message}
-                          handleTextChange={this.handleTextChange}
-                          sendTyping={this.sendTyping}
-                        />
-                      )}
-                      {this.state.alert && (
-                        <SweetAlert
-                          warning
-                          confirmBtnText="Okay"
-                          confirmBtnBsStyle="danger"
-                          cancelBtnBsStyle="default"
-                          title="Please Refrain From Spamming!"
-                          onConfirm={this.hideAlert}
-                        />
-                      )}
                     </div>
                   </div>
                 </div>

@@ -586,6 +586,7 @@ class MainPage extends React.Component {
                   <div className="col  ">
                     {this.state.athletes.map((athlete, i) => (
                       <Card
+                        athleteUserId={athlete.AthleteUserId}
                         currentUser={this.props.currentUser.id}
                         key={athlete.Id}
                         schoolName={athlete.SchoolName}
