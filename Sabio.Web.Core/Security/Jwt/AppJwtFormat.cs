@@ -54,9 +54,15 @@ namespace Sabio.Web.Core.Security.Jwt
 
         AuthenticationTicket ISecureDataFormat<AuthenticationTicket>.Unprotect(string protectedText)
         {
-            AuthenticationTicket tic = base.Unprotect(protectedText); ;//; AuthenticationTicket(claimsIdentity, authenticationProperties);
-
-            return tic;
+            try
+            {
+                AuthenticationTicket tic = base.Unprotect(protectedText); ;//; AuthenticationTicket(claimsIdentity, authenticationProperties);
+                return tic;
+            }
+            catch (SecurityTokenException) // this seems to be a good base class to catch the errors we want
+            {
+                return null;
+            }
         }
     }
 }
