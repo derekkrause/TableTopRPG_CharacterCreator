@@ -34,8 +34,7 @@ class TopNav extends React.Component {
     }
   };
 
-  scrollToRegForm = e => {
-    e.preventDefault();
+  scrollToRegForm = () => {
     document.getElementById('regFormRef').scrollIntoView({block: 'start', behavior: 'smooth' });
   };
 
@@ -65,7 +64,7 @@ class TopNav extends React.Component {
                 </picture>
               </Link>
             </div>
-            <a href='#' className="mb-0 ml-auto d-md-none text-white" onClick={e => this.scrollToRegForm(e)}>
+            <a href='#' className="mb-0 ml-auto d-md-none text-white" onClick={this.scrollToRegForm}>
               Login/Register
             </a>
             <div className="d-none d-md-block">
