@@ -47,7 +47,7 @@ class AthleteSearchResults extends React.Component {
         ).map(athlete => (
           <div key={athlete.athleteId} className="user-list row card" style={{ borderLeft: "solid 8px blue" }}>
             <div className="container ">
-              <div className="row ">
+              <div className="row col-12">
                 <div className="col-md-3">
                   <img className="myAvatar" src={athlete.avatarUrl} alt="..." />
                 </div>

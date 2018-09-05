@@ -64,6 +64,7 @@
     <Compile Include="Domain\Blog.cs" />
     <Compile Include="Domain\ClassYear.cs" />
     <Compile Include="Domain\CoachProfile.cs" />
+    <Compile Include="Domain\CoachSearch.cs" />
     <Compile Include="Domain\DropDownClassYear.cs" />
     <Compile Include="Domain\DropDownSport.cs" />
     <Compile Include="Domain\DropDownSportPosition.cs" />
