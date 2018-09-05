@@ -221,7 +221,7 @@ class UserRegistrationForm extends React.Component {
         <NotificationContainer />
         <div className="login-content">
           <div className="login-header text-center">
-            <a className="app-logo" title="RecruitHub" href="#">
+            <a className="app-logo" title="RecruitHub" href="#" id='regFormRef'>
               <img
                 src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo_green.png"
                 alt="RecruitHub"

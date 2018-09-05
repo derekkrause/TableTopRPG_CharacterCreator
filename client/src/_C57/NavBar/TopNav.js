@@ -34,9 +34,10 @@ class TopNav extends React.Component {
     }
   };
 
-scrollToRegForm = () => {
-  //do something;
-}
+  scrollToRegForm = e => {
+    e.preventDefault();
+    document.getElementById('regFormRef').scrollIntoView({block: 'start', behavior: 'smooth' });
+  };
 
   popdown = () => {
     this.setState({ isOpen: !this.state.isOpen });
@@ -64,7 +65,7 @@ scrollToRegForm = () => {
                 </picture>
               </Link>
             </div>
-            <a href="#" className="mb-0 ml-auto d-md-none text-white" onClick={this.scrollToRegForm}>
+            <a href='#' className="mb-0 ml-auto d-md-none text-white" onClick={e => this.scrollToRegForm(e)}>
               Login/Register
             </a>
             <div className="d-none d-md-block">
