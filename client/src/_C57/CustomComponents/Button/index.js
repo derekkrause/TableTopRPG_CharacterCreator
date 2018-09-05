@@ -240,6 +240,14 @@ const SaveProfileButton = props => {
   );
 };
 
+const FollowerCountButton = props => {
+  return (
+    <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn" onClick={props.onClick}>
+      {props.followerText}
+    </button>
+  );
+};
+
 export {
   SaveButton,
   CancelButton,
@@ -262,6 +270,7 @@ export {
   FollowButton,
   HighlightButton,
   SaveProfileButton,
+  FollowerCountButton,
   FollowOnButton,
   HighlightOnButton
 };

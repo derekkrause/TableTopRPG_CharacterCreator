@@ -15,24 +15,31 @@ import {
   HighlightOnButton
 } from "../CustomComponents/Button";
 import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
-import ProfileLinksModal from "./ProfileLinksModal";
+import ProfileLinksModal from "./Modals/ProfileLinksModal";
 import { connect } from "react-redux";
+import FollowerModal from "./Modals/FollowerModal";
 import { NavLink, withRouter } from "react-router-dom";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import { getContacts } from "../../services/message.service";
 import { Tooltip } from "reactstrap";
-import { NotificationManager, NotificationContainer } from "react-notifications";
 import StateOptions from "../CustomComponents/InputsDropdowns/StateOptions";
+import { Badge } from "reactstrap";
 import { getAdvoListByAthleteId } from "../../services/advocate.service";
 import VerifyListModal from "./Modals/VerifyListModal";
+import HighlightListModal from "./Modals/HighlightListModal";
 
 class ProfileInfo extends React.Component {
   state = {
     editMode: false,
     schoolName: "",
-    statsModal: false,
+    linksModal: false,
+    followerModal: false,
+    highlightModal: false,
     everyThing: {},
     prevPropsEveryThing: {},
     showMessageButton: false,
+    followerLength: 0,
+    highlightLength: 0,
     showToolTip: false,
     verification: [],
     verifyModal: false
@@ -66,6 +73,18 @@ class ProfileInfo extends React.Component {
     });
   };
 
+  grabFollowerLength = length => {
+    this.setState({
+      followerLength: length
+    });
+  };
+
+  grabHighlightLength = length => {
+    this.setState({
+      highlightLength: length
+    });
+  };
+
   bundleProfileInfo = e => {
     e.preventDefault();
     const profileInfo = this.state.everyThing;
@@ -86,13 +105,6 @@ class ProfileInfo extends React.Component {
       editMode: false
     });
     this.props.handleSaveProfile();
-  };
-
-  toggleModal = () => {
-    console.log("clicked");
-    this.setState({
-      statsModal: !this.state.statsModal
-    });
   };
 
   handleChange = e => {
@@ -133,6 +145,24 @@ class ProfileInfo extends React.Component {
     );
   };
 
+  toggleLinks = () => {
+    this.setState({
+      linksModal: !this.state.linksModal
+    });
+  };
+
+  toggleFollowerModal = () => {
+    this.setState({
+      followerModal: !this.state.followerModal
+    });
+  };
+
+  toggleHighlightModal = () => {
+    this.setState({
+      highlightModal: !this.state.highlightModal
+    });
+  };
+
   toggle() {
     this.setState({
       showToolTip: !this.state.showToolTip
@@ -167,7 +197,6 @@ class ProfileInfo extends React.Component {
       });
   };
 
-  // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     const { currentPageId } = this.props;
     const { showMessageButton, verification, showToolTip } = this.state;
@@ -254,6 +283,19 @@ class ProfileInfo extends React.Component {
                         </h3>
                       )}
                     </div>
+                    {this.props.currentUser.id != this.props.currentPageId && (
+                      <React.Fragment>
+                        <div className="row">
+                          <div onClick={this.toggleFollowerModal} className="col-2">
+                            Followers <Badge color="default">{this.state.followerLength}</Badge>
+                          </div>
+                          <div onClick={this.toggleHighlightModal} className="col-2">
+                            Highlights <Badge color="default">{this.state.highlightLength}</Badge>
+                          </div>
+                        </div>
+                      </React.Fragment>
+                    )}
+
                     <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0">
                       <div role="group" className="btn-group mt-3 mt-sm-3 mt-md-3 mt-lg-0">
                         {this.props.currentUser.id != this.props.currentPageId ? (
@@ -292,13 +334,32 @@ class ProfileInfo extends React.Component {
                             )}
                           </React.Fragment>
                         ) : (
-                          <div />
+                          <React.Fragment>
+                            <button
+                              className="jr-btn-default btn btn-default py-10 profileInfoBtn"
+                              onClick={this.toggleFollowerModal}
+                            >
+                              Followers
+                              <Badge color="default" className="mb-0">
+                                {this.state.followerLength}
+                              </Badge>
+                            </button>
+                            <button
+                              className="jr-btn-default btn btn-default py-10 profileInfoBtn"
+                              onClick={this.toggleHighlightModal}
+                            >
+                              Highlights
+                              <Badge color="default" className="mb-0">
+                                {this.state.highlightLength}
+                              </Badge>
+                            </button>
+                          </React.Fragment>
                         )}
                       </div>
 
-                      <div className="col-md-2" />
-                      <div className="text-right col-md-6">
-                        <StatsButton onClick={this.toggleModal} />
+                      <div className="d-flex justify-content-end mt-3 mt-sm-3 mt-md-3 mt-lg-0 mb-0">
+                        <StatsButton className="mb-0 mr-2" style="rs-btn-primary-light" onClick={this.toggleLinks} />
+
                         {showMessageButton ? (
                           <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
                             <MessageButton />
@@ -319,15 +380,6 @@ class ProfileInfo extends React.Component {
                             </Tooltip>
                           </span>
                         )}
-
-                        <ProfileLinksModal
-                          statsModal={this.state.statsModal}
-                          userId={this.props.userId}
-                          toggle={this.toggleModal}
-                          currentProfile={this.props.currentProfile}
-                          style={{ position: "static" }}
-                          currentPageId={this.props.currentPageId}
-                        />
                       </div>
                     </div>
                   </React.Fragment>
@@ -487,6 +539,26 @@ class ProfileInfo extends React.Component {
             </form>
           </React.Fragment>
         )}
+        <FollowerModal
+          followerModal={this.state.followerModal}
+          toggleFollowerModal={this.toggleFollowerModal}
+          grabFollowerLength={this.grabFollowerLength}
+          currentPageId={this.props.currentPageId}
+        />
+        <HighlightListModal
+          highlightModal={this.state.highlightModal}
+          toggleHighlightModal={this.toggleHighlightModal}
+          grabHighlightLength={this.grabHighlightLength}
+          currentPageId={this.props.currentPageId}
+        />
+        <ProfileLinksModal
+          linksModal={this.state.linksModal}
+          userId={this.props.userId}
+          toggleLinks={this.toggleLinks}
+          currentProfile={this.props.currentProfile}
+          style={{ position: "static" }}
+          currentPageId={this.props.currentPageId}
+        />
       </div>
     );
   }

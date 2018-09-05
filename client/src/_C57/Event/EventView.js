@@ -414,11 +414,11 @@ class EventView extends Component {
         {/* Begin content */}
         <div className="app-wrapper">
           <div className="animated slideInUpTiny animation-duration-3">
-            <div className="box">
-              <div className="flex-title">
+            <div className="row">
+              <div className="col-lg-12 col-md-12 col-xs-12">
                 {/* Event Title card */}
                 <div className="jr-card">
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex flex-wrap justify-content-between">
                     <div className="flex-item">
                       <h4 className="text-muted">{new Date(this.state.startDate).toDateString()}</h4>
                       <h3 className="card-title my-2">{this.state.name}</h3>
@@ -429,7 +429,7 @@ class EventView extends Component {
                       <p className="h4 text-muted">{this.state.shortName}</p>
                       <p className="h4 text-muted">Event Type: {this.state.eventTypeItem.name}</p>
                       <p className="h4 text-muted">
-                        <a href={this.state.websiteUrl} target="_blank">
+                        <a href={this.state.websiteUrl} target="_blank" style={{ wordBreak: "break-all" }}>
                           {this.state.websiteUrl}
                         </a>
                       </p>
@@ -450,9 +450,32 @@ class EventView extends Component {
                 </div>
               </div>
             </div>
-            <div className="box box-two">
+            <div className="row d-flex" style={{ flexWrap: "wrap-reverse" }}>
               {/* Event Date card */}
-              <div className="flex-one">
+              <div className="col-lg-8">
+                {/* Event Logo card */}
+                <CardLayout>
+                  <img
+                    className="card-img-top"
+                    // src="http://via.placeholder.com/500x330"
+                    src={this.state.logo}
+                    alt="Card image cap"
+                  />
+                </CardLayout>
+                <div className="jr-card">
+                  <h3 className="card-title my-2">Description</h3>
+                  <p className="h4 text-muted">{this.state.description}</p>
+                </div>
+                <div className="jr-card">
+                  <h4 className="text-muted">Attendees</h4>
+                  {eventId &&
+                    createdBy &&
+                    attendeesList.length !== 0 && (
+                      <EventAttendeesList eventId={eventId} createdBy={createdBy} attendees={attendeesList} />
+                    )}
+                </div>
+              </div>
+              <div className="col-lg-4 flex-two">
                 <div className="jr-card">
                   <h3>Start Date: {new Date(this.state.startDate).toDateString()}</h3>
                   <h3>End Date: {new Date(this.state.endDate).toDateString()}</h3>
@@ -475,29 +498,6 @@ class EventView extends Component {
                       mapElement={<div className="embed-responsive-item" />}
                     />
                   </div>
-                </div>
-              </div>
-              <div className="flex-two">
-                {/* Event Logo card */}
-                <CardLayout styleName="col-lg-6">
-                  <img
-                    className="card-img-top"
-                    // src="http://via.placeholder.com/500x330"
-                    src={this.state.logo}
-                    alt="Card image cap"
-                  />
-                </CardLayout>
-                <div className="jr-card">
-                  <h3 className="card-title my-2">Description</h3>
-                  <p className="h4 text-muted">{this.state.description}</p>
-                </div>
-                <div className="jr-card">
-                  <h4 className="text-muted">Attendees</h4>
-                  {eventId &&
-                    createdBy &&
-                    attendeesList.length !== 0 && (
-                      <EventAttendeesList eventId={eventId} createdBy={createdBy} attendees={attendeesList} />
-                    )}
                 </div>
               </div>
             </div>
