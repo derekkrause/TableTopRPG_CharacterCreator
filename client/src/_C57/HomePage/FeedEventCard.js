@@ -6,7 +6,7 @@ const FeedEventCard = props => {
   const { name, organizer, description, id, logo, startDate, endDate } = props.data.itemData;
 
   return (
-    <div className="d-sm-flex flex-sm-row jr-card pr-2" style={{ borderLeft: "8px solid pink" }}>
+    <div className="d-sm-flex flex-sm-row jr-card pr-2" style={{ borderLeft: "8px solid #795548" }}>
       <div className="col-md-3 col-sm-3 col-12 px-0">
         <img className="img-fluid event-mini-card-img mb-3 mb-md-0 rounded" src={logo} alt="..." />
       </div>

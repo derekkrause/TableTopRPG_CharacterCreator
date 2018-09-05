@@ -13,5 +13,5 @@ export function postAthleteTargetSport(payload) {
 }
 
 export function deleteAthleteTargetSport(id) {
-  return axios.post("/node-api/server.js/athleteTargetSport/" + id);
+  return axios.delete("/node-api/server.js/athleteTargetSport/" + id);
 }

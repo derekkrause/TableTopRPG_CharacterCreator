@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Popover, PopoverHeader, PopoverBody } from "reactstrap";
 
-export default class AthleteTeamPopover extends React.Component {
+export default class AthleteTargetSportPopover extends React.Component {
   constructor(props) {
     super(props);
 
@@ -51,7 +51,7 @@ export default class AthleteTeamPopover extends React.Component {
   render() {
     return (
       <div>
-        <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash p-0">
+        <Button id={"Popover-" + this.props.popover} onClick={this.toggle} className="ash">
           <i className="zmdi zmdi-more zmdi-hc-2x" />
         </Button>
         <Popover

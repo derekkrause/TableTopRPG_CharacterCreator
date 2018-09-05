@@ -31,7 +31,7 @@ class ProfilePicture extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="d-flex profileInfo img-profile justify-content-center">
+        <div className="d-flex profileInfo justify-content-center">
           <div style={{ width: "150px" }}>
             <img src={this.props.profilePic} />
             {this.props.currentUser.id == this.props.currentProfile && (

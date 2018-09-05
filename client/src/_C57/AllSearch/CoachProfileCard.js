@@ -28,8 +28,7 @@ class CoachProfileCard extends Component {
     return (
       <div
         key={coach.coachId}
-        className="d-sm-flex flex-sm-row jr-card pr-2 pb-4 pb-md-2 justify-content-between"
-        style={{ borderLeft: "8px solid #f44336" }}
+        className="d-sm-flex flex-sm-row jr-card pr-2 pb-4 pb-md-2 justify-content-between coachtag"
       >
         <div className="col-md-3 col-sm-3 col-12 px-0 text-center">
           <img className="myAvatar" src={coach.avatarUrl} alt="..." />

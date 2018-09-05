@@ -31,7 +31,6 @@ class AddSportHistory extends React.Component {
 
   onSportPositionIdChange = sportPositionIds => {
     this.setState({ sportPositionId: sportPositionIds });
-    console.log("WOAHHHH");
   };
 
   handleOptionChange = changeEvent => {

@@ -45,7 +45,7 @@ class AthleteSearchResults extends React.Component {
         {this.state.Athletes.filter(athlete =>
           athlete.sportInfo.some(sp => sp.Id == this.props.searchCriteria.sportFilter)
         ).map(athlete => (
-          <div key={athlete.athleteId} className="user-list row card" style={{ borderLeft: "solid 8px blue" }}>
+          <div key={athlete.athleteId} className="user-list row card playertag">
             <div className="container ">
               <div className="row col-12">
                 <div className="col-md-3">

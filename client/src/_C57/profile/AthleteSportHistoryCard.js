@@ -334,13 +334,13 @@ class AthleteSportHistoryCard extends React.Component {
             )}
             <span className="body">
               <div>
-                <div className="d-flex justify-content-center pb-2">
+                <div className="d-flex justify-content-center py-2">
                   <span>Current Sport: {sportName}</span>
                 </div>
                 <div className="row">
                   <div className="col-md-12 mb-3">
                     <div className="form-group">
-                      <label>Sport Name</label>
+                      <label>Sport Options</label>
                       <select
                         className="form-control form-control-md"
                         type="text"
@@ -530,9 +530,9 @@ class AthleteSportHistoryCard extends React.Component {
                     <div>
                       <h3>
                         {classYear} &nbsp;
-                        <strong>(</strong>
-                        {sportLevel}
-                        <strong>)</strong>
+                      <strong>(</strong>
+                      {sportLevel}
+                      <strong>)</strong>
                       </h3>
                     </div>
                   </div>
