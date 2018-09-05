@@ -65,10 +65,10 @@ class HomePage extends React.Component {
   render() {
     const { articleTitle, eventTitle, events, schools, athletes, coaches } = this.state;
     return (
-      <div className="app-wrapper d-flex justify-content-center">
+      <div className="app-wrapper container">
         <div className="animated slideInUpTiny animation-duration home-main">
           <div className="row justify-content-center">
-            <div className="col-sm-10">
+            <div className="col-12 col-sm-11 col-md-10">
               <div className="row justify-content-center">
                 {/* <Route exact path={`${this.props.match.url}`} render={props => <EventsListView {...props} />} /> */}
                 <div className="col-md-8 col-sm-7 col-12 animation slideInRight order-md-1 order-2">

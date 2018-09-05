@@ -202,7 +202,7 @@ class FeedHome extends React.Component {
   render() {
     return (
       <div
-        className="row px-sm-0 px-3"
+        className=""
         ref={node => {
           this.node = node;
         }}
