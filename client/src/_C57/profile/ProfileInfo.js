@@ -289,7 +289,7 @@ class ProfileInfo extends React.Component {
                         </h3>
                       )}
                     </div>
-                    {this.props.currentUser.id != this.props.currentPageId && (
+                    {/* {this.props.currentUser.id != this.props.currentPageId && (
                       <React.Fragment>
                         <div className="row justify-content-center justify-content-md-start">
                           <div onClick={this.toggleFollowerModal} className="d-flex mr-4 ">
@@ -306,7 +306,7 @@ class ProfileInfo extends React.Component {
                           </div>
                         </div>
                       </React.Fragment>
-                    )}
+                    )} */}
 
                     <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0 mb-4">
                       <div role="group" className="btn-group mt-3 mt-sm-3 mt-md-3 mt-lg-0">

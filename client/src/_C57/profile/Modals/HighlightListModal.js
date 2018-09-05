@@ -66,7 +66,7 @@ class HighlightListModal extends React.Component {
             <div>
               {this.state.highlightInfo && (
                 <React.Fragment>
-                  <table>
+                  <table style={{ width: "100%" }}>
                     <tbody>
                       {this.state.highlightInfo.map(info => (
                         <tr key={info.UserId}>
@@ -80,14 +80,14 @@ class HighlightListModal extends React.Component {
                               </div>
                             </NavLink>
                           </td>
-                          <td>
+                          <td className="float-right">
                             {info.HighlightingThem ? (
                               <button className="btn" type="button" onClick={() => this.handleUnhighlight(info.UserId)}>
-                                UnHighlight
+                                UNHIGHLIGHT
                               </button>
                             ) : (
                               <button className="btn" type="button" onClick={() => this.handleHighlight(info.UserId)}>
-                                Highlight
+                                HIGHLIGHT
                               </button>
                             )}
                           </td>
