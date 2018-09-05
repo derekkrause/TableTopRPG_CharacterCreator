@@ -24,9 +24,10 @@ namespace Sabio.Web.Controllers
             this.advocateService = advocateService;
         }
 
-        [Route("{advocateUserId:int}"), HttpGet]
-        public HttpResponseMessage AdvocateSelectById(int advocateUserId)
+        [Route("{advocateId:int}"), HttpGet]
+        public HttpResponseMessage AdvocateSelectById(int advocateId)
         {
+            int advocateUserId = User.Identity.GetId().Value;
             ItemResponse<Advocate> itemResponse = advocateService.SelectAdvocateById(advocateUserId);
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
 
@@ -62,17 +63,17 @@ namespace Sabio.Web.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "User not authorized to make changes to this profile.");
             }
 
-            if (advocateUpdate == null)
+            else if (advocateUpdate == null)
             {
                 ModelState.AddModelError("", "Data is null");
             }
 
-            else if (advocateId != advocateUpdate.Id)
+            else if (advocateId != advocateUpdate.UserId)
             {
                 ModelState.AddModelError("Id", "Id does not match");
             }
 
-            if (!ModelState.IsValid)
+            else if (!ModelState.IsValid)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
             }

@@ -150,7 +150,7 @@ class AllSearch extends Component {
           if (item.type === "Coach") {
             return (
               <div>
-                <CoachProfileCard data={newData} key={item.idInTable + item.relevanceRanking} />;
+                <CoachProfileCard data={newData} key={item.idInTable + item.relevanceRanking} />
               </div>
             );
           }

@@ -13,6 +13,7 @@ const athleteTagsRoutes = require("./athleteTags.routes");
 const coachesRoutes = require("./coaches.routes");
 const configRoutes = require("./config.routes");
 const conferencesRoutes = require("./conferences.routes");
+const currentSportSettingRoutes = require("./currentSportSetting.routes");
 const schoolsRoutes = require("./schools.routes");
 const profilesRoutes = require("./profiles.routes");
 const mediaRoutes = require("./media.routes");
@@ -32,15 +33,16 @@ const testRoutes = require("./test.routes");
 const validateUser = require("../filters/validate.user");
 const { userFromJWTFilter } = require("../filters/jwt.user");
 const messagesRoutes = require("./messages.routes");
-const venuesRoutes = require("./venues.routes");
 const userFromJWT = require("../filters/jwt.user");
 const coachAthleteRoutes = require("./coachAthlete.routes");
 const coachAthleteLogRoutes = require("./coachAthleteLog.routes");
 const coachAthleteTagRoutes = require("./coachAthleteTag.routes");
 const coachTagsRoutes = require("./coachTags.routes");
 const athleteSearchRoutes = require("./athleteSearch.routes");
-const stripeRoutes = require("./stripe.routes.js");
+const notificationSettingRoutes = require("./notificationSetting.routes");
 const userRoutes = require("./user.routes");
+const venuesRoutes = require("./venues.routes");
+const stripeRoutes = require("./stripe.routes.js");
 const stripeAuthRoutes = require("./stripeAuth.routes");
 
 module.exports = router;
@@ -62,6 +64,8 @@ router.use("/coachAthleteLog", coachAthleteLogRoutes);
 router.use("/coachAthleteTag", coachAthleteTagRoutes);
 router.use("/coachAthlete", coachAthleteRoutes);
 router.use("/coachTags", coachTagsRoutes);
+
+router.use("/notifications", notificationsRoutes);
 
 router.use("/profile", profilesRoutes);
 router.use("/media", mediaRoutes);
@@ -96,6 +100,9 @@ router.use("/venues", venuesRoutes);
 
 router.use(userFromJWTFilter);
 router.use(validateUser);
+router.use("/changepassword", userRoutes);
 router.use("/messages", messagesRoutes);
+router.use("/notificationsetting", notificationSettingRoutes);
+router.use("/users", currentSportSettingRoutes);
 router.use("/api/test", testRoutes); // TODO: remove this before delivery to the client
 router.use("/api/stripe", stripeAuthRoutes);

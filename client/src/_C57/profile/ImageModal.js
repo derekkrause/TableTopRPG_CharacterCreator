@@ -6,11 +6,13 @@ import ImageSettings from "./ImageSettings";
 import { deleteMedia, postMedia } from "./ProfileServer";
 import "react-image-crop/dist/ReactCrop.css";
 import "./ProfileBanner.css";
+import "./ImageModal.css";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MultiFileUploader from "../CustomComponents/FileUploader/MultiFileUploader";
 import FileUploader from "../CustomComponents/FileUploader/FileUploader";
 import ProgressIndicator from "../CustomComponents/ProgressIndicator/ProgressIndicator";
+import { CSSTransition } from "react-transition-group";
 
 class ImageModal extends React.Component {
   state = {
@@ -586,7 +588,7 @@ class ImageModal extends React.Component {
                     {this.props.showPhotos && (
                       <div className="mt-2">
                         <Button className="btn m-auto px-1 ash" onClick={this.prepareEditProfileImg}>
-                          Set as Profile Photo
+                          Set as profile photo
                         </Button>
                       </div>
                     )}
@@ -628,17 +630,25 @@ class ImageModal extends React.Component {
                   this.props.images &&
                   this.props.images[parseInt(this.props.selectedImg)].type === "image" &&
                   typeof this.props.selectedImg === "number" && (
-                    <img
-                      className="mw-100 rounded"
-                      onLoad={this.onImgLoad}
-                      src={
-                        this.props.showImgModal &&
-                        this.props.images &&
-                        typeof this.props.selectedImg === "number" &&
-                        this.props.images[parseInt(this.props.selectedImg)].src
-                      }
-                      style={{ display: "block", margin: "auto" }}
-                    />
+                    <CSSTransition
+                      in={this.props.fade}
+                      timeout={300}
+                      unmountOnExit={false}
+                      onEntered={this.props.fadeOut}
+                      classNames="image"
+                    >
+                      <img
+                        className="mw-100 rounded"
+                        onLoad={this.onImgLoad}
+                        src={
+                          this.props.showImgModal &&
+                          this.props.images &&
+                          typeof this.props.selectedImg === "number" &&
+                          this.props.images[parseInt(this.props.selectedImg)].src
+                        }
+                        style={{ display: "block", margin: "auto" }}
+                      />
+                    </CSSTransition>
                   )}
                 {this.state.reviewMode &&
                   this.props.showImgModal &&
@@ -661,15 +671,23 @@ class ImageModal extends React.Component {
                   !this.props.showPhotos &&
                   this.props.showImgModal &&
                   this.props.videos[parseInt(this.props.selectedVideo)].type === "video" && (
-                    <VideoPlayerContainer
-                      className="w-100 rounded"
-                      videoUrl={
-                        this.props.showImgModal &&
-                        this.props.videos &&
-                        typeof this.props.selectedVideo === "number" &&
-                        this.props.videos[parseInt(this.props.selectedVideo)].src
-                      }
-                    />
+                    <CSSTransition
+                      in={this.props.fade}
+                      timeout={300}
+                      unmountOnExit={false}
+                      onEntered={this.props.fadeOut}
+                      classNames="image"
+                    >
+                      <VideoPlayerContainer
+                        className="w-100 rounded"
+                        videoUrl={
+                          this.props.showImgModal &&
+                          this.props.videos &&
+                          typeof this.props.selectedVideo === "number" &&
+                          this.props.videos[parseInt(this.props.selectedVideo)].src
+                        }
+                      />
+                    </CSSTransition>
                   )}
                 {this.state.editMode &&
                   this.props.showImgModal &&

@@ -14,6 +14,7 @@ namespace Sabio.Models.Domain
         public int? SchoolId { get; set; }
         public int? UserId { get; set; }
         public string Name { get; set; }
+        public string SchoolName { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public int? Zip { get; set; }

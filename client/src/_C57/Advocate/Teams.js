@@ -1,5 +1,6 @@
 import React from "react";
 import { Table } from "reactstrap";
+import SchoolAutoSearch from "./SchoolAutoSearch";
 import { updateTeam, deleteTeam, deleteAdvoTeam } from "./AdvocateServer";
 
 class Teams extends React.Component {
@@ -66,10 +67,10 @@ class Teams extends React.Component {
 
   render() {
     return (
-      <Table hover>
+      <Table>
         <thead>
           <tr>
-            <th>SchoolId#</th>
+            <th>School</th>
             <th>Teams</th>
             <th>City</th>
             <th>State</th>
@@ -79,11 +80,20 @@ class Teams extends React.Component {
         <tbody>
           {this.state.teamArr.map(t => (
             <tr key={t.id}>
-              <th scope="row">{t.schoolId}</th>
+              <td>
+                {" "}
+                <div>{t.schoolName}</div>
+              </td>
               <td>
                 {this.state.editTeam ? (
                   <div>
-                    <input type="text" name="name" onChange={e => this.teamInput(e, t.id)} value={t.name || ""} />
+                    <input
+                      type="text"
+                      name="name"
+                      onChange={e => this.teamInput(e, t.id)}
+                      value={t.name || ""}
+                      size="10"
+                    />
                   </div>
                 ) : (
                   <div>{t.name}</div>
@@ -92,7 +102,13 @@ class Teams extends React.Component {
               <td>
                 {this.state.editTeam ? (
                   <div>
-                    <input type="text" name="city" onChange={e => this.teamInput(e, t.id)} value={t.city || ""} />
+                    <input
+                      type="text"
+                      name="city"
+                      onChange={e => this.teamInput(e, t.id)}
+                      value={t.city || ""}
+                      size="10"
+                    />
                   </div>
                 ) : (
                   <div>{t.city}</div>
@@ -101,7 +117,13 @@ class Teams extends React.Component {
               <td>
                 {this.state.editTeam ? (
                   <div>
-                    <input type="text" name="state" onChange={e => this.teamInput(e, t.id)} value={t.state || ""} />
+                    <input
+                      type="text"
+                      name="state"
+                      onChange={e => this.teamInput(e, t.id)}
+                      value={t.state || ""}
+                      size="5"
+                    />
                   </div>
                 ) : (
                   <div>{t.state}</div>
@@ -109,11 +131,23 @@ class Teams extends React.Component {
               </td>
               <td>
                 {this.state.editTeam ? (
-                  <div>
-                    <input type="number" name="zip" onChange={e => this.teamInput(e, t.id)} value={t.zip || ""} />
-                    <i className="zmdi zmdi-edit zmdi-hc-fw" onClick={() => this.editToggle(t)} />
-                    <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteTeam(t.id)} />
-                  </div>
+                  <React.Fragment>
+                    <div>
+                      <input
+                        type="number"
+                        name="zip"
+                        onChange={e => this.teamInput(e, t.id)}
+                        value={t.zip || ""}
+                        size="5"
+                      />
+                      {/* <i className="zmdi zmdi-edit zmdi-hc-fw" onClick={() => this.editToggle(t)} />
+                    <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteTeam(t.id)} /> */}
+                    </div>
+                    <div>
+                      <i className="zmdi zmdi-edit zmdi-hc-fw float-right" onClick={() => this.editToggle(t)} />
+                      <i className="zmdi zmdi-close zmdi-hc-fw float-right" onClick={() => this.deleteTeam(t.id)} />
+                    </div>
+                  </React.Fragment>
                 ) : (
                   <div>
                     {t.zip}

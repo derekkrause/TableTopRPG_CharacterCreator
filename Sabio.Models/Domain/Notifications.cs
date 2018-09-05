@@ -5,6 +5,7 @@ namespace Sabio.Models.Domain
     public class Notifications
     {
         public int CurrentUserId { get; set; }
+        public int NotificationId { get; set; }
         public int PostId { get; set; }
         public int OtherUserId { get; set; }
         public DateTime DateCreated { get; set; }

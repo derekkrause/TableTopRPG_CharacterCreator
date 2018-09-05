@@ -39,7 +39,8 @@ class FeedCard extends React.Component {
     likeCount: 0,
     likedModal: false,
     likeUserId: 0,
-    showPhotos: true
+    showPhotos: true,
+    fade: false
   };
 
   componentDidMount() {
@@ -128,6 +129,12 @@ class FeedCard extends React.Component {
     }
   }
 
+  fadeOut = () => {
+    this.setState({
+      fade: false
+    });
+  };
+
   toggleImgModal = index => {
     this.setState({
       selectedImg: index,
@@ -139,14 +146,16 @@ class FeedCard extends React.Component {
   nextImg = () => {
     this.setState(prevState => ({
       selectedImg: parseInt(prevState.selectedImg) + 1,
-      selectedVideo: parseInt(prevState.selectedVideo) + 1
+      selectedVideo: parseInt(prevState.selectedVideo) + 1,
+      fade: !this.state.fade
     }));
   };
 
   prevImg = () => {
     this.setState(prevState => ({
       selectedImg: parseInt(prevState.selectedImg) - 1,
-      selectedVideo: parseInt(prevState.selectedVideo) - 1
+      selectedVideo: parseInt(prevState.selectedVideo) - 1,
+      fade: !this.state.fade
     }));
   };
 
@@ -452,6 +461,8 @@ class FeedCard extends React.Component {
                         prevImg={this.prevImg}
                         title={this.state.title}
                         content={this.state.content}
+                        fade={this.state.fade}
+                        fadeOut={this.fadeOut}
                       />
                     )}
                   </React.Fragment>

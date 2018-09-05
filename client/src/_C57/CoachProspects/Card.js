@@ -206,10 +206,11 @@ class Card extends React.Component {
                 <div className="contact-item-hk ripple no-gutters align-items-center py-2 px-3 py-sm-4 px-sm-6">
                   <div className="col-md-2">
                     <img src={avatarUrl} className="float-left user-avatar rounded-circle mr-3" />
-
-                    <div className="float-left mt-3">
-                      {name} {lastName}
-                    </div>
+                    <NavLink to={`/app/profile/${this.props.athleteUserId}`}>
+                      <div className="float-left mt-3">
+                        {name} {lastName}
+                      </div>
+                    </NavLink>
                   </div>
 
                   <div className="col-md-2">
@@ -385,7 +386,7 @@ class Card extends React.Component {
     );
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.notes) {
       this.getShortNotes();
     }

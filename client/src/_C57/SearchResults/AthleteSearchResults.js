@@ -45,7 +45,7 @@ class AthleteSearchResults extends React.Component {
         {this.state.Athletes.filter(athlete =>
           athlete.sportInfo.some(sp => sp.Id == this.props.searchCriteria.sportFilter)
         ).map(athlete => (
-          <div key={athlete.athleteId} className="user-list row card" style={{ borderLeft: "solid 8px blue" }}>
+          <div key={athlete.athleteId} className="user-list row card playertag">
             <div className="container ">
               <div className="row col-12">
                 <div className="col-md-3">
@@ -82,7 +82,7 @@ class AthleteSearchResults extends React.Component {
                       <ul className="list-inline d-sm-flex gx-btn-list list-group">
                         <li className="border-0 list-group-item">
                           <NavLink to={`/app/Profile/${athlete.userId}`} className="float-right">
-                            Button to Profile! > <i className="" />
+                            View Profile <i className="" />
                           </NavLink>
                         </li>
                       </ul>

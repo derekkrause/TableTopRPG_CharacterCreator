@@ -7,15 +7,23 @@
 }
 
 .playertag{
-    background-color: blue;
+    border-left: solid 8px #245dbc;
 }
-
 .venuetag {
     border-left: solid 8px yellow;
 }
-
 .schooltag{
-    border-left: solid 8px rgb(241, 172, 21);
+    border-left: solid 8px #9575cd;
+}
+.coachtag{
+    border-left: solid 8px #bf360c;
+}
+.advocatetag{
+    border-left: solid 8px #f57f17;
+}
+
+.eventtag{
+    border-left: solid 8px #795548;
 }
 
 .external-link{

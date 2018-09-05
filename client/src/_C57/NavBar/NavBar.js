@@ -361,6 +361,7 @@ class NavBar extends React.Component {
           )}
           {this.props.searchCriteria.searchType === "venues" && (
             <VenueSearchFilter
+              className="bg-white"
               handleChange={this.handleChange}
               handleTypeAheadChange={this.handleTypeAheadChange}
               searchCriteria={this.props.searchCriteria}

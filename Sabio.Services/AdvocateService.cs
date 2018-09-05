@@ -45,7 +45,7 @@ namespace Sabio.Data.Services
                         LastName = (string)reader["LastName"],
                         AvatarUrl = reader.GetSafeString("AvatarUrl"),
                         Email = reader.GetSafeString("Email"),
-                        Name = reader.GetSafeString("Name"),
+                        //Name = reader.GetSafeString("Name"),
                         PasswordHash = (string)reader["PasswordHash"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
@@ -126,7 +126,7 @@ namespace Sabio.Data.Services
                     parameters.AddWithValue("@LastName", advocateUpdate.LastName);
                     //parameters.AddWithValue("@AvatarUrl", advocateUpdate.AvatarUrl);
                     parameters.AddWithValue("@Email", advocateUpdate.Email);
-                    parameters.AddWithValue("@Name", advocateUpdate.Name);
+                    parameters.AddWithValue("@Name", advocateUpdate.Name ?? (object)DBNull.Value);
                     parameters.AddWithValue("@PasswordHash", advocateUpdate.PasswordHash);
                 });
         }

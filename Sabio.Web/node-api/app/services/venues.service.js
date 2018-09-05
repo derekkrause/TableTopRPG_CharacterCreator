@@ -67,21 +67,6 @@ const search = (searchString, pageIndex, pageSize, radius, lat, lon) => {
     });
 };
 
-// const searchByUser = searchString => {
-//   return mssql
-//     .executeProc("Venue_User_Search", sqlRequest => {
-//       sqlRequest.addParameter("searchString", TYPES.NVarChar, searchString, {
-//         length: 50
-//       });
-//       sqlRequest.addParameter("lat", TYPES.Float);
-//       sqlRequest.addParameter("lon", TYPES.Float);
-//       sqlRequest.addParameter("radius", TYPES.Float);
-//     })
-//     .then(response => {
-//       return response.resultSets[0];
-//     });
-// };
-
 const post = item => {
   return mssql
     .executeProc("Venue_Insert", sqlRequest => {

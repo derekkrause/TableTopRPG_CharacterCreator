@@ -96,7 +96,7 @@ namespace Sabio.Services
             AthleteFilterOptions options = new AthleteFilterOptions();
 
             dataProvider.ExecuteCmd(
-                "Athlete_Search_Options",
+                "Athlete_Search_Options2",
                 (parameters) =>
                 { },
                 (reader, resultSetIndex) =>
@@ -115,7 +115,8 @@ namespace Sabio.Services
                             {
                                 Id = reader.GetSafeInt32Nullable("SportPositionId"),
                                 Name = (string)reader["SportPosition"],
-                                Code = (string)reader["Code"]
+                                Code = (string)reader["Code"],
+                                SportId = (int)reader["SportId"]
                             };
                             options.SportPosition.Add(sportPosition);
                             break;

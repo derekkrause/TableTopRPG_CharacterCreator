@@ -215,7 +215,7 @@ class ProfileInfo extends React.Component {
               <div className="col-md-12 mr-2 mr-md-0">
                 {this.state.everyThing.FirstName && (
                   <React.Fragment>
-                    <div className="row align-items-center justify-content-end justify-content-md-between mb-2">
+                    <div className="row align-items-center justify-content-end justify-content-md-between mb-4">
                       <div className="col-9 text-center text-md-left pl-0 pr-0">
                         <h1 style={{ fontWeight: 800 }} className="mb-0">
                           {this.state.everyThing.FirstName}
@@ -269,7 +269,7 @@ class ProfileInfo extends React.Component {
                         &nbsp; {this.state.everyThing.HighSchoolGraduationYear}
                       </h3>
                     </div>
-                    <div className="row mb-3 justify-content-center justify-content-md-start pl-0">
+                    <div className="row mb-5 justify-content-center justify-content-md-start pl-0">
                       {this.state.everyThing.Height && (
                         <React.Fragment>
                           <h3>
@@ -289,7 +289,7 @@ class ProfileInfo extends React.Component {
                         </h3>
                       )}
                     </div>
-                    {this.props.currentUser.id != this.props.currentPageId && (
+                    {/* {this.props.currentUser.id != this.props.currentPageId && (
                       <React.Fragment>
                         <div className="row justify-content-center justify-content-md-start">
                           <div onClick={this.toggleFollowerModal} className="d-flex mr-4 ">
@@ -306,9 +306,9 @@ class ProfileInfo extends React.Component {
                           </div>
                         </div>
                       </React.Fragment>
-                    )}
+                    )} */}
 
-                    <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0 mb-4">
+                    <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0 ">
                       <div role="group" className="btn-group mt-3 mt-sm-3 mt-md-3 mt-lg-0">
                         {this.props.currentUser.id != this.props.currentPageId ? (
                           <React.Fragment>
@@ -348,20 +348,20 @@ class ProfileInfo extends React.Component {
                         ) : (
                           <React.Fragment>
                             <button
-                              className="jr-btn-default btn btn-default py-2 px-3 profileInfoBtn d-flex"
+                              className="jr-btn-default btn btn-default py-2 px-2 profileInfoBtn d-flex"
                               onClick={this.toggleFollowerModal}
                             >
                               <h3 className="mb-0">Followers</h3>
-                              <Badge color="default" className="mb-0">
+                              <Badge color="default" className="mb-0 pr-0">
                                 {this.state.followerLength}
                               </Badge>
                             </button>
                             <button
-                              className="jr-btn-default btn btn-default py-2 px-3 profileInfoBtn d-flex"
+                              className="jr-btn-default btn btn-default py-2 px-2 profileInfoBtn d-flex"
                               onClick={this.toggleHighlightModal}
                             >
                               <h3 className="mb-0">Highlights</h3>
-                              <Badge color="default" className="mb-0">
+                              <Badge color="default" className="mb-0 pr-0">
                                 {this.state.highlightLength}
                               </Badge>
                             </button>
@@ -369,8 +369,8 @@ class ProfileInfo extends React.Component {
                         )}
                       </div>
 
-                      <div className="d-flex justify-content-end mt-3 mt-sm-3 mt-md-3 mt-lg-0 mb-0">
-                        <StatsButton className="mr-2" style="rs-btn-primary-light" onClick={this.toggleLinks} />
+                      <div className="d-flex justify-content-end mt-3 mt-sm-3 mt-md-3 mt-lg-0 mb-0 pb-0">
+                        <StatsButton className="mr-1" style="rs-btn-primary-light" onClick={this.toggleLinks} />
 
                         {showMessageButton ? (
                           <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
@@ -381,11 +381,11 @@ class ProfileInfo extends React.Component {
                             <button
                               id="Tooltip"
                               type="button"
-                              className="jr-btn jr-btn-default btn btn-default profileInfoBtnTwo d-flex"
+                              className="jr-btn jr-btn-default btn btn-default profileInfoBtnTwo d-flex px-3"
                               style={{ backgroundColor: "#cecece" }}
                             >
                               <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
-                              &nbsp;&nbsp;
+                              &nbsp;
                               <h3 className="mb-0">Message</h3>
                             </button>
                             <Tooltip placement="bottom" target="Tooltip" isOpen={showToolTip} toggle={this.toggle}>

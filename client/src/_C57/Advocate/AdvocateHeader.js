@@ -3,6 +3,7 @@ import "./AdvocateStyle.css";
 import "../profile/ProfileBanner.css";
 import SchoolAutoSearch from "./SchoolAutoSearch";
 import { updateAdvocate } from "./AdvocateServer";
+import { getProfilePic } from "./ProfileImage/ProfileServer";
 import ProfilePicture from "./ProfileImage/ProfilePicture";
 import { Input } from "reactstrap";
 import {
@@ -20,15 +21,14 @@ import AdvocateProfilePopover from "../CustomComponents/Popover/AdvocateProfileP
 class AdvocateHeader extends React.Component {
   state = {
     editPic: false,
-    editState: false,
     showMessageButton: false,
-    schoolName: this.props.advocateUser.name,
-    schoolNameEdit: ""
+    profilePic: ""
   };
 
   componentDidMount = () => {
     this.handleGetContacts();
   };
+
   handleGetContacts = () => {
     const id = this.props.currentUser.id;
     getContacts(id)
@@ -47,19 +47,19 @@ class AdvocateHeader extends React.Component {
       });
   };
 
-  editField = () => {
-    this.props.editMode(this.props.advocateUser);
-    this.setState({ editState: !this.state.editMode });
-  };
-  onEditCancelClick = () => {
-    this.setState({
-      editState: !this.state.editState
+  updateProfilePic = id => {
+    getProfilePic(id).then(res => {
+      console.log(res);
+      let newPic = res.data.resultSets[0][0].AvatarUrl;
+      this.setState({
+        profilePic: newPic
+      });
     });
   };
 
   render() {
-    const { advocateUser, currentProfile } = this.props;
-    const { showMessageButton, editState } = this.state;
+    const { advocateUser, currentProfile, editState } = this.props;
+    const { showMessageButton } = this.state;
     return (
       <div>
         <NotificationContainer />
@@ -70,7 +70,7 @@ class AdvocateHeader extends React.Component {
                 profilePic={this.props.profilePic}
                 currentUser={this.props.currentUser}
                 currentProfile={this.props.currentProfile}
-                updateProfilePic={this.props.updateProfilePic}
+                updateProfilePic={this.updateProfilePic}
               />
               <div className="col-12 mt-3">
                 {!editState && <h3 className="font-weight-semibold text-center mt-3">{advocateUser.title}</h3>}
@@ -89,14 +89,14 @@ class AdvocateHeader extends React.Component {
             </div>
             <div className="col-md-9 profileInfo-info pl-2 mt-4 pt-3">
               <div className="col-1 text-right p-0 float-right" id="profileInfoEdit">
-                {this.props.currentUser.id == currentProfile && editState === false ? (
-                  <AdvocateProfilePopover handleUpdate={this.editField} popover="profileInfoEdit" />
+                {this.props.currentUser.id == currentProfile && !editState ? (
+                  <AdvocateProfilePopover handleUpdate={this.props.editField} popover="profileInfoEdit" />
                 ) : (
                   <div />
                 )}
               </div>
 
-              {editState ? (
+              {editState && (
                 <React.Fragment>
                   <div className="row col-md-12 pr-0 mr-0">
                     <div className="col-md-6">
@@ -120,15 +120,6 @@ class AdvocateHeader extends React.Component {
                       />
                     </div>
                     <div className="col-md-12 mt-4">
-                      {/* <strong>Email</strong>
-                  <Input
-                    type="text"
-                    name="email"
-                    value={this.props.advocateUser.email || ""}
-                    onChange={this.props.editInput}
-                    size="20"
-                  />
-                  <br /> */}
                       <h3>Affiliation:</h3>
                       <SchoolAutoSearch
                         initialValue={this.props.advocateUser.name}
@@ -136,12 +127,13 @@ class AdvocateHeader extends React.Component {
                       />
                     </div>
                     <div className="col-12 text-right mt-4">
-                      <CancelButton onClick={this.onEditCancelClick} />
-                      <SaveProfileButton />
+                      <CancelButton onClick={this.props.onEditCancelClick} />
+                      <SaveProfileButton onClick={() => this.props.editMode(this.props.advocateUser)} />
                     </div>
                   </div>
                 </React.Fragment>
-              ) : (
+              )}
+              {!editState && (
                 <React.Fragment>
                   <div>
                     <h1 style={{ fontWeight: 800 }} className="mb-0">
@@ -150,9 +142,6 @@ class AdvocateHeader extends React.Component {
                     </h1>
                   </div>
                   <div className="advoInfo AdvocateStyle">
-                    {/* &nbsp;
-                  {this.props.advocateUser.email}
-                  <br />  */}
                     <h3 className="mt-2">{this.props.advocateUser.name}</h3>
                   </div>
                 </React.Fragment>

@@ -31,6 +31,19 @@ const getEvents = userId => {
     });
 };
 
+const getAttendingByUserId = userId => {
+  return mssql
+    .executeProc("EventUser_SelectEventsByUserId", sqlRequest => {
+      sqlRequest.addParameter("UserId", TYPES.Int, userId);
+    })
+    .then(response => {
+      return response;
+    })
+    .catch(err => {
+      return err;
+    });
+};
+
 const put = body => {
   return mssql
     .executeProc("User_UpdateAvatar", sqlRequest => {
@@ -46,5 +59,6 @@ module.exports = {
   getById,
   getPicById,
   getEvents,
+  getAttendingByUserId,
   put
 };

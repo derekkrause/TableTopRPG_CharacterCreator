@@ -48,9 +48,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
   };
 
   deleteAthleteTeamNotification = () => {
-    {
-      NotificationManager.error("Sport History Entry Deleted!", "Delete", 5000);
-    }
+    NotificationManager.error("Sport History Entry Deleted!", "Delete", 5000);
   };
 
   createAthleteTeamNotification = () => {
@@ -69,8 +67,12 @@ class AthleteHistoryCarouselFinal extends React.Component {
     const teamNameId = this.state.items[this.state.activeIndex].id;
 
     deleteSportHistory(teamNameId)
-      .then(res => console.log(res, "deleted"), this.getAthleteSportInfo())
-      .then(this.cancelAlert(), this.deleteAthleteTeamNotification())
+      .then(res => {
+        console.log(res, "deleted");
+        this.getAthleteSportInfo();
+        this.cancelAlert();
+        this.deleteAthleteTeamNotification();
+      })
       .catch(res => console.log(res, "not deleted"));
   };
 
@@ -135,16 +137,17 @@ class AthleteHistoryCarouselFinal extends React.Component {
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="mb-0">Athlete History</h3>
 
-                {this.props.currentUser.id == currentPageId ? (
-                  <AthleteTeamPopover
-                    onDelete={this.delete}
-                    onEditClick={this.onEditClick}
-                    onAddNewToggle={this.onAddNewToggle}
-                    popover={"AthleteTeam"}
-                  />
-                ) : (
-                  <div />
-                )}
+              {this.props.currentUser.id == currentPageId ? (
+                <AthleteTeamPopover
+                  items={this.state.items}
+                  onDelete={this.delete}
+                  onEditClick={this.onEditClick}
+                  onAddNewToggle={this.onAddNewToggle}
+                  popover={"AthleteTeam"}
+                />
+              ) : (
+                <div />
+              )}
               </div>
             </React.Fragment>
           ) : (

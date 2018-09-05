@@ -34,7 +34,8 @@ class FeedHomeCard extends React.Component {
     //popoverMenu
     popover: true,
     //SweetAlert
-    alert: null
+    alert: null,
+    fade: false
   };
 
   componentDidMount() {
@@ -152,17 +153,25 @@ class FeedHomeCard extends React.Component {
     });
   };
 
+  fadeOut = () => {
+    this.setState({
+      fade: false
+    });
+  };
+
   nextImg = () => {
     this.setState(prevState => ({
       selectedImg: parseInt(prevState.selectedImg) + 1,
-      selectedVideo: parseInt(prevState.selectedVideo) + 1
+      selectedVideo: parseInt(prevState.selectedVideo) + 1,
+      fade: !this.state.fade
     }));
   };
 
   prevImg = () => {
     this.setState(prevState => ({
       selectedImg: parseInt(prevState.selectedImg) - 1,
-      selectedVideo: parseInt(prevState.selectedVideo) - 1
+      selectedVideo: parseInt(prevState.selectedVideo) - 1,
+      fade: !this.state.fade
     }));
   };
 
@@ -443,6 +452,8 @@ class FeedHomeCard extends React.Component {
                         prevImg={this.prevImg}
                         title={this.state.title}
                         content={this.state.content}
+                        fade={this.state.fade}
+                        fadeOut={this.fadeOut}
                       />
                     )}
                   </React.Fragment>

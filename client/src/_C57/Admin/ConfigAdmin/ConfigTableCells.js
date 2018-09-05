@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { EditButton, DeleteButton } from "../../CustomComponents/Button";
-import { mapPropsStream } from "recompose";
 
 const ConfigTableCells = props => {
   return (

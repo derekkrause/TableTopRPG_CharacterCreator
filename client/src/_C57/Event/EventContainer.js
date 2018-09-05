@@ -5,7 +5,7 @@ import { Route, withRouter } from "react-router-dom";
 // import EventApp from "./EventApp";
 import EventView from "./EventView";
 import EventsListView from "./EventsListView-R2";
-import EventFrom from "./EventForm-R2";
+import EventForm from "./EventForm-R2";
 import EventsSearch from "./EventsSearch-R2";
 
 class EventContainer extends Component {

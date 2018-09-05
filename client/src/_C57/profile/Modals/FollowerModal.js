@@ -67,10 +67,10 @@ class followerModal extends React.Component {
             <div>
               {this.state.followerInfo && (
                 <React.Fragment>
-                  <table>
-                    <tbody>
+                  <table style={{ width: "100%" }}>
+                    <tbody style={{ width: "100%" }}>
                       {this.state.followerInfo.map(info => (
-                        <tr key={info.UserId}>
+                        <tr key={info.UserId} style={{ width: "100%" }} className="justify-content-between">
                           <td>
                             <NavLink to={`/app/profile/${info.UserId}`} className="link-text">
                               <div className="d-flex align-items-center pl-2 my-2">
@@ -81,14 +81,14 @@ class followerModal extends React.Component {
                               </div>
                             </NavLink>
                           </td>
-                          <td>
+                          <td className="float-right">
                             {info.FollowingThem ? (
                               <button className="btn" type="button" onClick={() => this.handleUnfollow(info.UserId)}>
-                                Unfollow
+                                UNFOLLOW
                               </button>
                             ) : (
                               <button className="btn" type="button" onClick={() => this.handleFollow(info.UserId)}>
-                                Follow
+                                FOLLOW
                               </button>
                             )}
                           </td>

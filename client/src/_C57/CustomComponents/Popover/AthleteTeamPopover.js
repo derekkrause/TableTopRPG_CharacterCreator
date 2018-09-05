@@ -7,7 +7,9 @@ export default class AthleteTeamPopover extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      popoverOpen: false
+      popoverOpen: false,
+      items: "",
+      itemsOriginal: ""
     };
   }
 
@@ -35,6 +37,17 @@ export default class AthleteTeamPopover extends React.Component {
     });
     this.props.onEditClick();
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.items !== state.itemsOriginal) {
+      return {
+        itemsOriginal: props.items,
+        items: props.items
+      };
+    }
+    return null;
+  }
+
   render() {
     return (
       <div>
@@ -55,13 +68,15 @@ export default class AthleteTeamPopover extends React.Component {
                 &nbsp; Add New
               </Button>
             </div>
-            <div className="mt-2">
-              <Button className="btn m-auto px-1 ash" onClick={this.handleUpdateToggle}>
-                <i className="zmdi zmdi-edit zmdi-hc-lg" />
-                &nbsp; Edit
-              </Button>
-            </div>
-            <div className="mt-2">
+            {this.props.items.length >= 1 ? (
+              <div className="mt-1">
+                <Button className="btn m-auto px-1 ash" onClick={this.handleUpdateToggle}>
+                  <i className="zmdi zmdi-edit zmdi-hc-lg" />
+                  &nbsp; Edit
+                </Button>
+              </div>
+            ) : null}
+            <div className="mt-1">
               <Button className="btn m-auto px-1 pb-1 ash" onClick={this.handleDeleteToggle}>
                 <i className="zmdi zmdi-delete zmdi-hc-lg" />
                 &nbsp; Delete

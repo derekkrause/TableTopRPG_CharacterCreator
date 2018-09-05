@@ -1,10 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router";
 import VenueMap from "./VenueMap";
-import Geocode from "react-geocode";
-
-// GoogleApiKey is provided by John D.
-// Geocode.setApiKey("AIzaSyD7iu5CfoFeysqETwfFNxbBnnwupWKewWU");
 
 class Venue extends React.Component {
   handleOnClickEdit = () => {

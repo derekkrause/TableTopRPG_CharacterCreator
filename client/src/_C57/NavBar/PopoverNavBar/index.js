@@ -77,7 +77,7 @@ class PopoverNavBar extends React.Component {
               </Link>
             </div>
             <div className=" p-1">
-              <Link to="settings">
+              <Link to="/app/settings">
                 <div className="btn m-auto px-1 ash" onClick={this.toggle}>
                   <i className="zmdi zmdi-settings zmdi-hc-fw mr-1" />
                   Settings

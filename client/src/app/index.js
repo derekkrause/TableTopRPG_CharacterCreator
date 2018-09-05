@@ -43,6 +43,7 @@ const FaqsPageAsyncComponent = asyncComponent(() => import("../_C57/FaqPage/Faqs
 const FavPageAsyncComponent = asyncComponent(() => import("../_C57/FavSchoolsAndCoachesPage/MainPage"));
 const FeedPageAsyncComponent = asyncComponent(() => import("../_C57/Feed/Feed"));
 const SearchAsyncComponent = asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"));
+const SettingsAsyncComponent = asyncComponent(() => import("../_C57/AccountSettings/AccountSettings.js"));
 const VenuesAsyncComponent = asyncComponent(() => import("../_C57/Admin/Venues/AdminVenues"));
 const MessageAsyncComponent = asyncComponent(() => import("../_C57/Messaging/Message"));
 //ProfileSwitch determines whether a profile is an Athlete, Advocate or Coach and
@@ -178,6 +179,7 @@ class App extends React.Component {
                       }}
                     />
                     <Route path={`${match.url}/search`} component={SearchAsyncComponent} />
+                    <Route path={`${match.url}/settings`} component={SettingsAsyncComponent} />
                     <Route path={`${match.url}/stripe`} component={StripeAsyncComponent} />
                     <Route path={`${match.url}/venues`} component={VenuesAsyncComponent} />
                     <Route component={asyncComponent(() => import("components/Error404"))} />

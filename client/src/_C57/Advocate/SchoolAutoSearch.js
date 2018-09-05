@@ -4,7 +4,7 @@ import { schoolSearch } from "../Admin/SchoolAdmin/SchoolAdminServer.js";
 
 class SchoolAutoSearch extends React.Component {
   state = {
-    typeAhead: this.props.initialValue
+    typeAhead: this.props.initialValue || ''
   };
 
   //  In parent component, let Logan know if this doesnt work for you.

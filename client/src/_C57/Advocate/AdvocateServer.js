@@ -5,7 +5,7 @@ export function getAdvocateByUserId(advocateId) {
 }
 
 export function updateAdvocate(payload) {
-  return axios.put("api/advocates/" + payload.id, payload);
+  return axios.put("api/advocates/" + payload.userId, payload);
 }
 
 export function getAdvoAthletesById() {

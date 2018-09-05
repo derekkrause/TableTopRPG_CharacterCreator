@@ -37,13 +37,13 @@ class AdvocateProfile extends React.Component {
       updateAdvocate(payload)
         .then(response => {
           console.log(response, "Updated");
+          this.setState({
+            editState: false
+          });
         })
         .catch(error => {
           console.log(error, "Error");
         });
-      this.setState({
-        editState: false
-      });
     } else {
       this.setState({
         editState: true
@@ -60,6 +60,16 @@ class AdvocateProfile extends React.Component {
         [key]: value
       }
     }));
+  };
+
+  editField = () => {
+    this.setState({ editState: true });
+  };
+
+  onEditCancelClick = () => {
+    this.setState({
+      editState: false
+    });
   };
 
   selectedSchool = s => {
@@ -118,6 +128,8 @@ class AdvocateProfile extends React.Component {
                   editState={eS}
                   editInput={eI}
                   selectedSchool={options => this.selectedSchool(options)}
+                  editField={this.editField}
+                  onEditCancelClick={this.onEditCancelClick}
                   currentUser={this.props.currentUser}
                   currentProfile={id}
                   profilePic={aU.avatarUrl}
@@ -131,7 +143,6 @@ class AdvocateProfile extends React.Component {
                 <AdvocateBody
                   advocateUser={aU}
                   editMode={eM}
-                  editState={eS}
                   editInput={eI}
                   advocateUserId={id}
                   currentUser={this.props.currentUser}
