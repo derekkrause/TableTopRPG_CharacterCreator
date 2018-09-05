@@ -181,16 +181,6 @@ class ConfigForm extends React.Component {
               onKeyDown={this.handleKeyDown}
             />
             <FormFeedback>{this.state.keyValueValid ? "Please enter at least 2 letter" : ""}</FormFeedback>
-            {/* <Button
-              color="primary"
-              disabled={!this.state.formValid ? true : false}
-              onClick={() =>
-                // this.success();
-                this.handleClicked()
-              }
-            >
-              {this.state.Id ? "Save" : "Create"} Key
-            </Button> */}
             <div className=" form-group float-right mt-3">
               <SaveButton onClick={this.handleSubmit.bind(this)} />
               <CancelButton

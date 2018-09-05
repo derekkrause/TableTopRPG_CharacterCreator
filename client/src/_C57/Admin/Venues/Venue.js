@@ -7,26 +7,14 @@ import Geocode from "react-geocode";
 // Geocode.setApiKey("AIzaSyD7iu5CfoFeysqETwfFNxbBnnwupWKewWU");
 
 class Venue extends React.Component {
-  handleOnClickEdit = () => {
-    this.props.history.push("/app/admin/venues/" + this.props.venue.Id);
-  };
+  // handleOnClickEdit = () => {
+  //   this.props.history.push("/app/admin/venues/" + this.props.venue.Id);
+  // };
 
   render() {
     return (
       <div className="justify-content-center">
-        <div className="jr-card user-list flex-sm-row d-sm-flex" style={{ borderleft: "solid 20px green" }}>
-          {/* <div className="animated slideInUpTiny animation-duration-3"> */}
-
-          {/* <div className="row user-list d-flex flex-row card shadow"> */}
-          {/* <div className="col-1">
-            <img
-              // src={this.props.venue.Logo}
-
-              className="size-100 user-avatar"
-              src="assets/images/error.png"
-            />
-          </div> */}
-
+        <div className="jr-card user-list flex-sm-row d-sm-flex venuetag" style={{ borderleft: "solid 20px green" }}>
           <div className="user-list flex-sm-row">
             <h4>
               <strong>{this.props.venue.Name} </strong>
@@ -54,7 +42,7 @@ class Venue extends React.Component {
               <strong>Description: </strong>
               {this.props.venue.Description}
             </p>
-            <p>Id: {this.props.venue.Id}</p>
+            {/* <p>Id: {this.props.venue.Id}</p> */}
 
             <p />
             <button className="btn btn default" onClick={this.handleOnClickEdit}>

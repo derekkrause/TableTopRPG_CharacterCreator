@@ -1,6 +1,56 @@
-const TYPES = require("tedious").TYPES;
+const bcrypt = require("bcrypt");
 const mssql = require("../../mssql");
+const TYPES = require("tedious").TYPES;
 
+// ---------- CHANGE PASSWORD ----------
+const saltRounds = 10;
+
+const changePassword = (userId, oldPassword, newPassword) => {
+  return new Promise((resolve, reject) => {
+    // 1. get the user's current password hash from the database
+    mssql
+      .executeProc("User_GetPasswordHash", sqlRequest => {
+        sqlRequest.addParameter("UserId", TYPES.Int, userId);
+      })
+      .then(response => {
+        const existingPasswordHash = response.resultSets[0][0];
+
+        // 2. check the existing password hash with the supplied old password
+        console.log(typeof existingPasswordHash.PasswordHash);
+        bcrypt.compare(oldPassword, existingPasswordHash.PasswordHash, (err, res) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+
+          if (!res) {
+            reject("Incorrect existing password.");
+            return;
+          }
+
+          // 3. if we get here, the existing password was correct. Update the database.
+          bcrypt.hash(newPassword, saltRounds, function(err, hash) {
+            if (err) {
+              reject(err);
+              return;
+            }
+
+            mssql
+              .executeProc("User_SetPassword", sqlRequest => {
+                sqlRequest.addParameter("passwordHash", TYPES.NVarChar, hash, {
+                  length: 200
+                });
+                sqlRequest.addParameter("userId", TYPES.Int, userId);
+              })
+              .then(resolve, reject);
+          });
+        });
+      })
+      .catch(reject);
+  });
+};
+
+// ---------- STRIPE ----------
 const insertStripeId = (body, Id) => {
   return mssql
     .executeProc("User_InsertStripeId", request => {
@@ -51,6 +101,7 @@ const addSubscriptionDateToAll = body => {
 };
 
 module.exports = {
+  changePassword,
   insertStripeId,
   insertSubExpiration,
   getCustomerId,

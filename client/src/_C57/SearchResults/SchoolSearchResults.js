@@ -155,9 +155,6 @@ class SchoolSearchResults extends React.Component {
     const { schools } = this.state;
     return (
       <div className="mb-0 pb-0">
-        <div className="d-flex justify-content-end mb-4">
-          <CreateButton name="School" />
-        </div>
         {this.state.totalCount === 0 && (
           <div className="jr-card schooltag" style={{ backgroundColor: "white" }}>
             No results

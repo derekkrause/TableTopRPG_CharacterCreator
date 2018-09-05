@@ -22,7 +22,7 @@ class VenueMap extends React.Component {
   render() {
     let mapstyle = {
       width: "100%",
-      height: "15em",
+      height: "13em",
       border: "1px solid gray"
     };
 

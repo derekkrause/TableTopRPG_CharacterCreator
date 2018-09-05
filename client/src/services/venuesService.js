@@ -54,8 +54,8 @@ export function updateVenue(data) {
   return axios.put(nodeBaseUrl + "/venues/" + data.id, data);
 }
 
-// ------------------------- :: GET :: EDIT VENUE BY ID -------------------------- //
+// ------------- :: GET :: EDIT VENUE BY ID -------------- //
 
 export function getById(id) {
-  return axios.get("/node-api/server.js/venues/" + id);
+  return axios.get(nodeBaseUrl + "/venues/" + id);
 }

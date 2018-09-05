@@ -3,7 +3,6 @@ import { Button, Col, Collapse, Form, FormGroup, Label, Input, FormFeedback } fr
 import { createVenue, updateVenue, getById } from "services/venuesService";
 import Geocode from "react-geocode";
 import SweetAlert from "react-bootstrap-sweetalert";
-// import FileUploader from "../FileUploader/FileUploader";
 import "./VenueFormStyle.css";
 import { NotificationManager } from "react-notifications";
 
@@ -70,11 +69,12 @@ class VenueForm extends React.Component {
 
   componentDidMount() {
     // if we have an ID to edit, get that venue out of the venueList and put it into state
-    const venueIdToEdit = this.props.match.params.venueId;
+    const venueIdToEdit = this.props.match.params.id;
     if (venueIdToEdit) {
       // do an ajax to load that venue ID
       getById(venueIdToEdit).then(response => {
-        this.setState(response.data.item[0]);
+        venueArray = this.props.venues;
+        this.setState({ venueArray: response.data.item[0] });
         this.setState({ collapse: true });
       });
     }
@@ -102,6 +102,7 @@ class VenueForm extends React.Component {
         break;
     }
   };
+  // -----------------------------------
 
   handleClicked = () => {
     const data = {
@@ -199,7 +200,6 @@ class VenueForm extends React.Component {
   render() {
     return (
       <div>
-        {/* <button onClick={this.createNotification.bind(this, "success")}>Test</button> */}
         <div className="app-wrapper">
           <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
             <h2 className="title mb-3 mb-sm-0"> Venue List</h2>
@@ -397,7 +397,7 @@ class VenueForm extends React.Component {
                 >
                   {this.state.Id ? "Save" : "Create"} Venue
                 </Button>
-                <Button type="button" color="default" onClick={() => this.props.history.push("/app/admin/venues/")}>
+                <Button type="button" color="default" onClick={this.toggle}>
                   Cancel
                 </Button>
               </FormGroup>

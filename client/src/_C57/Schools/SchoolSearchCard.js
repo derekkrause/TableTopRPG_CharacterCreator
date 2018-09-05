@@ -4,7 +4,7 @@ import SchoolMap from "./SchoolMap";
 const SchoolSearchCard = props => {
   const { name, street, city, state, zip, url } = props.data;
   return (
-    <div className="justify-content-center row mr-2 mr-sm-2 mr-md-0 mr-lg-0 mb-4 ml-2 ml-0">
+    <div className="justify-content-center row mr-2 mr-sm-2 mr-md-0 mr-lg-0 mb-4 mb-md-4 ml-2 ml-0">
       <div className="col-12">
         <div className="jr-card row schooltag">
           <div className="user-list justify-content-center col-12 col-sm-5 col-md-5 col-lg-5 p-0 order-2 order-md-1 mt-3 mt-sm-0 mt-md-0 mt-lg-0">
