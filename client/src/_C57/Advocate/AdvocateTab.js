@@ -136,9 +136,9 @@ class AdvocateTab extends React.Component {
             teams: []
           });
         } else {
-          this.setState({
-            teams: response.data.item.pagedItems
-          });
+        this.setState({
+          teams: response.data.item.pagedItems
+        });
         }
       })
       .catch(error => {
@@ -170,34 +170,34 @@ class AdvocateTab extends React.Component {
           style={{ backgroundColor: "#f1f1f1" }}
         >
           <TabContainer dir={theme.direction}>
-            <div className="row">
-              <div className="col-md-1">
-                <EventModal />
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col-md-12">
-                <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
-                <div style={{ overflow: "auto" }}>
-                  <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
+              <div className="row">
+                <div className="col-md-1">
+                  <EventModal />
                 </div>
               </div>
-            </div>
+              <div className="row mt-4">
+                <div className="col-md-12">
+                  <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
+                  <div style={{ overflow: "auto" }}>
+                    <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
+                  </div>
+                </div>
+              </div>
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            <div className="row">
-              {/* <div className="col-md-1"> */}
-              <GameModal key={this.state.teams} teams={this.state.teams} advocateUserId={this.props.advocateUserId} />
-              {/* </div> */}
-            </div>
-            <div className="mt-2">
+              <div className="row">
+                {/* <div className="col-md-1"> */}
+                <GameModal key={this.state.teams} teams={this.state.teams} advocateUserId={this.props.advocateUserId} />
+                {/* </div> */}
+              </div>
+              <div className="mt-2">
               <div className="col-md-12 px-0">
-                <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
-                <div style={{ overflow: "auto" }}>
-                  <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
+                  <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
+                  <div style={{ overflow: "auto" }}>
+                    <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
+                  </div>
                 </div>
               </div>
-            </div>
           </TabContainer>
         </SwipeableViews>
       </div>

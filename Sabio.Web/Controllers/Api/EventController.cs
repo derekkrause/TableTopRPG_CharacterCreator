@@ -120,16 +120,43 @@ namespace Sabio.Web.Controllers
         }
 
         [Route("searchfilters"), HttpGet]
-        public HttpResponseMessage SearchAllWithFilters(string q = null, string s = null, int? t = null, DateTime? u = null, DateTime? v = null, int? w = null)
+        public HttpResponseMessage SearchAllWithFilters(string q = null, string s = null, int? t = null, DateTime? u = null, 
+            DateTime? v = null, int? w = null)
         {
-            //List<Event> SearchAllWithFilters(string searchTerms, string searchState, int searchEventType, DateTime searchStartDate, DateTime searchEndDate, int searchDistance)
-
+            
             List<Event> events = eventService.SearchAllWithFilters(q, s, t, u, v, w);
             ItemsResponse<Event> itemsResponse = new ItemsResponse<Event>();
 
             itemsResponse.Items = events;
 
             return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
+        }
+
+        [Route("searchfilters/{pageIndex:int}/{pageSize:int}"), HttpGet]
+        public HttpResponseMessage SearchAllPagingWithFilters(int pageIndex, int pageSize, DateTime sd, string q = null, string st = null, 
+            int? t = null, DateTime? ed = null, int? sdist = null)
+        {
+            //PagedItemResponse<Event> SearchAllPagingWithFilters(int pageIndex, int pageSize, string searchTerms = null,
+            //string searchState = null, int? searchEventType = null, DateTime searchStartDate, DateTime? searchEndDate = null,
+            //int? searchDistance = null);
+
+            //List<Event> events = eventService.SearchAllWithFilters(q, s, t, u, v, w);
+
+            PagedItemResponse<Event> pagedItemResponse = eventService.SearchAllPagingWithFilters(pageIndex, pageSize, sd, q, st, t, ed, 
+                sdist);
+
+            ItemResponse<PagedItemResponse<Event>> itemResponse = new ItemResponse<PagedItemResponse<Event>>
+            {
+                Item = pagedItemResponse
+            };
+
+            //ItemsResponse<Event> itemsResponse = new ItemsResponse<Event>();
+
+            //itemsResponse.Items = events;
+
+            //return Request.CreateResponse(HttpStatusCode.OK, itemsResponse);
+
+            return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
         }
 
         [Route("user/{userId:int}"), HttpGet]

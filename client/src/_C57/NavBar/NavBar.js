@@ -76,9 +76,9 @@ class NavBar extends React.Component {
     } else if (key === "searchString") {
       this.setState({ searchStringN: val });
     } else {
-    this.setCriteriaProperties({
-      [key]: val
-    });
+      this.setCriteriaProperties({
+        [key]: val
+      });
     }
   };
 
@@ -171,7 +171,7 @@ class NavBar extends React.Component {
 
   /* UNCOMMENT THIS IF YOU NEED TO CHECK THIS.PROPS */
   componentDidMount() {
-  //   console.log("componentDidMount 1", this.props);
+    //   console.log("componentDidMount 1", this.props);
 
     const { currentUser, searchCriteria } = this.props;
 
@@ -225,50 +225,50 @@ class NavBar extends React.Component {
               </div>
               <div className="col-md-7 pl-2 pr-2 pl-md-4 order-md-2 order-3 col-12 mb-1 mt-2 mb-md-2 ">
                 <div className="d-flex align-items-center">
-                <div className="search-bar d-flex mx-sm-3 mx-0">
-                  <select
-                    className="selectpicker rounded-left border-right border-bottom-0 border-top-0 border-left-0 pl-1"
-                    type="select"
-                    data-width="fit"
-                    data-style="btn-primary"
-                    name="searchType"
+                  <div className="search-bar d-flex mx-sm-3 mx-0">
+                    <select
+                      className="selectpicker rounded-left border-right border-bottom-0 border-top-0 border-left-0 pl-1"
+                      type="select"
+                      data-width="fit"
+                      data-style="btn-primary"
+                      name="searchType"
                       value={this.state.dropdownListValue}
-                    id="exampleSelect"
-                    onChange={this.handleChange}
-                  >
+                      id="exampleSelect"
+                      onChange={this.handleChange}
+                    >
                       {/*THIS OPTION MUST STAY HERE SO THE 'ALL' OPTION DOESN'T DISAPPEAR*/}
                       {/* <option />  */}
-                    <option value="all">All</option>
-                    <option value="athletes">Athletes</option>
-                    <option value="coaches">Coaches</option>
-                    <option value="schools">Schools</option>
-                    <option value="events">Events</option>
-                    <option value="venues">Venues</option>
+                      <option value="all">All</option>
+                      <option value="athletes">Athletes</option>
+                      <option value="coaches">Coaches</option>
+                      <option value="schools">Schools</option>
+                      <option value="events">Events</option>
+                      <option value="venues">Venues</option>
                       {/* <option value="articles">Articles</option> */}
-                  </select>
+                    </select>
 
-                  <FormGroup>
-                    <Input
-                      className="form-control border-0 searchInput search-input-flash"
-                      type="search"
-                      name="searchString"
-                      placeholder="Search here..."
-                      onChange={this.handleChange}
-                      onKeyPress={this.handleKeyPress}
+                    <FormGroup>
+                      <Input
+                        className="form-control border-0 searchInput search-input-flash"
+                        type="search"
+                        name="searchString"
+                        placeholder="Search here..."
+                        onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}
                         // value={this.props.searchCriteria.searchString}
                         value={this.state.searchStringN}
-                    />
+                      />
                       <NavLink
                         to={`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`}
                         replace={true}
                         onClick={this.handlerNavLink}
                       >
-                      <Button className="search-icon pb-3">
-                        <i className="zmdi zmdi-search zmdi-hc-lg" />
-                      </Button>
-                    </NavLink>
-                  </FormGroup>
-                </div>
+                        <Button className="search-icon pb-3">
+                          <i className="zmdi zmdi-search zmdi-hc-lg" />
+                        </Button>
+                      </NavLink>
+                    </FormGroup>
+                  </div>
                   <div id={"Popover-Search-Filter"} onClick={this.toggle} className="pl-2 pl-md-0 pointer">
                     <i className="zmdi zmdi-filter-list zmdi-hc-2x text-white" title="Filter" />
                   </div>
@@ -279,7 +279,7 @@ class NavBar extends React.Component {
                   <Notifications />
                   <div className="pointer px-3 px-md-3 mr-md-2">
                     <Link to={`${this.props.match.url}/messaging`}>
-                    <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-2x text-white" />
+                      <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-2x text-white" />
                     </Link>
                   </div>
 
@@ -323,7 +323,6 @@ class NavBar extends React.Component {
               eventTypeFilter={this.props.searchCriteria.eventTypeFilter}
               eventStartDateFilter={this.props.searchCriteria.eventStartDateFilter}
               eventEndDateFilter={this.props.searchCriteria.eventEndDateFilter}
-              props={this.props}
             />
           )}
           {this.props.searchCriteria.searchType === "coaches" && (
