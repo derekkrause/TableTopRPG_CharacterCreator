@@ -175,6 +175,12 @@ class ProfileInfo extends React.Component {
     });
   };
 
+  verifyModalToggle = () => {
+    this.setState({
+      VerifyListModal: !this.state.VerifyListModal
+    });
+  };
+
   callback = () => {
     return schoolSearch(0, this.state.everyThing.SchoolName); // schoolSearch available in SchoolAdminServer.js
   };
@@ -285,18 +291,24 @@ class ProfileInfo extends React.Component {
                     </div>
                     {this.props.currentUser.id != this.props.currentPageId && (
                       <React.Fragment>
-                        <div className="row">
-                          <div onClick={this.toggleFollowerModal} className="col-2">
-                            Followers <Badge color="default">{this.state.followerLength}</Badge>
+                        <div className="row justify-content-center justify-content-md-start">
+                          <div onClick={this.toggleFollowerModal} className="d-flex mr-4 ">
+                            <h3>
+                              Followers&nbsp;&nbsp;
+                              {this.state.followerLength}
+                            </h3>
                           </div>
-                          <div onClick={this.toggleHighlightModal} className="col-2">
-                            Highlights <Badge color="default">{this.state.highlightLength}</Badge>
+                          <div onClick={this.toggleHighlightModal} className="d-flex ml-2">
+                            <h3>
+                              Highlights &nbsp;
+                              {this.state.highlightLength}
+                            </h3>
                           </div>
                         </div>
                       </React.Fragment>
                     )}
 
-                    <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0">
+                    <div className="row justify-content-center justify-content-md-between pl-1 pl-md-0 mb-4">
                       <div role="group" className="btn-group mt-3 mt-sm-3 mt-md-3 mt-lg-0">
                         {this.props.currentUser.id != this.props.currentPageId ? (
                           <React.Fragment>
@@ -336,19 +348,19 @@ class ProfileInfo extends React.Component {
                         ) : (
                           <React.Fragment>
                             <button
-                              className="jr-btn-default btn btn-default py-10 profileInfoBtn"
+                              className="jr-btn-default btn btn-default py-2 px-3 profileInfoBtn d-flex"
                               onClick={this.toggleFollowerModal}
                             >
-                              Followers
+                              <h3 className="mb-0">Followers</h3>
                               <Badge color="default" className="mb-0">
                                 {this.state.followerLength}
                               </Badge>
                             </button>
                             <button
-                              className="jr-btn-default btn btn-default py-10 profileInfoBtn"
+                              className="jr-btn-default btn btn-default py-2 px-3 profileInfoBtn d-flex"
                               onClick={this.toggleHighlightModal}
                             >
-                              Highlights
+                              <h3 className="mb-0">Highlights</h3>
                               <Badge color="default" className="mb-0">
                                 {this.state.highlightLength}
                               </Badge>
@@ -358,7 +370,7 @@ class ProfileInfo extends React.Component {
                       </div>
 
                       <div className="d-flex justify-content-end mt-3 mt-sm-3 mt-md-3 mt-lg-0 mb-0">
-                        <StatsButton className="mb-0 mr-2" style="rs-btn-primary-light" onClick={this.toggleLinks} />
+                        <StatsButton className="mr-2" style="rs-btn-primary-light" onClick={this.toggleLinks} />
 
                         {showMessageButton ? (
                           <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
@@ -369,11 +381,12 @@ class ProfileInfo extends React.Component {
                             <button
                               id="Tooltip"
                               type="button"
-                              className="jr-btn jr-btn-default btn btn-default profileInfoBtnTwo"
+                              className="jr-btn jr-btn-default btn btn-default profileInfoBtnTwo d-flex"
                               style={{ backgroundColor: "#cecece" }}
                             >
                               <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
-                              &nbsp;&nbsp; Message
+                              &nbsp;&nbsp;
+                              <h3 className="mb-0">Message</h3>
                             </button>
                             <Tooltip placement="bottom" target="Tooltip" isOpen={showToolTip} toggle={this.toggle}>
                               You can only message a user if you both follow each other!

@@ -130,7 +130,7 @@ const StatsButton = props => {
   return (
     <button
       type="button"
-      className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin}`}
+      className={`jr-btn jr-btn-default btn btn-default mb-0 ${props.style} ${props.margin}`}
       onClick={props.onClick}
     >
       <div className="d-flex justify-content-center align-items-center">

@@ -325,7 +325,7 @@ class NavBar extends React.Component {
               eventEndDateFilter={this.props.searchCriteria.eventEndDateFilter}
             />
           )}
-          {this.props.searchCriteria.searchType === "coaches" && (
+          {/* {this.props.searchCriteria.searchType === "coaches" && (
             <CoachSearchFilter
               className="bg-white"
               handleChange={this.onChange}
@@ -336,7 +336,7 @@ class NavBar extends React.Component {
               sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
               coachTitleFilter={this.props.searchCriteria.coachTitleFilter}
             />
-          )}
+          )} */}
           {this.props.searchCriteria.searchType === "articles" && (
             <ArticleSearchFilter
               className="bg-white"

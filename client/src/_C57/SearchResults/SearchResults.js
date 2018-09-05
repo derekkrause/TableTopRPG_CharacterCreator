@@ -15,8 +15,8 @@ class SearchResults extends React.Component {
       //   <div className="row px-4">
       //     <div className="col-xs-12 col-md-12">
       <div className="container">
-        <div className="row mt-3 ml-1">
-          <div className="col-12">
+        <div className="row justify-content-center mt-4">
+          <div className="col-12 col-sm-11 col-md-10 col-lg-10">
             <Route path={`${this.props.match.url}/all`} render={props => <AllSearchResults {...props} />} />
             <Route path={`${this.props.match.url}/athletes`} render={props => <AthleteSearchResults {...props} />} />
             <Route path={`${this.props.match.url}/coaches`} render={props => <CoachSearchResults {...props} />} />

@@ -19,3 +19,7 @@ export function updateCoachProfile(userData) {
 export function schoolSearch(searchString, city, state) {
   return axios.get("api/schools/search/?q=" + searchString + "&city=" + city + "&state=" + state);
 }
+
+export function getCoachBySearch(searchString, pageIndex, pageSize) {
+  return axios.get(`api/coachsearch/${pageIndex}/${pageSize}?q=${encodeURIComponent(searchString) || ""}`);
+}

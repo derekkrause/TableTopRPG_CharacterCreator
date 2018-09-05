@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class CoachProfileCard extends Component {
   state = {
@@ -26,55 +26,30 @@ class CoachProfileCard extends Component {
     // );
 
     return (
-      <div>
-        <div key={coach.coachId} className="user-list row card" style={{ borderLeft: "solid 8px purple" }}>
-          <div className="container ">
-            <div className="row ">
-              <div className="col-md-3">
-                <img className="myAvatar" src={coach.avatarUrl} alt="..." />
-                <p>Coach</p>
-              </div>
-              <div className="col-md-9">
-                <div className="row">
-                  <div className="col-md-8">
-                    <h2>
-                      <b>
-                        {coach.firstName} {coach.middleName} {coach.lastName}
-                      </b>
-                    </h2>
-                  </div>
+      <div
+        key={coach.coachId}
+        className="d-sm-flex flex-sm-row jr-card pr-2 pb-4 pb-md-2 justify-content-between"
+        style={{ borderLeft: "8px solid #f44336" }}
+      >
+        <div className="col-md-3 col-sm-3 col-12 px-0 text-center">
+          <img className="myAvatar" src={coach.avatarUrl} alt="..." />
+          <h4 className="mt-2">Coach</h4>
+        </div>
+        <div className="col-12 col-sm-8 col-mb-9 col-lg-9 p-3">
+          <h3 className="mb-1 font-weight-bold">
+            {coach.firstName} {coach.middleName} {coach.lastName}
+          </h3>
+          <p className="meta-date mb-2">{coach.school}</p>
 
-                  <div className="col-md-4">
-                    {/* {athlete.sportInfo.map(sp => {
-                      if (sp.Id == this.props.searchCriteria.sportFilter) {
-                        return <p className="float-right">{sp.SportPosition}</p>;
-                      }
-                    })} */}
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-10">
-                    <p>{coach.school}</p>
-                    {/* <p>Grad Year: {athlete.highSchoolGraduationYear}</p> */}
-                    <p className="line-clamp">Bio: {coach.shortBio}</p>
-                  </div>
-                  <div className="col-md-2" />
-                </div>
-                <div className="row">
-                  <div className="col-md-8" />
-                  <div className="col-md-4">
-                    <ul className="list-inline d-sm-flex gx-btn-list list-group">
-                      <li className="border-0 list-group-item">
-                        <NavLink to={`/app/Profile/${coach.userId}`} className="float-right">
-                          Button to Profile! > <i className="" />
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+          <p className="card-text line-clamp mb-2" style={{ height: "40px" }}>
+            {coach.shortBio}
+          </p>
+          <Link to={`/app/Profile/${coach.userId}`} style={{ textDecoration: "none", color: "#aaaaaa", width: "100%" }}>
+            <div className="home-header-btn float-right" style={{ width: "100px" }}>
+              <h5 className="card-heading mb-0 home-center-text">Go to Profile</h5> &nbsp;
+              <i className="zmdi zmdi-chevron-right home-center-text" />
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     );
