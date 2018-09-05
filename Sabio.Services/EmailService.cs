@@ -1,7 +1,6 @@
 using Sabio.Services.Interfaces;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Sabio.Services
@@ -17,7 +16,7 @@ namespace Sabio.Services
 
         public async Task<Response> Execute(Email email)
         {
-            var apiKey = configuration.UrlOrigin;
+            var apiKey = configuration.SendGridKey;
             var client = new SendGridClient(apiKey);
 
             string link = email.Link;

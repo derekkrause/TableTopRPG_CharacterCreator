@@ -6,8 +6,7 @@ namespace Sabio.Services
     // of IConfiguration that uses the database.
     public class HardCodedConfiguration : IConfiguration
     {
-        //public string SendGridKey => "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";
-        public string SendGridKey => "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";
+        public string SendGridKey => "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";
         public string UrlOrigin => "https://prospectscout.azurewebsites.net";
     }
 }
