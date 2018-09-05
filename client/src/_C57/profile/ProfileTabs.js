@@ -6,7 +6,14 @@ import ProfileImages from "./ProfileImages";
 import EventModal from "./EventModal";
 import CalendarModal from "./CalendarModal";
 import FileUploader from "../FileUploader/FileUploader";
-import { getEventsByUserId, getBlogsByUserId, getMediaByUserId, getPostsByUserId, getEventById } from "./ProfileServer";
+import {
+  getEventsByUserId,
+  getAttendingByUserId,
+  getBlogsByUserId,
+  getMediaByUserId,
+  getPostsByUserId,
+  getEventById
+} from "./ProfileServer";
 import { getFeed, postFeed, putUpdateFeed, deleteFeed } from "../../services/feed.sevice";
 import "./ProfileBanner.css";
 import Feed from "../Feed/Feed";
@@ -55,6 +62,7 @@ class ProfileTabs extends React.Component {
     selectedImg: 0,
     selectedVideo: 0,
     showPhotos: true,
+    fade: false,
 
     //-----Calendar States-----------
     name: "",
@@ -77,7 +85,42 @@ class ProfileTabs extends React.Component {
     eventId: 0,
     eventItem: {},
     organizerUser: {},
-    eventTypeItem: {}
+    eventTypeItem: {},
+    gameTeam: "",
+    gameOpponent: "",
+    gameTime: "",
+    gameLocation: "",
+    gameDescription: ""
+  };
+
+  handleGameChange = e => {
+    let key = e.target.name;
+    let val = e.target.value;
+    this.setState({
+      [key]: val
+    });
+  };
+
+  submitGame = () => {
+    let startTime = new Date(this.state.gameTime);
+    let endTime = startTime.setHours(startTime.getHours() + 2);
+    let newGame = {
+      title: `${this.state.gameTeam} vs ${this.state.gameOpponent}`,
+      start: new Date(this.state.gameTime),
+      end: new Date(endTime),
+      desc: this.state.gameDescription,
+      id: 99999
+    };
+    console.log(newGame);
+    let events = [...this.state.events, newGame];
+    this.setState({
+      events: events,
+      gameTeam: "",
+      gameOpponent: "",
+      gameTime: "",
+      gameLocation: "",
+      gameDescription: ""
+    });
   };
 
   handleImageUrlChange = newImageUrl => {
@@ -160,15 +203,23 @@ class ProfileTabs extends React.Component {
   nextImg = () => {
     this.setState(prevState => ({
       selectedImg: parseInt(prevState.selectedImg) + 1,
-      selectedVideo: parseInt(prevState.selectedVideo) + 1
+      selectedVideo: parseInt(prevState.selectedVideo) + 1,
+      fade: !this.state.fade
     }));
   };
 
   prevImg = () => {
     this.setState(prevState => ({
       selectedImg: parseInt(prevState.selectedImg) - 1,
-      selectedVideo: parseInt(prevState.selectedVideo) - 1
+      selectedVideo: parseInt(prevState.selectedVideo) - 1,
+      fade: !this.state.fade
     }));
+  };
+
+  fadeOut = () => {
+    this.setState({
+      fade: false
+    });
   };
 
   removeDeletedMedia = index => {
@@ -214,6 +265,7 @@ class ProfileTabs extends React.Component {
   handleDoubleClickEvent = event => {
     getEventById(event.id).then(response => {
       this.setState({
+        eventId: response.data.item.id,
         name: response.data.item.name,
         shortName: response.data.item.shortName,
         eventTypeId: response.data.item.eventTypeId,
@@ -237,8 +289,8 @@ class ProfileTabs extends React.Component {
   };
 
   componentDidMount() {
-    getEventsByUserId(parseInt(this.props.userProfile)).then(response => {
-      //console.log("GET events", response);
+    getAttendingByUserId(parseInt(this.props.userProfile)).then(response => {
+      //console.log("attending", response);
       if (response.data.resultSets) {
         let calEventArray = [];
         response.data.resultSets[0].map(event => {
@@ -256,6 +308,25 @@ class ProfileTabs extends React.Component {
         });
       }
     });
+    // getEventsByUserId(parseInt(this.props.userProfile)).then(response => {
+    //   //console.log("GET events", response);
+    //   if (response.data.resultSets) {
+    //     let calEventArray = [];
+    //     response.data.resultSets[0].map(event => {
+    //       let calEvent = {
+    //         title: event.name,
+    //         start: new Date(event.startDate),
+    //         end: new Date(event.endDate),
+    //         desc: event.description,
+    //         id: event.eventId
+    //       };
+    //       calEventArray.push(calEvent);
+    //     });
+    //     this.setState({
+    //       events: calEventArray
+    //     });
+    //   }
+    // });
 
     getMediaByUserId(parseInt(this.props.userProfile)).then(response => {
       console.log("GET Media by user Id", response);
@@ -328,69 +399,71 @@ class ProfileTabs extends React.Component {
           style={{ backgroundColor: "#f1f1f1" }}
         >
           <TabContainer dir={theme.direction}>
-            <Feed />
+                  <Feed />
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            {this.props.currentUser.id == this.props.userProfile && (
-              <div className="row">
-                <div className="col-md-1">
-                  <EventModal />
+              {this.props.currentUser.id == this.props.userProfile && (
+                <div className="row">
+                  <div className="col-md-1">
+                    <EventModal handleGameChange={this.handleGameChange} submitGame={this.submitGame} />
+                  </div>
+                </div>
+              )}
+              <div className="row mt-4">
+                <div className="col-md-12">
+                  <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
+                  <div style={{ overflow: "auto" }}>
+                    <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
+                  </div>
                 </div>
               </div>
-            )}
-            <div className="row mt-4">
-              <div className="col-md-12">
-                <CalendarModal showModal={this.state.showModal} toggle={this.toggle} {...this.state} />
-                <div style={{ overflow: "auto" }}>
-                  <ProfileCalendar handleDoubleClickEvent={this.handleDoubleClickEvent} events={this.state.events} />
-                </div>
-              </div>
-            </div>
           </TabContainer>
           <TabContainer dir={theme.direction}>
-            {this.props.currentUser.id == this.props.userProfile && (
-              <div className="row">
+              {this.props.currentUser.id == this.props.userProfile && (
+                <div className="row">
                 <div className="col-md-3 mb-2">
-                  <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
-                    + Add New Photo/Video
-                  </button>
+                    <button type="button" className="btn btn-primary" onClick={this.toggleUploadMode}>
+                      + Add New Photo/Video
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div className="row">
+                <div className="col-md-12">
+                  <ProfileImages
+                    videos={this.state.videos}
+                    images={this.state.images}
+                    togglePopover={this.togglePopover}
+                    showPopover={this.state.showPopover}
+                    toggleImgModal={this.toggleImgModal}
+                    photoView={this.photoView}
+                    videoView={this.videoView}
+                    showPhotos={this.state.showPhotos}
+                  />
+                  {this.state.showImgModal && (
+                    <ImageModal
+                      replaceCroppedImg={this.replaceCroppedImg}
+                      userProfile={this.props.userProfile}
+                      uploadMode={this.state.uploadMode}
+                      showImgModal={this.state.showImgModal}
+                      toggleImgModal={this.toggleImgModal}
+                      className={this.props.className}
+                      images={this.state.images}
+                      videos={this.state.videos}
+                      showPhotos={this.state.showPhotos}
+                      selectedImg={this.state.selectedImg}
+                      selectedVideo={this.state.selectedVideo}
+                      nextImg={this.nextImg}
+                      prevImg={this.prevImg}
+                      removeDeletedMedia={this.removeDeletedMedia}
+                      changeProfilePic={this.props.changeProfilePic}
+                      addNewMediaToState={this.addNewMediaToState}
+                      fade={this.state.fade}
+                      fadeOut={this.fadeOut}
+                    />
+                  )}
                 </div>
               </div>
-            )}
-            <div className="row">
-              <div className="col-md-12">
-                <ProfileImages
-                  videos={this.state.videos}
-                  images={this.state.images}
-                  togglePopover={this.togglePopover}
-                  showPopover={this.state.showPopover}
-                  toggleImgModal={this.toggleImgModal}
-                  photoView={this.photoView}
-                  videoView={this.videoView}
-                  showPhotos={this.state.showPhotos}
-                />
-                {this.state.showImgModal && (
-                  <ImageModal
-                    replaceCroppedImg={this.replaceCroppedImg}
-                    userProfile={this.props.userProfile}
-                    uploadMode={this.state.uploadMode}
-                    showImgModal={this.state.showImgModal}
-                    toggleImgModal={this.toggleImgModal}
-                    className={this.props.className}
-                    images={this.state.images}
-                    videos={this.state.videos}
-                    showPhotos={this.state.showPhotos}
-                    selectedImg={this.state.selectedImg}
-                    selectedVideo={this.state.selectedVideo}
-                    nextImg={this.nextImg}
-                    prevImg={this.prevImg}
-                    removeDeletedMedia={this.removeDeletedMedia}
-                    changeProfilePic={this.props.changeProfilePic}
-                    addNewMediaToState={this.addNewMediaToState}
-                  />
-                )}
-              </div>
-            </div>
           </TabContainer>
         </SwipeableViews>
       </div>

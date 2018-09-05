@@ -5,17 +5,26 @@ import NotificationItem from "./NotificationItem";
 import { Dropdown, DropdownToggle, DropdownMenu, CardHeader } from "reactstrap";
 import { connect } from "react-redux";
 import axios from "axios";
+import {
+  dismissAllNotifications,
+  dismissFollowNotification,
+  dismissLikeNotification,
+  getUnreadMessages,
+  dismissMessageNotifications
+} from "../../services/notifications.service";
 const $ = window.$;
 
 class Notifications extends React.Component {
   state = {
-    notifications: true,
+    notifications: false,
     clicked: true,
-    notificationArray: []
+    notificationArray: [],
+    newMessages: 0
   };
 
   componentDidMount() {
     this.checkNotifications();
+    this.messageNotifications();
 
     this.notificationHubProxy = $.connection.notificationsHub;
     this.notificationHubProxy.client.newNotification = notification => {
@@ -33,6 +42,70 @@ class Notifications extends React.Component {
         console.log("Could not Connect!", err);
       });
   }
+
+  notificationsExist = () => {
+    if (this.state.notificationArray.length < 1) {
+      this.setState({
+        notifications: false
+      });
+    }
+  };
+
+  dismissLike = (likeId, index) => {
+    dismissLikeNotification(likeId).then(res => {
+      let notifications = [...this.state.notificationArray];
+      notifications.splice(index, 1);
+      this.setState(
+        {
+          notificationArray: notifications
+        },
+        this.notificationsExist()
+      );
+    });
+  };
+
+  dismissFollow = (userId, followerId, index) => {
+    dismissFollowNotification(userId, followerId).then(res => {
+      let notifications = [...this.state.notificationArray];
+      notifications.splice(index, 1);
+      this.setState(
+        {
+          notificationArray: notifications
+        },
+        this.notificationsExist()
+      );
+    });
+  };
+  dismissAll = userId => {
+    dismissAllNotifications(userId).then(res => {
+      console.log(res);
+      this.setState({
+        notificationArray: [],
+        notifications: false
+      });
+    });
+  };
+
+  messageNotifications = () => {
+    getUnreadMessages(this.props.currentUser.id).then(res => {
+      if (parseInt(res.data.resultSets[0][0].UnreadMessages) > 0) {
+        this.setState({
+          newMessages: parseInt(res.data.resultSets[0][0].UnreadMessages),
+          notifications: true
+        });
+      }
+    });
+  };
+
+  dismissMessages = e => {
+    e.preventDefault();
+    dismissMessageNotifications(this.props.currentUser.id).then(res => {
+      console.log(res);
+      this.setState({
+        newMessages: 0
+      });
+    });
+  };
 
   onAppNotificationSelect = () => {
     this.setState({
@@ -56,12 +129,14 @@ class Notifications extends React.Component {
 
   checkNotifications = () => {
     return axios
-      .get("api/notifications/3")
+      .get("api/notifications/" + this.props.currentUser.id)
       .then(res => {
-        console.log("Boom Notifications!", res.data);
-        this.setState({
-          notificationArray: res.data
-        });
+        if (res.data.length > 0) {
+          this.setState({
+            notificationArray: res.data,
+            notifications: true
+          });
+        }
       })
       .catch(() => {
         console.log("Get All Failed");
@@ -84,7 +159,15 @@ class Notifications extends React.Component {
 
         <DropdownMenu right>
           {/* <CardHeader styleName="align-items-center" heading={<IntlMessages id="appNotification.title" />} /> */}
-          <AppNotification notificationArray={this.state.notificationArray} />
+          <AppNotification
+            notificationArray={this.state.notificationArray}
+            dismissLike={this.dismissLike}
+            dismissFollow={this.dismissFollow}
+            dismissAll={this.dismissAll}
+            currentUser={this.props.currentUser}
+            newMessages={this.state.newMessages}
+            dismissMessages={this.dismissMessages}
+          />
         </DropdownMenu>
       </Dropdown>
     );

@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Popover, PopoverBody } from "reactstrap";
-
+import { CSSTransition } from "react-transition-group";
+import "../profile/ImageModal.css";
 import VideoPlayerContainer from "../CustomComponents/VideoPlayer/VideoPlayerContainer";
 
 class FeedModal extends React.Component {
@@ -26,16 +27,32 @@ class FeedModal extends React.Component {
                 {this.props.images[this.props.selectedImg].type === "image" ||
                 this.props.images[this.props.selectedImg].type === "imageSmall" ||
                 this.props.images[this.props.selectedImg].type === "imageLarge" ? (
-                  <img
-                    className="mw-100 rounded"
-                    src={this.props.images[this.props.selectedImg].src}
-                    style={{ display: "block", margin: "auto" }}
-                  />
+                  <CSSTransition
+                    in={this.props.fade}
+                    timeout={300}
+                    unmountOnExit={false}
+                    onEntered={this.props.fadeOut}
+                    classNames="image"
+                  >
+                    <img
+                      className="mw-100 rounded"
+                      src={this.props.images[this.props.selectedImg].src}
+                      style={{ display: "block", margin: "auto" }}
+                    />
+                  </CSSTransition>
                 ) : (
-                  <VideoPlayerContainer
-                    className="w-100 rounded"
-                    videoUrl={this.props.videos[parseInt(this.props.selectedVideo)].src}
-                  />
+                  <CSSTransition
+                    in={this.props.fade}
+                    timeout={300}
+                    unmountOnExit={false}
+                    onEntered={this.props.fadeOut}
+                    classNames="image"
+                  >
+                    <VideoPlayerContainer
+                      className="w-100 rounded"
+                      videoUrl={this.props.videos[parseInt(this.props.selectedVideo)].src}
+                    />
+                  </CSSTransition>
                 )}
               </div>
               <div className="col-md-1">

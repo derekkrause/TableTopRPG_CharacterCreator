@@ -80,6 +80,7 @@
     "react-tag-input": "^5.1.2",
     "react-text-mask": "^5.0.2",
     "react-toggle-switch": "^3.0.4",
+    "react-transition-group": "^2.4.0",
     "reactstrap": "6.3.0",
     "recharts": "^1.0.0-alpha.7",
     "recompose": "^0.26.0",

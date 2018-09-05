@@ -27,6 +27,10 @@ export function getProfilePic(userId) {
 export function getEventsByUserId(userId) {
   return axios.get(nodeBaseUrl + "/profile/events/" + userId);
 }
+
+export function getAttendingByUserId(userId) {
+  return axios.get(nodeBaseUrl + "/profile/events/attending/" + userId);
+}
 export function getEventById(id) {
   return axios.get(baseUrl + "/events/" + id);
 }

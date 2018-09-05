@@ -56,7 +56,8 @@ const ProfileCalendar = props => {
         defaultDate={new Date(Date.now())}
         defaultView="month"
         drilldownView="day"
-        onDoubleClickEvent={props.handleDoubleClickEvent}
+        //onDoubleClickEvent={props.handleDoubleClickEvent}
+        onSelectEvent={props.handleDoubleClickEvent}
         //eventData={eventData ? eventData : ""}
         components={{
           event: Event,

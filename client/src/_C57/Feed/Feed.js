@@ -59,10 +59,10 @@ class Feed extends React.Component {
           //console.log("UPDATE/PUT", response);
           this.setState(
             {
-            title: "",
-            content: "",
-            imageUrl: [],
-            videoUrl: []
+              title: "",
+              content: "",
+              imageUrl: [],
+              videoUrl: []
             },
             this.renderFeed()
           );
@@ -74,11 +74,11 @@ class Feed extends React.Component {
           //console.log("CREATE/POST", response);
           this.setState(
             {
-            title: "",
-            content: "",
-            imageUrl: [],
-            videoUrl: [],
-            feedForm: false
+              title: "",
+              content: "",
+              imageUrl: [],
+              videoUrl: [],
+              feedForm: false
             },
             this.renderFeed()
           );
@@ -161,16 +161,16 @@ class Feed extends React.Component {
               <React.Fragment>
                 {this.props.currentUser.id == userId && (
                   <div className="jr-card shadow" style={{ cursor: "pointer" }} onClick={this.handleOnClickFeedForm}>
-                <div className="row">
-                  <div className="col-md-8 col-12">
-                    <h3 className="card-text">Share Photos, videos or Tips</h3>
+                    <div className="row">
+                      <div className="col-md-8 col-12">
+                        <h3 className="card-text">Share photos, videos and stories</h3>
+                      </div>
+                      <div className="col-md-4 col-12 text-right">
+                        <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-md-4 col-12 text-right">
-                    <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} />
-                  </div>
-                </div>
-              </div>
-            )}
+                )}
               </React.Fragment>
             )}
           </div>

@@ -215,7 +215,7 @@ class FeedHome extends React.Component {
               <div className="jr-card shadow" style={{ cursor: "pointer" }}>
                 <div className="row  home-center-text">
                   <div className="col-md-8 col-12">
-                    <h3 className="card-text">Share Photos, videos or Tips</h3>
+                    <h3 className="card-text">Share photos, videos and stories</h3>
                   </div>
                   <div className="col-md-4 col-12 text-right">
                     <CreateButton type="button" name="Post" onClick={this.handleOnClickFeedForm} url={"events"} />

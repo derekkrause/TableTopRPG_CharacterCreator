@@ -33,6 +33,7 @@ namespace Sabio.Services
                     {
                         CurrentUserId = (int)reader["CurrentUserId"],
                         PostId = (int)reader["PostId"],
+                        NotificationId = (int)reader["NotificationId"],
                         OtherUserId = (int)reader["OtherUserId"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         fullname = (string)reader["Fullname"],

@@ -9,4 +9,6 @@ router.get("/pic/:id", profilesController.getPicById);
 
 router.get("/events/:userId", profilesController.getEvents);
 
+router.get("/events/attending/:userId", profilesController.getAttendingByUserId);
+
 router.put("/:id", profilesController.put);

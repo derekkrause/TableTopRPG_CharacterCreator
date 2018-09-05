@@ -1,38 +1,10 @@
 import React, { Component } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { withGoogleMap, GoogleMap } from "react-google-maps";
+import { Link, withRouter } from "react-router-dom";
 
 class CalendarModal extends Component {
-  state = {
-    // modal: false,
-    // name: "",
-    // shortName: "",
-    // eventTypeId: 0,
-    // startDate: "",
-    // endDate: "",
-    // description: "",
-    // websiteUrl: "",
-    // logo: "",
-    // isOngoing: false,
-    // organizer: "",
-    // street: "",
-    // suite: "",
-    // city: "",
-    // state: "",
-    // zip: "",
-    // lat: 0.0,
-    // long: 0.0,
-    // eventId: 0,
-    // eventItem: {},
-    // organizerUser: {},
-    // eventTypeItem: {}
-  };
-
-  // toggle() {
-  //   this.setState({
-  //     modal: !this.state.modal
-  //   });
-  // }
+  state = {};
 
   render() {
     const SimpleMapGoogleMap = withGoogleMap(props => (
@@ -47,7 +19,9 @@ class CalendarModal extends Component {
         onBlur={this.props.toggle}
       >
         <ModalHeader toggle={this.toggle}>
-          <h2>{this.props.name}</h2>
+          <h2>
+            <b>{this.props.name}</b>
+          </h2>
           <h4 className="float-right">{new Date(this.props.startDate).toDateString()}</h4>
         </ModalHeader>
         <ModalBody>
@@ -62,56 +36,59 @@ class CalendarModal extends Component {
                 />
               </div>
               <div className="col-md-8">
-                <div className="text-muted mb-3">Organized by {this.props.organizer}</div>
-                <p className="h4 text-muted">{this.props.shortName}</p>
-                <p className="h4 text-muted">Event Type: {this.props.eventTypeItem.name}</p>
+                {/* <p className="h4 text-muted">{this.props.shortName}</p> */}
+                <h3 className="mb-3">Organized by {this.props.organizer}</h3>
+
+                {/* <p className="h4 text-muted">Event Type: {this.props.eventTypeItem.name}</p> */}
                 <p className="h4 text-muted">
-                  <a href={this.state.websiteUrl} target="_blank">
+                  <a href={this.props.websiteUrl} target="_blank">
                     {this.props.websiteUrl}
                   </a>
                 </p>
-                <h3>Start Date: {new Date(this.props.startDate).toDateString()}</h3>
-                <h3>End Date: {new Date(this.props.endDate).toDateString()}</h3>
+                <h3>Start:&nbsp; {new Date(this.props.startDate).toDateString()}</h3>
+                <h3>End:&nbsp; {new Date(this.props.endDate).toDateString()}</h3>
               </div>
             </div>
           )}
           {!this.props.logo && (
             <div className="row">
               <div className="col-md-12">
-                <div className="text-muted mb-3">Organized by {this.props.organizer}</div>
-                <p className="h4 text-muted">{this.props.shortName}</p>
-                <p className="h4 text-muted">Event Type: {this.props.eventTypeItem.name}</p>
+                <h3 className="mb-3">Organized by {this.props.organizer}</h3>
+                {/* <p className="h4 text-muted">{this.props.shortName}</p> */}
+                {/* <p className="h4 text-muted">Event Type: {this.props.eventTypeItem.name}</p> */}
                 <p className="h4 text-muted">
                   <a href={this.props.websiteUrl} target="_blank">
                     {this.props.websiteUrl}
                   </a>
                 </p>
-                <h3>Start Date: {new Date(this.props.startDate).toDateString()}</h3>
-                <h3>End Date: {new Date(this.props.endDate).toDateString()}</h3>
+                <h3>Start:&nbsp; {new Date(this.props.startDate).toDateString()}</h3>
+                <h3>End:&nbsp; {new Date(this.props.endDate).toDateString()}</h3>
               </div>
             </div>
           )}
+          <hr />
           <div className="row justify-content-center">
             <div className="col-md-12">
-              <h5 className="card-title my-2">Description</h5>
-              <p className="">{this.props.description}</p>
+              {/* <h5 className="card-title my-2">Description</h5> */}
+              <h3 className="">{this.props.description}</h3>
             </div>
           </div>
+          <hr />
           <div className="row">
             <div className="col-md-4">
-              <h4>Location:</h4>
+              <h3>Location:</h3>
 
               {this.props.suite ? (
-                <p>
+                <h4>
                   {this.props.street}, Suite {this.props.suite}
-                </p>
+                </h4>
               ) : (
-                <p>{this.props.street}</p>
+                <h4>{this.props.street}</h4>
               )}
 
-              <p>
+              <h4>
                 {this.props.city}, {this.props.state} {this.props.zip}
-              </p>
+              </h4>
             </div>
             <div className="col-md-8">
               <SimpleMapGoogleMap
@@ -122,13 +99,13 @@ class CalendarModal extends Component {
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="link" onClick={this.toggle}>
-            I'm Going
-          </Button>
+          <Link to={`/app/events/${this.props.eventId}`}>
+            <Button color="link">Go To Event Page</Button>
+          </Link>
         </ModalFooter>
       </Modal>
     );
   }
 }
 
-export default CalendarModal;
+export default withRouter(CalendarModal);

@@ -36,6 +36,18 @@ const getEvents = (req, res) => {
     });
 };
 
+const getAttendingByUserId = (req, res) => {
+  profilesService
+    .getAttendingByUserId(req.params.userId)
+    .then(response => {
+      res.status(200).send(response);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
+
 const put = (req, res) => {
   profilesService
     .put(req.body)
@@ -51,5 +63,6 @@ module.exports = {
   getById,
   getPicById,
   getEvents,
+  getAttendingByUserId,
   put
 };

@@ -63,6 +63,8 @@ router.use("/coachAthleteTag", coachAthleteTagRoutes);
 router.use("/coachAthlete", coachAthleteRoutes);
 router.use("/coachTags", coachTagsRoutes);
 
+router.use("/notifications", notificationsRoutes);
+
 router.use("/profile", profilesRoutes);
 router.use("/media", mediaRoutes);
 router.use("/follow", followRoutes);
