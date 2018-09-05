@@ -34,14 +34,12 @@ class HomePage extends React.Component {
           events: res.data.items
         });
       });
-
       getSchoolTrend().then(res => {
         // console.log("School get all", res);
         this.setState({
           schools: res.data.item.pagedItems
         });
       });
-
       const sportType = "Baseball";
       getAthleteTrend(sportType).then(res => {
         // console.log("GET TREND ATHLETE", res);
@@ -49,7 +47,6 @@ class HomePage extends React.Component {
           athletes: res.data.item.pagedItems
         });
       });
-
       getCoachTrend().then(res => {
         const coaches = res.data.resultSets[0].map(o => {
           var newObj = {};

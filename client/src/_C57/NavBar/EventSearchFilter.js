@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Redirect } from "react";
 import { Button, Form, Input, InputGroup, FormGroup, Label } from "reactstrap";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
@@ -17,8 +17,8 @@ class EventSearchFilter extends React.Component {
     highlightOnlyResult: false,
     minLength: 2,
     selectHintOnEnter: true,
-
-    eventTypeOptions: []
+    eventTypeOptions: [],
+    toEventsSearch: false
   };
 
   //   handleChange = (event, value) => {
@@ -28,16 +28,16 @@ class EventSearchFilter extends React.Component {
   getEventTypesList() {
     getEventTypes()
       .then(response => {
-        console.log("EventSearchFilter Get Event Types GET Ajax Request success!");
-        console.log(response);
+        // console.log("EventSearchFilter Get Event Types GET Ajax Request success!");
+        // console.log(response);
 
         const eventTypes = response.data.items;
 
         this.convertEventTypeObjToArray(eventTypes);
       })
       .catch(error => {
-        console.log("EventSearchFilter Get Event Types GET Ajax Request failed!");
-        console.log(error);
+        // console.log("EventSearchFilter Get Event Types GET Ajax Request failed!");
+        // console.log(error);
       });
   }
 
@@ -46,17 +46,61 @@ class EventSearchFilter extends React.Component {
       return eType.name;
     });
 
-    this.setState({ eventTypeOptions: eventTypeOptions });
+    this.setState({ eventTypeOptions: eventTypeOptions, toEventsSearch: true }, () => {
+      // console.log("EventSearchFilter props: ", this.props);
+      // this.props.history.push("/app/search/events");
+    });
   };
 
   componentDidMount() {
-    console.log("EventSearchFilter component mounted");
+    // const {searchCriteria} = this.props;
+
+    // console.log("EventSearchFilter component mounted");
+
+    // console.log("EventSearchFilter redux props: ", this.props);
 
     this.getEventTypesList();
+
+    // let currentDate = new Date(Date.now());
+
+    // console.log("EventSearchFilter currentDate: ", currentDate);
+
+    // this.props.handleDateChange(selectedDay, "eventStartDateFilter");
+    // this.props.handleDateChange(currentDate, "eventStartDateFilter");
+  }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props !== prevProps) {
+  //     console.log("EventSearchFilter component updated via props: ", this.props);
+  //   }
+
+  //   if (this.props.searchCriteria !== prevProps.searchCriteria) {
+  //     console.log("EventSearchFilter component updated via props searchCriteria: ", this.props.searchCriteria);
+  //   }
+  // }
+
+  componentWillUnmount() {
+    // console.log("EventSearchFilter component will unmount");
+    // console.log("Unmount props: ", this.props);
+
+    let currentDate = new Date(Date.now());
+
+    // this.props.setSearchCriteria({
+    //   locationFilter: "",
+    //   eventTypeFilter: "",
+    //   eventStartDateFilter: currentDate,
+    //   eventEndDateFilter: ""
+    // });
   }
 
   render() {
-    const { eventTypeOptions } = this.state;
+    const { eventTypeOptions, toEventsSearch } = this.state;
+
+    // if (toEventsSearch === true) {
+    //   return <Redirect to="/app/search/events" />;
+    // }
+
+    // console.log("EventSearchFilter render props: ", this.props);
 
     return (
       //---------------------Event Search Filter-------------------------
@@ -82,7 +126,7 @@ class EventSearchFilter extends React.Component {
             <h4>Event Type&nbsp;</h4>
             <Typeahead
               className="pr-3"
-              name="evenTypeFilter"
+              name="eventTypeFilter"
               {...this.state}
               //emptyLabel={emptyLabel ? "" : undefined}
               labelKey="name"
@@ -93,22 +137,27 @@ class EventSearchFilter extends React.Component {
             />
             &nbsp;
             <h4>Event Dates&nbsp;</h4>
-            <p className="text-center">
+            <div className="text-center">
+              {/* <p className="text-center"> */}
               Start
               <EventStartDatePicker
                 handleDateChange={this.props.handleDateChange}
                 handleChange={this.props.handleChange}
                 eventStartDateFilter={this.props.eventStartDateFilter}
               />
-            </p>
-            <p className="text-center">
+              {/* </p> */}
+            </div>
+            &nbsp;
+            <div className="text-center">
+              {/* <p className="text-center"> */}
               End
               <EventEndDatePicker
                 handleDateChange={this.props.handleDateChange}
                 handleChange={this.props.handleChange}
                 eventEndDateFilter={this.props.eventEndDateFilter}
               />
-            </p>
+              {/* </p> */}
+            </div>
             {/* <Typeahead
               className="pr-3"
               {...this.state}

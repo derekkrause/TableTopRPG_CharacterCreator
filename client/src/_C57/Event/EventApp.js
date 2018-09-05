@@ -5,8 +5,8 @@ import CardBox from "../../components/CardBox";
 import "./EventApp.css";
 
 import "./EventView";
-import "./EventsListView";
-import EventsListView from "./EventsListView";
+import "./EventsListView-R2";
+import EventsListView from "./EventsListView-R2";
 import EventView from "./EventView";
 import EventCardItem from "./EventCardItem";
 // import EventTypeListView from "./EventTypeListView";

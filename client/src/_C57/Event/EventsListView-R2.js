@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { getEventById, getEventList, getEventListPaged, getEventsListGet } from "../../services/Event.service";
 import "./EventView.css";
-import EventCardItem from "./EventCardItem";
+import EventCard from "./EventCard-R2";
 
 class EventsListView extends Component {
   state = {
@@ -106,7 +106,8 @@ class EventsListView extends Component {
       const eventPagedList = this.state.eventDataItem;
 
       // const cardList = this.createCardList(eventPagedList.pagedItems);
-      const cardList = this.createCardList(eventPagedList);
+      // const cardList = this.createCardList(eventPagedList);
+      const cardList = this.state.eventDataItem;
 
       this.setState({ eventCardsList: cardList });
     }
@@ -124,19 +125,18 @@ class EventsListView extends Component {
           <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
             <h2 className="title mb-3 mb-sm-0">{title}</h2>
             <h3>{/* Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages} */}</h3>
-            <NavLink
-              to={`${this.props.match.url}/form`}
-              // target="_blank"
-            >
+            <NavLink to={`/app/events/form`}>
               <Button color="primary" className="jr-btn">
                 Add Event
               </Button>
             </NavLink>
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
-            {eventCardsList.map(data => (
-              <EventCardItem key={data.id} eventId={data.id} {...this.props} />
-            ))}
+            {eventCardsList &&
+              eventCardsList.map(data => (
+                // <EventCardItem key={data.id} eventId={data.id} {...this.props} />
+                <EventCard key={data.id} eventId={data.id} data={data} {...this.props} />
+              ))}
             {/* User logged in: {this.state.currentUser.firstName} */}
           </div>
         </div>

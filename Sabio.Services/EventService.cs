@@ -792,7 +792,8 @@ namespace Sabio.Services
             return eventEvt;
         }
 
-        public List<Event> SearchAllWithFilters(string searchTerms = null, string searchState = null, int? searchEventType = null, DateTime? searchStartDate = null, DateTime? searchEndDate = null, int? searchDistance = null)
+        public List<Event> SearchAllWithFilters(string searchTerms = null, string searchState = null, int? searchEventType = null, 
+            DateTime? searchStartDate = null, DateTime? searchEndDate = null, int? searchDistance = null)
         {
             List<Event> events = new List<Event>();
 
@@ -884,6 +885,140 @@ namespace Sabio.Services
                 });
 
             return events;
+        }
+
+        public PagedItemResponse<Event> SearchAllPagingWithFilters(int pageIndex, int pageSize, DateTime searchStartDate, 
+            string searchTerms = null, string searchState = null, int? searchEventType = null, DateTime? searchEndDate = null, 
+            int? searchDistance = null)
+        {
+            PagedItemResponse<Event> pagedItemResponse = new PagedItemResponse<Event>();
+            List<Event> events = new List<Event>();
+
+            dataProvider.ExecuteCmd("Event_SearchAllPagingWithFilters",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@PageIndex", pageIndex);
+                    parameters.AddWithValue("@PageSize", pageSize);
+                    parameters.AddWithValue("@SearchTerms", searchTerms);
+                    parameters.AddWithValue("@SearchState", searchState);
+                    parameters.AddWithValue("@SearchEventType", searchEventType);
+                    parameters.AddWithValue("@SearchStartDate", searchStartDate);
+                    parameters.AddWithValue("@SearchEndDate", searchEndDate);
+                    parameters.AddWithValue("@SearchDistance", searchDistance);
+                },
+                (reader, resultSetIndex) =>
+                {
+                    Event eventItem = new Event
+                    {
+                        Id = (int)reader["Id"],
+                        Name = (string)reader["Name"],
+                        ShortName = (string)reader["ShortName"],
+                        EventTypeId = (int)reader["EventTypeId"],
+                        // AddressId = (int)reader["AddressId"],
+                        IsOngoing = (bool)reader["IsOngoing"],
+                        CreatedBy = (int)reader["CreatedBy"],
+                        ModifiedBy = (int)reader["ModifiedBy"],
+                        DateCreated = (DateTime)reader["DateCreated"],
+                        Street = (string)reader["Street"],
+                        Suite = (string)reader["Suite"],
+                        City = (string)reader["City"],
+                        State = (string)reader["State"],
+                        Zip = (string)reader["Zip"]
+                    };
+
+                    object startDateObj = reader["StartDate"];
+                    if (startDateObj != DBNull.Value)
+                    {
+                        eventItem.StartDate = (DateTime)startDateObj;
+                    }
+
+                    object endDateObj = reader["EndDate"];
+                    if (endDateObj != DBNull.Value)
+                    {
+                        eventItem.EndDate = (DateTime)endDateObj;
+                    }
+
+                    object descObj = reader["Description"];
+                    if (descObj != DBNull.Value)
+                    {
+                        eventItem.Description = (string)descObj;
+                    }
+
+                    object webUrl = reader["WebsiteUrl"];
+                    if (webUrl != DBNull.Value)
+                    {
+                        eventItem.WebsiteUrl = (string)webUrl;
+                    }
+
+                    object logoObj = reader["Logo"];
+                    if (logoObj != DBNull.Value)
+                    {
+                        eventItem.Logo = (string)logoObj;
+                    }
+
+                    object orgObj = reader["Organizer"];
+                    if (orgObj != DBNull.Value)
+                    {
+                        eventItem.Organizer = (string)orgObj;
+                    }
+
+                    object dateModObj = reader["DateModified"];
+                    if (dateModObj != DBNull.Value)
+                    {
+                        eventItem.DateModified = (DateTime)dateModObj;
+                    }
+
+                    object latObj = reader["Lat"];
+                    if (latObj != DBNull.Value)
+                    {
+                        eventItem.Lat = (double)latObj;
+                    }
+
+                    object longObj = reader["Long"];
+                    if (longObj != DBNull.Value)
+                    {
+                        eventItem.Long = (double)longObj;
+                    }
+
+                    pagedItemResponse.TotalCount = (int)reader["TotalCount"];
+                    pagedItemResponse.PageIndex = (int)reader["PageIndex"];
+                    pagedItemResponse.PageSize = (int)reader["PageSize"];
+
+                    events.Add(eventItem);
+                });
+
+            pagedItemResponse.PagedItems = events;
+
+            if (pagedItemResponse.PageSize == 0)
+            {
+                pagedItemResponse.TotalPages = 0;
+            } else
+            {
+                pagedItemResponse.TotalPages = (int)Math.Ceiling(pagedItemResponse.TotalCount / (decimal)pagedItemResponse.PageSize);
+            }
+            
+            pagedItemResponse.HasPrevPage = true;
+            pagedItemResponse.HasNextPage = true;
+
+            if (pagedItemResponse.PageIndex == 0)
+            {
+                pagedItemResponse.HasPrevPage = false;
+                pagedItemResponse.HasNextPage = true;
+            }
+
+            if (pagedItemResponse.PageIndex == pagedItemResponse.TotalPages - 1)
+            {
+                pagedItemResponse.HasPrevPage = true;
+                pagedItemResponse.HasNextPage = false;
+            }
+
+            if (pagedItemResponse.PageIndex == 0 && pagedItemResponse.TotalPages == 1)
+            {
+                pagedItemResponse.HasPrevPage = false;
+                pagedItemResponse.HasNextPage = false;
+            }
+
+            return pagedItemResponse;
         }
 
         public List<Event> GetUpcoming()

@@ -9,31 +9,34 @@ class EventEndDatePicker extends React.Component {
   };
 
   handleDayChange = (selectedDay, modifiers) => {
-    this.props.handleDateChange(selectedDay, "eventEndDateFilter");
-
     this.setState({
       selectedDay,
       isDisabled: modifiers.disabled === true
     });
+
+    this.props.handleDateChange(selectedDay, "eventEndDateFilter");
   };
+
+  componentWillMount() {
+    const { eventEndDateFilter } = this.props;
+
+    const endDate = eventEndDateFilter;
+
+    this.setState({ selectedDay: endDate });
+  }
 
   render() {
     const { selectedDay, isDisabled } = this.state;
     return (
       <div>
         {/* <p>
-          {!selectedDay && "Type or pick a valid day"}
-          {selectedDay && isDisabled && "This day is disabled"}
-          {selectedDay &&
-            !isDisabled &&
-            `You chose ${selectedDay.toLocaleDateString()}`}
+          {!selectedDay && "🤔 Type or pick a valid day"}
+          {selectedDay && isDisabled && "😡 This day is disabled"}
+          {selectedDay && !isDisabled && `😄 You chose ${selectedDay.toLocaleDateString()}`}
         </p> */}
         <DayPickerInput
-          className="datePickerInput"
-          name="eventEndDateFilter"
-          value={this.props.eventEndDateFilter}
+          value={selectedDay}
           onDayChange={this.handleDayChange}
-          onChange={this.props.handleChange}
           dayPickerProps={{
             selectedDays: selectedDay,
             disabledDays: {

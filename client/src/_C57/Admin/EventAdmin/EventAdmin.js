@@ -3,7 +3,7 @@ import { Route, withRouter, NavLink } from "react-router-dom";
 
 import EventAdminListView from "./EventAdminListView";
 import EventView from "../../Event/EventView";
-import EventForm from "../../Event/EventForm";
+import EventForm from "../../Event/EventForm-R2";
 
 class EventAdmin extends Component {
   render() {

@@ -19,7 +19,10 @@ namespace Sabio.Services.Interfaces
         PagedItemResponse<Event> SearchAllPaging(int pageIndex, int pageSize, string searchTerms);
         List<Event> GetByUserId(int userId);
         List<Event> SearchAll(string searchTerms);
-        //List<Event> SearchAllWithFilters(string searchTerms, string searchState, int? searchEventType, DateTime? searchStartDate, DateTime? searchEndDate, int? searchDistance);
         List<Event> SearchAllWithFilters(string searchTerms = null, string searchState = null, int? searchEventType = null, DateTime? searchStartDate = null, DateTime? searchEndDate = null, int? searchDistance = null);
+        PagedItemResponse<Event> SearchAllPagingWithFilters(int pageIndex, int pageSize, DateTime searchStartDate,
+            string searchTerms = null, string searchState = null, int? searchEventType = null, DateTime? searchEndDate = null,
+            int? searchDistance = null);
+        List<Event> GetUpcoming();
     }
 }

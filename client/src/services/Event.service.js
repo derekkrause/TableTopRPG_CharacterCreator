@@ -52,6 +52,22 @@ export function searchEventsWithFiltersGet(
   return axios.get(encodedUri);
 }
 
+export function searchEventsPagedWithFiltersGet(
+  pageIndex,
+  pageSize,
+  searchTerms,
+  searchState,
+  searchEventType,
+  searchStartDate,
+  searchEndDate,
+  searchDistance
+) {
+  const url = `/api/events/searchfilters/${pageIndex}/${pageSize}?q=${searchTerms}&st=${searchState}&t=${searchEventType}&sd=${searchStartDate}&ed=${searchEndDate}&sdist=${searchDistance}`;
+  const encodedUri = encodeURI(url);
+
+  return axios.get(encodedUri);
+}
+
 export function getUpcoming() {
   return axios.get("/api/events/upcoming");
 }

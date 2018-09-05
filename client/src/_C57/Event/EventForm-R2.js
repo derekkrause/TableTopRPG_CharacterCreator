@@ -54,7 +54,8 @@ class EventForm extends Component {
     alert: null,
     geocodeAlert: null,
 
-    currentUser: {}
+    currentUser: {},
+    showAlert: null
   };
 
   emptyState = {
@@ -122,48 +123,62 @@ class EventForm extends Component {
 
   handlerCreateEvent = () => {
     const createdUser = this.state.currentUser.id;
+    const { name, shortName, street, city, state, zip } = this.state;
 
-    const newAddress = {
-      street: this.state.street,
-      city: this.state.city,
-      state: this.state.state,
-      zip: this.state.zip
-    };
+    // if statement on submit to have values present
+    const enteredValues =
+      (name !== "" || name !== undefined) &&
+      (shortName !== "" || shortName !== undefined) &&
+      (street !== "" || street !== undefined) &&
+      (city !== "" || city !== undefined) &&
+      (state !== "" || state !== undefined) &&
+      (zip !== "" || zip !== undefined);
 
-    const address = `${newAddress.street}, ${newAddress.city}, ${newAddress.state} ${newAddress.zip}`;
+    if (enteredValues === true) {
+      const newAddress = {
+        street: this.state.street,
+        city: this.state.city,
+        state: this.state.state,
+        zip: this.state.zip
+      };
 
-    console.log("Converting from address: ", address);
-    console.log("to Lat/Long coordinates...");
+      const address = `${newAddress.street}, ${newAddress.city}, ${newAddress.state} ${newAddress.zip}`;
 
-    Geocode.fromAddress(address).then(
-      response => {
-        const { lat, lng } = response.results[0].geometry.location;
-        console.log(lat, lng);
+      // console.log("Converting from address: ", address);
+      // console.log("to Lat/Long coordinates...");
 
-        this.setState({ lat: lat, long: lng }, () => {
+      Geocode.fromAddress(address).then(
+        response => {
+          const { lat, lng } = response.results[0].geometry.location;
+          console.log(lat, lng);
+
+          this.setState({ lat: lat, long: lng }, () => {
+            const newEvent = this.readForm();
+
+            newEvent.CreatedBy = createdUser;
+            newEvent.ModifiedBy = createdUser;
+
+            this.createEvent(newEvent);
+          });
+        },
+        error => {
+          console.error(error);
+
+          // console.log("Cannot save Lat/Long coordinates from address. Creating event anyway.");
+
           const newEvent = this.readForm();
 
           newEvent.CreatedBy = createdUser;
           newEvent.ModifiedBy = createdUser;
 
           this.createEvent(newEvent);
-        });
-      },
-      error => {
-        console.error(error);
+        }
+      );
 
-        console.log("Cannot save Lat/Long coordinates from address. Creating event anyway.");
-
-        const newEvent = this.readForm();
-
-        newEvent.CreatedBy = createdUser;
-        newEvent.ModifiedBy = createdUser;
-
-        this.createEvent(newEvent);
-      }
-    );
-
-    // console.log("Conversion is temporily disabled due to API usage issue.");
+      // console.log("Conversion is temporily disabled due to API usage issue.");
+    } else {
+      // Show alert
+    }
   };
 
   handlerEditEvent = () => {
@@ -180,8 +195,8 @@ class EventForm extends Component {
     const address = `${editAddress.street}, ${editAddress.city}, ${editAddress.state} ${editAddress.zip}`;
 
     console.log(editAddress);
-    console.log("Converting from address: ", address);
-    console.log("to Lat/Long coordinates...");
+    // console.log("Converting from address: ", address);
+    // console.log("to Lat/Long coordinates...");
 
     if (address.street !== "" && address.city !== "" && address.state !== "" && address.zip !== "") {
       Geocode.fromAddress(address).then(
@@ -201,7 +216,7 @@ class EventForm extends Component {
         error => {
           console.error(error);
 
-          console.log("Cannot save Lat/Long coordinates from address. Editing/Updating event anyway.");
+          // console.log("Cannot save Lat/Long coordinates from address. Editing/Updating event anyway.");
 
           const editedEvent = this.readForm();
 
@@ -214,7 +229,7 @@ class EventForm extends Component {
 
       // console.log("Conversion is temporily disabled due to API usage issue.");
     } else {
-      console.log("Enter a valid address!");
+      // console.log("Enter a valid address!");
 
       const getAlert = () => (
         <SweetAlert danger title="Enter a valid address!" onConfirm={() => this.setState({ geocodeAlert: null })} />
@@ -265,7 +280,7 @@ class EventForm extends Component {
 
       this.setState({ deleteAlert: getAlert() });
     } else {
-      console.log("You are not the user who created the event! Delete Event error!");
+      // console.log("You are not the user who created the event! Delete Event error!");
     }
   };
 
@@ -304,7 +319,7 @@ class EventForm extends Component {
   };
 
   cancelEventForm = () => {
-    console.log("Cancel Event Form Entry!");
+    // console.log("Cancel Event Form Entry!");
 
     this.clearForm();
 
@@ -314,13 +329,13 @@ class EventForm extends Component {
   };
 
   cancelAlert = () => {
-    this.setState({ cancelAlert: null });
+    this.setState({ cancelAlert: null, showAlert: null });
   };
 
   deleteEvent = () => {
     const { eventId } = this.state;
 
-    console.log("Deleting Event ID: ", eventId);
+    // console.log("Deleting Event ID: ", eventId);
 
     deleteEventDelete(eventId)
       .then(response => {
@@ -389,7 +404,7 @@ class EventForm extends Component {
   };
 
   editEvent = eventToEdit => {
-    console.log("eventToEdit: ", eventToEdit);
+    // console.log("eventToEdit: ", eventToEdit);
 
     editEventPut(eventToEdit.Id, eventToEdit)
       .then(response => {
@@ -459,6 +474,20 @@ class EventForm extends Component {
     });
   };
 
+  showAlert = alertType => {
+    if (alertType === "formIncomplete") {
+      const getAlert = () => (
+        <SweetAlert
+          title="Event form is missing the event name, short name, start date, end date, and/or address. Please fill in the missing items"
+          onConfirm={this.cancelAlert}
+          type="warning"
+        />
+      );
+
+      this.setState({ showAlert: getAlert });
+    }
+  };
+
   getEventTypes = () => {
     getEventTypes()
       .then(response => {
@@ -482,21 +511,21 @@ class EventForm extends Component {
 
     const address = `${addressObj.street}, ${addressObj.city}, ${addressObj.state} ${addressObj.zip}`;
 
-    console.log("address: ", address);
+    // console.log("address: ", address);
 
     if (address) {
-      console.log("Converting from address: ", address);
-      console.log("to Lat/Long coordinates...");
+      // console.log("Converting from address: ", address);
+      // console.log("to Lat/Long coordinates...");
 
       Geocode.fromAddress(address).then(
         response => {
           const { lat, lng } = response.results[0].geometry.location;
-          console.log(lat, lng);
+          // console.log(lat, lng);
 
           this.setState({ lat: lat, long: lng }, () => {});
         },
         error => {
-          console.error(error);
+          // console.error(error);
         }
       );
     }
@@ -535,7 +564,7 @@ class EventForm extends Component {
 
     const eventId = this.props.match.params.eventId;
 
-    console.log("Form eventId: ", eventId);
+    // console.log("Form eventId: ", eventId);
 
     if (eventId) {
       this.getEventInfo(eventId);
@@ -597,7 +626,7 @@ class EventForm extends Component {
 
     // console.log("render eventTypeItems: ", eventTypeItems);
 
-    const { cancelAlert, deleteAlert, geocodeAlert } = this.state;
+    const { cancelAlert, deleteAlert, geocodeAlert, showAlert } = this.state;
 
     return (
       <div>
@@ -851,7 +880,7 @@ class EventForm extends Component {
             </div>
           </div>
         </div>
-        {cancelAlert} {deleteAlert} {geocodeAlert}
+        {cancelAlert} {deleteAlert} {geocodeAlert} {showAlert}
         <NotificationContainer />
       </div>
     );
