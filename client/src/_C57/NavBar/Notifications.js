@@ -115,23 +115,23 @@ class Notifications extends React.Component {
 
   onAppNotificationSelect = () => {
     this.setState({
-      appNotification: !this.state.appNotification,
-      notifications: false
+      appNotification: !this.state.appNotification
+      // notifications: false
     });
   };
 
-  handleNotificationClick = () => {
-    if (!this.state.clicked) {
-      this.setState({
-        clicked: true,
-        notifications: false
-      });
-    } else {
-      this.setState({
-        clicked: false
-      });
-    }
-  };
+  // handleNotificationClick = () => {
+  //   if (!this.state.clicked) {
+  //     this.setState({
+  //       clicked: true,
+  //       notifications: false
+  //     });
+  //   } else {
+  //     this.setState({
+  //       clicked: false
+  //     });
+  //   }
+  // };
 
   checkNotifications = () => {
     return axios

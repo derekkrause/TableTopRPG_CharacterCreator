@@ -168,6 +168,7 @@ class App extends React.Component {
                     <Route path={`${match.url}/home`} component={HomeAsyncComponent} />
                     <Route path={`${match.url}/messaging`} component={MessageAsyncComponent} />
                     <Route path={`${match.url}/pogs`} component={PogsAsyncComponent} />
+
                     <Route
                       path={`${match.url}/profile/:id(\\d+)`}
                       render={props => {

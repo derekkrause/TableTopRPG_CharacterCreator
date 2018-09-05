@@ -1,5 +1,6 @@
 const mssql = require("../../mssql");
 const TYPES = require("tedious").TYPES;
+const { signalNotificationForUser } = require("./dotnet-interop.service");
 
 const getMessageContacts = id => {
   return mssql
@@ -52,6 +53,7 @@ const post = item => {
       sqlRequest.addParameter("UserNotified", TYPES.Bit, item.userNotified);
     })
     .then(() => {
+      signalNotificationForUser(item.userId);
       return true;
     });
 };

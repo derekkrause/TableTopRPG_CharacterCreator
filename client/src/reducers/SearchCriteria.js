@@ -3,6 +3,7 @@ import { SET_SEARCH_CRITERIA } from "../constants/ActionTypes";
 export default function SearchCriteria(state, action) {
   if (!state) {
     return {
+      currentSearchNumber: 1,
       collapsed: true,
       searchString: "",
       search: "",

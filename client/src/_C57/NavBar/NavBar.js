@@ -38,6 +38,7 @@ class NavBar extends React.Component {
       ...properties
     });
   };
+
   handleTypeAheadChange = name => values => {
     this.setCriteriaProperties({
       [name]: values
@@ -122,26 +123,27 @@ class NavBar extends React.Component {
   };
 
   handleKeyPress = e => {
-    //console.log("key pressed", e.which);
-
     let name = e.target.name;
-    let value = e.target.value;
-
     if (e.which === 13 && name === "searchString") {
-      // this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
-
       const { searchStringN, dropdownListValue } = this.state;
       const newPushRoute = `${this.props.match.url}/search/${dropdownListValue}`;
-
-      this.setCriteriaProperties({ searchString: searchStringN, searchType: dropdownListValue });
-
+      this.setCriteriaProperties({
+        searchString: searchStringN,
+        searchType: dropdownListValue,
+        currentSearchNumber: this.props.searchCriteria.CurrentSearchNumber + 1
+      });
       this.goNewRoute(newPushRoute);
     }
   };
 
-  handlerLink = () => {
-    // For link to /home
+  handleKeyDown = e => {
+    if (e.charCode === 13 || e.which === 13) {
+      this.setCriteriaProperties({ currentSearchNumber: this.props.searchCriteria.currentSearchNumber + 1 });
+      this.props.history.push(`${this.props.match.url}/search/${this.props.searchCriteria.searchType}`);
+    }
+  };
 
+  handlerLink = () => {
     this.setState({ searchStringN: "", dropdownListValue: "all" });
 
     this.setCriteriaProperties({ searchString: "", searchType: "all" });
@@ -165,7 +167,6 @@ class NavBar extends React.Component {
   };
 
   toggle = () => {
-    //console.log("Refine Search Filter: clicked");
     this.setCriteriaProperties({ collapsed: !this.props.searchCriteria.collapsed });
   };
 
@@ -232,7 +233,7 @@ class NavBar extends React.Component {
                       data-width="fit"
                       data-style="btn-primary"
                       name="searchType"
-                      value={this.state.dropdownListValue}
+                      value={this.state.searchCriteria.searchType}
                       id="exampleSelect"
                       onChange={this.handleChange}
                     >
@@ -255,7 +256,6 @@ class NavBar extends React.Component {
                         placeholder="Search here..."
                         onChange={this.handleChange}
                         onKeyPress={this.handleKeyPress}
-                        // value={this.props.searchCriteria.searchString}
                         value={this.state.searchStringN}
                       />
                       <NavLink
@@ -304,6 +304,7 @@ class NavBar extends React.Component {
               className="bg-white"
               handleChange={this.onChange}
               handleKeyPress={this.handleKeyPress}
+              handleKeyDown={this.handleKeyDown}
               handleTypeAheadChange={this.handleTypeAheadChange}
               handleCurrentSportChange={this.handleCurrentSportChange}
               locationFilter={this.props.searchCriteria.locationFilter}
@@ -325,7 +326,7 @@ class NavBar extends React.Component {
               eventEndDateFilter={this.props.searchCriteria.eventEndDateFilter}
             />
           )}
-          {/* {this.props.searchCriteria.searchType === "coaches" && (
+          {this.props.searchCriteria.searchType === "coaches" && (
             <CoachSearchFilter
               className="bg-white"
               handleChange={this.onChange}
@@ -336,7 +337,7 @@ class NavBar extends React.Component {
               sportLevelFilter={this.props.searchCriteria.sportLevelFilter}
               coachTitleFilter={this.props.searchCriteria.coachTitleFilter}
             />
-          )} */}
+          )}
           {this.props.searchCriteria.searchType === "articles" && (
             <ArticleSearchFilter
               className="bg-white"
