@@ -150,7 +150,7 @@ class AdvocateTab extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="white" style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px" }}>
+        <AppBar position="static" style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px", backgroundColor: 'white' }}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
