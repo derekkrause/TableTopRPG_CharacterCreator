@@ -25,8 +25,8 @@ class HighlightListModal extends React.Component {
 
   getHighlightedUsers = () => {
     getAllHighlightListById(this.props.currentPageId).then(response => {
+      console.log(response);
       const info = response.data.resultSets[0];
-      console.log(info);
       this.setState(
         {
           highlightInfo: info
@@ -61,7 +61,10 @@ class HighlightListModal extends React.Component {
           toggle={this.props.toggleHighlightModal}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.props.toggleHighlightModal}>Highlight List</ModalHeader>
+          <ModalHeader toggle={this.props.toggleHighlightModal}>
+            Highlight List :{" "}
+            {this.state.highlightInfo && <React.Fragment>{this.state.highlightInfo.length} Highlights</React.Fragment>}
+          </ModalHeader>
           <ModalBody>
             <div>
               {this.state.highlightInfo && (

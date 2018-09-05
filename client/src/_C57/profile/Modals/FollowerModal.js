@@ -62,7 +62,10 @@ class followerModal extends React.Component {
           toggle={this.props.toggleFollowerModal}
           className={this.props.className}
         >
-          <ModalHeader toggle={this.props.toggleFollowerModal}>Follow List</ModalHeader>
+          <ModalHeader toggle={this.props.toggleFollowerModal}>
+            Follow List :{" "}
+            {this.state.followerInfo && <React.Fragment>{this.state.followerInfo.length} Follows</React.Fragment>}
+          </ModalHeader>
           <ModalBody>
             <div>
               {this.state.followerInfo && (

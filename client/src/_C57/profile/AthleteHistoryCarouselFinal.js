@@ -71,6 +71,7 @@ class AthleteHistoryCarouselFinal extends React.Component {
         console.log(res, "deleted");
         this.getAthleteSportInfo();
         this.cancelAlert();
+        this.setState({ activeIndex: 0 });
         this.deleteAthleteTeamNotification();
       })
       .catch(res => console.log(res, "not deleted"));
@@ -137,17 +138,17 @@ class AthleteHistoryCarouselFinal extends React.Component {
               <div className="d-flex justify-content-between align-items-center">
                 <h3 className="mb-0">Athlete History</h3>
 
-              {this.props.currentUser.id == currentPageId ? (
-                <AthleteTeamPopover
-                  items={this.state.items}
-                  onDelete={this.delete}
-                  onEditClick={this.onEditClick}
-                  onAddNewToggle={this.onAddNewToggle}
-                  popover={"AthleteTeam"}
-                />
-              ) : (
-                <div />
-              )}
+                {this.props.currentUser.id == currentPageId ? (
+                  <AthleteTeamPopover
+                    items={this.state.items}
+                    onDelete={this.delete}
+                    onEditClick={this.onEditClick}
+                    onAddNewToggle={this.onAddNewToggle}
+                    popover={"AthleteTeam"}
+                  />
+                ) : (
+                  <div />
+                )}
               </div>
             </React.Fragment>
           ) : (

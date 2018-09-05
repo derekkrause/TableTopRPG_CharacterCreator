@@ -44,9 +44,13 @@ class Notifications extends React.Component {
   }
 
   notificationsExist = () => {
-    if (this.state.notificationArray.length < 1) {
+    if (this.state.notificationArray.length < 1 && this.state.newMessages < 0) {
       this.setState({
         notifications: false
+      });
+    } else {
+      this.setState({
+        notifications: true
       });
     }
   };
@@ -89,10 +93,12 @@ class Notifications extends React.Component {
   messageNotifications = () => {
     getUnreadMessages(this.props.currentUser.id).then(res => {
       if (parseInt(res.data.resultSets[0][0].UnreadMessages) > 0) {
-        this.setState({
-          newMessages: parseInt(res.data.resultSets[0][0].UnreadMessages),
-          notifications: true
-        });
+        this.setState(
+          {
+            newMessages: parseInt(res.data.resultSets[0][0].UnreadMessages)
+          },
+          this.notificationsExist()
+        );
       }
     });
   };

@@ -207,9 +207,9 @@ class Card extends React.Component {
                   <div className="col-md-2">
                     <img src={avatarUrl} className="float-left user-avatar rounded-circle mr-3" />
                     <NavLink to={`/app/profile/${this.props.athleteUserId}`}>
-                      <div className="float-left mt-3">
-                        {name} {lastName}
-                      </div>
+                    <div className="float-left mt-3">
+                      {name} {lastName}
+                    </div>
                     </NavLink>
                   </div>
 
@@ -390,6 +390,7 @@ class Card extends React.Component {
     if (this.props.notes) {
       this.getShortNotes();
     }
+    console.log(this.props);
   }
 }
 

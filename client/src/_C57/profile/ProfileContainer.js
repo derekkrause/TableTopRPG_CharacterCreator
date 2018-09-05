@@ -203,15 +203,15 @@ class ProfileContainer extends React.Component {
       sat: this.state.sat,
       act: this.state.act,
       gpa: this.state.gpa,
-      academicNotes: this.state.academicNotes,
-      shortBio: this.state.bio
+      academicNotes: this.state.academicNotes
     };
     putAthleteById(payload).then(res => {});
   };
+
   handleEditBio = bio => {
     this.setState(
       {
-        bio
+        bio: bio
       },
       () => this.handleSaveProfile()
     );
@@ -297,7 +297,7 @@ class ProfileContainer extends React.Component {
                   popover="bio"
                   handleChange={this.handleChange}
                   bio={this.state.bio}
-                  handleSaveProfile={this.handleSaveProfile}
+                  handleEditBio={this.handleEditBio}
                   currentPageId={currentPageId}
                 />
               </div>

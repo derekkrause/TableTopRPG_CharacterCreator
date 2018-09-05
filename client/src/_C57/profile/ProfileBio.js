@@ -36,7 +36,7 @@ class ProfileBio extends React.Component {
     this.setState({
       editBio: false
     });
-    this.props.handleSaveProfile(this.state.Bio);
+    this.props.handleEditBio(this.state.Bio);
   };
 
   render() {
