@@ -13,6 +13,7 @@ namespace Sabio.Models.Requests
         public int? TeamId { get; set; }
         [MaxLength(50)]
         public string Opponent { get; set; }
+        public string Location { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

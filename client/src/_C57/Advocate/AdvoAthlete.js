@@ -11,17 +11,33 @@ class AdvoAthlete extends React.Component {
     athleteInfo: {}
   };
 
+  onHandleChange = e => {
+    let key = e.target.name;
+    let value = e.target.value;
+    this.setState(prevState => ({
+      athleteInfo: {
+        ...prevState.athleteInfo,
+        [key]: value
+      }
+    }));
+  };
+
   getInputValue = e => {
     let key = e.target.name;
     let value = e.target.value;
     let checked = e.target.checked;
-    this.setState(prevState => ({
-      athleteInfo: {
-        ...prevState.athleteInfo,
-        [key]: value,
-        verify: checked
+    this.setState(
+      prevState => ({
+        athleteInfo: {
+          ...prevState.athleteInfo,
+          [key]: value,
+          verify: checked
+        }
+      }),
+      () => {
+        console.log(this.state.athleteInfo, "info");
       }
-    }));
+    );
   };
 
   addAthlete = () => {
@@ -42,6 +58,7 @@ class AdvoAthlete extends React.Component {
     athleteInfo.lastName = aI.LastName;
     athleteInfo.name = aI.Name;
     athleteInfo.athleteUserId = aI.UserId;
+    athleteInfo.verify = true;
     this.setState({
       athleteInfo: athleteInfo
     });
@@ -49,6 +66,7 @@ class AdvoAthlete extends React.Component {
 
   insertAdvoAthletes = a => {
     a.advocateUserId = this.props.advocateUserId;
+    console.log(a, "a");
     insertAdvoAthletes(a)
       .then(response => {
         console.log(response, "Added AdvoAthlete");
@@ -98,7 +116,6 @@ class AdvoAthlete extends React.Component {
   };
 
   updateNotes = payload => {
-    console.log(payload, "this is the payload");
     if (this.state.editNotes) {
       updateAdvoAthlete(payload)
         .then(response => {
@@ -229,7 +246,7 @@ class AdvoAthlete extends React.Component {
                     name="notes"
                     size="30"
                     placeholder="Notes..."
-                    onChange={e => this.getInputValue(e)}
+                    onChange={e => this.onHandleChange(e)}
                     value={this.state.athleteInfo.notes || ""}
                   />
                   <i

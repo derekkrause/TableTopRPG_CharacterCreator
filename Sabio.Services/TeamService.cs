@@ -40,6 +40,7 @@ namespace Sabio.Services
                         SportLevelId = (int)reader["SportLevelId"],
                         UserId = (int)reader["UserId"],
                         Name = (string)reader["Name"],
+                        SchoolName = (string)reader["SchoolName"],
                         City = (string)reader["City"],
                         State = (string)reader["State"],
                         Zip = (int)reader["Zip"],

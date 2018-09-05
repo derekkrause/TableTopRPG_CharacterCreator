@@ -41,6 +41,12 @@ namespace Sabio.Services
                         DateModified = (DateTime)reader["DateModified"]
                     };
 
+                    object Location = reader["Location"];
+                    if(Location != DBNull.Value)
+                    {
+                        game.Location = (string)Location;
+                    }
+                 
                     object Opponent = reader["Opponent"];
                     if (Opponent != DBNull.Value)
                     {
@@ -58,7 +64,6 @@ namespace Sabio.Services
                     {
                         game.EndDate = (DateTime)EndDate;
                     }
-
 
                     gameList.Add(game);
                     pagedItemResponse.PagedItems = gameList;
@@ -86,6 +91,12 @@ namespace Sabio.Services
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
                     };
+
+                    object Location = reader["Location"];
+                    if (Location != DBNull.Value)
+                    {
+                        game.Location = (string)Location;
+                    }
 
                     object Opponent = reader["Opponent"];
                     if (Opponent != DBNull.Value)

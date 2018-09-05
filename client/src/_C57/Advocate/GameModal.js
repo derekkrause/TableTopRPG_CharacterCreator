@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Form, Input, Label, Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { Form, Input, Label, Button, FormFeedback, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import SchoolAutoSearch from "./SchoolAutoSearch";
 import Teams from "../Advocate/Teams";
 import { insertTeam, insertAdvoTeam } from "./AdvocateServer";
 
@@ -8,7 +9,8 @@ class GameModal extends Component {
     modal: false,
     teamModal: false,
     team: {},
-    teamArr: this.props.teams
+    teamArr: this.props.teams,
+    school: {}
   };
 
   toggle = () => {
@@ -34,7 +36,14 @@ class GameModal extends Component {
     }));
   };
 
+  selectedSchool = s => {
+    this.setState({
+      school: s
+    });
+  };
+
   postTeam = payload => {
+    payload.SchoolId = this.state.school.Id;
     insertTeam(payload)
       .then(response => {
         console.log(response, "Post Team");
@@ -74,19 +83,24 @@ class GameModal extends Component {
           + Add New Team
         </Button>
         &nbsp;
-        <Button className="jr-btn btn-primary text-white" color="primary" onClick={this.toggle}>
+        {/* <Button className="jr-btn btn-primary text-white" color="primary" onClick={this.toggle}>
           + Add New Game
-        </Button>
+        </Button> */}
         <div>
-          <div className="float-right">
-            <Teams key={this.state.teamArr} teamArr={this.state.teamArr} />
+          <div className="container">
+            <Teams key={this.state.teamArr} teamArr={this.state.teamArr} className={this.props.className} />
           </div>
         </div>
-        <Modal isOpen={this.state.teamModal} toggle={this.toggleTeam} className={this.props.className}>
+        <Modal
+          style={{ width: "400px" }}
+          isOpen={this.state.teamModal}
+          toggle={this.toggleTeam}
+          className={this.props.className}
+        >
           <ModalHeader toggle={this.toggleTeam}>Add Team</ModalHeader>
           <ModalBody>
             <Form className=" center">
-              <div className="form-group col-2 mt-2">
+              <div className="form-group col-4 mt-2">
                 <Label className="mb-2">Sport Id</Label>
                 <Input
                   type="number"
@@ -94,9 +108,10 @@ class GameModal extends Component {
                   onChange={this.formValues}
                   value={t.sportId || ""}
                   className="form-control"
+                  required
                 />
               </div>
-              <div className="form-group col-2 mt-2">
+              <div className="form-group col-4 mt-2">
                 <Label className="mb-2">Sport Level Id</Label>
                 <Input
                   type="number"
@@ -104,19 +119,14 @@ class GameModal extends Component {
                   onChange={this.formValues}
                   value={t.sportLevelId || ""}
                   className="form-control"
+                  required
                 />
               </div>
-              <div className="form-group col-2 mt-2">
-                <Label className="mb-2">School Id(optional)</Label>
-                <Input
-                  type="number"
-                  name="schoolId"
-                  onChange={this.formValues}
-                  value={t.schoolId || ""}
-                  className="form-control"
-                />
+              <div className="form-group col-4 mt-2">
+                <Label className="mb-2">School Name(optional)</Label>
+                <SchoolAutoSearch selectedSchool={options => this.selectedSchool(options)} />
               </div>
-              <div className="form-group col-6 mt-2">
+              <div className="form-group col-8 mt-2">
                 <Label className="mb-2">Team Name</Label>
                 <Input
                   type="text"
@@ -124,9 +134,14 @@ class GameModal extends Component {
                   onChange={this.formValues}
                   value={t.name || ""}
                   className="form-control"
+                  // valid={t.name.length > 0 && t.name.length <= 50}
+                  // invalid={t.name.length > 50 || undefined}
+                  required
                 />
+                <FormFeedback>Maximum length is 50 characters</FormFeedback>
+                <FormFeedback valid>Looks Good!</FormFeedback>
               </div>
-              <div className="form-group col-6 mt-2">
+              <div className="form-group col-8 mt-2">
                 <Label className="mb-2">City</Label>
                 <Input
                   type="text"
@@ -134,9 +149,14 @@ class GameModal extends Component {
                   onChange={this.formValues}
                   value={t.city || ""}
                   className="form-control"
+                  // valid={t.city.length > 0 && t.city.length <= 50}
+                  // invalid={t.city.length > 50}
+                  required
                 />
+                <FormFeedback>Maximum length is 50 characters</FormFeedback>
+                <FormFeedback valid>Looks Good!</FormFeedback>
               </div>
-              <div className="form-group col-2 mt-2">
+              <div className="form-group col-4 mt-2">
                 <Label className="mb-2">State</Label>
                 <Input
                   type="text"
@@ -144,9 +164,14 @@ class GameModal extends Component {
                   onChange={this.formValues}
                   value={t.state || ""}
                   className="form-control"
+                  // valid={t.state.length > 0 && t.state.length <= 50}
+                  // invalid={t.state.length > 50}
+                  required
                 />
+                <FormFeedback>Maximum length is 50 characters</FormFeedback>
+                <FormFeedback valid>Looks Good!</FormFeedback>
               </div>
-              <div className="form-group col-4 mt-2">
+              <div className="form-group col-6 mt-2">
                 <Label className="mb-2">Zip</Label>
                 <Input
                   type="number"
@@ -154,6 +179,7 @@ class GameModal extends Component {
                   onChange={this.formValues}
                   value={t.zip || ""}
                   className="form-control"
+                  required
                 />
               </div>
             </Form>
@@ -164,20 +190,6 @@ class GameModal extends Component {
             </Button>
             <Button color="link" onClick={this.toggleTeam}>
               Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Create Game</ModalHeader>
-          <ModalBody>
-            <div className="form-group mt-2">
-              <label className="mb-2">Game Name</label>
-              <input type="text" className="form-control" placeholder="Game Name..." />
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="link" onClick={this.toggle}>
-              Create
             </Button>
           </ModalFooter>
         </Modal>

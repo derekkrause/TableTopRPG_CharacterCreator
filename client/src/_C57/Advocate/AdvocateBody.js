@@ -1,15 +1,16 @@
 import React from "react";
 import "./AdvocateStyle.css";
 import { Button, Input } from "reactstrap";
-import { getAdvoAthletesById } from "./AdvocateServer";
+import { getAdvoAthletesById, updateAdvocate } from "./AdvocateServer";
 import AdvoAthlete from "./AdvoAthlete";
 import AdvocateProfilePopover from "../CustomComponents/Popover/AdvocateProfilePopver";
 import { SaveProfileButton, CancelButton } from "../CustomComponents/Button";
+
 class AdvocateBody extends React.Component {
   state = {
     viewTable: false,
     advoAthleteArr: [],
-    editState: false
+    editText: false
   };
 
   tableToggle = () => {
@@ -35,29 +36,48 @@ class AdvocateBody extends React.Component {
   };
 
   editField = () => {
-    this.props.editMode(this.props.advocateUser);
-    this.setState({ editState: !this.state.editState });
+    this.setState({ editText: !this.state.editText });
+  };
+
+  editBody = payload => {
+    if (this.state.editText) {
+      updateAdvocate(payload)
+        .then(response => {
+          console.log(response, "Updated");
+          this.setState({
+            editText: false
+          });
+        })
+        .catch(error => {
+          console.log(error, "Error");
+        });
+    } else {
+      this.setState({
+        editText: true
+      });
+    }
   };
 
   onEditCancelClick = () => {
     this.setState({
-      editState: !this.state.editState
+      editText: !this.state.editText
     });
   };
+
   render() {
     const { currentProfile } = this.props;
-    const { editState } = this.state;
+    const { editText } = this.state;
     return (
       <div>
         <div className="bio">
           <div className="col-12 text-right p-0" id="profileBioEdit">
-            {this.props.currentUser.id == currentProfile && editState === false ? (
+            {this.props.currentUser.id == currentProfile && editText === false ? (
               <AdvocateProfilePopover handleUpdate={this.editField} popover="profileBioEdit" />
             ) : (
               <div />
             )}
           </div>
-          {editState ? (
+          {editText ? (
             <div>
               <Input
                 type="textarea"
@@ -70,7 +90,7 @@ class AdvocateBody extends React.Component {
               />
               <div className="col-12 text-right mt-4">
                 <CancelButton onClick={this.onEditCancelClick} />
-                <SaveProfileButton onClick={this.editField} />
+                <SaveProfileButton onClick={() => this.editBody(this.props.advocateUser)} />
               </div>
             </div>
           ) : (
