@@ -8,6 +8,8 @@ import "../profile/Profile.css";
 import { getAdvocateByUserId, updateAdvocate } from "./AdvocateServer";
 import { connect } from "react-redux";
 
+const defaultProfileImage = "https://sabio-training.s3.us-west-2.amazonaws.com/C57/default-profile.png";
+
 class AdvocateProfile extends React.Component {
   state = {
     editState: false,
@@ -116,12 +118,12 @@ class AdvocateProfile extends React.Component {
       <div className="app-wrapper">
         <div className="row justify-content-center">
           <div className="col-11 col-md-10 col-lg-9 col-xl-7 p-0">
-            <div className="card">
+            <div className="card border-0">
               <img
                 src="http://res.cloudinary.com/dv4p9sgci/image/upload/c_scale,h_240,w_950/v1533612434/new.jpg"
                 className="profile-banner-img img-fluid"
               />
-              <div className="px-2 py-3 col-12 rs-athlete-tag">
+              <div className="px-2 py-3 col-12 rs-advocate-tag">
                 <AdvocateHeader
                   advocateUser={aU}
                   editMode={eM}
@@ -132,14 +134,14 @@ class AdvocateProfile extends React.Component {
                   onEditCancelClick={this.onEditCancelClick}
                   currentUser={this.props.currentUser}
                   currentProfile={id}
-                  profilePic={aU.avatarUrl}
+                  profilePic={aU.avatarUrl || defaultProfileImage}
                   following={this.state.following}
                   followUser={this.followUser}
                 />
               </div>
             </div>
             <div>
-              <div className="jr-card rs-athlete-tag pt-3" id="bio">
+              <div className="jr-card rs-advocate-tag pt-3" id="bio">
                 <AdvocateBody
                   advocateUser={aU}
                   editMode={eM}
@@ -150,7 +152,7 @@ class AdvocateProfile extends React.Component {
                 />
               </div>
             </div>
-            <div className="card">
+            <div className="card border-0">
               <AdvocateTab advocateUserId={id} />
             </div>
           </div>
