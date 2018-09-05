@@ -314,7 +314,7 @@ class FeedCard extends React.Component {
     const data = this.props.feed;
     return (
       <div className="card shadow" ref={this.feedRef}>
-        <div className="cus-card-header" style={{ borderLeft: `8px solid lightblue` }}>
+        <div className="cus-card-header" style={{ borderLeft: `8px solid #245dbc` }}>
           <div className="user-profile d-flex flex-row align-items-center">
             <img alt="..." src={data.avatarUrl} className="user-avatar rounded-circle" />
             <div className="user-detail cus-user-detail">

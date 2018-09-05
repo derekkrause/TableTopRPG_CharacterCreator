@@ -262,41 +262,41 @@ class ProfileTabs extends React.Component {
       let imageTileArray = [];
       let videoTileArray = [];
       if (response.data.resultSets) {
-      response.data.resultSets[0].map(thumbnail => {
-        if (thumbnail.Url.length > 3) {
-          if (thumbnail.Type === "image") {
-            let tile = {
-              id: thumbnail.id,
-              type: thumbnail.Type,
-              alt: thumbnail.Id,
-              src: thumbnail.Url,
-              thumbnail: thumbnail.Url,
-              thumbnailWidth: thumbnail.Width,
-              thumbnailHeight: thumbnail.Height,
-              title: thumbnail.Title,
-              caption: thumbnail.Caption
-            };
-            imageTileArray.push(tile);
-          } else if (thumbnail.Type === "video") {
-            let tile = {
-              id: thumbnail.id,
-              type: thumbnail.Type,
-              alt: thumbnail.Id,
-              src: thumbnail.Url,
-              thumbnail: thumbnail.Url,
-              thumbnailWidth: thumbnail.Width,
-              thumbnailHeight: thumbnail.Height,
-              title: thumbnail.Title,
-              caption: thumbnail.Caption
-            };
-            videoTileArray.push(tile);
+        response.data.resultSets[0].map(thumbnail => {
+          if (thumbnail.Url.length > 3) {
+            if (thumbnail.Type === "image") {
+              let tile = {
+                id: thumbnail.id,
+                type: thumbnail.Type,
+                alt: thumbnail.Id,
+                src: thumbnail.Url,
+                thumbnail: thumbnail.Url,
+                thumbnailWidth: thumbnail.Width,
+                thumbnailHeight: thumbnail.Height,
+                title: thumbnail.Title,
+                caption: thumbnail.Caption
+              };
+              imageTileArray.push(tile);
+            } else if (thumbnail.Type === "video") {
+              let tile = {
+                id: thumbnail.id,
+                type: thumbnail.Type,
+                alt: thumbnail.Id,
+                src: thumbnail.Url,
+                thumbnail: thumbnail.Url,
+                thumbnailWidth: thumbnail.Width,
+                thumbnailHeight: thumbnail.Height,
+                title: thumbnail.Title,
+                caption: thumbnail.Caption
+              };
+              videoTileArray.push(tile);
+            }
           }
-        }
-      });
-      this.setState({
-        images: imageTileArray,
-        videos: videoTileArray
-      });
+        });
+        this.setState({
+          images: imageTileArray,
+          videos: videoTileArray
+        });
       }
     });
   }
@@ -305,11 +305,7 @@ class ProfileTabs extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar
-          position="static"
-          color="inherit"
-          style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px" }}
-        >
+        <AppBar position="static" color="white" style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px" }}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -331,7 +327,7 @@ class ProfileTabs extends React.Component {
           onChangeIndex={this.handleChangeIndex}
           style={{ backgroundColor: "#f1f1f1" }}
         >
-          <TabContainer dir={theme.direction} style={{ textAlign: "left" }}>
+          <TabContainer dir={theme.direction}>
             <Feed />
           </TabContainer>
           <TabContainer dir={theme.direction}>

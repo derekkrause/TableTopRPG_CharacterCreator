@@ -49,7 +49,8 @@ class ProfileContainer extends React.Component {
     highlighting: false,
     everyThing: {},
     pLoader: null,
-    showMessageButton: false
+    showMessageButton: false,
+    verification: []
   };
 
   handleChange = e => {
@@ -136,7 +137,7 @@ class ProfileContainer extends React.Component {
 
   getAthleteCall = () => {
     getAthleteById(this.props.match.params.id).then(response => {
-      console.log("info", response);
+      //console.log("info", response);
       const info = response.data.item.athletes[0];
       const sportPositions = [];
       const heightFeet = Math.floor(info.Height / 12);
@@ -285,6 +286,7 @@ class ProfileContainer extends React.Component {
                   profilePic={this.state.profilePic}
                   classYearOptions={this.state.classYearOptions}
                   currentPageId={currentPageId}
+                  verification={this.getVerified}
                 />
               </div>
             </div>

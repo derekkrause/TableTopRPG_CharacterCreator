@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sabio.Data;
 
 namespace Sabio.Data.Services
 {
@@ -42,13 +43,14 @@ namespace Sabio.Data.Services
                         UserId = (int)reader["UserId"],                 
                         FirstName = (string)reader["FirstName"],
                         LastName = (string)reader["LastName"],
-                        AvatarUrl = (string)reader["AvatarUrl"],
-                        Email = (string)reader["Email"],
-                        Name = (string)reader["Name"],
+                        AvatarUrl = reader.GetSafeString("AvatarUrl"),
+                        Email = reader.GetSafeString("Email"),
+                        Name = reader.GetSafeString("Name"),
                         PasswordHash = (string)reader["PasswordHash"],
                         DateCreated = (DateTime)reader["DateCreated"],
                         DateModified = (DateTime)reader["DateModified"]
                     };
+
 
                     object MiddleName = reader["MiddleName"];
                     if (MiddleName != DBNull.Value)

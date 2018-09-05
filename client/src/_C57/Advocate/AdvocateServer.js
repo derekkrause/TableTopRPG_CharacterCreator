@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export function getAdvocateByUserId() {
-  return axios.get("api/advocates");
+export function getAdvocateByUserId(advocateId) {
+  return axios.get("api/advocates/" + advocateId);
 }
 
 export function updateAdvocate(payload) {

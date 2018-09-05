@@ -17,10 +17,13 @@ import {
 import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePopver";
 import ProfileLinksModal from "./ProfileLinksModal";
 import { connect } from "react-redux";
-import { Link, NavLink, withRouter } from "react-router-dom";
-import { NotificationManager, NotificationContainer } from "react-notifications";
+import { NavLink, withRouter } from "react-router-dom";
 import { getContacts } from "../../services/message.service";
+import { Tooltip } from "reactstrap";
+import { NotificationManager, NotificationContainer } from "react-notifications";
 import StateOptions from "../CustomComponents/InputsDropdowns/StateOptions";
+import { getAdvoListByAthleteId } from "../../services/advocate.service";
+import VerifyListModal from "./Modals/VerifyListModal";
 
 class ProfileInfo extends React.Component {
   state = {
@@ -29,8 +32,13 @@ class ProfileInfo extends React.Component {
     statsModal: false,
     everyThing: {},
     prevPropsEveryThing: {},
-    showMessageButton: false
+    showMessageButton: false,
+    showToolTip: false,
+    verification: [],
+    verifyModal: false
   };
+
+  toggle = this.toggle.bind(this);
 
   static getDerivedStateFromProps(props, state) {
     if (props.everyThing !== state.prevPropsEveryThing || props.classYearOptions !== state.prevPropsClassYearOptions) {
@@ -46,6 +54,16 @@ class ProfileInfo extends React.Component {
 
   componentDidMount = () => {
     this.handleGetContacts();
+    this.getVerified();
+  };
+
+  getVerified = () => {
+    getAdvoListByAthleteId(this.props.match.params.id).then(res => {
+      console.log("PARENT VERIFY VALUE", res);
+      this.setState({
+        verification: res.data.item.pagedItems
+      });
+    });
   };
 
   bundleProfileInfo = e => {
@@ -70,7 +88,7 @@ class ProfileInfo extends React.Component {
     this.props.handleSaveProfile();
   };
 
-  toggle = () => {
+  toggleModal = () => {
     console.log("clicked");
     this.setState({
       statsModal: !this.state.statsModal
@@ -115,10 +133,15 @@ class ProfileInfo extends React.Component {
     );
   };
 
-  toggle = () => {
-    console.log("clicked");
+  toggle() {
     this.setState({
-      statsModal: !this.state.statsModal
+      showToolTip: !this.state.showToolTip
+    });
+  }
+
+  verifyModalToggle = () => {
+    this.setState({
+      VerifyListModal: !this.state.VerifyListModal
     });
   };
 
@@ -147,7 +170,7 @@ class ProfileInfo extends React.Component {
   // <AthleteSportHistoryCard athleteHistory={this.state.history} /> pass in athlete history here
   render() {
     const { currentPageId } = this.props;
-    const { showMessageButton } = this.state;
+    const { showMessageButton, verification, showToolTip } = this.state;
     return (
       <div>
         <NotificationContainer />
@@ -157,9 +180,9 @@ class ProfileInfo extends React.Component {
               <div className="col-md-12 mr-2 mr-md-0">
                 {this.state.everyThing.FirstName && (
                   <React.Fragment>
-                    <div className="row">
-                      <div className="col-11 text-center text-md-left pl-4 pl-md-0 pr-0">
-                        <h1 style={{ fontWeight: 800 }}>
+                    <div className="row align-items-center justify-content-end justify-content-md-between mb-2">
+                      <div className="col-9 text-center text-md-left pl-0 pr-0">
+                        <h1 style={{ fontWeight: 800 }} className="mb-0">
                           {this.state.everyThing.FirstName}
                           &nbsp;
                           {this.state.everyThing.MiddleName}
@@ -167,6 +190,27 @@ class ProfileInfo extends React.Component {
                           {this.state.everyThing.LastName}
                         </h1>
                       </div>
+                      {verification != null && verification[0].verify === true ? (
+                        <React.Fragment>
+                          <div
+                            className="col-2 d-flex align-items-center pr-1 pointer"
+                            style={{ color: "#388e3c" }}
+                            onClick={this.verifyModalToggle}
+                          >
+                            <i className="zmdi zmdi-assignment-check zmdi-hc-lg" />
+                            &nbsp;
+                            <h3 className="mb-0">Verified</h3>
+                          </div>
+                          <VerifyListModal
+                            data={verification}
+                            isOpen={this.state.VerifyListModal}
+                            toggle={this.verifyModalToggle}
+                          />
+                        </React.Fragment>
+                      ) : (
+                        <div />
+                      )}
+
                       <div className="col-1 text-right p-0" id="profileInfoEdit">
                         {this.props.currentUser.id == currentPageId ? (
                           <AthleteProfilePopover handleUpdate={this.editField} popover="profileInfoEdit" />
@@ -252,17 +296,34 @@ class ProfileInfo extends React.Component {
                         )}
                       </div>
 
-                      <div className="d-flex justify-content-end mt-3 mt-sm-3 mt-md-3 mt-lg-0 ">
-                        <StatsButton margin="mb-0 mr-2" style="rs-btn-primary-light" onClick={this.toggle} />
-                        {showMessageButton && (
+                      <div className="col-md-2" />
+                      <div className="text-right col-md-6">
+                        <StatsButton onClick={this.toggleModal} />
+                        {showMessageButton ? (
                           <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentPageId}` } }}>
-                            <MessageButton margin="mb-0 mr-0" style="rs-btn-primary-light" />
+                            <MessageButton />
                           </NavLink>
+                        ) : (
+                          <span>
+                            <button
+                              id="Tooltip"
+                              type="button"
+                              className="jr-btn jr-btn-default btn btn-default profileInfoBtnTwo"
+                              style={{ backgroundColor: "#cecece" }}
+                            >
+                              <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
+                              &nbsp;&nbsp; Message
+                            </button>
+                            <Tooltip placement="bottom" target="Tooltip" isOpen={showToolTip} toggle={this.toggle}>
+                              You can only message a user if you both follow each other!
+                            </Tooltip>
+                          </span>
                         )}
+
                         <ProfileLinksModal
                           statsModal={this.state.statsModal}
                           userId={this.props.userId}
-                          toggle={this.toggle}
+                          toggle={this.toggleModal}
                           currentProfile={this.props.currentProfile}
                           style={{ position: "static" }}
                           currentPageId={this.props.currentPageId}

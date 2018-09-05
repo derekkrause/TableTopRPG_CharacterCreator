@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\AdvoAthlete.cs" />
+    <Compile Include="Domain\AdvoAthleteList.cs" />
     <Compile Include="Domain\Advocate.cs" />
     <Compile Include="Domain\AdvoTeam.cs" />
     <Compile Include="Domain\AllSearch.cs" />

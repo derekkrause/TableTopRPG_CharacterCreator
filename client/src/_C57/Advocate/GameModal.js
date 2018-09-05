@@ -70,7 +70,7 @@ class GameModal extends Component {
 
     return (
       <div>
-        <Button className="jr-btn btn-primary text-white" color="primary" onClick={this.toggleTeam}>
+        <Button className="jr-btn btn-primary text-white ml-4" color="primary" onClick={this.toggleTeam}>
           + Add New Team
         </Button>
         &nbsp;

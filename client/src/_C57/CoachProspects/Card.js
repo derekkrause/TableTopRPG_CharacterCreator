@@ -5,6 +5,7 @@ import flow from "lodash/flow";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 import { deleteCoachAthleteTag, updateCoachAthlete } from "./server";
 import { DeleteButton } from "../CustomComponents/Button";
+import { NavLink } from "react-router-dom";
 
 const cardSource = {
   beginDrag(props) {
@@ -337,10 +338,22 @@ class Card extends React.Component {
                     <React.Fragment>
                       {this.athleteContact(this.props.gradYear) ? (
                         <div className="col-md-2">
-                          <a href="javascript: void(0)" className="float-right">
-                            <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
-                            Message
-                          </a>
+                          <NavLink to={{ pathname: "/app/messaging", state: { id: `${this.props.athleteUserId}` } }}>
+                            <button
+                              href="javascript: void(0)"
+                              className="float-right jr-btn jr-btn-default btn btn-default profileInfoBtnTwo"
+                              style={{
+                                border: "0px",
+                                paddingBottom: "10px",
+                                paddingTop: "10px",
+                                paddingLeft: "15px",
+                                paddingRight: "15px"
+                              }}
+                            >
+                              <i className="zmdi zmdi-comment-alt-text zmdi-hc-lg zmdi-hc-fw" />
+                              Message
+                            </button>
+                          </NavLink>
                         </div>
                       ) : (
                         <div className="col-md-2">

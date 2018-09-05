@@ -8,6 +8,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sabio.Data;
 
 namespace Sabio.Services
 {
@@ -19,6 +20,37 @@ namespace Sabio.Services
         {
             this.dataProvider = dataProvider;
         }
+        public PagedItemResponse<AdvoAthleteList> GetAdvoListByAthleteUserId(int AthleteUserId)
+        {
+            PagedItemResponse<AdvoAthleteList> pagedItemResponse = new PagedItemResponse<AdvoAthleteList>();
+            List<AdvoAthleteList> listAdvoAthlateList = new List<AdvoAthleteList>();
+
+            dataProvider.ExecuteCmd(
+                "AdvoAthlete_SelectByAthleteId",
+                (parameter) =>
+                {
+                    parameter.AddWithValue("@ProfileId", AthleteUserId);
+                },
+                (reader, ResultSetIndex) =>
+                {
+                    AdvoAthleteList advoathleteList = new AdvoAthleteList
+                    {
+                        AthleteUserId = (int)reader["AthleteUserId"],
+                        AdvocateUserId = (int)reader["AdvocateUserId"],
+                        FirstName = (string)reader["FirstName"],
+                        LastName = (string)reader["LastName"],
+                        AvatarUrl = reader.GetSafeString("AvatarUrl"),
+                        Verify = (bool)reader["Verify"]
+                    };
+
+                    listAdvoAthlateList.Add(advoathleteList);
+                    pagedItemResponse.PagedItems = listAdvoAthlateList;
+                });
+            return pagedItemResponse;
+
+            
+        }
+
 
         public PagedItemResponse<AdvoAthlete> GetAllAdvoAthletesById(int advoAthleteId)
         {
@@ -110,6 +142,6 @@ namespace Sabio.Services
                     parameters.AddWithValue("@Id", advoAthleteId);
 
                 });
-        }
+        } 
     }
 }

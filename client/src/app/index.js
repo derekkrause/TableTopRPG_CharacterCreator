@@ -117,7 +117,7 @@ class App extends React.Component {
             )
           : null}
 
-        <div className="app-main-container container-fluid mainContainer mx-auto p-0 align-self-stretch">
+        <div className="app-main-container container-fluid mainContainer mx-auto p-0">
           <div>
             <IfLoginStatus loggedIn={false}>
               <TopNav {...this.props} />
@@ -132,7 +132,7 @@ class App extends React.Component {
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
           </div>
 
-          <main className="app-main-content-wrapper">
+          <main className="app-main-content-wrapper rs-main-background">
             <div className="app-main-content">
               {currentUser !== null &&
                 (currentUser.subNeeded === true ? (

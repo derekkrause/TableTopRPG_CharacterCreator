@@ -111,3 +111,10 @@ div.centre {
   margin: auto;
   border-radius: 100%;
 }
+
+.rs-main-background{
+  background: url("https://sabio-training.s3.us-west-2.amazonaws.com/C57/background-image4.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #d8e3d9;
+}

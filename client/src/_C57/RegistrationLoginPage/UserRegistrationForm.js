@@ -155,7 +155,6 @@ class UserRegistrationForm extends React.Component {
           this.setState({ regSuccess: true });
 
           userId = result.data.item;
-          debugger;
         })
         .then(() => {
           getConfigById(55).then(res => {
@@ -224,7 +223,7 @@ class UserRegistrationForm extends React.Component {
           <div className="login-header text-center">
             <a className="app-logo" title="RecruitHub" href="#">
               <img
-                src="http://warriordesign.net/asr/wp-content/uploads/2016/07/as.png"
+                src="https://sabio-training.s3.us-west-2.amazonaws.com/C57/RS_logo_green.png"
                 alt="RecruitHub"
                 title="RecruitHub"
               />
