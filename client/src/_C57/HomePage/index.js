@@ -87,7 +87,7 @@ class HomePage extends React.Component {
                     <PeopleList
                       datas={coaches}
                       cardTitle="Trending Coaches"
-                      path="coaches"
+                      path="profile"
                       borderColor="border-purple"
                     />
                     <CollegeList datas={schools} cardTitle="Trending Schools" dotColor="bg-orange" />

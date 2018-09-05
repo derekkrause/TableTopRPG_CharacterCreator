@@ -30,11 +30,9 @@ import { stripeStatus } from "../_C57/Stripe/stripe.server";
 // Use for routes!
 const AdminSideNavAsyncComponent = asyncComponent(() => import("../containers/SideNav/index"));
 const AdminAsyncComponent = asyncComponent(() => import("../_C57/Admin/AdminPage"));
-const AdvocateAsyncComponent = asyncComponent(() => import("../_C57/Advocate/Advocate"));
 const HomeAsyncComponent = asyncComponent(() => import("../_C57/HomePage"));
 const PogsAsyncComponent = asyncComponent(() => import("../_C57/PogAdmin"));
 const ForgotPasswordAsyncComponent = asyncComponent(() => import("../_C57/ForgotPassword/ForgotPasswordContainer"));
-const ProfileAsyncComponent = asyncComponent(() => import("../_C57/profile/ProfileContainer"));
 const RegistrationAsyncComponent = asyncComponent(() => import("../_C57/Welcomepage/ConfirmationPage"));
 const WelcomeAsyncComponent = asyncComponent(() => import("../_C57/WelcomePage/WelcomePage"));
 const StripeAsyncComponent = asyncComponent(() => import("../_C57/Stripe/StripeApp"));
@@ -47,6 +45,9 @@ const FeedPageAsyncComponent = asyncComponent(() => import("../_C57/Feed/Feed"))
 const SearchAsyncComponent = asyncComponent(() => import("../_C57/SearchResults/SearchResults.js"));
 const VenuesAsyncComponent = asyncComponent(() => import("../_C57/Admin/Venues/AdminVenues"));
 const MessageAsyncComponent = asyncComponent(() => import("../_C57/Messaging/Message"));
+//ProfileSwitch determines whether a profile is an Athlete, Advocate or Coach and
+//loads the component associated with that profile type.
+const ProfileSwitch = asyncComponent(() => import("../_C57/profile/ProfileSwitch"));
 
 class App extends React.Component {
   state = {
@@ -77,6 +78,7 @@ class App extends React.Component {
       ...properties
     });
   };
+
   notificationCounter = () => {
     this.setState({ notifcationCounter: this.state.notifcationCounter++ });
   };
@@ -147,19 +149,7 @@ class App extends React.Component {
                     {currentUser === false && <Redirect to={`${match.url}/welcome`} />}
                     {/* Please keep all Routes below this alphebetized by URL. Helps with merges. */}
                     <Route path={`${match.url}/admin`} component={AdminAsyncComponent} />
-                    <Route path={`${match.url}/advocates`} component={AdvocateAsyncComponent} />
                     <Route path={`${match.url}/articles/create`} component={ArticlesAsyncComponent} />
-                    <Route
-                      path={`${match.url}/coach/:id(\\d+)`}
-                      render={props => {
-                        const Component = asyncComponent(() => import("../_C57/Coach/CoachProfile"));
-                        return (
-                          <IfLoginStatus loggedIn={true}>
-                            <Component {...props} />
-                          </IfLoginStatus>
-                        );
-                      }}
-                    />
                     <Route
                       path={`${match.url}/coach-fav`}
                       render={props => {
@@ -177,13 +167,12 @@ class App extends React.Component {
                     <Route path={`${match.url}/home`} component={HomeAsyncComponent} />
                     <Route path={`${match.url}/messaging`} component={MessageAsyncComponent} />
                     <Route path={`${match.url}/pogs`} component={PogsAsyncComponent} />
-
                     <Route
                       path={`${match.url}/profile/:id(\\d+)`}
                       render={props => {
                         return (
                           <IfLoginStatus loggedIn={true}>
-                            <ProfileAsyncComponent key={props.match.params.id} {...props} />
+                            <ProfileSwitch key={props.match.params.id} {...props} />
                           </IfLoginStatus>
                         );
                       }}

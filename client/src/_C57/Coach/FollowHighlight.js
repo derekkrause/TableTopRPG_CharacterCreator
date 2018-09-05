@@ -10,7 +10,6 @@ class FollowHighlightButtons extends React.Component {
   };
 
   componentDidMount() {
-    //THIS ONE DOESN'T WORK...
     selectFollowingById(this.props.userId).then(res => {
       //   console.log(res);
       if (res.data.resultSets) {

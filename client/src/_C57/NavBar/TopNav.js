@@ -34,6 +34,10 @@ class TopNav extends React.Component {
     }
   };
 
+scrollToRegForm = () => {
+  //do something;
+}
+
   popdown = () => {
     this.setState({ isOpen: !this.state.isOpen });
   };
