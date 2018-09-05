@@ -117,10 +117,10 @@ class EventAttendeesList extends Component {
     // console.log("render eventUsersList: ", eventUsersList);
 
     return (
-      <ListGroup>
+      <ListGroup className="d-flex flex-wrap">
         {attendees &&
           attendees.map(user => (
-            <ListGroupItem className="d-flex align-items-center" key={user.id}>
+            <ListGroupItem className="d-flex flex-wrap align-items-center" key={user.id}>
               <div className="media">
                 <div className="mr-3 mb-2">
                   <img className="user-avatar size-50" alt="Remy Sharp" src={user.avatarUrl} />

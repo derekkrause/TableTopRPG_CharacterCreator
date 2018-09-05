@@ -18,7 +18,7 @@ import AthleteProfilePopover from "../CustomComponents/Popover/AthleteProfilePop
 import ProfileLinksModal from "./Modals/ProfileLinksModal";
 import { connect } from "react-redux";
 import FollowerModal from "./Modals/FollowerModal";
-import { Link, NavLink, withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { NotificationManager, NotificationContainer } from "react-notifications";
 import { getContacts } from "../../services/message.service";
 import { Tooltip } from "reactstrap";
