@@ -1,5 +1,5 @@
 import React from "react";
-import { getAllIcons } from "../../services/icon.service";
+import { getAllIcons } from "../../../services/icon.service";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 import "./ProfileLinks.css";
 

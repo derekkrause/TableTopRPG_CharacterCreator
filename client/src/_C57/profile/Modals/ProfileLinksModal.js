@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { getAthleteLinksById, postAthleteLink, deleteAthleteLink } from "../../services/athleteLink.service";
+import { getAthleteLinksById, postAthleteLink, deleteAthleteLink } from "../../../services/athleteLink.service";
 import ProfileLinks from "./ProfileLinks";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -104,8 +104,8 @@ class ProfileLinksModal extends React.Component {
     const { currentPageId } = this.props;
     return (
       <div>
-        <Modal isOpen={this.props.statsModal} toggle={this.props.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.props.toggle}>Athlete Links</ModalHeader>
+        <Modal isOpen={this.props.linksModal} toggle={this.props.toggleLinks} className={this.props.className}>
+          <ModalHeader toggle={this.props.toggleLinks}>Athlete Links</ModalHeader>
           <ModalBody>
             {this.props.currentUser.id == currentPageId ? (
               <ProfileLinks
@@ -158,7 +158,7 @@ class ProfileLinksModal extends React.Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button color="default" onClick={this.props.toggle}>
+            <Button color="default" onClick={this.props.toggleLinks}>
               Close
             </Button>
           </ModalFooter>

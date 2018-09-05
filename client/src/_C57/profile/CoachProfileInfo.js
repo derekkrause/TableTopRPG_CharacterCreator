@@ -7,13 +7,7 @@ import "./ProfileBanner.css";
 const schoolOptions = ["Stanford", "Harvard", "Penn", "Cornell"];
 const sportOptions = ["soccer", "football", "taco bell"];
 const sportPositionOptions = ["pitcher", "catcher", "first base", "outfield"];
-const sportLevelOptions = [
-  "Varsity",
-  "Junior Varsity",
-  "Division I",
-  "Division II",
-  "Division III"
-];
+const sportLevelOptions = ["Varsity", "Junior Varsity", "Division I", "Division II", "Division III"];
 const classYearOptions = ["Freshman", "Sophomore", "Junior", "Senior"];
 const gradYearOptions = ["2018", "2019", "2020", "2021", "2022"];
 const stateOptions = ["California", "Texas", "North Dakota", "Mexico"];
@@ -50,7 +44,10 @@ class CoachProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h1 className="text-center">
-                  {this.props.firstName}&nbsp;{this.props.middleName}&nbsp;
+                  {this.props.firstName}
+                  &nbsp;
+                  {this.props.middleName}
+                  &nbsp;
                   {this.props.lastName}
                 </h1>
               </div>
@@ -59,7 +56,10 @@ class CoachProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h1 className="text-center">
-                  {this.props.sport}&nbsp;|&nbsp;{this.props.title}&nbsp;|&nbsp;
+                  {this.props.sport}
+                  &nbsp;|&nbsp;
+                  {this.props.title}
+                  &nbsp;|&nbsp;
                   {this.props.sportLevel}
                 </h1>
               </div>
@@ -81,11 +81,7 @@ class CoachProfileInfo extends React.Component {
             <hr />
             <div className="row">
               <div className="col-md-12">
-                <button
-                  className="profileBannerButtonOpacity float-right"
-                  type="button"
-                  onClick={this.editField}
-                >
+                <button className="profileBannerButtonOpacity float-right" type="button" onClick={this.editField}>
                   Edit
                 </button>
               </div>
@@ -98,7 +94,10 @@ class CoachProfileInfo extends React.Component {
             <div className="row justify-content-center">
               <div className="col-md-12">
                 <h1>
-                  {this.props.firstName}&nbsp;{this.props.middleName}&nbsp;
+                  {this.props.firstName}
+                  &nbsp;
+                  {this.props.middleName}
+                  &nbsp;
                   {this.props.lastName}
                 </h1>
               </div>
@@ -179,11 +178,7 @@ class CoachProfileInfo extends React.Component {
             <hr />
             <div className="row">
               <div className="col-md-12">
-                <button
-                  type="button"
-                  className="float-right"
-                  onClick={this.editField}
-                >
+                <button type="button" className="float-right" onClick={this.editField}>
                   Save
                 </button>
               </div>

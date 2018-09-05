@@ -124,7 +124,7 @@ class App extends React.Component {
             <IfLoginStatus loggedIn={true}>
               <NavBar />
               <UserTypeSweetAlert {...this.props} />
-              {() => stripeStatus(this.props)}
+              {/* {() => stripeStatus(this.props)} */}
             </IfLoginStatus>
 
             {navigationStyle === HORIZONTAL_NAVIGATION && horizontalNavPosition === BELOW_THE_HEADER}
