@@ -43,10 +43,9 @@ class CoachProfileCard extends Component {
           <p className="card-text line-clamp mb-2" style={{ height: "40px" }}>
             {coach.shortBio}
           </p>
-          <Link to={`/app/Profile/${coach.userId}`} style={{ textDecoration: "none", color: "#aaaaaa", width: "100%" }}>
+          <Link to={`/app/Profile/${coach.userId}`}>
             <div className="home-header-btn float-right" style={{ width: "100px" }}>
-              <h5 className="card-heading mb-0 home-center-text">Go to Profile</h5> &nbsp;
-              <i className="zmdi zmdi-chevron-right home-center-text" />
+              <h5 className="card-heading mb-0 home-center-text">View Profile</h5> &nbsp
             </div>
           </Link>
         </div>

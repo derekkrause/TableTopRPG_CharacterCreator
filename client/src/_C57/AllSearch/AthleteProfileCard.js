@@ -27,7 +27,7 @@ class AthleteProfileCard extends Component {
 
     return (
       <div>
-        <div className="user-list row card" style={{ borderLeft: "solid 8px blue" }}>
+        <div className="user-list card" style={{ borderLeft: "solid 8px blue" }}>
           <div className="container ">
             <div className="row ">
               <div className="col-md-3">
@@ -66,7 +66,8 @@ class AthleteProfileCard extends Component {
                     <ul className="list-inline d-sm-flex gx-btn-list list-group">
                       <li className="border-0 list-group-item">
                         <NavLink to={`/app/Profile/${athlete.userId}`} className="float-right">
-                          Button to Profile! > <i className="" />
+                          View Profile
+                          <i className="" />
                         </NavLink>
                       </li>
                     </ul>
