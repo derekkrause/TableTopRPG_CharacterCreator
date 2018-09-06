@@ -319,7 +319,7 @@ class FeedHomeCard extends React.Component {
                   <h4 className="user-name">
                     {data.firstName} {data.lastName}
                   </h4>
-                  <p className="user-description">school and sport type</p>
+                  <p className="user-description" />
                 </div>
               </div>
             </NavLink>

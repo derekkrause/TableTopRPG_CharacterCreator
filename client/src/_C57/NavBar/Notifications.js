@@ -28,9 +28,6 @@ class Notifications extends React.Component {
 
     this.notificationHubProxy = $.connection.notificationsHub;
     this.notificationHubProxy.client.newNotification = notification => {
-      // console.log(notification);
-      // arr.push(notification);
-      // this.setState({ notificationArray: arr });
       this.checkNotifications();
     };
     $.connection.hub
@@ -115,23 +112,23 @@ class Notifications extends React.Component {
 
   onAppNotificationSelect = () => {
     this.setState({
-      appNotification: !this.state.appNotification
-      // notifications: false
+      appNotification: !this.state.appNotification,
+      notifications: false
     });
   };
 
-  // handleNotificationClick = () => {
-  //   if (!this.state.clicked) {
-  //     this.setState({
-  //       clicked: true,
-  //       notifications: false
-  //     });
-  //   } else {
-  //     this.setState({
-  //       clicked: false
-  //     });
-  //   }
-  // };
+  handleNotificationClick = () => {
+    if (!this.state.clicked) {
+      this.setState({
+        clicked: true,
+        notifications: true
+      });
+    } else {
+      this.setState({
+        clicked: false
+      });
+    }
+  };
 
   checkNotifications = () => {
     return axios

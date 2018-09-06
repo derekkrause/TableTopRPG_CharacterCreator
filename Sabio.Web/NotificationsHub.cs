@@ -65,6 +65,7 @@ namespace Sabio.Web
 
                 using (var npss = new NamedPipeServerStream(PIPE_NAME, PipeDirection.In, NamedPipeServerStream.MaxAllowedServerInstances))
                 {
+                    Trace.WriteLine("node named pipe listening");
                     listening.Set();
 
                     await npss.WaitForConnectionAsync();
@@ -72,11 +73,13 @@ namespace Sabio.Web
                     listening.Reset();
 
                     _ = Task.Run(StartNamedPipeListener);
+                    Trace.WriteLine("connection from node named pipe");
 
                     // Read message
                     using (var reader = new StreamReader(npss))
                     {
                         message = reader.ReadToEnd();
+                        Trace.WriteLine("message from node pipe: " + message);
                     }
 
                     // Make sure there's always at least one NamedPipeServerStream attached to the pipe
