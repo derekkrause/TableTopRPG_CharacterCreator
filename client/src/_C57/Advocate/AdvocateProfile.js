@@ -13,7 +13,7 @@ const defaultProfileImage = "https://sabio-training.s3.us-west-2.amazonaws.com/C
 class AdvocateProfile extends React.Component {
   state = {
     editState: false,
-    advocateUser: {},
+    advocateUser: "",
     school: {},
     following: false
   };
@@ -114,6 +114,7 @@ class AdvocateProfile extends React.Component {
     const eM = this.editMode;
     const eI = this.editInput;
 
+    if (!aU) return null;
     return (
       <div className="app-wrapper">
         <div className="row justify-content-center">

@@ -25,7 +25,7 @@ namespace Sabio.Data.Services
             this.dataProvider = dataProvider;
         }
 
-        public ItemResponse<Advocate> SelectAdvocateById(int advocateUserId)
+        public ItemResponse<Advocate> SelectAdvocateById(int advocateId)
         {
             ItemResponse<Advocate> itemResponse = new ItemResponse<Advocate>();
           
@@ -33,7 +33,7 @@ namespace Sabio.Data.Services
                 "Advocate_SelectByUserId",
                 (parameters) =>
                 {
-                    parameters.AddWithValue("@UserId", advocateUserId);
+                    parameters.AddWithValue("@UserId", advocateId);
                 },
                 (reader, resultSetIndex) =>
                 {

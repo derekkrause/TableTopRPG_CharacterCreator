@@ -45,7 +45,7 @@ class CoachProfileCard extends Component {
           </p>
           <Link to={`/app/Profile/${coach.userId}`}>
             <div className="home-header-btn float-right" style={{ width: "100px" }}>
-              <h5 className="card-heading mb-0 home-center-text">View Profile</h5> &nbsp
+              <h5 className="card-heading mb-0 home-center-text">View Profile</h5>
             </div>
           </Link>
         </div>
