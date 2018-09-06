@@ -25,7 +25,7 @@ export function postCoachAthleteTag(payload) {
 }
 
 export function deleteCoachAthleteTag(id, tag) {
-  return axios.delete("/node-api/server.js/coachAthleteTag/" + id + "/" + tag);
+  return axios.delete("/node-api/server.js/coachAthleteTag/" + id + "?tag=" + encodeURIComponent(tag));
 }
 
 export function getCoachTagsById(userId) {

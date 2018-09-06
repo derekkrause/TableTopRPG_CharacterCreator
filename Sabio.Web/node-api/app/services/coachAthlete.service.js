@@ -70,7 +70,6 @@ const getById = id => {
       const item = { athlete: response.resultSets[0] };
 
       for (const athlete of item.athlete) {
-        console.log(item);
         athlete.tags = [];
         if (response.resultSets[1] != undefined) {
           for (let i = 0; i < response.resultSets[1].length; i++) {
@@ -78,7 +77,6 @@ const getById = id => {
             obj.AthleteId = response.resultSets[1][i].AthleteId;
             obj.name = response.resultSets[1][i].Tag;
 
-            console.log(obj);
             if (obj.AthleteId === athlete.AthleteId) {
               athlete.tags.push(obj);
             }

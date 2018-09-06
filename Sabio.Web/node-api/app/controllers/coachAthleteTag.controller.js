@@ -12,9 +12,10 @@ const post = (req, res) => {
 };
 
 const del = (req, res) => {
+  console.log(req, "request");
   coachAthleteTagService
-    .del(req.params.id, req.params.tag)
-    .then(response => {
+    .del(req.params.id, req.query.tag)
+    .then(() => {
       res.status(200).send("Tag Deleted");
     })
     .catch(err => {
