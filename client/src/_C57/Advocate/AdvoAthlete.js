@@ -7,7 +7,7 @@ class AdvoAthlete extends React.Component {
   state = {
     editNotes: false,
     addAthlete: false,
-    advoAthleteArr: this.props.advoAthleteArr,
+    advoAthleteArr: this.props.advoAthleteArr || [],
     athleteInfo: {}
   };
 
@@ -58,7 +58,7 @@ class AdvoAthlete extends React.Component {
     athleteInfo.lastName = aI.LastName;
     athleteInfo.name = aI.Name;
     athleteInfo.athleteUserId = aI.UserId;
-    athleteInfo.verify = true;
+    athleteInfo.verify = false;
     this.setState({
       athleteInfo: athleteInfo
     });
@@ -175,7 +175,7 @@ class AdvoAthlete extends React.Component {
                       <input
                         type="checkbox"
                         name="verify"
-                        value={a.verify}
+                        value={a.verify || ""}
                         onChange={e => this.editNotes(e, a.athleteUserId)}
                       />
                       <label htmlFor="verify">Verify Athlete</label>
@@ -188,7 +188,7 @@ class AdvoAthlete extends React.Component {
                       <input
                         type="checkbox"
                         name="verify"
-                        value={a.verify}
+                        value={a.verify || ""}
                         onChange={e => this.editNotes(e, a.athleteUserId)}
                         checked
                       />
@@ -200,7 +200,10 @@ class AdvoAthlete extends React.Component {
                   {a.firstName} {a.lastName}
                   {""}
                 </td>
-                <td>{a.name}</td>
+                <td>
+                  {a.name}
+                  {""}
+                </td>
                 <td>
                   {this.state.editNotes ? (
                     <div>
@@ -230,7 +233,7 @@ class AdvoAthlete extends React.Component {
                   <input
                     type="checkbox"
                     name="verify"
-                    value={this.state.athleteInfo.verify}
+                    value={this.state.athleteInfo.verify || ""}
                     onChange={e => this.getInputValue(e)}
                   />
                   <label htmlFor="verify">Verify Athlete</label>
@@ -239,7 +242,10 @@ class AdvoAthlete extends React.Component {
                 <td style={{ width: "180px" }}>
                   <AthleteAutoSearch selectedAthlete={aI => this.selectedAthlete(aI)} />
                 </td>
-                <td>{this.state.athleteInfo.name}</td>
+                <td>
+                  {this.state.athleteInfo.name}
+                  {""}
+                </td>
                 <td>
                   <input
                     type="text"

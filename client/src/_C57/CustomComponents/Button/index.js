@@ -240,6 +240,15 @@ const SaveProfileButton = props => {
   );
 };
 
+const AdProfileButton = props => {
+  return (
+    <button type="button" className="jr-btn btn btn-primary rs-btn-primary-light mb-0" onClick={props.onClick}>
+      <i className="zmdi zmdi-upload zmdi-hc-lg" />
+      &nbsp;&nbsp;Save
+    </button>
+  );
+};
+
 const FollowerCountButton = props => {
   return (
     <button className="jr-btn jr-btn-default btn btn-default profileInfoBtn" onClick={props.onClick}>
@@ -249,6 +258,7 @@ const FollowerCountButton = props => {
 };
 
 export {
+  AdProfileButton,
   SaveButton,
   CancelButton,
   EditButton,

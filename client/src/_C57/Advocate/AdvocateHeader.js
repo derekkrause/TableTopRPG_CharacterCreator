@@ -5,14 +5,8 @@ import SchoolAutoSearch from "./SchoolAutoSearch";
 import { updateAdvocate } from "./AdvocateServer";
 import { getProfilePic } from "./ProfileImage/ProfileServer";
 import ProfilePicture from "./ProfileImage/ProfilePicture";
-import { Input } from "reactstrap";
-import {
-  SaveProfileButton,
-  CancelButton,
-  MessageButton,
-  FollowButton,
-  FollowOnButton
-} from "../CustomComponents/Button";
+import { Input, Button } from "reactstrap";
+import { AdProfileButton, CancelButton, MessageButton, FollowButton, FollowOnButton } from "../CustomComponents/Button";
 import { getContacts } from "../../services/message.service";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import { NotificationManager, NotificationContainer } from "react-notifications";
@@ -128,7 +122,7 @@ class AdvocateHeader extends React.Component {
                     </div>
                     <div className="col-12 text-right mt-4">
                       <CancelButton onClick={this.props.onEditCancelClick} />
-                      <SaveProfileButton onClick={() => this.props.editMode(this.props.advocateUser)} />
+                      <AdProfileButton onClick={() => this.props.editMode(this.props.advocateUser)} />
                     </div>
                   </div>
                 </React.Fragment>
@@ -141,8 +135,16 @@ class AdvocateHeader extends React.Component {
                       {this.props.advocateUser.lastName}
                     </h1>
                   </div>
+                  <div className="advoInfo AdvocateStyle" style={{ marginTop: "25px" }}>
+                    <h3>{this.props.advocateUser.email}</h3>
+                  </div>
                   <div className="advoInfo AdvocateStyle">
                     <h3 className="mt-2">{this.props.advocateUser.name}</h3>
+                  </div>
+                  <div className="advoInfo AdvocateStyle">
+                    <NavLink to={{ pathname: "/app/messaging", state: { id: `${currentProfile}` } }}>
+                      <Button className="btn btn-primary msgBtn AdvocateStyle">Request Advocacy | Message</Button>
+                    </NavLink>
                   </div>
                 </React.Fragment>
               )}

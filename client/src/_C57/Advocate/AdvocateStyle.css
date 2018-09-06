@@ -140,9 +140,11 @@
 }
 
 .msgBtn.AdvocateStyle {
-  margin-right: 20px;
-  position: relative;
-  top: 135px;
+  background-color: #4caf50;
+  border: none;
+  padding: 15px;
+  font-size: 14px;
+  margin-top: 15px;
 }
 
 .jumbotron.AdvocateStyle {
