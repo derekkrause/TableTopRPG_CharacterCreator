@@ -148,20 +148,20 @@ class AdvocateTab extends React.Component {
     getAttendingByUserId(parseInt(this.props.userProfile)).then(response => {
       //console.log("attending", response);
       if (response.data.resultSets) {
-        let calEventArray = [];
-        response.data.resultSets[0].map(event => {
-          let calEvent = {
-            title: event.name,
-            start: new Date(event.startDate),
-            end: new Date(event.endDate),
-            desc: event.description,
-            id: event.eventId
-          };
-          calEventArray.push(calEvent);
-        });
-        this.setState({
-          events: calEventArray
-        });
+      let calEventArray = [];
+      response.data.resultSets[0].map(event => {
+        let calEvent = {
+          title: event.name,
+          start: new Date(event.startDate),
+          end: new Date(event.endDate),
+          desc: event.description,
+          id: event.eventId
+        };
+        calEventArray.push(calEvent);
+      });
+      this.setState({
+        events: calEventArray
+      });
       }
     });
   }
@@ -211,7 +211,7 @@ class AdvocateTab extends React.Component {
     const { classes, theme } = this.props;
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="white" style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px" }}>
+        <AppBar position="static" style={{ boxShadow: "none", paddingLeft: "0px", paddingRight: "0px", backgroundColor: 'white' }}>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}

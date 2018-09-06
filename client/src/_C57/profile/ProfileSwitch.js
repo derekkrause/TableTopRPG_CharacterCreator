@@ -13,7 +13,7 @@ class ProfileSwitch extends Component {
     profileType: null
   };
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.checkProfileUserType();
   };
 
