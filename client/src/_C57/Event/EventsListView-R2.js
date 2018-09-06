@@ -17,55 +17,33 @@ class EventsListView extends Component {
   };
 
   getEventInfo(eventId) {
-    // console.log("Loading event with ID: ", eventId);
-
     getEventById(eventId)
       .then(response => {
-        // console.log("Get by Event Id Ajax GET request success!");
-        // console.log(response);
-
         this.setState({ eventList: response.data.item });
       })
-      .catch(error => {
-        // console.log("Get by Event Id Ajax GET request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   getEventList(pageIndex, pageSize) {
-    // console.log("pageIndex: ", pageIndex, "pageSize: ", pageSize);
-
     getEventListPaged(pageIndex, pageSize)
       .then(response => {
-        // console.log("Get Events Paged Ajax GET request success!");
-        // console.log(response);
-
         this.setState({
           eventDataItem: response.data.item,
           eventList: response.data.item.pagedItems
         });
       })
-      .catch(error => {
-        // console.log("Get Events Paged Ajax GET request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   getEventsList() {
     getEventsListGet()
       .then(response => {
-        // console.log("Get Events Ajax GET request success!");
-        // console.log(response);
-
         this.setState({
           eventDataItem: response.data.items,
           eventList: response.data.items
         });
       })
-      .catch(error => {
-        // console.log("Get Events Ajax GET request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   createCardList(listArray) {
@@ -86,28 +64,17 @@ class EventsListView extends Component {
   }
 
   componentDidMount() {
-    // console.log("EventListView Component Mounted");
-
     const pageIndex = 0,
-      pageSize = 6;
+      pageSize = 10;
 
-    // this.getEventList(pageIndex, pageSize);
-    this.getEventsList();
-
-    // console.log("EventListsView componentDidMount props: ", this.props);
-
-    // const { currentUser } = this.props;
-
-    // this.setState({ currentUser: currentUser });
+    this.getEventList(pageIndex, pageSize);
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.eventDataItem !== prevState.eventDataItem) {
       const eventPagedList = this.state.eventDataItem;
 
-      // const cardList = this.createCardList(eventPagedList.pagedItems);
-      // const cardList = this.createCardList(eventPagedList);
-      const cardList = this.state.eventDataItem;
+      const cardList = this.state.eventDataItem.pagedItems;
 
       this.setState({ eventCardsList: cardList });
     }
@@ -117,14 +84,11 @@ class EventsListView extends Component {
     const eventCardsList = this.state.eventCardsList;
     const title = "Events List";
 
-    // console.log("render currentUser: ", this.state.currentUser);
-
     return (
       <div>
         <div className="app-wrapper">
           <div className="page-heading d-sm-flex justify-content-sm-between align-items-sm-center">
             <h2 className="title mb-3 mb-sm-0">{title}</h2>
-            <h3>{/* Page {this.state.eventDataItem.pageIndex + 1} of {this.state.eventDataItem.totalPages} */}</h3>
             <NavLink to={`/app/events/form`}>
               <Button color="primary" className="jr-btn">
                 Add Event
@@ -133,11 +97,7 @@ class EventsListView extends Component {
           </div>
           <div className="animated slideInUpTiny animation-duration-3">
             {eventCardsList &&
-              eventCardsList.map(data => (
-                // <EventCardItem key={data.id} eventId={data.id} {...this.props} />
-                <EventCard key={data.id} eventId={data.id} data={data} {...this.props} />
-              ))}
-            {/* User logged in: {this.state.currentUser.firstName} */}
+              eventCardsList.map(data => <EventCard key={data.id} eventId={data.id} data={data} {...this.props} />)}
           </div>
         </div>
       </div>
@@ -145,11 +105,4 @@ class EventsListView extends Component {
   }
 }
 
-// function mapStateToProps(state) {
-//   console.log("EventsListView redux store: ", state);
-
-//   return { currentUserFromStore: state.currentUser };
-// }
-
 export default EventsListView;
-// export default connect(mapStateToProps)(EventsListView);
