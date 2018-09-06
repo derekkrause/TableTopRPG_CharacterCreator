@@ -57,8 +57,7 @@ class MainPage extends React.Component {
     newAthleteName: "",
     newAthleteNotes: "",
     newAthleteRank: 1,
-    currentAthleteId: 0,
-    editTags = false
+    currentAthleteId: 0
   };
 
   handleDelete = this.handleDelete.bind(this);
@@ -340,7 +339,6 @@ class MainPage extends React.Component {
           tags: athlete.tags.map(tag => {
             let newArr = [];
             if (tag.name != tagName) {
-            
               newArr.push(tag.name);
             }
 

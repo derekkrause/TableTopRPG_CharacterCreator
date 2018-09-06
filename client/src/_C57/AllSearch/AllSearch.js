@@ -12,6 +12,7 @@ import FeedEventCard from "../HomePage/FeedEventCard";
 import FeedHomeCard from "./FeedHomeCard-RR-2"; // Using local component
 import VenueCard from "../Venues/Venue"; // Calling the Venue component as the VenueCard
 import Pagination from "./PaginationR2"; // Using local component
+import SchoolSearchCard from "../Schools/SchoolSearchCard"; // Using local component from SchoolSearch
 
 class AllSearch extends Component {
   state = {
@@ -64,7 +65,14 @@ class AllSearch extends Component {
   updatePagingData = pagingDataItem => {
     const { hasNextPage, hasPrevPage, pageIndex, pageSize, totalCount, totalPages } = pagingDataItem;
 
-    this.setState({ pageIndex, pageSize, totalCount, totalPages, hasNextPage, hasPrevPage });
+    this.setState({
+      pageIndex,
+      pageSize,
+      hasNextPage,
+      hasPrevPage,
+      totalCount,
+      totalPages
+    });
   };
 
   runAllSearchPaged = (pageIndex, pageSize, searchQuery) => {
@@ -155,6 +163,28 @@ class AllSearch extends Component {
             );
           }
         }
+
+        if (item.type === "School") {
+          console.log("Type School item: ", item);
+          // console.log("Type School item JSON stringify: ", JSON.stringify(item));
+
+          const formattedItemData = {
+            name: item.itemData.Name,
+            street: item.itemData.Street,
+            city: item.itemData.City,
+            state: item.itemData.State,
+            zip: item.itemData.Zip,
+            url: item.itemData.Url,
+            lat: item.itemData.Lat,
+            lon: item.itemData.Lon
+          };
+
+          return (
+            <div>
+              <SchoolSearchCard data={formattedItemData} key={item.idInTable + item.relevanceRanking} />;
+            </div>
+          );
+        }
       });
     }
 
@@ -191,7 +221,9 @@ class AllSearch extends Component {
       this.setState({ loader: true });
 
       this.runAllSearchPaged(pageIndex, pageSize, searchString);
-    } else if (searchString === "") {
+    }
+
+    if (searchString === "") {
       this.setState({ searchResults: [] });
     }
   }
@@ -208,8 +240,16 @@ class AllSearch extends Component {
         this.setState({ loader: true });
 
         this.runAllSearchPaged(pageIndex, pageSize, searchString);
-      } else if (searchString === "") {
+      }
+
+      if (searchString === "") {
         this.setState({ searchResults: [] });
+      }
+
+      if (this.props.searchCriteria.searchString !== prevProps.searchCriteria.searchString) {
+        this.setState({ loader: true });
+
+        this.runAllSearchPaged(0, pageSize, searchString);
       }
     }
   }
@@ -234,9 +274,7 @@ class AllSearch extends Component {
             {!(searchResults.length === 0) && (
               <div>
                 <h3>
-                  <center>
-                    Page {totalPages === 0 ? 0 : pageIndex + 1} of {totalPages}
-                  </center>
+                  <center>Page {totalPages === 0 ? 0 : pageIndex + 1}</center>
                 </h3>
                 <Pagination
                   pageIndex={this.state.pageIndex}
