@@ -233,7 +233,7 @@ const HighlightOnButton = props => {
 
 const SaveProfileButton = props => {
   return (
-    <button type="button" className="jr-btn btn btn-primary rs-btn-primary-light mb-0" onClick={props.onClick}>
+    <button type="submit" className="jr-btn btn btn-primary rs-btn-primary-light mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-upload zmdi-hc-lg" />
       &nbsp;&nbsp;Save
     </button>
