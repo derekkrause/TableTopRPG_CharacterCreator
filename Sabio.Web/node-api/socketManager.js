@@ -20,6 +20,10 @@ module.exports = function(socket) {
   }
 
   const user = getJwtFromSocket(socket);
+  if (!user) {
+    return;
+  }
+
   socket.user = user;
   addUser(socket);
   io.emit("USER_CONNECTED", userIdToSockets);

@@ -7,22 +7,38 @@ import EventSearchResults from "./EventSearchResults";
 import VenueSearchResults from "./VenueSearchResults";
 import ArticleSearchResults from "./ArticleSearchResults";
 import AllSearchResults from "./AllSearchResults";
+import { connect } from "react-redux";
 
 class SearchResults extends React.Component {
   render() {
     return (
-      // <div className="container-fluid app-wrapper">
-      //   <div className="row px-4">
-      //     <div className="col-xs-12 col-md-12">
       <div className="container">
-        <div className="row justify-content-center mt-4">
-          <div className="col-12 col-sm-11 col-md-10 col-lg-10">
-            <Route path={`${this.props.match.url}/all`} render={props => <AllSearchResults {...props} />} />
-            <Route path={`${this.props.match.url}/athletes`} render={props => <AthleteSearchResults {...props} />} />
-            <Route path={`${this.props.match.url}/coaches`} render={props => <CoachSearchResults {...props} />} />
-            <Route path={`${this.props.match.url}/schools`} render={props => <SchoolSearchResults {...props} />} />
-            <Route path={`${this.props.match.url}/events`} render={props => <EventSearchResults {...props} />} />
-            <Route path={`${this.props.match.url}/venues`} render={props => <VenueSearchResults {...props} />} />
+        <div className="row mt-3 ml-1">
+          <div className="col-12">
+            <Route
+              path={`${this.props.match.url}/all`}
+              render={props => <AllSearchResults key={this.props.searchCriteria.currentSearchNumber} {...props} />}
+            />
+            <Route
+              path={`${this.props.match.url}/athletes`}
+              render={props => <AthleteSearchResults key={this.props.searchCriteria.currentSearchNumber} {...props} />}
+            />
+            <Route
+              path={`${this.props.match.url}/coaches`}
+              render={props => <CoachSearchResults key={this.props.searchCriteria.currentSearchNumber} {...props} />}
+            />
+            <Route
+              path={`${this.props.match.url}/schools`}
+              render={props => <SchoolSearchResults key={this.props.searchCriteria.currentSearchNumber} {...props} />}
+            />
+            <Route
+              path={`${this.props.match.url}/events`}
+              render={props => <EventSearchResults key={this.props.searchCriteria.currentSearchNumber} {...props} />}
+            />
+            <Route
+              path={`${this.props.match.url}/venues`}
+              render={props => <VenueSearchResults key={this.props.searchCriteria.currentSearchNumber} {...props} />}
+            />
             {/* <Route path={`${this.props.match.url}/articles`} render={props => <ArticleSearchResults {...props} />} /> */}
           </div>
         </div>
@@ -30,5 +46,10 @@ class SearchResults extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    searchCriteria: state.searchCriteria
+  };
+}
 
-export default withRouter(SearchResults);
+export default withRouter(connect(mapStateToProps)(SearchResults));

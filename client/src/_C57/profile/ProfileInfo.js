@@ -269,7 +269,7 @@ class ProfileInfo extends React.Component {
                         &nbsp; {this.state.everyThing.HighSchoolGraduationYear}
                       </h3>
                     </div>
-                    <div className="row mb-5 justify-content-center justify-content-md-start pl-0">
+                    <div className="row mb-3 justify-content-center justify-content-md-start pl-0">
                       {this.state.everyThing.Height && (
                         <React.Fragment>
                           <h3>

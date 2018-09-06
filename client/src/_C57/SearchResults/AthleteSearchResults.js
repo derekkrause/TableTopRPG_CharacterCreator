@@ -10,7 +10,16 @@ class AthleteSearchResults extends React.Component {
   };
 
   componentDidMount() {
-    this.search();
+    if (this.props.searchCriteria.searchType === "athletes") this.search();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.searchCriteria !== prevProps.searchCriteria) {
+      const { searchCriteria } = this.props;
+      this.setState({ searchCriteria: searchCriteria });
+
+      this.search(searchCriteria);
+    }
   }
 
   search = () => {
