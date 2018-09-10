@@ -67,6 +67,27 @@ namespace Sabio.Data
             }
         }
 
+        public static Uri GetSafeUri(this IDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value != null && value != DBNull.Value)
+            {
+                string sUri = (string)value;
+                Uri created = null;
+
+                if (Uri.TryCreate(sUri, UriKind.RelativeOrAbsolute, out created))
+                {
+                    return created;
+                }
+                return null;
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
         public static SqlBytes GetSafeSqlBytes(this SqlDataReader reader, Int32 ordinal)
         {
             if (reader[ordinal] != null && reader[ordinal] != DBNull.Value)
@@ -150,6 +171,15 @@ namespace Sabio.Data
             }
         }
 
+        public static bool? GetSafeBoolNullable(this IDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value is DBNull)
+                return null;
+            else
+                return (bool?)value;
+        }
+
         public static byte GetSafeByte(this IDataReader reader, Int32 ordinal)
         {
             if (reader[ordinal] != null && reader[ordinal] != DBNull.Value)
@@ -174,6 +204,15 @@ namespace Sabio.Data
             }
         }
 
+        public static byte? GetSafeByteNullable(this IDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value is DBNull)
+                return null;
+            else
+                return (byte?)value;
+        }
+
         public static Int16 GetSafeInt16(this IDataReader reader, Int32 ordinal)
         {
             if (reader[ordinal] != null && reader[ordinal] != DBNull.Value)
@@ -196,6 +235,15 @@ namespace Sabio.Data
             {
                 return null;
             }
+        }
+
+        public static Int16? GetSafeInt16Nullable(this IDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value is DBNull)
+                return null;
+            else
+                return (Int16?)value;
         }
 
         public static int GetSafeInt32(this IDataReader reader, Int32 ordinal)
@@ -255,6 +303,15 @@ namespace Sabio.Data
             }
         }
 
+        public static Int64? GetSafeInt64Nullable(this IDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value is DBNull)
+                return null;
+            else
+                return (Int64?)value;
+        }
+
         public static DateTime GetSafeDateTime(this IDataReader reader, Int32 ordinal)
         {
             if (reader[ordinal] != null && reader[ordinal] != DBNull.Value)
@@ -278,6 +335,7 @@ namespace Sabio.Data
                 return default(DateTime);
             }
         }
+
 
         public static DateTime? GetSafeDateTimeNullable(this IDataReader reader, Int32 ordinal)
         {
@@ -312,6 +370,19 @@ namespace Sabio.Data
             }
         }
 
+        public static DateTime? GetSafeUtcDateTimeNullable(this IDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value is DBNull)
+                return null;
+            else
+            {
+                int ord = reader.GetOrdinal(columnName);
+                return DateTime.SpecifyKind(reader.GetDateTime(ord), DateTimeKind.Utc);
+            }
+                
+        }
+
         public static TimeSpan GetSafeTimeSpan(this SqlDataReader reader, Int32 ordinal)
         {
             if (reader[ordinal] != null && reader[ordinal] != DBNull.Value)
@@ -334,6 +405,17 @@ namespace Sabio.Data
             {
                 return null;
             }
+        }
+
+        public static TimeSpan? GetSafeTimeSpanNullable(this SqlDataReader reader, string columnName)
+        {
+            var value = reader[columnName];
+            if (value == DBNull.Value)
+            {
+                return null;
+                
+            }
+            return (TimeSpan)value; 
         }
 
         public static float GetSafeFloat(this IDataReader reader, Int32 ordinal)
@@ -362,14 +444,12 @@ namespace Sabio.Data
 
         public static float? GetSafeFloatNullable(this IDataReader reader, string columnName)
         {
-
             var value = reader[columnName];
             if (value is DBNull)
                 return null;
             else
                 return (float?)value;
         }
-
 
         public static double GetSafeDouble(this IDataReader reader, Int32 ordinal)
         {

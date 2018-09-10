@@ -27,7 +27,7 @@ namespace Sabio.Web
             
             // when another class's constructor asks for "IPogsService",
             // give them an instance of "PogsService"
-            container.RegisterType<IPogsService, FakePogService>();
+            container.RegisterType<IPogsService, PogsService>();
 
             container.RegisterType<IConfiguration, HardCodedConfiguration>();
 

@@ -143,7 +143,6 @@
     <Compile Include="EventService.cs" />
     <Compile Include="EventTypeService.cs" />
     <Compile Include="EventUserTableService.cs" />
-    <Compile Include="FakePogService.cs" />
     <Compile Include="FeedHomeService.cs" />
     <Compile Include="ForgotPasswordService.cs" />
     <Compile Include="GameService.cs" />

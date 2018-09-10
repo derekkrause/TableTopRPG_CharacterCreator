@@ -29,6 +29,17 @@ namespace Sabio.Web.Controllers.Api
             });
         }
 
+        [Route("{id:int}"), HttpGet]
+        public HttpResponseMessage GetById(int id)
+        {
+            Pog pog = pogsService.GetById(id);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new ItemResponse<Pog>
+            {
+                Item = pog
+            });
+        }
+
         [Route, HttpPost]
         public HttpResponseMessage Post(PogCreateRequest pogCreateRequest)
         {
@@ -62,15 +73,15 @@ namespace Sabio.Web.Controllers.Api
             }
             pogsService.Update(pogUpdateRequest);
 
-            return Request.CreateResponse(HttpStatusCode.Created, new SuccessResponse());
+            return Request.CreateResponse(HttpStatusCode.OK, new SuccessResponse());
         }
 
-        [Route("{id:int}"), HttpPut]
+        [Route("{id:int}"), HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
             pogsService.Delete(id);
 
-            return Request.CreateResponse(HttpStatusCode.Created, new SuccessResponse());
+            return Request.CreateResponse(HttpStatusCode.OK, new SuccessResponse());
         }
     }
 }

@@ -153,11 +153,14 @@ namespace Sabio.Services
             return new Pog
             {
                 Id = (int)reader["id"],
+                Name = (string)reader["Name"],
                 DateCreated = (DateTime)reader["DateCreated"],
                 DateModified = (DateTime)reader["DateModified"],
                 StartDate = reader.GetSafeDateTimeNullable("StartDate"),
                 Country = reader.GetSafeString("Country"),
-                Points = reader.GetSafeInt32Nullable("Points")
+                Points = reader.GetSafeInt32Nullable("Points"),
+                Inactive = reader.GetSafeBoolNullable("Inactive"),
+                Url = reader.GetSafeUri("Url")
             };
         }
 
