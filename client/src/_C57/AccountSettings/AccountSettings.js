@@ -11,7 +11,12 @@ import {
   Label,
   Input,
   FormFeedback,
-  Collapse
+  Collapse,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row
 } from "reactstrap";
 import { EditButton, SaveButton, CloseButtonDark } from "../CustomComponents/Button";
 import { connect } from "react-redux";
@@ -25,6 +30,10 @@ import {
   updateNotificationSetting,
   getCurrentNotificationById
 } from "../../services/accountSettings.service";
+import FileUploader from "../FileUploader/FileUploader";
+import { updateBackground } from "../../services/updateBackground.service";
+import { currentUser } from "../../services/currentUser.service";
+import { Redirect } from "react-router";
 
 class AccountSettings extends React.Component {
   state = {
@@ -44,7 +53,16 @@ class AccountSettings extends React.Component {
     notificationCollapse: false,
     messageSwitched: false,
     likedSwitched: false,
-    followSwitched: false
+    followSwitched: false,
+    backgroundImgCollapse: false,
+    imageUrl: "",
+    routeToProfile: false,
+    disableForm: false
+  };
+
+  toggleBackgroundImg = () => {
+    console.log(this.state.backgroundImgCollapse);
+    this.setState({ backgroundImgCollapse: !this.state.backgroundImgCollapse });
   };
 
   toggleEmail = () => {
@@ -239,6 +257,22 @@ class AccountSettings extends React.Component {
       });
   };
 
+  // -------------------------- Background Image ----------------------------------------
+  handleImageUrlChange = newImageUrl => {
+    this.setState({
+      imageUrl: newImageUrl
+    });
+  };
+
+  handleBackgroundSubmit = () => {
+    this.setState({ disableForm: true });
+    let payload = { id: this.state.id, backgroundUrl: this.state.imageUrl };
+    updateBackground(payload).then(
+      res => currentUser().then(this.setState({ routeToProfile: true })),
+      error => this.setState({ disableForm: false })
+    );
+  };
+
   render() {
     const {
       id,
@@ -257,14 +291,18 @@ class AccountSettings extends React.Component {
       notificationCollapse,
       messageSwitched,
       likedSwitched,
-      followSwitched
+      followSwitched,
+      backgroundImgCollapse,
+      disableForm
     } = this.state;
 
     if (!this.props.dropdownOptions.sport) {
       return null;
     }
 
-    return (
+    return this.state.routeToProfile ? (
+      <Redirect to={"profile/" + this.state.id} />
+    ) : (
       <div className="app-wrapper">
         <div className="col-lg-7 col-md-12 col-12 mx-auto">
           <div className="jr-card">
@@ -296,6 +334,46 @@ class AccountSettings extends React.Component {
                       <SaveButton />
                       <CloseButtonDark onClick={this.toggleEmail} />
                     </div>
+                  </Form>
+                </Collapse>
+              </ListGroupItem>
+              {/* --------------- Background Image----------------- */}
+              <ListGroupItem>
+                Background Image
+                <span style={{ position: "absolute", right: "20px" }}>
+                  <button
+                    type="button"
+                    style={{ border: "none", backgroundColor: "white", color: "gray" }}
+                    onClick={this.toggleBackgroundImg}
+                  >
+                    {!this.backgroundImgCollapse ? "Change" : "Close"}
+                  </button>
+                </span>
+                <Collapse isOpen={backgroundImgCollapse}>
+                  <Form className="mt-4 ml-2 mr-2">
+                    <fieldset disabled={this.state.disableForm}>
+                      <FormGroup>
+                        <div>
+                          <Label>Enter image URL below</Label>
+                          <Input
+                            className="mb-1"
+                            name="BackgroundImgURL"
+                            type="url"
+                            value={this.state.imageUrl}
+                            onChange={e => this.setState({ imageUrl: e.target.value })}
+                          />
+                        </div>
+                        <div className="my-4">OR</div>
+                        <div className="mt-4">
+                          <Label>Upload from device</Label>
+                          <FileUploader onImageUrlChange={this.handleImageUrlChange} />
+                        </div>
+                      </FormGroup>
+                      <div className="mb-4 float-right">
+                        <SaveButton onClick={this.handleBackgroundSubmit} />
+                        <CloseButtonDark onClick={this.toggleBackgroundImg} />
+                      </div>
+                    </fieldset>
                   </Form>
                 </Collapse>
               </ListGroupItem>
@@ -479,4 +557,5 @@ function mapStateToProps({ dropdownOptions }) {
     dropdownOptions: dropdownOptions
   };
 }
+
 export default connect(mapStateToProps)(AccountSettings);

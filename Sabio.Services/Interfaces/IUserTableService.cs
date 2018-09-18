@@ -16,5 +16,6 @@ namespace Sabio.Services
         void Update(UserUpdateRequest request);
         void Delete(int id);
         void Confirm(UserConfirmRequest request);
+        void UpdateBackgrounUrl(User_UpdateBackground request);
     }
 }

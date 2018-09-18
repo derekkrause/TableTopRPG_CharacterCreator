@@ -208,7 +208,7 @@ class CoachProfile extends React.Component {
     }
 
     return (
-      <React.Fragment>
+      <div style={{ background: `url(${this.props.currentUser.backgroundUrl}) fixed center`, backgroundSize: "cover" }}>
         <div className="app-wrapper justify-content-center">
           {/* ---PROFILE CARD--- */}
           <div className="row justify-content-center">
@@ -497,7 +497,7 @@ class CoachProfile extends React.Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }
