@@ -206,9 +206,13 @@ class CoachProfile extends React.Component {
     if (toMessaging) {
       return <Redirect to={{ pathname: "/app/messaging", state: { id: `${viewedProfileId}` } }} />;
     }
-
     return (
-      <div style={{ background: `url(${this.props.currentUser.backgroundUrl}) fixed center`, backgroundSize: "cover" }}>
+      <div
+        className="profileContainer"
+        style={{
+          background: `url(${this.props.currentUser.backgroundUrl}) `
+        }}
+      >
         <div className="app-wrapper justify-content-center">
           {/* ---PROFILE CARD--- */}
           <div className="row justify-content-center">
