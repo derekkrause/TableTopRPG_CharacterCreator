@@ -106,13 +106,15 @@ namespace Sabio.Services
                     parameters.AddWithValue("@TokenTypeId", 2);
                 });
 
+            string bodyTemplate = EmbeddedResource.Get("ResetPasswordConfirmation_HTML.txt");
+
             Email email = new Email()
             {
                 FromAddress = "RecruitHubSports@dispostable.com",
                 FromName = "RecruitHubSports",
                 ToAddress = eMail,
                 ToName = firstName + " " + lastName,
-                Message = EmbeddedResource.Get("ResetPasswordConfirmation_HTML.txt"),
+                Message = bodyTemplate,
                 Subject = "Reset Password",
                 Link = domain + webRoute + tokenId
             };

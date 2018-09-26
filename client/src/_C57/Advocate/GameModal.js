@@ -44,6 +44,8 @@ class GameModal extends Component {
 
   postTeam = payload => {
     payload.SchoolId = this.state.school.Id;
+    payload.schoolName = this.state.school.Name;
+
     insertTeam(payload)
       .then(response => {
         console.log(response, "Post Team");
@@ -122,7 +124,7 @@ class GameModal extends Component {
                   required
                 />
               </div>
-              <div className="form-group col-4 mt-2">
+              <div className="form-group col-8 mt-2">
                 <Label className="mb-2">School Name(optional)</Label>
                 <SchoolAutoSearch selectedSchool={options => this.selectedSchool(options)} />
               </div>

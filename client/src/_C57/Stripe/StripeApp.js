@@ -85,12 +85,12 @@ class StripeApp extends React.Component {
                   showLoader={this.showLoader}
                 />
               )}
-              <StripeAdminConfig currentUserId={this.props.currentUser.id} />
+              {/* <StripeAdminConfig currentUserId={this.props.currentUser.id} /> */}
             </div>
             <NotificationContainer />
           </div>
         )}
-        <CancelSubButton />
+        {/* <CancelSubButton /> */}
       </div>
     );
   }

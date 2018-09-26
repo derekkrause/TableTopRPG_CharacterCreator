@@ -162,17 +162,19 @@ class Card extends React.Component {
       Rank: 1,
       AthleteId: this.props.athleteId // this should come from state or props
     };
-    updateCoachAthlete(payload, this.props.currentUser).then(() => {
-      // console.log(payload, id);
-      console.log("notes has been updated in database");
-    });
+    updateCoachAthlete(payload, this.props.currentUser);
   };
 
   handleRemovingTags = tag => {
-    console.log(tag, "tag", this.props.athleteId);
-    const promise = deleteCoachAthleteTag(this.props.athleteId, tag)
-      .then(this.props.handleRemoveTag(tag, this.props.athleteId))
-      .then(this.props.loadAthleteById());
+    deleteCoachAthleteTag(this.props.athleteId, tag)
+      .then(() => {
+        console.log(tag, this.props.athleteId);
+        this.props.handleRemoveTag(tag, this.props.athleteId);
+      })
+      .then(() => {
+        console.log("loadAthlete");
+        this.props.loadAthleteById();
+      });
   };
   render() {
     const {
@@ -207,9 +209,9 @@ class Card extends React.Component {
                   <div className="col-md-2">
                     <img src={avatarUrl} className="float-left user-avatar rounded-circle mr-3" />
                     <NavLink to={`/app/profile/${this.props.athleteUserId}`}>
-                    <div className="float-left mt-3">
-                      {name} {lastName}
-                    </div>
+                      <div className="float-left mt-3">
+                        {name} {lastName}
+                      </div>
                     </NavLink>
                   </div>
 
@@ -295,31 +297,35 @@ class Card extends React.Component {
                       </Dropdown>
 
                       <div className="row">
-                        {athleteTags.length >= 1 && (
-                          <React.Fragment>
-                            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                              {athleteTags.map(tag => (
-                                <div
-                                  key={tag.id}
-                                  className={`badge text-uppercase text-white bg-${this.handleColorChange(tag.name)}`}
-                                  style={{ height: "20px" }}
-                                >
-                                  {tag.name}
-                                  <a
-                                    className="font-weight-bold"
-                                    style={{ color: "black" }}
-                                    href="javascript:void(0)"
-                                    onClick={() => {
-                                      this.handleRemovingTags(tag.name);
-                                    }}
-                                  >
-                                    X
-                                  </a>
+                        {athleteTags
+                          ? athleteTags.length >= 1 && (
+                              <React.Fragment>
+                                <div style={{ display: "flex", flexWrap: "wrap" }}>
+                                  {athleteTags.map(tag => (
+                                    <div
+                                      key={tag.id}
+                                      className={`badge text-uppercase text-white bg-${this.handleColorChange(
+                                        tag.name
+                                      )}`}
+                                      style={{ height: "20px" }}
+                                    >
+                                      {tag.name}
+                                      <a
+                                        className="font-weight-bold"
+                                        style={{ color: "black" }}
+                                        href="javascript:void(0)"
+                                        onClick={() => {
+                                          this.handleRemovingTags(tag.name);
+                                        }}
+                                      >
+                                        X
+                                      </a>
+                                    </div>
+                                  ))}
                                 </div>
-                              ))}
-                            </div>
-                          </React.Fragment>
-                        )}
+                              </React.Fragment>
+                            )
+                          : null}
                       </div>
                     </div>
                   </div>

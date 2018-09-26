@@ -11,9 +11,7 @@ class EventCard extends Component {
   };
 
   render() {
-    const { name, organizer, description, id, logo, startDate, endDate } = this.props.data.itemData;
-
-    // console.log("EventCard render data: ", this.props.data);
+    const { name, organizer, description, id, logo, startDate, endDate } = this.props.data;
 
     return (
       <div>

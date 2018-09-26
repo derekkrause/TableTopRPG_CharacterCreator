@@ -10,6 +10,7 @@ namespace Sabio.Models.Domain
         public string LastName { get; set; }
         public int? Gender { get; set; }
         public string AvatarUrl { get; set; }
+        public string BackgroundUrl { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get;  set; }
         public bool IsAthlete { get; set; }

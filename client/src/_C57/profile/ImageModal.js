@@ -251,186 +251,180 @@ class ImageModal extends React.Component {
     }
   };
 
-  handleChange = e => {
-    let key = e.target.name;
-    let val = e.target.value;
+  // handleChange = e => {
+  //   let key = e.target.name;
+  //   let val = e.target.value;
 
-    this.setState({
-      [key]: val
-    });
-  };
+  //   this.setState({
+  //     [key]: val
+  //   });
+  // };
 
-  static getDerivedStateFromProps(props) {
-    if (!props.uploadMode) {
-      return {
-        reviewMode: false
-      };
-    }
-  }
+  // static getDerivedStateFromProps(props) {
+  //   if (!props.uploadMode) {
+  //     return {
+  //       reviewMode: false
+  //     };
+  //   }
+  // }
 
-  handleImageUrlChange = newImageUrl => {
-    let newArr = [];
-    for (let i = 0; i < newImageUrl.length; i++) {
-      newArr.push(newImageUrl[i].url);
-    }
-    this.setState({
-      imageUrl: newArr
-    });
-  };
+  // handleImageUrlChange = newImageUrl => {
+  //   let newArr = [];
+  //   for (let i = 0; i < newImageUrl.length; i++) {
+  //     newArr.push(newImageUrl[i].url);
+  //   }
+  //   this.setState({
+  //     imageUrl: newArr
+  //   });
+  // };
 
-  handleVideoUrlChange = newVideoUrl => {
-    let newArr = [];
-    // for (let i = 0; i < newVideoUrl.length; i++) {
-    //   newArr.push(newVideoUrl[i].url);
-    // }
-    newVideoUrl.map(video => newArr.push(video.url));
-    this.setState({
-      videoUrl: newArr
-    });
-  };
+  // handleVideoUrlChange = newVideoUrl => {
+  //   let newArr = [];
+  //   // for (let i = 0; i < newVideoUrl.length; i++) {
+  //   //   newArr.push(newVideoUrl[i].url);
+  //   // }
+  //   newVideoUrl.map(video => newArr.push(video.url));
+  //   this.setState({
+  //     videoUrl: newArr
+  //   });
+  // };
 
-  discardReview = () => {
-    if (this.state.imageUrl.length > 0) {
-      let reviewArray = [...this.state.imageUrl];
-      reviewArray.shift();
-      if (reviewArray.length === 0 && this.state.videoUrl.length === 0) {
-        this.props.toggleImgModal();
-        this.setState({
-          reviewMode: false,
-          imageUrl: reviewArray,
-          newTitle: "",
-          newCaption: ""
-        });
-      } else {
-        this.setState({
-          imageUrl: reviewArray,
-          newTitle: "",
-          newCaption: ""
-        });
-      }
-    } else if (this.state.videoUrl.length > 0) {
-      let reviewArray = [...this.state.videoUrl];
-      reviewArray.shift();
-      if (reviewArray.length === 0) {
-        this.props.toggleImgModal();
-        this.setState({
-          reviewMode: false,
-          videoUrl: reviewArray,
-          newTitle: "",
-          newCaption: ""
-        });
-      } else {
-        this.setState({
-          videoUrl: reviewArray,
-          newTitle: "",
-          newCaption: ""
-        });
-      }
-    }
-  };
-  saveReview = () => {
-    if (this.state.imageUrl.length > 0) {
-      let mediaObject = {
-        userId: this.props.currentUser.id,
-        type: "image",
-        url: this.state.imageUrl[0],
-        displayOrder: null,
-        width: this.state.naturalDimensions.width,
-        height: this.state.naturalDimensions.height,
-        title: this.state.newTitle,
-        caption: this.state.newCaption
-      };
-      let addedPhoto = {
-        type: "image",
-        src: this.state.imageUrl[0],
-        thumbnail: this.state.imageUrl[0],
-        thumbnailWidth: this.state.naturalDimensions.width,
-        thumbnailHeight: this.state.naturalDimensions.height,
-        title: this.state.newTitle,
-        caption: this.state.newCaption
-      };
-      this.props.addNewMediaToState(addedPhoto);
-      postMedia(mediaObject).then(response => {
-        //console.log("Post to Media Table", response);
-        let reviewArray = [...this.state.imageUrl];
-        reviewArray.shift();
-        if (reviewArray.length === 0 && this.state.videoUrl.length === 0) {
-          this.props.toggleImgModal();
-          this.setState({
-            reviewMode: false,
-            imageUrl: reviewArray,
-            newTitle: "",
-            newCaption: ""
-          });
-        } else {
-          this.setState({
-            imageUrl: reviewArray,
-            newTitle: "",
-            newCaption: ""
-          });
-        }
-      });
-    } else if (this.state.videoUrl.length > 0) {
-      let mediaObject = {
-        userId: this.props.currentUser.id,
-        type: "video",
-        url: this.state.videoUrl[0],
-        displayOrder: null,
-        width: 320,
-        height: 180,
-        title: this.state.newTitle,
-        caption: this.state.newCaption
-      };
-      let addedVideo = {
-        type: "video",
-        src: this.state.videoUrl[0],
-        thumbnail: this.state.videoUrl[0],
-        width: 320,
-        height: 180,
-        title: this.state.newTitle,
-        caption: this.state.newCaption
-      };
-      this.props.addNewMediaToState(addedVideo);
-      postMedia(mediaObject).then(response => {
-        //console.log("Post to Media Table", response);
-        let reviewArray = [...this.state.videoUrl];
-        reviewArray.shift();
-        if (reviewArray.length === 0) {
-          this.props.toggleImgModal();
-          this.setState({
-            reviewMode: false,
-            videoUrl: reviewArray,
-            newTitle: "",
-            newCaption: ""
-          });
-        } else {
-          this.setState({
-            videoUrl: reviewArray,
-            newTitle: "",
-            newCaption: ""
-          });
-        }
-      });
-    }
-  };
+  // discardReview = () => {
+  //   if (this.state.imageUrl.length > 0) {
+  //     let reviewArray = [...this.state.imageUrl];
+  //     reviewArray.shift();
+  //     if (reviewArray.length === 0 && this.state.videoUrl.length === 0) {
+  //       this.props.toggleImgModal();
+  //       this.setState({
+  //         reviewMode: false,
+  //         imageUrl: reviewArray,
+  //         newTitle: "",
+  //         newCaption: ""
+  //       });
+  //     } else {
+  //       this.setState({
+  //         imageUrl: reviewArray,
+  //         newTitle: "",
+  //         newCaption: ""
+  //       });
+  //     }
+  //   } else if (this.state.videoUrl.length > 0) {
+  //     let reviewArray = [...this.state.videoUrl];
+  //     reviewArray.shift();
+  //     if (reviewArray.length === 0) {
+  //       this.props.toggleImgModal();
+  //       this.setState({
+  //         reviewMode: false,
+  //         videoUrl: reviewArray,
+  //         newTitle: "",
+  //         newCaption: ""
+  //       });
+  //     } else {
+  //       this.setState({
+  //         videoUrl: reviewArray,
+  //         newTitle: "",
+  //         newCaption: ""
+  //       });
+  //     }
+  //   }
+  // };
+  // saveReview = () => {
+  //   if (this.state.imageUrl.length > 0) {
+  //     let mediaObject = {
+  //       userId: this.props.currentUser.id,
+  //       type: "image",
+  //       url: this.state.imageUrl[0],
+  //       displayOrder: null,
+  //       width: this.state.naturalDimensions.width,
+  //       height: this.state.naturalDimensions.height,
+  //       title: this.state.newTitle,
+  //       caption: this.state.newCaption
+  //     };
+  //     let addedPhoto = {
+  //       type: "image",
+  //       src: this.state.imageUrl[0],
+  //       thumbnail: this.state.imageUrl[0],
+  //       thumbnailWidth: this.state.naturalDimensions.width,
+  //       thumbnailHeight: this.state.naturalDimensions.height,
+  //       title: this.state.newTitle,
+  //       caption: this.state.newCaption
+  //     };
+  //     this.props.addNewMediaToState(addedPhoto);
+  //     postMedia(mediaObject).then(response => {
+  //       //console.log("Post to Media Table", response);
+  //       let reviewArray = [...this.state.imageUrl];
+  //       reviewArray.shift();
+  //       if (reviewArray.length === 0 && this.state.videoUrl.length === 0) {
+  //         this.props.toggleImgModal();
+  //         this.setState({
+  //           reviewMode: false,
+  //           imageUrl: reviewArray,
+  //           newTitle: "",
+  //           newCaption: ""
+  //         });
+  //       } else {
+  //         this.setState({
+  //           imageUrl: reviewArray,
+  //           newTitle: "",
+  //           newCaption: ""
+  //         });
+  //       }
+  //     });
+  //   } else if (this.state.videoUrl.length > 0) {
+  //     let mediaObject = {
+  //       userId: this.props.currentUser.id,
+  //       type: "video",
+  //       url: this.state.videoUrl[0],
+  //       displayOrder: null,
+  //       width: 320,
+  //       height: 180,
+  //       title: this.state.newTitle,
+  //       caption: this.state.newCaption
+  //     };
+  //     let addedVideo = {
+  //       type: "video",
+  //       src: this.state.videoUrl[0],
+  //       thumbnail: this.state.videoUrl[0],
+  //       width: 320,
+  //       height: 180,
+  //       title: this.state.newTitle,
+  //       caption: this.state.newCaption
+  //     };
+  //     this.props.addNewMediaToState(addedVideo);
+  //     postMedia(mediaObject).then(response => {
+  //       //console.log("Post to Media Table", response);
+  //       let reviewArray = [...this.state.videoUrl];
+  //       reviewArray.shift();
+  //       if (reviewArray.length === 0) {
+  //         this.props.toggleImgModal();
+  //         this.setState({
+  //           reviewMode: false,
+  //           videoUrl: reviewArray,
+  //           newTitle: "",
+  //           newCaption: ""
+  //         });
+  //       } else {
+  //         this.setState({
+  //           videoUrl: reviewArray,
+  //           newTitle: "",
+  //           newCaption: ""
+  //         });
+  //       }
+  //     });
+  //   }
+  // };
 
-  handleImgUrlChange = imgUrl => {
-    this.setState({
-      imgUrl
-    });
-  };
-
-  handleEditImageStylesChange = () => {
-    if (!this.state.editImageStyles) {
-      this.setState({
-        editImageStyles: true
-      });
-    } else {
-      this.setState({
-        editImageStyles: false
-      });
-    }
-  };
+  // handleEditImageStylesChange = () => {
+  //   if (!this.state.editImageStyles) {
+  //     this.setState({
+  //       editImageStyles: true
+  //     });
+  //   } else {
+  //     this.setState({
+  //       editImageStyles: false
+  //     });
+  //   }
+  // };
 
   prepareEdit = () => {
     if (!this.state.editMode) {

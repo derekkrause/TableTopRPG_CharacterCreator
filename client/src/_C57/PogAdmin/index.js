@@ -16,7 +16,6 @@ class PogAdmin extends React.Component {
   onClick = () => {
     pogSearch(this.state.searchString, 0, this.state.pageSize).then(response => {
       const result = response.data.item;
-      debugger;
       this.setState({
         pageIndex: result.pageIndex,
         pageSize: result.pageSize,

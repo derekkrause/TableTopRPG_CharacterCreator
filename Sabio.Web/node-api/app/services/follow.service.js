@@ -66,9 +66,6 @@ const put = (followerId, userId) => {
     })
     .then(res => {
       return res;
-    })
-    .catch(err => {
-      return err;
     });
 };
 
@@ -80,9 +77,6 @@ const del = (followerId, userId) => {
     })
     .then(res => {
       return res;
-    })
-    .catch(err => {
-      return err;
     });
 };
 

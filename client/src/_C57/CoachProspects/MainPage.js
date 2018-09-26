@@ -83,6 +83,7 @@ class MainPage extends React.Component {
   };
 
   handleNewAthleteAddition = () => {
+    console.log(this.state.newAthleteName, "ahtlete name");
     const { newAthleteId, newAthleteRank, newAthleteNotes } = this.state;
     const payload = {
       UserId: this.props.currentUser.id,
@@ -98,8 +99,12 @@ class MainPage extends React.Component {
 
         this.state.athletes.push(payload);
       })
-      .then(this.loadAthleteById())
-      .then(this.toggleNewAthleteModal())
+      .then(() => {
+        this.loadAthleteById();
+      })
+      .then(() => {
+        this.toggleNewAthleteModal();
+      })
       .catch(err => {
         console.log(err);
       });
@@ -326,14 +331,22 @@ class MainPage extends React.Component {
     }
   };
 
-  handleRemoveTag = (tagName, athlete) => {
-    const athletes = this.state.athletes.map((athlete, i) => {
-      if (athlete.UserId === this.props.currentUser.id && athlete.AthleteId == athlete) {
+  handleRemoveTag = (tagName, athleteId) => {
+    const athletes = this.state.athletes.map(athlete => {
+      if (athlete.UserId === this.props.currentUser.id && athlete.AthleteId == athleteId) {
         return {
           ...athlete,
-          tags: athlete.tags.filter(tag => tag.name != tagName)
+          tags: athlete.tags.map(tag => {
+            let newArr = [];
+            if (tag.name != tagName) {
+              newArr.push(tag.name);
+            }
+
+            return newArr;
+          })
         };
       } else {
+        console.log(athlete);
         return athlete;
       }
     });

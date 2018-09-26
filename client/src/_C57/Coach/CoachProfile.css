@@ -6,3 +6,32 @@
   background-color: rgb(180, 180, 180, 0.5);
   border-radius: 0px;
 }
+
+.profileContainer {
+    background-size: "cover";
+    background-attachment: fixed;
+    background-position: center;
+
+}
+
+@media screen and (min-width: 769px) {
+  .profileContainer {
+    position: fixed;
+    left: 0;
+    top: 63px;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+  }
+}
+
+@media screen and (max-width: 796px) {
+  .profileContainer {
+    position: fixed;
+    left: 0;
+    top: 105px;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+  }
+}

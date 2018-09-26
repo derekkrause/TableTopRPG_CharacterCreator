@@ -44,52 +44,33 @@ class EventsSearch extends Component {
   jumpRef = React.createRef();
 
   handlerSearchBtn = () => {
-    // console.log("Search! button clicked!");
-
     const { searchTerms } = this.state;
 
     this.searchEventsList(searchTerms);
   };
 
   getEventInfo(eventId) {
-    // console.log("Loading event with ID: ", eventId);
-
     getEventById(eventId)
       .then(response => {
-        // console.log("Get by Event Id Ajax GET request success!");
-        // console.log(response);
-
         this.setState({ eventList: response.data.item });
       })
-      .catch(error => {
-        // console.log("Get by Event Id Ajax GET request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   getEventsList() {
     getEventsListGet()
       .then(response => {
-        // console.log("Get Events Ajax GET request success!");
-        // console.log(response);
-
         this.setState({
           eventDataItem: response.data.items,
           eventList: response.data.items
         });
       })
-      .catch(error => {
-        // console.log("Get Events Ajax GET request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   getEventTypesList() {
     getEventTypes()
       .then(response => {
-        // console.log("EventsSearch Get Event Types GET Ajax Request success!");
-        // console.log(response);
-
         const eventTypes = response.data.items;
 
         const { searchCriteria } = this.state;
@@ -98,10 +79,7 @@ class EventsSearch extends Component {
           this.searchEventsList(searchCriteria);
         });
       })
-      .catch(error => {
-        // console.log("EventsSearch Get Event Types GET Ajax Request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   createCardList(listArray) {
@@ -126,8 +104,6 @@ class EventsSearch extends Component {
     const { pageIndex, pageSize } = this.state;
     let searchTerms = searchObj.searchString;
 
-    // console.log("Searching Events for terms: ", searchTerms);
-
     this.setState({ searchTerms: searchTerms });
 
     if (searchTerms === "") {
@@ -143,28 +119,17 @@ class EventsSearch extends Component {
 
     const statesList = getStatesList();
 
-    // console.log("EventsSearch statesList: ", statesList);
-
-    // console.log("EventsSearch searchObj: ", searchObj);
-
     let stateObj = statesList.find(state => {
       return searchObj.locationFilter[0] === state.stateName;
     });
 
-    // console.log("EventsSearch stateObj: ", stateObj);
-
     const startDate = searchObj.eventStartDateFilter;
     const endDate = searchObj.eventEndDateFilter;
 
-    // console.log("EventsSearch startDate: ", startDate, typeof startDate, ", endDate: ", endDate, typeof endDate);
-
     let sDateString, eDateString;
 
-    // Check for startDate value
     if (startDate === "" || startDate === undefined || startDate === null) {
       let currentDate = new Date(Date.now());
-
-      // console.log("EventsSearch currentDate: ", currentDate);
 
       sDateString = currentDate.toDateString();
 
@@ -179,24 +144,11 @@ class EventsSearch extends Component {
       eDateString = endDate.toDateString();
     }
 
-    // console.log(
-    //   "EventsSearch sDateString: ",
-    //   sDateString,
-    //   typeof sDateString,
-    //   ", eDateString: ",
-    //   eDateString,
-    //   typeof eDateString
-    // );
-
     const { eventTypesList } = this.state;
-
-    // console.log("EventsSearch eventTypesList: ", eventTypesList);
 
     let eventTypeObj = eventTypesList.find(eType => {
       return searchObj.eventTypeFilter[0] === eType.name;
     });
-
-    // console.log("EventsSearch eventTypeObj: ", eventTypeObj);
 
     if (!stateObj) {
       stateObj = { stateAbbrev: "" };
@@ -214,30 +166,6 @@ class EventsSearch extends Component {
       searchEndDate: eDateString,
       searchDistance: null
     };
-
-    // console.log("EventsSearch eSearchObj: ", eSearchObj);
-
-    // searchEventsWithFiltersGet(
-    //   eSearchObj.searchTerms,
-    //   eSearchObj.searchState,
-    //   eSearchObj.searchEventType,
-    //   eSearchObj.searchStartDate,
-    //   eSearchObj.searchEndDate,
-    //   eSearchObj.searchDistance
-    // )
-    //   .then(response => {
-    //     // console.log("Search Events with filters GET Ajax request success!");
-    //     // console.log(response);
-
-    //     this.setState({
-    //       eventDataItem: response.data.items,
-    //       eventList: response.data.items
-    //     });
-    //   })
-    //   .catch(error => {
-    //     // console.log("Search Events with filters GET Ajax request failed!");
-    //     // console.log(error);
-    //   });
 
     const paginatedSearchObj = {
       pageIndex: pageIndex,
@@ -261,9 +189,6 @@ class EventsSearch extends Component {
       paginatedSearchObj.searchDistance
     )
       .then(response => {
-        // console.log("Search Events paged with filters GET Ajax request success!");
-        // console.log(response);
-
         const searchDataItem = response.data.item;
 
         this.setState(
@@ -278,48 +203,33 @@ class EventsSearch extends Component {
           }
         );
       })
-      .catch(error => {
-        // console.log("Search Events paged with filters GET Ajax request failed!");
-        // console.log(error);
-      });
+      .catch(error => {});
   }
 
   pagingFirstPage = () => {
-    // First page
     const { pageIndex, pageSize, searchQuery, totalPages, hasNextPage, hasPrevPage } = this.state;
-
-    // this.runAllSearchPaged(0, pageSize, searchQuery);
 
     this.setState({ pageIndex: 0 });
   };
 
   pagingLastPage = () => {
-    // Last page
     const { pageIndex, pageSize, searchQuery, totalPages, hasNextPage, hasPrevPage } = this.state;
-
-    // this.runAllSearchPaged(totalPages - 1, pageSize, searchQuery);
 
     this.setState({ pageIndex: totalPages - 1 });
   };
 
   pagingPrevPage = () => {
-    // Previous page
     const { pageIndex, pageSize, searchQuery, totalPages, hasNextPage, hasPrevPage } = this.state;
 
     if (hasPrevPage === true && pageIndex >= 0) {
-      // this.runAllSearchPaged(pageIndex - 1, pageSize, searchQuery);
-
       this.setState({ pageIndex: pageIndex - 1 });
     }
   };
 
   pagingNextPage = () => {
-    // Next page
     const { pageIndex, pageSize, searchQuery, totalPages, hasNextPage, hasPrevPage } = this.state;
 
     if (hasNextPage === true && pageIndex < totalPages) {
-      // this.runAllSearchPaged(pageIndex + 1, pageSize, searchQuery);
-
       this.setState({ pageIndex: pageIndex + 1 });
     }
   };
@@ -331,8 +241,6 @@ class EventsSearch extends Component {
   };
 
   componentDidMount() {
-    // console.log("EventsSearch component mounted");
-
     const pageIndex = 0,
       pageSize = 10;
 
@@ -345,19 +253,13 @@ class EventsSearch extends Component {
       pageSize: pageSize
     });
 
-    // console.log("EventsSearch mounted currentUser: ", currentUser, ", searchCriteria: ", searchCriteria);
-
     this.getEventTypesList();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log("EventsSearch component updated");
-
     if (this.state.eventDataItem !== prevState.eventDataItem) {
-      // const eventPagedList = this.state.eventDataItem;  // Non paged
       const { eventList } = this.state;
 
-      // const cardList = this.createCardList(eventPagedList); // For non paged
       const cardList = this.createCardList(eventList);
 
       this.setState({ eventCardsList: cardList });
@@ -375,9 +277,6 @@ class EventsSearch extends Component {
       const { pageIndex, pageSize } = this.state;
       const { searchCriteria } = this.props;
 
-      // console.log("EventsSearch component updated via state pageIndex or pageSize");
-      // console.log("pageIndex: ", pageIndex, ", pageSize: ", pageSize);
-
       let newPageSize = 0;
       if (pageSize === 0) {
         newPageSize = 10;
@@ -390,18 +289,10 @@ class EventsSearch extends Component {
       });
     }
 
-    // if (this.props !== prevProps) {
-    //   console.log("EventsSearch component updated via props: ", this.props);
-    // }
-
     if (this.props.searchCriteria !== prevProps.searchCriteria) {
-      // console.log("EventsSearch component updated via redux props searchCriteria: ", this.props.searchCriteria);
-
       const { currentUser, searchCriteria } = this.props;
 
       this.setState({ currentUser: currentUser, searchCriteria: searchCriteria });
-
-      // console.log("EventsSearch updated currentUser: ", currentUser, ", searchCriteria: ", searchCriteria);
 
       this.searchEventsList(searchCriteria);
     }
@@ -416,11 +307,8 @@ class EventsSearch extends Component {
 
   render() {
     const { eventCardsList, noSearchResultsAlert, searchStatus, eventList } = this.state;
-    // const title = `Events Search for "${searchTerms}"`;
     const title = `Events Search`;
     const { pageIndex, totalPages } = this.state;
-
-    // console.log("EventsSearch render eventCardsList: ", eventCardsList);
 
     return (
       <div>
@@ -437,8 +325,7 @@ class EventsSearch extends Component {
             {searchStatus}
             {eventCardsList &&
               eventCardsList.map(data => (
-                // <EventCardItem key={data.id} eventId={data.id} {...this.props} />
-                <EventCard key={data.id} eventId={data.id} data={data} {...this.props} />
+                <EventCard key={data.id} eventId={data.id} data={data.itemData} {...this.props} />
               ))}
           </div>
           <div>
@@ -450,7 +337,6 @@ class EventsSearch extends Component {
             <Pagination
               pageIndex={this.state.pageIndex}
               totalPages={this.state.totalPages}
-              // searchText={this.state.searchText}
               firstPage={this.pagingFirstPage}
               prevPage={this.pagingPrevPage}
               nextPage={this.pagingNextPage}
@@ -465,13 +351,10 @@ class EventsSearch extends Component {
 }
 
 function mapStateToProps(state) {
-  // console.log("EventsSearch redux state: ", state);
-
   return {
     currentUser: state.currentUser,
     searchCriteria: state.searchCriteria
   };
 }
 
-// export default EventsSearch;
 export default connect(mapStateToProps)(EventsSearch);

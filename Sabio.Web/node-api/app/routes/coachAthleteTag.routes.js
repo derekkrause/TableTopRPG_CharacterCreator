@@ -5,5 +5,5 @@ module.exports = router;
 
 router.get("/", coachAthleteTagController.getAll);
 router.get("/:id", coachAthleteTagController.getById);
-router.delete("/:id(\\d+)/:tag", coachAthleteTagController.del);
+router.delete("/:id(\\d+)", coachAthleteTagController.del);
 router.post("/", coachAthleteTagController.post);

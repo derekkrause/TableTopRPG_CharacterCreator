@@ -94,6 +94,14 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, itemResponse);
         }
 
+        [Route("update_background"), HttpPut]
+        public HttpResponseMessage UpdateBackgrounUrl(User_UpdateBackground model)
+        {
+            userTableServices.UpdateBackgrounUrl(model);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+
         [Route("login"), HttpPost, AllowAnonymous]
         public HttpResponseMessage Login(UserLoginRequest userLoginRequest)
         {

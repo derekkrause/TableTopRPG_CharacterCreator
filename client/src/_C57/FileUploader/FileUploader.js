@@ -42,7 +42,6 @@ handleImageUrlChange = imageUrl => {
 
   handleOnClickUploader = e => {
     var file = e.target.files[0];
-
     putPresigedUrl().then(res => {
       console.log("PresignedURL", res);
       var presignedUrl = res.data.item;
@@ -51,6 +50,7 @@ handleImageUrlChange = imageUrl => {
         headers: {
           "Content-Type": file.type
         },
+        withCredentials: false,
         onUploadProgress: progressEvent => {
           console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
         }
@@ -77,7 +77,7 @@ handleImageUrlChange = imageUrl => {
         imagePreview: "",
         imageUrl: ""
       },
-      this.props.onImageUrlChange(imageUrl)
+      this.props.onImageUrlChange("")
     );
   };
   render() {

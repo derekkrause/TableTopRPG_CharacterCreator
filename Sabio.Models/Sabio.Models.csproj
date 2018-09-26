@@ -135,6 +135,7 @@
     <Compile Include="Requests\UserLoginRequest.cs" />
     <Compile Include="Requests\UserResendRequest.cs" />
     <Compile Include="Requests\UserUpdateRequest.cs" />
+    <Compile Include="Requests\User_UpdateBackground.cs" />
     <Compile Include="Responses\BaseResponse.cs" />
     <Compile Include="Responses\ErrorResponse.cs" />
     <Compile Include="Responses\ItemResponse.cs" />

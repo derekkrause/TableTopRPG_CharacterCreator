@@ -114,7 +114,7 @@ const MessageButton = props => {
   return (
     <button
       type="button"
-      className={`jr-btn jr-btn-default btn btn-default ${props.style} ${props.margin}`}
+      className={`jr-btn jr-btn-default btn btn-default rs-btn-primary-light mb-0 ${props.style} ${props.margin}`}
       onClick={props.onClick}
     >
       <div className="d-flex justify-content-center align-items-center">
@@ -233,6 +233,15 @@ const HighlightOnButton = props => {
 
 const SaveProfileButton = props => {
   return (
+    <button type="submit" className="jr-btn btn btn-primary rs-btn-primary-light mb-0" onClick={props.onClick}>
+      <i className="zmdi zmdi-upload zmdi-hc-lg" />
+      &nbsp;&nbsp;Save
+    </button>
+  );
+};
+
+const AdProfileButton = props => {
+  return (
     <button type="button" className="jr-btn btn btn-primary rs-btn-primary-light mb-0" onClick={props.onClick}>
       <i className="zmdi zmdi-upload zmdi-hc-lg" />
       &nbsp;&nbsp;Save
@@ -249,6 +258,7 @@ const FollowerCountButton = props => {
 };
 
 export {
+  AdProfileButton,
   SaveButton,
   CancelButton,
   EditButton,

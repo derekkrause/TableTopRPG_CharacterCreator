@@ -177,6 +177,7 @@ namespace Sabio.Services
                         LastName = (string)reader["LastName"],
                         Gender = reader.GetSafeInt32Nullable("Gender"),
                         AvatarUrl = (string)reader["AvatarUrl"],
+                        BackgroundUrl = reader["BackgroundUrl"] as string ?? string.Empty,
                         Email = (string)reader["Email"],
                         IsAthlete = (bool)reader["IsAthlete"],
                         IsCoach = (bool)reader["IsCoach"],
@@ -276,9 +277,21 @@ namespace Sabio.Services
         {
             dataProvider.ExecuteNonQuery(
                 "User_Delete",
-                (parameters) => parameters.AddWithValue("@id", id)
+                (parameters) => 
+                parameters.AddWithValue("@id", id)
             );
         }
 
+        public void UpdateBackgrounUrl( User_UpdateBackground model)
+        {
+            dataProvider.ExecuteNonQuery(
+                "User_UpdateBackground",
+                (parameters) =>
+                {
+                    parameters.AddWithValue("@Id", model.Id);
+                    parameters.AddWithValue("@BackgroundUrl", model.BackgroundUrl);
+                }
+            );
+        }
     }
 }
