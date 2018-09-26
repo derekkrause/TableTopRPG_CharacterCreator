@@ -44,7 +44,7 @@ namespace Sabio.Data.Providers
         /// extending the timeout property.</param>
         /// <returns>The number of Rows Affected</returns>
         int ExecuteNonQuery(string storedProc,
-            Action<System.Data.SqlClient.SqlParameterCollection> inputParamMapper,
-            Action<System.Data.SqlClient.SqlParameterCollection> returnParameters = null);
+            Action<SqlParameterCollection> inputParamMapper,
+            Action<SqlParameterCollection> returnParameters = null);
     }
 }
