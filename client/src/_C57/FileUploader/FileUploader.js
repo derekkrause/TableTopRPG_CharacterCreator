@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import { putPresigedUrl, putUploadFile } from "services/s3.service";
 import axios from "axios";
+import { runInThisContext } from "vm";
 
 class FileUploader extends Component {
   state = {
     imagePreview: "",
     imageUrl: "",
-    loading: true
+    loading: false,
+    progress: ""
   };
 
   /*
@@ -52,6 +54,7 @@ handleImageUrlChange = imageUrl => {
         },
         withCredentials: false,
         onUploadProgress: progressEvent => {
+          this.setState({ loading: true, progress: Math.round((progressEvent.loaded * 100) / progressEvent.total) });
           console.log("uploading...", Math.round((progressEvent.loaded * 100) / progressEvent.total));
         }
       };
@@ -61,6 +64,7 @@ handleImageUrlChange = imageUrl => {
         var imageUrl = presignedUrl.split("?", 2)[0];
         this.setState(
           {
+            loading: false,
             imageUrl: presignedUrl.split("?", 2)[0],
             imagePreview: presignedUrl.split("?", 2)[0]
           },
@@ -86,25 +90,44 @@ handleImageUrlChange = imageUrl => {
         <div>
           {this.state.imagePreview == "" ? (
             <React.Fragment>
-              <input
-                id="ImageUpload"
-                type="file"
-                name="key"
-                ref={ref => (this.upload = ref)}
-                style={{ display: "none" }}
-                onChange={this.handleOnClickUploader}
-              />
-              <button
-                type="button"
-                id="UploadButton"
-                className={`jr-btn jr-btn-default btn btn-default ${this.props.cssClassName}`}
-                onClick={() => {
-                  this.upload.click();
-                }}
-              >
-                <i className="zmdi zmdi-image zmdi-hc-fw" />
-                {this.props.uploaderName ? this.props.uploaderName : <p>&nbsp;Upload Images</p>}
-              </button>
+              <form>
+                <fieldset disabled={this.state.loading}>
+                  <input
+                    id="ImageUpload"
+                    type="file"
+                    name="key"
+                    ref={ref => (this.upload = ref)}
+                    style={{ display: "none" }}
+                    onChange={this.handleOnClickUploader}
+                  />
+                  <button
+                    type="button"
+                    id="UploadButton"
+                    className={`jr-btn jr-btn-default btn btn-default ${this.props.cssClassName}`}
+                    onClick={() => {
+                      this.upload.click();
+                    }}
+                  >
+                    {this.state.loading ? (
+                      <div className="progress">
+                        <div
+                          className="progress-bar"
+                          role="progressbar"
+                          aria-valuenow={this.state.progress}
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                          style={{ width: this.state.progress + "%" }}
+                        >
+                          {this.state.progress} %
+                        </div>
+                      </div>
+                    ) : (
+                      <i className="zmdi zmdi-image zmdi-hc-fw" />
+                    )}
+                    {this.props.uploaderName ? this.props.uploaderName : <p>&nbsp;Upload Images</p>}
+                  </button>
+                </fieldset>
+              </form>
             </React.Fragment>
           ) : (
             <div className="preview-container">

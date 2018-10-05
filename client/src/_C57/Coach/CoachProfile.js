@@ -34,6 +34,7 @@ class CoachProfile extends React.Component {
     bio: defaultBio,
     //BACKGROUND IMAGES/LOADER
     backgroundImage: defaultBackgroundImage,
+    backgroundUrl: "",
     pLoader: true,
     //DATA
     viewingUserId: this.props.currentUser.id,
@@ -57,7 +58,7 @@ class CoachProfile extends React.Component {
   componentDidMount = () => this.getProfileInfo(this.props.match.params.id);
 
   getProfileInfo = userId => {
-    const promise = getCoachById(userId);
+    const promise = getCoachById(this.props.match.params.id);
     promise.then(result => {
       this.updateVariables(result.data.item);
       this.setState({ pLoader: false });
@@ -140,6 +141,7 @@ class CoachProfile extends React.Component {
       firstNameEdit: userInfo.firstName,
       middleName: userInfo.middleName,
       middleNameEdit: userInfo.middleName,
+      backgroundUrl: userInfo.backgroundUrl,
       lastName: userInfo.lastName,
       lastNameEdit: userInfo.lastName,
       profileImage: userInfo.avatarUrl,
@@ -183,6 +185,7 @@ class CoachProfile extends React.Component {
       city,
       state,
       backgroundImage,
+      backgroundUrl,
       bio,
       viewedProfileId,
       viewingUserId,
@@ -210,7 +213,7 @@ class CoachProfile extends React.Component {
       <div
         className="profileContainer"
         style={{
-          background: `url(${this.props.currentUser.backgroundUrl}) `
+          background: `url(${backgroundUrl}) `
         }}
       >
         <div className="app-wrapper justify-content-center">
