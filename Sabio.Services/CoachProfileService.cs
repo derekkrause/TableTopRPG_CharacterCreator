@@ -50,7 +50,8 @@ namespace Sabio.Services
                     {
                         Id = (int)reader["Id"],
                         FirstName = (string)reader["FirstName"],
-                        LastName = (string)reader["LastName"]
+                        LastName = (string)reader["LastName"],
+                        BackgroundUrl = reader["BackgroundUrl"] as string ?? string.Empty
                     };
 
                     object MiddleNameValue = reader["MiddleName"];
@@ -58,6 +59,7 @@ namespace Sabio.Services
                     {
                         coach.MiddleName = (string)MiddleNameValue;
                     };
+
 
                     object AvatarUrlValue = reader["AvatarUrl"];
                     if (AvatarUrlValue != DBNull.Value)
