@@ -1,0 +1,219 @@
+{
+   "Race": {
+      "Androids": {
+         "name": "Android",
+         "descriptionShort": "Androids are artificial creatures with bold biological and mechanical elements, originally created by humanity as servants and now free to chart their own destiny among the stars.",
+         "descriptionLong": "Complex technological creations crafted to resemble humans, androids were originally a servitor race, but they have since broken free to form their own society. Unlike ordinary robots or ship AIs, androids do not simply respond according to their programming; rather, they have independent consciousnesses and are animated by souls--a distinction critical to their generally accepted status as people rather than property.",
+         "stats": {
+            "avgHeight": "5-7 ft",
+            "avgWeight": "100-200 lbs.",
+            "ageMature": "0 years",
+            "ageMaximum": "unlimited",
+            "size": "medium"
+         },
+         "hp": 4,
+         "racialModifiers": {
+            "android": {
+               "str": 0,
+               "dex": 2,
+               "int": 2,
+               "wis": 0,
+               "con": 0,
+               "cha": -2
+            }
+         },
+         "notes": [
+            "Constructed: Androids get a +2 racial bonus to saving throws against disease, mind-affecting effects, poison, and sleep, unless those effects specifically target constructs. In addition, androids do not breathe or suffer the normal environmental affects of being in a vacuum.",
+            "Exceptional Vision: Androids have low-light vision and darkvision. They can see in dim light as if it were normal light, and they can see with no light source at all to a range of 60 feet in black and white only.",
+            "Flat Affect: Androids take a -2 penalty to Sense Motive checks, but DCs of Sense Motive checks against them get a +2 bonus.",
+            "Upgrade Slot: Androids have a single armor upgrade slot in their bodies. Regardless of whether androids are wearing physical armor, they can use this slot to install any one armor upgrade that could be installed into light armor."
+         ]
+      },
+
+      "Humans": {
+         "name": "Human",
+         "descriptionShort": "Found nearly anywhere in the Pact Worlds, humans have spread far since the disappearance of their home world of Golarion. They are known for their curiosity, tenacity, and adaptability.",
+         "descriptionLong": "Ambitious, creative, and endlessly curious, humans have shown more drive to explore their system and the universe beyond than any of their neighbor races--for better and for worse. They've helped usher in a new era of system-wide communication and organization and are admired for their passion and tenacity, but their tendancy to shoot first and think about the consequences later can make them a liability for those races otherwise inclined to work with them.",
+         "stats": {
+            "avgHeight": "5-7 ft",
+            "avgWeight": "100-300 lbs.",
+            "ageMature": "18 years",
+            "ageMaximum": "80+2d20 years",
+            "size": "medium"
+         },
+         "hp": 4,
+         "racialModifiers": {
+            "human": {
+               "str": 0,
+               "dex": 0,
+               "int": 0,
+               "wis": 0,
+               "con": 0,
+               "cha": 0
+            }
+         },
+         "notes": [
+            "+2 to any 1 Ability",
+            "Bonus Feat: Humans select one extra feat at 1st level.",
+            "Skilled: Humans gain an additional skill rank at 1st level and each level thereafter."
+         ]
+      },
+
+      "Kasathas": {
+         "name": "Kasatha",
+         "descriptionShort": "An ancient four-armed race from a distant star system, kasathas are staunch traditionalists with customs that make them seem wise and mysterious to other races.",
+         "descriptionLong": "Originally from a planet orbiting a dying star far beyond the Pact Worlds, the four-armed kasathas maintain a reputation as a noble and mysterious people. They are famous for their anachronistic warriors, ancient wisdom, and strange traditions.",
+         "stats": {
+            "avgHeight": "6-7 ft",
+            "avgWeight": "120-200 lbs.",
+            "ageMature": "25 years",
+            "ageMaximum": "100+2d20 years",
+            "size": "medium"
+         },
+         "hp": 4,
+         "racialModifiers": {
+            "kasatha": {
+               "str": 2,
+               "dex": 0,
+               "int": -2,
+               "wis": 2,
+               "con": 0,
+               "cha": 0
+            }
+         },
+         "notes": [
+            "Desert Stride: Kasathas can move through nonmagical difficult terrain in deserts, hills, and mountains at their normal speed.",
+            "Four-Armed: Kasathas have four arms, which allows them to weild and hold up to four hands' worth of weapons and equipment. While their multiple arms increase the number of items they can have at the ready, it doesn't increase the number of attacks they can make during combat.",
+            "Historian: Due to their in-depth historical training and the wide-ranging academic background knowledge they possess, kasathas receive a +2 racial bonus to Culture checks.",
+            "Natural Grace: Kasathas receive a +2 racial bonus to Acrobatics and Athletics checks."
+         ]
+      },
+
+      "Lashuntas": {
+         "name": "Lashunta",
+         "descriptionShort": "Lashuntas are naturally gifted psychics, divided into two subraces: one tall and lean, the other short and powerful. Both are compelling to other races and dedicated to scholarship and self-prodection.",
+         "descriptionLong": "Idealized by many other humanoid races and gifted with innate psychic abilities, lashuntas are at once consummate scholars and enlightened warriors, naturally divided into two specialized subraces with different abilities and societal roles.",
+         "stats": {
+            "avgHeight": "5-7 ft",
+            "avgWeight": "140-180 lbs.",
+            "ageMature": "20 years",
+            "ageMaximum": "80+2d20 years",
+            "size": "medium"
+         },
+         "hp": 4,
+         "racialModifiers": {
+            "korasha": {
+               "str": 2,
+               "dex": 0,
+               "int": 0,
+               "wis": -2,
+               "con": 0,
+               "cha": 2
+            },
+            "damaya": {
+               "str": 0,
+               "dex": 0,
+               "int": 2,
+               "wis": 0,
+               "con": -2,
+               "cha": 2
+            }
+         },
+         "notes": [
+            "Lashunta Magic: Gain the following spell-like abilities: daze(at will), psychokinetic hand(at will), detect thoughts(1/day).",
+            "Limited Telepathy: Lashuntas can mentally communicate with any creatures within 30 feet with whom they share a language. Conversing telepathically with multiple creatures simultaneously is just as difficult as listening to multiple people speaking.",
+            "Student: Lashuntas love to learn, and they receive a +2 racial bonus to any two skills of their choice."
+         ]
+      },
+
+      "Shirrens": {
+         "name": "Shirren",
+         "descriptionShort": "Once part of a terrifying hive-mind that devoured all in its path, the insectile shirrens mutated and broke away to become independent but community-minded individuals addicted to the freedom of choice.",
+         "descriptionLong": "Once part of a ravenous hive of locust-like predators, the insectile shirrens only recently broke with their hive mind to become a race of telepaths physically addicted to their own individualism, yet dedicated to the idea of community and harmony with other races.",
+         "stats": {
+            "avgHeight": "5-6 ft",
+            "avgWeight": "100-150 lbs.",
+            "ageMature": "5 years",
+            "ageMaximum": "50+1d20 years",
+            "size": "medium"
+         },
+         "hp": 6,
+         "racialModifiers": {
+            "shirren": {
+               "str": 0,
+               "dex": 0,
+               "int": 0,
+               "wis": 2,
+               "con": 2,
+               "cha": -2
+            }
+         },
+         "notes": [
+            "Blindsense: Sensitive antennae grant blindsense(vibration)--the ability to sense vibrations in the air--out to 30 feet. Ignore Stealth bonuses from any form of visual camouflage, invisibility, and the like when attempting a Perception check opposed by a creature's Stealth check.",
+            "Communalism: Once per day, as long as an ally is within 10 feet, a shirren can roll a single attack roll or skill check twice and take the higher result.",
+            "Cultural Fascination: Receive a +2 racial bonus to Culture and Diplomacy Checks.",
+            "Limited Telepathy: Shirrens can communicate telepathically with any creatures within 30 feet with whom they share a language."
+         ]
+      },
+
+      "Vesk": {
+         "name": "Vesk",
+         "descriptionShort": "Devoded to conquest and dominance, the reptilian vesk only recently ended their long war with the other races of the Pact Worlds, and many still distrust them despite their sense of honor and their utility in combat.",
+         "descriptionLong": "Heavily muscled and covered with thick scales and short, sharp thorns, the reptilian vesk are exactly as predatory and warlike as they appear. Originally hailing from a star system near the Pact Worlds, they sought to conquer and subdue their stellar neighbors, as they had all the other intelligent races in their own system, until an overwhelming threat forced them into a grudging alliance with the Pact Worlds--for now.",
+         "stats": {
+            "avgHeight": "5-8 ft",
+            "avgWeight": "200-300 lbs.",
+            "ageMature": "16 years",
+            "ageMaximum": "70+1d20 years",
+            "size": "medium"
+         },
+         "hp": 6,
+         "racialModifiers": {
+            "vesk": {
+               "str": 2,
+               "dex": 0,
+               "int": -2,
+               "wis": 0,
+               "con": 2,
+               "cha": 0
+            }
+         },
+         "notes": [
+            "Armor Savant: When wearing armor, gain +1 racial bonus to AC. When wearing heavy armor, armor check penalty is 1 less severe than normal.",
+            "Fearless: Receive a +2 racial bonus to saving throws against fear effects.",
+            "Low-Light Vision: See in dim light as if it were normal light.",
+            "Natural Weapons: Vesk are always considered armed. They can deal 1d3 lethal damage with unarmed strikes and the attack doesn't count as archaic. Vesk gain a unique weapon specialization with their natural weapons at 3rd level, allowing them to add 1.5x their character level to their damage rolls for their natural weapons."
+         ]
+      },
+
+      "Ysoki": {
+         "name": "Ysoki",
+         "descriptionShort": "Passionate and scrappy, the ratlike ysoki are experts at getting both into and out of trouble. THey let their love of technology, exploration, and adventure carry them throughout the galaxy.",
+         "descriptionLong": "Small and furtive, they ysoki are often overlooked by larger races. Yet through wit and technological prowess, they've spread throughout the solar system, giving truth to the old adage that every starship needs a few rats.",
+         "stats": {
+            "avgHeight": "3-4 ft",
+            "avgWeight": "60-100 lbs.",
+            "ageMature": "10 years",
+            "ageMaximum": "60+1d20 years",
+            "size": "small"
+         },
+         "hp": 2,
+         "racialModifiers": {
+            "ysoki": {
+               "str": -2,
+               "dex": 2,
+               "int": 2,
+               "wis": 0,
+               "con": 0,
+               "cha": 0
+            }
+         },
+         "notes": [
+            "Cheek Pouches: Ysoki can store up to 1 cubic foot of items weighing up to 1 bulk in total in their cheek pouches, and they can transfer a single object between hand and cheek as a swift action. Can disgorge the entire contents of his pounch onto the ground in his square as a move action that does not provoke an attack of opportunity.",
+            "Darkvision: Ysoki can see up to 60 ft in the dark.",
+            "Moxie: Ysoki can stand from prone as a swift action. When off-kilter, an ysoki doesn't take the normal penalties to attacks or gain the flat-footed condition. When attempting an acrobatics check to tumble through a space of an opponent at least one size category larger, receive +5 racial bonus to the check.",
+            "Scrounger: Receive a +2 racial bonus to Engineering, Stealth, and Survival Checks."
+         ]
+      }
+   }
+}

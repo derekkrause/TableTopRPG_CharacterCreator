@@ -1,13 +1,49 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.raceButtonDesc {
+   color: darkblue;
+   text-align: start;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.raceButtonDesc:hover {
+   color: ;
+}
+
+.raceButtonName {
+   text-align: start;
+}
+
+.nav-link {
+   background-color: cadetblue;
+   margin-right: 3px;
+   color: darkblue;
+   padding-bottom: 1px;
+}
+
+.nav-link.active {
+   margin-bottom: -1px !important;
+   background-color: #6fb9bb !important;
+   border: none !important;
+}
+
+.raceButton {
+   align-content: flex-start;
+   text-align: left;
+   margin-bottom: 1rem;
+   max-width: 25rem;
+}
+
+.raceButtonName {
+   color: Black;
+   align-self: flex-start;
+}
+
+#nav-tabs {
+   border-bottom-color: #343a40;
+}
+
+#screen {
+   background-color: #6fb9bb;
+   margin-left: 8px;
+   margin-right: 8px;
+   border-top-right-radius: 0.25em;
+   border-top-left-radius: 0.25em;
 }

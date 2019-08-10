@@ -1,12 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavTabs from './components/navtabs';
+import NavScreen from './components/navscreens';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class Creator extends React.Component {
+   constructor(props) {
+      super(props);
+      this.state = {
+         activeTab: 'Race'
+      };
+   }
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+   navTab = tab => {
+      this.setState({ activeTab: tab });
+   };
+
+   render() {
+      return (
+         <div>
+            <h1>Character Creator</h1>
+            <div className='container m-auto col-m-8' id='module'>
+               <NavTabs click={tab => this.navTab(tab)} activeTab={this.state.activeTab} />
+               <NavScreen screen={this.state.activeTab}>Other</NavScreen>
+            </div>
+         </div>
+      );
+   }
+}
+
+// ========================================
+
+ReactDOM.render(<Creator />, document.getElementById('root'));
