@@ -1,18 +1,23 @@
 import React from 'react';
 import '../index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row } from 'reactstrap';
-import RaceDetailCards from './cards/cards_race.js';
+import RaceSelection from './cards/cards_race.js';
 
 export default function NavScreen(props) {
-   return (
-      <div className='container col-m-8 pt-0 pl-0 bg-dark'>
-         <Container id='screen'>
-            <Row>
-               <div>{props.screen}</div>
-            </Row>
-            <RaceDetailCards />
-         </Container>
-      </div>
-   );
+   switch (props.screen) {
+      case 'Race':
+         return (
+            <div className='container col-md-12 pt-0 pl-0 bg-dark'>
+               <div id='screen' className='p-3 col-md-6'>
+                  <RaceSelection onClick={race => props.onClick(race)} />
+               </div>
+            </div>
+         );
+      default:
+         return (
+            <div className='container col-md-12 pt-0 pl-0 bg-dark'>
+               <div id='screen' className='p-3 col-md-6' />
+            </div>
+         );
+   }
 }

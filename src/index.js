@@ -17,13 +17,17 @@ class Creator extends React.Component {
       this.setState({ activeTab: tab });
    };
 
+   showCharInfo = race => {
+      console.log(race);
+   };
+
    render() {
       return (
          <div>
             <h1>Character Creator</h1>
             <div className='container m-auto col-m-8' id='module'>
                <NavTabs click={tab => this.navTab(tab)} activeTab={this.state.activeTab} />
-               <NavScreen screen={this.state.activeTab}>Other</NavScreen>
+               <NavScreen screen={this.state.activeTab} onClick={race => this.showCharInfo(race)} />
             </div>
          </div>
       );

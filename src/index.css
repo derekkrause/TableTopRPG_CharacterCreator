@@ -3,12 +3,9 @@
    text-align: start;
 }
 
-.raceButtonDesc:hover {
-   color: ;
-}
-
 .raceButtonName {
    text-align: start;
+   min-width: 10rem;
 }
 
 .nav-link {
