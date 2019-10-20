@@ -22,15 +22,24 @@
 }
 
 .raceButton {
-   align-content: flex-start;
-   text-align: left;
-   margin-bottom: 1rem;
-   max-width: 25rem;
-}
-
-.raceButtonName {
-   color: Black;
    align-self: flex-start;
+   background-color: cadetblue !important;
+   border: none !important;
+   color: black !important;
+   font-family: 'Exo', sans-serif;
+   font-size: 20px !important;
+   margin-bottom: 5px;
+   max-width: 25rem;
+   text-align: left;
+
+   &:hover {
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      background-color: rgb(115, 193, 196) !important;
+      border: none !important;
+      color: white !important;
+      transform: translate(5px, -3px) scale(1.05);
+      transition: all 0.25s ease-in-out;
+   }
 }
 
 #nav-tabs {
@@ -38,7 +47,7 @@
 }
 
 #screen {
-   background-color: #6fb9bb;
+   border: 5px solid #6fb9bb;
    margin-left: 8px;
    margin-right: 8px;
    border-top-right-radius: 0.25em;

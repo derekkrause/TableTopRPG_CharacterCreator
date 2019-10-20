@@ -1,18 +1,16 @@
 import React from 'react';
-import { Button, Card, CardBody, CardImg, CardText, Row } from 'reactstrap';
+import { Button, Card, CardBody, CardImg, CardText, CardTitle, Row, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import * as data from '../../data/race_data.json';
 
 function RaceButton(props) {
    return (
       <Row className='d-flex'>
          <Button
-            outline
-            color='dark'
-            className='raceButton bg-white'
+            className='raceButton col'
             onClick={() => props.onClick(props.name)}
             onPointerEnter={() => props.onPointerEnter()}
          >
-            <div className='raceButtonName'>{props.name}</div>
+            <span id='buttonName'>{props.name}</span>
          </Button>
       </Row>
    );
@@ -20,12 +18,10 @@ function RaceButton(props) {
 
 function RaceCard(props) {
    return (
-      <Card>
-         <CardImg />
-         <CardBody>
-            <CardText>{props.description}</CardText>
-         </CardBody>
-      </Card>
+      <Toast>
+         <ToastHeader>{props.name}</ToastHeader>
+         <ToastBody>{props.description}</ToastBody>
+      </Toast>
    );
 }
 
@@ -33,27 +29,35 @@ export default class RaceSelection extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         raceDescription: ''
+         raceDescription: '',
+         raceName: ''
       };
    }
 
    render() {
       return (
          <div className='container d-flex'>
-            <div className='col-md-6'>
+            <div className='col-md-3'>
                {Object.keys(data.Race).map(r => {
                   return (
                      <RaceButton
                         key={data.Race[r].name}
                         name={data.Race[r].name}
                         onClick={race => this.props.onClick(race)}
-                        onPointerEnter={() => this.setState({ raceDescription: data.Race[r].descriptionShort })}
+                        onPointerEnter={() =>
+                           this.setState({
+                              raceDescription: data.Race[r].descriptionShort,
+                              raceName: data.Race[r].name
+                           })
+                        }
                      />
                   );
                })}
             </div>
-            <div className='col-md-6'>
-               {this.state.raceDescription && <RaceCard description={this.state.raceDescription} />}
+            <div className='col-md-9'>
+               {this.state.raceDescription && (
+                  <RaceCard name={this.state.raceName} description={this.state.raceDescription} />
+               )}
             </div>
          </div>
       );
