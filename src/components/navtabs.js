@@ -13,7 +13,7 @@ export default function NavTabs(props) {
    var tabNames = ['Race', 'Class', 'Theme', 'Skill', 'Spell', 'Gear'];
 
    return (
-      <Navbar color='dark' className='pb-0'>
+      <Navbar color='dark' className='col-md-12 pb-0 bg-dark'>
          <Nav id='nav-tabs' tabs>
             {tabNames.map(tab => {
                return <Tab key={tab} tabName={tab} click={a => props.click(a)} active={props.activeTab === tab} />;

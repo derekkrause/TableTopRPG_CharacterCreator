@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, Card, CardBody, CardImg, CardText, CardTitle, Row, Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Button, Card, CardBody, CardImgOverlay, Row, Toast, ToastBody, ToastHeader } from 'reactstrap';
 import * as data from '../../data/race_data.json';
+import RaceImg from './img_race.js';
 
 function RaceButton(props) {
    return (
@@ -56,7 +57,16 @@ export default class RaceSelection extends React.Component {
             </div>
             <div className='col-md-9'>
                {this.state.raceDescription && (
-                  <RaceCard name={this.state.raceName} description={this.state.raceDescription} />
+                  <div>
+                     <RaceCard name={this.state.raceName} description={this.state.raceDescription} />
+                     <Card>
+                        <RaceImg
+                           name={this.state.raceName}
+                           alt={this.state.raceName + ' image'}
+                           className='raceImage'
+                        />
+                     </Card>
+                  </div>
                )}
             </div>
          </div>

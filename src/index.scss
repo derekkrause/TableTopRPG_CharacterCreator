@@ -40,6 +40,16 @@
       transform: translate(5px, -3px) scale(1.05);
       transition: all 0.25s ease-in-out;
    }
+
+   &.active {
+      color: white;
+      border: blue !important;
+   }
+}
+
+.raceImage {
+   width: auto;
+   height: auto;
 }
 
 #nav-tabs {

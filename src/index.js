@@ -4,12 +4,16 @@ import './index.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavTabs from './components/navtabs';
 import NavScreen from './components/navscreens';
+import CharacterSheet from './components/charSheet';
 
 class Creator extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         activeTab: 'Race'
+         activeTab: 'Race',
+         selectedRace: '',
+         selectedClass: '',
+         selectedTheme: ''
       };
    }
 
@@ -17,7 +21,8 @@ class Creator extends React.Component {
       this.setState({ activeTab: tab });
    };
 
-   showCharInfo = race => {
+   setRace = race => {
+      this.setState({ selectedRace: race });
       console.log(race);
    };
 
@@ -25,9 +30,12 @@ class Creator extends React.Component {
       return (
          <div>
             <h1>Character Creator</h1>
-            <div className='m-auto d-block' id='module'>
+            <div className='m-auto d-block' id='selectionModule'>
                <NavTabs click={tab => this.navTab(tab)} activeTab={this.state.activeTab} />
-               <NavScreen screen={this.state.activeTab} onClick={race => this.showCharInfo(race)} />
+               <NavScreen screen={this.state.activeTab} onClick={race => this.setRace(race)} />
+            </div>
+            <div className='col-md-6' id='resultsModule'>
+               <CharacterSheet race={this.state.selectedRace} />
             </div>
          </div>
       );
